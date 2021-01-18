@@ -56,6 +56,37 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "9000:9000"
+      
+  streaming:
+    image: linuxserver/jellyfin
+    restart: unless-stopped
+    container_name: jellyfin
+    networks:
+      - web
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+    ports:
+      - 8096:8096 # http entry point
+      - 7359:7359/udp # clients discovery
+      - 1900:1900/udp # DLNA
+    devices:
+      - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
+    labels:
+      - traefik.enabled=true
+      - traefik.http.routers.jellyfin.entryPoints=https
+      - traefik.http.routers.jellyfin.rule=Host(`streaming.snyssen.be`)
+      - traefik.http.routers.jellyfin.tls=true
+      - traefik.http.routers.jellyfin.tls.certresolver=le
+      # jellyfin middleware
+      - traefik.http.routers.jellyfin.middlewares=jellyfin-mw
+      - traefik.http.middlewares.jellyfin-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+    volumes:
+      - /mnt/storage/DOCKER/jellyfin/config:/config
+      - /mnt/cache/DOCKER/jellyfin/cache:/cache
+      # all below refer to media folders
+      - /mnt/storage/series:/series
 
 networks:
   web:
