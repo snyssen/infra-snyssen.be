@@ -24,8 +24,7 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
-      # config
-      #- /mnt/storage/DOCKER/traefik/traefik.toml:/traefik.toml
+      # certificates storage
       - /mnt/storage/DOCKER/traefik/acme.json:/acme.json
     labels:
       # Redirect all HTTP to HTTPS permanently
