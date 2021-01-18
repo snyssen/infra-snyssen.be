@@ -1,0 +1,63 @@
+version: '3'
+services:
+
+  reverse-proxy:
+    image: traefik:v2.3
+    restart: always
+    container_name: traefik
+    networks:
+      - web
+    command:
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesResolvers.le.acme.email=${LETSENCRYPT_EMAIL}"
+      - "--certificatesResolvers.le.acme.storage=acme.json"
+      - "--certificatesResolvers.le.acme.tlsChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      # config
+      #- /mnt/storage/DOCKER/traefik/traefik.toml:/traefik.toml
+      - /mnt/storage/DOCKER/traefik/acme.json:/acme.json
+    labels:
+      # Redirect all HTTP to HTTPS permanently
+      - traefik.http.routers.http_catchall.rule=HostRegexp(`{any:.+}`)
+      - traefik.http.routers.http_catchall.entrypoints=web
+      - traefik.http.routers.http_catchall.middlewares=https_redirect
+      - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
+      # allow access to traefik UI
+      - traefik.http.routers.api.rule=Host(`routing.snyssen.be`)
+      - traefik.http.routers.api.service=api@internal
+      - traefik.http.routers.api.middlewares=auth
+      - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASHBOARD_HTPASSWORD}
+      - traefik.http.routers.api.tls=true
+      - traefik.http.routers.api.tls.certresolver=le
+      
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    restart: always
+    networks:
+      - web
+    labels:
+      - traefik.http.routers.portainer.rule=Host(`docker.snyssen.be`)
+      - traefik.http.routers.portainer.tls=true
+      - traefik.http.routers.portainer.tls.certresolver=le
+    volumes:
+      - /mnt/storage/DOCKER/portainer/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9000:9000"
+
+networks:
+  web:
+    external: true
