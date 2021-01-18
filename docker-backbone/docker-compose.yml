@@ -43,7 +43,7 @@ services:
       - traefik.http.routers.api.tls.certresolver=le
       
   portainer:
-    image: portainer/portainer-ce
+    image: portainer/portainer
     container_name: portainer
     restart: always
     networks:
