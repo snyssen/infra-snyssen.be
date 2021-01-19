@@ -26,7 +26,7 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
       # certificates storage
-      - /home/snyssen/docker_mounts/traefik/acme.json:/acme.json
+      - ${DOCKER_DIRECTORY}/traefik/acme.json:/acme.json
     labels:
       # Redirect all HTTP to HTTPS permanently
       - traefik.http.routers.http_catchall.rule=HostRegexp(`{any:.+}`)
@@ -57,7 +57,7 @@ services:
       - traefik.http.routers.portainer.tls=true
       - traefik.http.routers.portainer.tls.certresolver=le
     volumes:
-      - /home/snyssen/docker_mounts/portainer:/data
+      - ${DOCKER_DIRECTORY}/docker_mounts/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "9000:9000"
@@ -84,12 +84,32 @@ services:
       - traefik.http.routers.jellyfin.rule=Host(`streaming.snyssen.be`)
       - traefik.http.routers.jellyfin.tls=true
       - traefik.http.routers.jellyfin.tls.certresolver=le
-      # jellyfin middleware
+      # jellyfin middleware, see https://jellyfin.org/docs/general/networking/traefik2.html
       - traefik.http.routers.jellyfin.middlewares=jellyfin-mw
       - traefik.http.middlewares.jellyfin-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLRedirect=true
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLHost=streaming.snyssen.be
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLForceHost=true
+      - traefik.http.middlewares.jellyfin-mw.headers.STSSeconds=315360000
+      - traefik.http.middlewares.jellyfin-mw.headers.STSIncludeSubdomains=true
+      - traefik.http.middlewares.jellyfin-mw.headers.STSPreload=true
+      - traefik.http.middlewares.jellyfin-mw.headers.forceSTSHeader=true
+      - traefik.http.middlewares.jellyfin-mw.headers.frameDeny=true
+      - traefik.http.middlewares.jellyfin-mw.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
+      - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.snyssen.be'
+      #- traefik.http.routers.jellyfin.service=jellyfin-svc@file
+      #- traefik.http.services.jellyfin-svc.loadBalancer.server.port=8096
+      #- traefik.http.services.jellyfin-svc.loadBalancer.passHostHeader=true
+      #- traefik.http.routers.jellyfin-insecure.entryPoints=web
+      #- traefik.http.routers.jellyfin-insecure.rule=Host(`streaming.snyssen.be`)
+      #- traefik.http.routers.jellyfin-insecure.middlewares=jellyfin-insecure-mw
+      #- traefik.http.middlewares.jellyfin-insecure-mw.redirectscheme.scheme=https
+      #- traefik.http.middlewares.jellyfin-insecure-mw.redirectscheme.permanent=false
+      #- traefik.http.routers.jellyfin-insecure.service=noop@internal
     volumes:
-      - /home/snyssen/docker_mounts/jellyfin/config:/config
-      - /home/snyssen/docker_mounts/jellyfin/cache:/cache
+      - ${DOCKER_DIRECTORY}/jellyfin/config:/config
+      - ${DOCKER_DIRECTORY}/jellyfin/cache:/cache
       # all below refer to media folders
       - /mnt/storage/series:/series
 

@@ -15,18 +15,20 @@ A valid domain name is also necessary for this installation.
 
 ## Get Started
 
-First of all you should clone this repository locally by using `git clone https://github.com/snyssen/infra-snyssen.be.git`
-
-### Docker backbone
-
-The docker backbone hosts the [Traefik](https://traefik.io/) reverse-proxy that all our web services will use to access the outside world, as well the [Portainer](https://www.portainer.io/) instance that will give us an overview of all of our later docker instances
-
-1. Go into the backbone folder with `cd infra-snyssen.be/docker-backbone`
-2. Fill environment file with the necessary info, you can use `nano .env`
+1. Clone this project locally by using `git clone https://github.com/snyssen/infra-snyssen.be.git` then go into it using `cd infra-snyssen.be`.
+2. Fill environment file with the necessary info, you can use `nano .env`. You can see the list of variables [here](#environment-variables)
 3. Save and exit with <kbd>ctrl</kbd>+<kbd>X</kbd>
-4. Create the necessary folders and config files :
-   1. `mkdir /mnt/storage/DOCKER`, it will contain all the docker config related mounts
-   2. `mkdir /mnt/storage/DOCKER/portainer` then `mkdir /mnt/storage/DOCKER/portainer/data` for the [Portainer](https://www.portainer.io/) data
-   3. `mkdir /mnt/storage/DOCKER/traefik` for [Traefik](https://traefik.io/)
-   4. `touch /mn/storage/DOCKER/traefik/acme.json` then `chmod 600 /mn/storage/DOCKER/traefik/acme.json`. This is the certificate store for [Traefik](https://traefik.io/), it will hold all of the Let's Encrypt TLS certificates
-5. Run `docker-compose up -d` to run the backbone
+4. Create the necessary folders and configuration files inside your `DOCKER_DIRECTORY` (see [environment variables](#environment-variables)) . the following directories will later be mounted inside the various containers in use :
+   1. `mkdir -p portainer/data` for the [Portainer](https://www.portainer.io/) data
+   2. `mkdir traefik` for [Traefik](https://traefik.io/)
+   3. `touch traefik/acme.json` then `chmod 600 traefik/acme.json`. This is the certificate store for [Traefik](https://traefik.io/), it will hold all of the Let's Encrypt TLS certificates
+   4. `mkdir -p jellyfin/config` then `mkdir jellyfin/cache` for the [Jellyfin](https://jellyfin.org/) configuration and cache
+5. Run `docker-compose up -d` to start the containers
+
+## environment variables
+
+This is the environment variables defined inside the `.env` file.
+
+- `LETSENCRYPT_EMAIL` : email address used for the Let's Encrypt SSL certificates
+- `TRAEFIK_DASHBOARD_HTPASSWORD` : *.htpassword* encoded entry containing the username and hashed password to use to connect to the traefik dashboard (using basic auth). You can create your entry using [this tool](https://www.askapache.com/online-tools/htpasswd-generator/)
+- `DOCKER_DIRECTORY` : directory in which the various docker volumes are mounted (outside actual data such as medias and documents)
