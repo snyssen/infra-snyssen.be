@@ -128,7 +128,7 @@ services:
       - ${DOCKER_DIRECTORY}/redis:/var/lib/redis
 
   nextcloud:
-    image: nextcloud:latest
+    image: nextcloud:stable
     container_name: nextcloud
     restart: always
     networks:
@@ -163,7 +163,7 @@ services:
       #- TRUSTED_PROXIES=172.18.0.0/16
       - OVERWRITEPROTOCOL=https
     volumes:
-      - ${DOCKER_DIRECTORY}/nextcloud:/var/www/html
+      - /mnt/storage/nextcloud:/var/www/html
 
 networks:
   web:
