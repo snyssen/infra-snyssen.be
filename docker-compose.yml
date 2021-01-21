@@ -20,8 +20,8 @@ services:
       - "--certificatesResolvers.le.acme.httpChallenge=true"
       - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
@@ -60,7 +60,7 @@ services:
       - ${DOCKER_DIRECTORY}/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "9000:9000"
+      - 9000:9000
       
   streaming:
     image: linuxserver/jellyfin
@@ -104,7 +104,68 @@ services:
       - ${DOCKER_DIRECTORY}/jellyfin/cache:/cache
       # all below refer to media folders
       - /mnt/storage/series:/series
+      
+  db:
+    restart: always
+    image: postgres:11
+    container_name: postgres
+    networks:
+      - internal
+    environment:
+    - POSTGRES_USER=nextcloud
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - POSTGRES_DB=nextcloud
+    volumes:
+    - ${DOCKER_DIRECTORY}/postgresql:/var/lib/postgresql/data
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    networks:
+      - internal
+    volumes:
+      - ${DOCKER_DIRECTORY}/redis:/var/lib/redis
+
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    restart: always
+    networks:
+      - internal
+      - web
+    depends_on:
+      - redis
+      - db
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.nextcloud.entryPoints=websecure
+      - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
+      - traefik.http.routers.nextcloud.tls.certresolver=le
+      - traefik.http.routers.nextcloud.rule=Host(`cloud.snyssen.be`)
+      - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://cloud.snyssen.be
+      - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' cloud.snyssen.be
+      - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
+      - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.nextcloud.headers.stsPreload=true
+      - traefik.http.middlewares.nextcloud_redirect.redirectregex.regex=/.well-known/(card|cal)dav
+      - traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement=/remote.php/dav/
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=db
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_PASSWORD}
+      - REDIS_HOST=redis
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.snyssen.be
+      #- TRUSTED_PROXIES=172.18.0.0/16
+      - OVERWRITEPROTOCOL=https
+    volumes:
+      - ${DOCKER_DIRECTORY}/nextcloud:/var/www/html
 
 networks:
   web:
     external: true
+  internal:
