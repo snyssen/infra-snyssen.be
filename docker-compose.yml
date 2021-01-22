@@ -100,7 +100,9 @@ services:
       - ${DOCKER_DIRECTORY}/jellyfin/config:/config
       - ${DOCKER_DIRECTORY}/jellyfin/cache:/cache
       # all below refer to media folders
-      - /mnt/storage/series:/series
+      - /mnt/storage/TV_shows:/TV_shows
+      - /mnt/storage/movies:/movies
+      - /mnt/storage/music:/music
       
   db:
     restart: always
@@ -157,10 +159,13 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_PASSWORD}
       - REDIS_HOST=redis
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.snyssen.be
-      #- TRUSTED_PROXIES=172.18.0.0/16
       - OVERWRITEPROTOCOL=https
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
+      # all below are folders that should not be managed by NextCloud directly but should be accessible as external storage
+      - /mnt/storage/TV_shows:/TV_shows
+      - /mnt/storage/movies:/movies
+      - /mnt/storage/music:/music
 
 networks:
   web:
