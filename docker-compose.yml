@@ -59,8 +59,6 @@ services:
     volumes:
       - ${DOCKER_DIRECTORY}/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - 9000:9000
       
   streaming:
     image: linuxserver/jellyfin
@@ -73,7 +71,6 @@ services:
       - PGID=1000
       - TZ=Europe/Brussels
     ports:
-      - 8096:8096 # http entry point
       - 7359:7359/udp # clients discovery
       - 1900:1900/udp # DLNA
     devices:
