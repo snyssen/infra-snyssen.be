@@ -166,6 +166,7 @@ services:
       - /mnt/storage/TV_shows:/TV_shows
       - /mnt/storage/movies:/movies
       - /mnt/storage/music:/music
+      - /mnt/storage/pictures:/pictures
 
 networks:
   web:
