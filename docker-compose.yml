@@ -247,18 +247,27 @@ services:
     restart: unless-stopped
     container_name: gitlab
     hostname: 'git.snyssen.be'
+    networks:
+      - web
     labels:
       - traefik.enable=true
       - traefik.http.routers.gitlab.entryPoints=websecure
       - traefik.http.routers.gitlab.rule=Host(`git.snyssen.be`)
       - traefik.http.routers.gitlab.tls=true
       - traefik.http.routers.gitlab.tls.certresolver=le
+      - traefik.http.services.gitlab.loadBalancer.server.port=80
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://git.snyssen.be'
-        # Add any other gitlab.rb configuration here, each on its own line
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        nginx['proxy_set_headers'] = {
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on"
+        }
     ports:
-      - '22:22'
+      - '2222:22'
     volumes:
       - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'
