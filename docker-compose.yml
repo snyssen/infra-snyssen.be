@@ -272,29 +272,6 @@ services:
       - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab'
-      
-  aria2-ui:
-    restart: unless-stopped
-    image: wahyd4/aria2-ui:latest
-    container_name: aria2
-    networks:
-      - web
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.aria2.entryPoints=websecure
-      - traefik.http.routers.aria2.rule=Host(`dl.snyssen.be`)
-      - traefik.http.routers.aria2.tls=true
-      - traefik.http.routers.aria2.tls.certresolver=le
-    environment:
-      - ENABLE_AUTH=true
-      - ARIA2_USER=${ARIA2_USER}
-      - ARIA2_PWD=${ARIA2_PASSWORD}
-      - DOMAIN=http://dl.snyssen.be
-      - PUID=0
-      - PGID=0
-    volumes:
-      - /mnt/storage:/data
-      - ${DOCKER_DIRECTORY}/aria2/conf:/app/conf # should include files as specified here -> https://github.com/wahyd4/aria2-ariang-docker#supported-volumes
 
 networks:
   web:
