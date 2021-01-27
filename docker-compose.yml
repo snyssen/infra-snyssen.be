@@ -272,6 +272,16 @@ services:
       - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab'
+      
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    restart: unless-stopped
+    container_name: gitlab-runner
+    depends_on:
+      - gitlab
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKER_DIRECTORY}/gitlab-runner:/etc/gitlab-runner
 
 networks:
   web:
