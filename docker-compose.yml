@@ -192,7 +192,7 @@ services:
       PHOTOPRISM_ADMIN_PASSWORD: ${PHOTOPRISM_PASSWORD}
       PHOTOPRISM_HTTP_PORT: 2342                     # Built-in Web server port
       PHOTOPRISM_HTTP_COMPRESSION: "none"            # Improves transfer speed and bandwidth utilization (none or gzip)
-      PHOTOPRISM_DEBUG: "true"                      # Run in debug mode (shows additional log messages)
+      PHOTOPRISM_DEBUG: "false"                      # Run in debug mode (shows additional log messages)
       PHOTOPRISM_PUBLIC: "false"                     # No authentication required (disables password protection)
       PHOTOPRISM_READONLY: "false"                   # Don't modify originals directory (reduced functionality)
       PHOTOPRISM_EXPERIMENTAL: "false"               # Enables experimental features
@@ -251,27 +251,55 @@ services:
       - web
     labels:
       - traefik.enable=true
+      # gitlab itself
       - traefik.http.routers.gitlab.entryPoints=websecure
       - traefik.http.routers.gitlab.rule=Host(`git.snyssen.be`)
       - traefik.http.routers.gitlab.tls=true
       - traefik.http.routers.gitlab.tls.certresolver=le
+      - traefik.http.routers.gitlab.service=gitlab
       - traefik.http.services.gitlab.loadBalancer.server.port=80
+      # gitlab registry
+      - traefik.http.routers.registry.entryPoints=websecure
+      - traefik.http.routers.registry.rule=Host(`registry.snyssen.be`)
+      - traefik.http.routers.registry.tls=true
+      - traefik.http.routers.registry.tls.certresolver=le
+      - traefik.http.routers.registry.service=registry
+      - traefik.http.services.registry.loadBalancer.server.port=5001
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://git.snyssen.be'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2222
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
+        nginx['http2_enabled'] = false
         nginx['proxy_set_headers'] = {
+          "Host" => "$$http_host",
+          "X-Real-IP" => "$$remote_addr",
+          "X-Forwarded-For" => "$$proxy_add_x_forwarded_for",
           "X-Forwarded-Proto" => "https",
           "X-Forwarded-Ssl" => "on"
         }
+        
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        
+        registry_external_url 'https://registry.snyssen.be'
+        registry_nginx['listen_port'] = 5001
+        registry_nginx['listen_https'] = false
+        registry_nginx['proxy_set_headers'] = {
+          "Host" => "$$http_host",
+          "X-Real-IP" => "$$remote_addr",
+          "X-Forwarded-For" => "$$proxy_add_x_forwarded_for",
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on"
+        }
+        
+        gitlab_rails['registry_path'] = "/registry"
     ports:
       - '2222:22'
     volumes:
       - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab'
+      - '/mnt/storage/gitlab/registry:/registry'
       
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
