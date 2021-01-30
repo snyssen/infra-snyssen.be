@@ -1,0 +1,19 @@
+version: '3'
+services:
+  snyssen-be:
+    image: registry.snyssen.be/snyssen/snyssen-be:test
+    restart: unless-stopped
+    container_name: snyssen-be
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.snyssen-be.entryPoints=websecure
+      - traefik.http.routers.snyssen-be.rule=Host(`snyssen.be`)
+      - traefik.http.routers.snyssen-be.tls=true
+      - traefik.http.routers.snyssen-be.tls.certresolver=le
+      - traefik.http.routers.snyssen-be.service=snyssen-be
+      - traefik.http.services.snyssen-be.loadBalancer.server.port=80
+networks:
+  web:
+    external: true
