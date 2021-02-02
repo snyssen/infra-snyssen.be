@@ -188,6 +188,7 @@ services:
       - traefik.http.routers.photoprism.rule=Host(`pics.snyssen.be`)
       - traefik.http.routers.photoprism.tls=true
       - traefik.http.routers.photoprism.tls.certresolver=le
+      - traefik.docker.network=web
     environment:
       PHOTOPRISM_ADMIN_PASSWORD: ${PHOTOPRISM_PASSWORD}
       PHOTOPRISM_HTTP_PORT: 2342                     # Built-in Web server port
