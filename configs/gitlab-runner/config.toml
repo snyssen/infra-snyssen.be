@@ -7,8 +7,8 @@ check_interval = 0
 
 [[runners]]
   name = "1b20d919ef80"
-  url = "https://git.snyssen.be/"
-  token = "v61YXhNMuz4n-vuzHyMR"
+  url = "https://git.example.com/"
+  token = "token"
   executor = "docker"
   [runners.custom_build_dir]
   [runners.cache]
