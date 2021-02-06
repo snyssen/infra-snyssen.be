@@ -317,6 +317,7 @@ services:
 
   speedtest:
     image: adolfintel/speedtest
+    restart: unless-stopped
     container_name: speedtest
     environment:
       MODE: standalone
@@ -330,6 +331,31 @@ services:
       - traefik.http.services.speedtest.loadBalancer.server.port=80
     networks:
       - web
+      
+  duplicati:
+    image: duplicati/duplicati
+    restart: unless-stopped
+    container_name: duplicati
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.duplicati.entryPoints=websecure
+      - traefik.http.routers.duplicati.rule=Host(`backup.snyssen.be`)
+      - traefik.http.routers.duplicati.tls=true
+      - traefik.http.routers.duplicati.tls.certresolver=le
+      - traefik.http.routers.duplicati.service=duplicati
+      - traefik.http.services.duplicati.loadBalancer.server.port=8200
+    networks:
+      - web
+    # only necessary for initial setup (as duplicati initially won't allow connection on any domain)
+    # comment after setup is done so it will be proxied through Traefik
+    #ports:
+    #  - 8200:8200
+    volumes:
+      # config folder
+      - ${DOCKER_DIRECTORY}/duplicati/data:/data
+      # folders to backup
+      - ${DOCKER_DIRECTORY}:/docker_directory
+      - /mnt/storage:/storage
 
 networks:
   web:
