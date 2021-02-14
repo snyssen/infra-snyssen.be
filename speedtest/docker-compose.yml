@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+  speedtest:
+    image: adolfintel/speedtest
+    restart: unless-stopped
+    container_name: speedtest
+    environment:
+      MODE: standalone
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.speedtest.entryPoints=websecure
+      - traefik.http.routers.speedtest.rule=Host(`speedtest.snyssen.be`)
+      - traefik.http.routers.speedtest.tls=true
+      - traefik.http.routers.speedtest.tls.certresolver=le
+      - traefik.http.routers.speedtest.service=speedtest
+      - traefik.http.services.speedtest.loadBalancer.server.port=80
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
