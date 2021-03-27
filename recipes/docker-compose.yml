@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - /mnt/storage/recipes/postgresql:/var/lib/postgresql/data
+      - ${DOCKER_DIRECTORY}/recipes/postgresql:/var/lib/postgresql/data
     networks:
       - default
 
