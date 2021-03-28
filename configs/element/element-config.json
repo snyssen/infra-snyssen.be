@@ -1,5 +1,13 @@
 {
-    "default_server_name": "matrix.org",
+    "default_server_config": {
+        "m.homeserver": {
+            "base_url": "https://matrix.snyssen.be",
+            "server_name": "snyssen.be"
+        },
+        "m.identity_server": {
+            "base_url": "https://matrix.snyssen.be"
+        }
+    },
     "brand": "Element",
     "integrations_ui_url": "https://scalar-staging.vector.im/",
     "integrations_rest_url": "https://scalar-staging.vector.im/api",
