@@ -1,0 +1,46 @@
+version: "3"
+services:
+  bookstack:
+    image: solidnerd/bookstack
+    container_name: bookstack
+    environment:
+      - APP_URL=https://wiki.snyssen.be
+      - DB_HOST=bookstack_db:3306
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=${DB_PASS}
+      - DB_DATABASE=bookstack
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bookstack.entryPoints=websecure
+      - traefik.http.routers.bookstack.rule=Host(`wiki.snyssen.be`)
+      - traefik.http.routers.bookstack.tls=true
+      - traefik.http.routers.bookstack.tls.certresolver=le
+      - traefik.http.routers.bookstack.service=bookstack
+      - traefik.http.services.bookstack.loadBalancer.server.port=8080
+    volumes:
+      - ${DOCKER_DIRECTORY}/bookstack/uploads:/var/www/bookstack/public/uploads
+      - ${DOCKER_DIRECTORY}/bookstack/storage-uploads:/var/www/bookstack/storage/uploads
+    restart: unless-stopped
+    networks:
+      - internal
+      - web
+    depends_on:
+      - bookstack_db
+
+  bookstack_db:
+    image: mariadb
+    container_name: bookstack_db
+    networks:
+      - internal
+    environment:
+    - MYSQL_ROOT_PASSWORD=${DB_PASS}
+    - MYSQL_DATABASE=bookstack
+    - MYSQL_USER=bookstack
+    - MYSQL_PASSWORD=${DB_PASS}
+    volumes:
+    - ${DOCKER_DIRECTORY}/bookstack/mariadb:/var/lib/mysql
+
+networks:
+  web:
+    external: true
+  internal:
