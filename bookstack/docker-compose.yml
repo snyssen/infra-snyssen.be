@@ -1,10 +1,13 @@
+# IMPORTANT: First launch requires some changes to this file.
+# Please read the comments carefully then revert all changes and relaunch everything
+
 version: "3"
 services:
   bookstack:
     image: solidnerd/bookstack
     container_name: bookstack
     environment:
-      - APP_URL=https://wiki.snyssen.be
+      - APP_URL=https://wiki.snyssen.be # comment on first launch
       - DB_HOST=bookstack_db:3306
       - DB_USERNAME=bookstack
       - DB_PASSWORD=${DB_PASS}
@@ -24,6 +27,12 @@ services:
     networks:
       - internal
       - web
+# uncomment the following on first launch.
+# Once stack is launched, got to http://<ip>:8080
+# If everything works normally, you should see the login page
+# You can now comment these lines once again and restart the stack
+#    ports:
+#      - 8080:8080
     depends_on:
       - bookstack_db
 
