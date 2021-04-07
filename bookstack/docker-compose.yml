@@ -12,6 +12,14 @@ services:
       - DB_USERNAME=bookstack
       - DB_PASSWORD=${DB_PASS}
       - DB_DATABASE=bookstack
+      - MAIL_DRIVER=smtp
+      - MAIL_HOST=${SMTP_SERVER}
+      - MAIL_PORT=${SMTP_PORT}
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${SMTP_USER}
+      - MAIL_PASSWORD=${SMTP_PASSWORD}
+      - MAIL_FROM=bookstack@snyssen.be
+      - MAIL_FROM_NAME=BookStack
     labels:
       - traefik.enable=true
       - traefik.http.routers.bookstack.entryPoints=websecure
