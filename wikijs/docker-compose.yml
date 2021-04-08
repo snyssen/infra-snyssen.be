@@ -42,6 +42,8 @@ services:
     # comment after setup
     ports:
       - 3000:3000
+    volumes:
+      - /mnt/storage/wiki/backups:/backups
 
 networks:
   web:
