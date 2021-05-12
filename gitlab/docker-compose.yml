@@ -63,6 +63,11 @@ services:
         }
         
         gitlab_rails['registry_path'] = "/registry"
+        
+        unicorn['worker_processes'] = 2
+        prometheus_monitoring['enable'] = false
+        sidekiq['concurrency'] = 2
+        postgresql['shared_buffers'] = "1024MB"
     ports:
       - '2222:22'
     volumes:
