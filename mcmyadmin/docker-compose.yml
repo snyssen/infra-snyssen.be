@@ -20,6 +20,13 @@ services:
       - traefik.http.routers.mcmyadmin.tls.certresolver=le
       - traefik.http.routers.mcmyadmin.service=mcmyadmin
       - traefik.http.services.mcmyadmin.loadBalancer.server.port=8080
+      # For the Dynmap plugins
+      - traefik.http.routers.mcmyadmin-dynmap.entryPoints=websecure
+      - traefik.http.routers.mcmyadmin-dynmap.rule=Host(`map.minecraft.snyssen.be`)
+      - traefik.http.routers.mcmyadmin-dynmap.tls=true
+      - traefik.http.routers.mcmyadmin-dynmap.tls.certresolver=le
+      - traefik.http.routers.mcmyadmin-dynmap.service=mcmyadmin-dynmap
+      - traefik.http.services.mcmyadmin-dynmap.loadBalancer.server.port=8123
     ports:
       - 25565:25565
 
