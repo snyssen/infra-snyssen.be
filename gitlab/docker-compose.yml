@@ -2,7 +2,7 @@ version: '3'
 services:
 
   gitlab:
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ee:13.12.9-ee.0'
     restart: unless-stopped
     container_name: gitlab
     hostname: 'git.snyssen.be'
@@ -63,7 +63,7 @@ services:
         }
         
         gitlab_rails['registry_path'] = "/registry"
-        
+
         unicorn['worker_processes'] = 2
         prometheus_monitoring['enable'] = false
         sidekiq['concurrency'] = 2
@@ -74,6 +74,7 @@ services:
       - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab'
+      - '/mnt/storage/gitlab/backups:/var/opt/gitlab/backups'
       - '/mnt/storage/gitlab/registry:/registry'
       
   gitlab-runner:
