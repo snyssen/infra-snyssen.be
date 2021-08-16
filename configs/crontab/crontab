@@ -17,3 +17,4 @@ MAILTO=CHANGEME
 00 00 * * * root cd /home/snyssen/DockerPostgresBackups && python3 /home/snyssen/DockerPostgresBackups/backups.py -d recipes && curl -m 10 --retry 5 https://hc-ping.com/HC-ID-CHANGEME
 00 00 * * * root cd /home/snyssen/DockerPostgresBackups && python3 /home/snyssen/DockerPostgresBackups/backups.py -d nextcloud && curl -m 10 --retry 5 https://hc-ping.com/HC-ID-CHANGEME
 00 00 * * * root docker exec -t gitlab gitlab-backup create && curl -m 10 --retry 5 https://hc-ping.com/HC-ID-CHANGEME
+*/15 * * * * root docker exec -u www-data nextcloud php cron.php && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/HC-ID-CHANGEME
