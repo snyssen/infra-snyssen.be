@@ -46,6 +46,37 @@ services:
       - /mnt/storage/music:/music
       - /mnt/storage/books:/books
 
+  torrent:
+    image: markusmcnugen/qbittorrentvpn
+    restart: unless-stopped
+    container_name: torrent
+    environment:
+      - VPN_ENABLED=yes
+      - LAN_NETWORK=192.168.1.0/24
+      - NAME_SERVERS=192.168.1.3
+      - PUID=1000
+      - PGID=1000
+      - INCOMING_PORT_ENV=54783
+    networks:
+      - web
+    ports:
+      - 54783:54783
+      - 54783:54783/udp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.torrent.entryPoints=websecure
+      - traefik.http.routers.torrent.rule=Host(`torrent.snyssen.be`)
+      - traefik.http.routers.torrent.tls=true
+      - traefik.http.routers.torrent.tls.certresolver=le
+      - traefik.http.services.torrent.loadBalancer.server.port=8080
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    volumes:
+      - ${DOCKER_DIRECTORY}/torrent/config:/config
+      - /mnt/storage/tmp:/downloads
+
 networks:
   web:
     external: true
