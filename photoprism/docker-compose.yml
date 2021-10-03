@@ -12,7 +12,7 @@ services:
       - apparmor:unconfined
     command: mysqld --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=50
     volumes: # Don't remove permanent storage for index database files!
-      - "${DOCKER_DIRECTORY}/mariadb:/var/lib/mysql"
+      - "${DOCKER_DIRECTORY}/photoprism/mariadb:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MYSQL_DATABASE: photoprism
@@ -36,7 +36,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.photoprism.entryPoints=websecure
-      - traefik.http.routers.photoprism.rule=Host(`pics.snyssen.be`)
+      - traefik.http.routers.photoprism.rule=Host(`photo.snyssen.be`)
       - traefik.http.routers.photoprism.tls=true
       - traefik.http.routers.photoprism.tls.certresolver=le
       - traefik.docker.network=web
@@ -60,7 +60,7 @@ services:
       PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB database schema name
       PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB database user name
       PHOTOPRISM_DATABASE_PASSWORD: "${MARIADB_PASSWORD}"       # MariaDB database user password
-      PHOTOPRISM_SITE_URL: "https://pics.snyssen.be"  # Public PhotoPrism URL
+      PHOTOPRISM_SITE_URL: "https://photo.snyssen.be"  # Public PhotoPrism URL
       PHOTOPRISM_SITE_TITLE: "PhotoPrism"
       PHOTOPRISM_SITE_CAPTION: "Browse Your Life"
       PHOTOPRISM_SITE_DESCRIPTION: ""
@@ -75,7 +75,7 @@ services:
       # Mounting an import folder is optional (see docs):
       # - "~/Import:/photoprism/import"
       # Permanent storage for settings, index & sidecar files (DON'T REMOVE):
-      - "${DOCKER_DIRECTORY}/photoprism:/photoprism/storage"
+      - "${DOCKER_DIRECTORY}/photoprism/photoprism:/photoprism/storage"
 
 networks:
   web:
