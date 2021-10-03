@@ -77,6 +77,27 @@ services:
       - ${DOCKER_DIRECTORY}/torrent/config:/config
       - /mnt/storage/tmp:/downloads
 
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.entryPoints=websecure
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.snyssen.be`)
+      - traefik.http.routers.sonarr.tls=true
+      - traefik.http.routers.sonarr.tls.certresolver=le
+      - traefik.http.services.sonarr.loadBalancer.server.port=8989
+    volumes:
+      - ${DOCKER_DIRECTORY}/sonarr/config:/config
+      - /mnt/storage/TV_shows:/tv
+      - /mnt/storage/tmp:/downloads
+    restart: unless-stopped
+
 networks:
   web:
     external: true
