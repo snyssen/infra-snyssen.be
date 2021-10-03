@@ -119,6 +119,25 @@ services:
       - /mnt/storage/tmp:/downloads
     restart: unless-stopped
 
+  prowlarr:
+    image: ghcr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.entryPoints=websecure
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.snyssen.be`)
+      - traefik.http.routers.prowlarr.tls=true
+      - traefik.http.routers.prowlarr.tls.certresolver=le
+      - traefik.http.services.prowlarr.loadBalancer.server.port=9696
+    volumes:
+      - ${DOCKER_DIRECTORY}/prowlarr/config:/config
+    restart: unless-stopped
+
 networks:
   web:
     external: true
