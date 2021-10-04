@@ -119,6 +119,27 @@ services:
       - /mnt/storage/tmp:/downloads
     restart: unless-stopped
 
+  lidarr:
+    image: lscr.io/linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.entryPoints=websecure
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.snyssen.be`)
+      - traefik.http.routers.lidarr.tls=true
+      - traefik.http.routers.lidarr.tls.certresolver=le
+      - traefik.http.services.lidarr.loadBalancer.server.port=8686
+    volumes:
+      - ${DOCKER_DIRECTORY}/lidarr/config:/config
+      - /mnt/storage/music:/music
+      - /mnt/storage/tmp:/downloads
+    restart: unless-stopped
+
   prowlarr:
     image: ghcr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
