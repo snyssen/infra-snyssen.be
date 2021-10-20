@@ -76,6 +76,34 @@ services:
     volumes:
       - ${DOCKER_DIRECTORY}/torrent/config:/config
       - /mnt/storage/tmp:/downloads
+      
+  usenet:
+    image: jshridha/docker-nzbgetvpn
+    container_name: usenet
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_DIRECTORY}/usenet/config:/config
+      - /mnt/storage/tmp:/data
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.usenet.entryPoints=websecure
+      - traefik.http.routers.usenet.rule=Host(`usenet.snyssen.be`)
+      - traefik.http.routers.usenet.tls=true
+      - traefik.http.routers.usenet.tls.certresolver=le
+      - traefik.http.services.usenet.loadBalancer.server.port=6789
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - VPN_PROV=custom
+      - LAN_NETWORK=192.168.1.0/24
+      - NAME_SERVERS=209.222.18.222,37.235.1.174,1.1.1.1,8.8.8.8,209.222.18.218,37.235.1.177,1.0.0.1,8.8.4.4
+      - VPN_ENABLED=yes
 
   sonarr:
     image: ghcr.io/linuxserver/sonarr
