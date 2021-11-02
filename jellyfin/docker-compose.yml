@@ -78,7 +78,7 @@ services:
       - /mnt/storage/tmp:/downloads
       
   usenet:
-    image: jshridha/docker-nzbgetvpn
+    image: snyssen/docker-nzbgetvpn:master
     container_name: usenet
     restart: unless-stopped
     volumes:
