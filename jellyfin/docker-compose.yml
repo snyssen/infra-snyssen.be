@@ -83,7 +83,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${DOCKER_DIRECTORY}/usenet/config:/config
-      - /mnt/storage/tmp:/data
+      - /mnt/storage/usenet:/data
     networks:
       - web
     labels:
@@ -124,6 +124,7 @@ services:
       - ${DOCKER_DIRECTORY}/sonarr/config:/config
       - /mnt/storage/TV_shows:/tv
       - /mnt/storage/tmp:/downloads
+      - /mnt/storage/usenet:/data
     restart: unless-stopped
 
   radarr:
@@ -145,6 +146,7 @@ services:
       - ${DOCKER_DIRECTORY}/radarr/config:/config
       - /mnt/storage/movies:/movies
       - /mnt/storage/tmp:/downloads
+      - /mnt/storage/usenet:/data
     restart: unless-stopped
 
   lidarr:
@@ -166,6 +168,7 @@ services:
       - ${DOCKER_DIRECTORY}/lidarr/config:/config
       - /mnt/storage/music:/music
       - /mnt/storage/tmp:/downloads
+      - /mnt/storage/usenet:/data
     restart: unless-stopped
 
   prowlarr:
