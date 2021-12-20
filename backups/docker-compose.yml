@@ -15,6 +15,7 @@ services:
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASS=${SMTP_PASS}
       - TZ=Europe/Brussels
+      - PASSPHRASE=${PASSPHRASE}
     volumes:
       #Folders to backup
       - /mnt/storage/nextcloud:/mnt/backup/src/nextcloud
