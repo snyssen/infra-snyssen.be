@@ -15,8 +15,13 @@ services:
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASS=${SMTP_PASS}
       - TZ=Europe/Brussels
+      - PASSPHRASE=${PASSPHRASE}
+      - OPTIONS=-v8 # Sets verbosity to info, otherwise Deuplicity does pretty much not log anything
     volumes:
-      #Folders to backup
+      # Preserve duplicity cache and allow it to grow
+      - ${DOCKER_DIRECTORY}/duplicity/root:/root
+      - ${DOCKER_DIRECTORY}/duplicity/tmp:/tmp
+      # Folders to backup
       - /mnt/storage/nextcloud:/mnt/backup/src/nextcloud
       - /mnt/storage/pictures:/mnt/backup/src/pictures
       - /mnt/storage/music:/mnt/backup/src/music
