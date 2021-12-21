@@ -16,7 +16,6 @@ services:
       - SMTP_PASS=${SMTP_PASS}
       - TZ=Europe/Brussels
       - PASSPHRASE=${PASSPHRASE}
-      - OPTIONS=-v8 # Sets verbosity to info, otherwise Deuplicity does pretty much not log anything
     volumes:
       # Preserve duplicity cache and allow it to grow
       - ${DOCKER_DIRECTORY}/duplicity/root:/root
