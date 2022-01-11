@@ -3,17 +3,17 @@ services:
 
   nextcloud_db:
     restart: always
-    image: postgres:11
+    image: postgres
     container_name: nextcloud_postgres
     networks:
       - internal
     environment:
-    - POSTGRES_USER=nextcloud
-    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=nextcloud
     volumes:
-    - ${DOCKER_DIRECTORY}/postgresql:/var/lib/postgresql/data
-  
+      - ${DOCKER_DIRECTORY}/postgresql:/var/lib/postgresql/data
+
   nextcloud_redis:
     image: redis:latest
     container_name: nextcloud_redis
@@ -40,8 +40,10 @@ services:
       - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
       - traefik.http.routers.nextcloud.tls.certresolver=le
       - traefik.http.routers.nextcloud.rule=Host(`cloud.snyssen.be`)
-      - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://cloud.snyssen.be
-      - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' cloud.snyssen.be
+      - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM
+        https://cloud.snyssen.be
+      - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors
+        'self' cloud.snyssen.be
       - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
       - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
       - traefik.http.middlewares.nextcloud.headers.stsPreload=true
@@ -65,7 +67,7 @@ services:
       - /mnt/storage/music:/music
       - /mnt/storage/pictures:/pictures
       - /mnt/storage/books:/books
-      
+
   onlyoffice:
     container_name: onlyoffice
     image: onlyoffice/documentserver:latest
@@ -94,8 +96,7 @@ services:
 networks:
   web:
     external: true
-  internal:
-  
+  internal: null
 volumes:
-  document_data:
-  document_log:
+  document_data: null
+  document_log: null

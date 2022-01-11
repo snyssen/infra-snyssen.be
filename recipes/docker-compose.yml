@@ -2,7 +2,7 @@ version: "3"
 services:
   db_recipes:
     restart: unless-stopped
-    image: postgres:11-alpine
+    image: postgres
     container_name: db_recipes
     env_file:
       - ./.env
@@ -25,7 +25,7 @@ services:
       - db_recipes
     networks:
       - default
-      
+
   nginx_recipes:
     image: nginx:mainline-alpine
     container_name: nginx_recipes
@@ -50,9 +50,10 @@ services:
       - web
 
 networks:
-  default:
-  web: # This is you external traefik network
+  default: null
+  web:
+    # This is you external traefik network
     external: true
 
 volumes:
-  nginx_config:
+  nginx_config: null
