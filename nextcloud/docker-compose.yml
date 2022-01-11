@@ -3,7 +3,7 @@ services:
 
   nextcloud_db:
     restart: always
-    image: postgres
+    image: postgres:11
     container_name: nextcloud_postgres
     networks:
       - internal
