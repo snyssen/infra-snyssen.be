@@ -2,7 +2,7 @@ version: "3"
 services:
   db_recipes:
     restart: unless-stopped
-    image: postgres
+    image: postgres:11-alpine
     container_name: db_recipes
     env_file:
       - ./.env
