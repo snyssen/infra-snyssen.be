@@ -2,7 +2,7 @@ version: '3'
 services:
 
   gitlab:
-    image: 'gitlab/gitlab-ee:13.12.9-ee.0'
+    image: gitlab/gitlab-ee:14.6.1-ee.0
     restart: unless-stopped
     container_name: gitlab
     hostname: 'git.snyssen.be'
@@ -37,7 +37,7 @@ services:
           "X-Forwarded-Proto" => "https",
           "X-Forwarded-Ssl" => "on"
         }
-        
+
         gitlab_rails['gitlab_shell_ssh_port'] = 2222
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_SERVER}"
@@ -50,7 +50,7 @@ services:
         gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
         gitlab_rails['gitlab_email_from'] = 'gitlab@snyssen.be'
         gitlab_rails['gitlab_email_reply_to'] = 'noreply@snyssen.be'
-        
+
         registry_external_url 'https://registry.snyssen.be'
         registry_nginx['listen_port'] = 5001
         registry_nginx['listen_https'] = false
@@ -61,10 +61,9 @@ services:
           "X-Forwarded-Proto" => "https",
           "X-Forwarded-Ssl" => "on"
         }
-        
+
         gitlab_rails['registry_path'] = "/registry"
 
-        unicorn['worker_processes'] = 2
         prometheus_monitoring['enable'] = false
         sidekiq['concurrency'] = 2
         postgresql['shared_buffers'] = "1024MB"
@@ -76,7 +75,7 @@ services:
       - '${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab'
       - '/mnt/storage/gitlab/backups:/var/opt/gitlab/backups'
       - '/mnt/storage/gitlab/registry:/registry'
-      
+
   gitlab-runner:
     image: gitlab/gitlab-runner:latest
     restart: unless-stopped

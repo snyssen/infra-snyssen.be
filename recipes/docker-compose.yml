@@ -25,7 +25,7 @@ services:
       - db_recipes
     networks:
       - default
-      
+
   nginx_recipes:
     image: nginx:mainline-alpine
     container_name: nginx_recipes
@@ -50,9 +50,10 @@ services:
       - web
 
 networks:
-  default:
-  web: # This is you external traefik network
+  default: null
+  web:
+    # This is you external traefik network
     external: true
 
 volumes:
-  nginx_config:
+  nginx_config: null

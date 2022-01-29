@@ -1,7 +1,7 @@
 version: "3"
 services:
   wiki_db:
-    image: postgres
+    image: postgres:13
     container_name: wiki_db
     environment:
       POSTGRES_DB: wiki
@@ -48,4 +48,4 @@ services:
 networks:
   web:
     external: true
-  internal:
+  internal: null

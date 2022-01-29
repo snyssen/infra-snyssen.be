@@ -2,7 +2,7 @@ version: '3'
 services:
 
   reverse-proxy:
-    image: traefik:v2.3
+    image: traefik
     restart: always
     container_name: traefik
     networks:
@@ -43,7 +43,7 @@ services:
       - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASHBOARD_HTPASSWORD}
       - traefik.http.routers.api.tls=true
       - traefik.http.routers.api.tls.certresolver=le
-      
+
   portainer:
     image: portainer/portainer
     container_name: portainer
