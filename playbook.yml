@@ -1,0 +1,29 @@
+- hosts: all
+  tasks:
+    - name: Upgrading all packages
+      become: yes
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+    - name: Enabling SnapRaid COPR repos
+      become: yes
+      community.general.copr:
+        name: pauken/SnapRAID
+        state: enabled
+    - name: Installing SnapRAID
+      become: yes
+      ansible.builtin.dnf:
+        name: snapraid 
+        state: latest
+    - name: Rebooting server to apply updates
+      ansible.builtin.reboot:
+
+    - name: Creating mounting directories
+      become: yes
+      ansible.builtin.file:
+        path: "{{ item  }}"
+        state: directory
+      with_items:
+        - "/mnt/parity1"
+        - "/mnt/disk1"
+        - "/mnt/storage"
