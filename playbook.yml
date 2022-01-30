@@ -29,18 +29,37 @@
       ansible.builtin.dnf:
         name: "{{ item.browser_download_url }}"
         state: present
-        disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key 
-
-    - name: Rebooting server to apply updates
-      become: yes
-      ansible.builtin.reboot:
+        disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key
 
     - name: Creating mounting directories
       become: yes
       ansible.builtin.file:
-        path: "{{ item  }}"
+        path: "{{ item.path  }}"
         state: directory
-      with_items:
-        - "/mnt/parity1"
-        - "/mnt/disk1"
-        - "/mnt/storage"
+      with_items: "{{ disks_mounts }}"
+    - name: Mounting disks
+      become: yes
+      ansible.builtin.mount:
+        path: "{{ item.path }}"
+        src: "{{ item.src }}"
+        fstype: auto
+        opts: defaults
+        state: present
+      with_items: "{{ disks_mounts }}"
+    - name: Creating storage mount
+      become: yes
+      ansible.builtin.file:
+        path: /mnt/storage
+        state: directory
+    - name: Mounting storage volume w/ MergerFS
+      become: yes
+      ansible.builtin.mount:
+        path: /mnt/storage
+        src: /mnt/disk*
+        fstype: fuse.mergerfs
+        opts: defaults,nonempty,allow_other,use_ino,cache.files=off,moveonenospc=true,category.create=mfs,minfreespace=20G,fsname=mergerfs-storage
+        state: present
+
+    - name: Rebooting server to apply changes
+      become: yes
+      ansible.builtin.reboot:
