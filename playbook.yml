@@ -3,6 +3,7 @@
 
     - ansible.builtin.include_tasks: tasks/softwares.yml
     - ansible.builtin.include_tasks: tasks/disks.yml
+    - ansible.builtin.include_tasks: tasks/shell.yml
 
     - name: Rebooting server to apply changes
       become: yes
