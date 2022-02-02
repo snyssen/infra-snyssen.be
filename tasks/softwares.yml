@@ -1,0 +1,30 @@
+- name: Upgrading all packages
+  become: yes
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+- name: Enabling SnapRaid COPR repos
+  become: yes
+  community.general.copr:
+    name: pauken/SnapRAID
+    state: enabled
+- name: Installing SnapRAID
+  become: yes
+  ansible.builtin.dnf:
+    name: snapraid
+    state: latest
+
+- name: Getting uri of latest MergerFS .rpm
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
+    return_content: true
+  register: mergerfs_latest
+- name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
+  become: yes
+  loop: "{{ mergerfs_latest.json.assets }}"
+  when: "'fc{{ ansible_distribution_major_version }}.x86_64.rpm' in item.name"
+  ansible.builtin.dnf:
+    name: "{{ item.browser_download_url }}"
+    state: present
+    disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key

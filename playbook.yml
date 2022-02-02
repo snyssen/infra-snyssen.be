@@ -1,64 +1,8 @@
 - hosts: all
   tasks:
-    - name: Upgrading all packages
-      become: yes
-      ansible.builtin.dnf:
-        name: "*"
-        state: latest
 
-    - name: Enabling SnapRaid COPR repos
-      become: yes
-      community.general.copr:
-        name: pauken/SnapRAID
-        state: enabled
-    - name: Installing SnapRAID
-      become: yes
-      ansible.builtin.dnf:
-        name: snapraid 
-        state: latest
-
-    - name: Getting uri of latest MergerFS .rpm
-      ansible.builtin.uri:
-        url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
-        return_content: true                                             
-      register: mergerfs_latest
-    - name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
-      become: yes
-      loop: "{{ mergerfs_latest.json.assets }}"
-      when: "'fc{{ ansible_distribution_major_version }}.x86_64.rpm' in item.name"
-      ansible.builtin.dnf:
-        name: "{{ item.browser_download_url }}"
-        state: present
-        disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key
-
-    - name: Creating mounting directories
-      become: yes
-      ansible.builtin.file:
-        path: "{{ item.path  }}"
-        state: directory
-      with_items: "{{ disks_mounts }}"
-    - name: Mounting disks
-      become: yes
-      ansible.builtin.mount:
-        path: "{{ item.path }}"
-        src: "{{ item.src }}"
-        fstype: auto
-        opts: defaults
-        state: present
-      with_items: "{{ disks_mounts }}"
-    - name: Creating storage mount
-      become: yes
-      ansible.builtin.file:
-        path: /mnt/storage
-        state: directory
-    - name: Mounting storage volume w/ MergerFS
-      become: yes
-      ansible.builtin.mount:
-        path: /mnt/storage
-        src: /mnt/disk*
-        fstype: fuse.mergerfs
-        opts: defaults,nonempty,allow_other,use_ino,cache.files=off,moveonenospc=true,category.create=mfs,minfreespace=20G,fsname=mergerfs-storage
-        state: present
+    - ansible.builtin.include_tasks: tasks/softwares.yml
+    - ansible.builtin.include_tasks: tasks/disks.yml
 
     - name: Rebooting server to apply changes
       become: yes
