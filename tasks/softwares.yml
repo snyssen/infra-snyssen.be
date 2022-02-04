@@ -4,7 +4,7 @@
     name: "*"
     state: latest
 
-- name: Enabling SnapRaid COPR repos
+- name: Enabling SnapRAID COPR repos
   become: yes
   community.general.copr:
     name: pauken/SnapRAID

@@ -26,3 +26,11 @@
     fstype: fuse.mergerfs
     opts: defaults,nonempty,allow_other,use_ino,cache.files=off,moveonenospc=true,category.create=mfs,minfreespace=20G,fsname=mergerfs-storage
     state: present
+- name: Deploying SnapRAID configuration
+  become: yes
+  ansible.builtin.template:
+    src: configs/snapraid/snapraid.conf.j2
+    dest: /etc/snapraid.conf
+    owner: root
+    group: root
+    mode: '0644'
