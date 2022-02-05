@@ -58,3 +58,9 @@
     user: root
     job: python3 /opt/snapraid-runner/snapraid-runner.py -c /opt/snapraid-runner/snapraid-runner.conf
     state: present
+- name: Adding log directory for SnapRAID-runner
+  become: yes
+  ansible.builtin.file:
+    path: /var/log/snapraid #/snapraid.log
+    state: directory
+    
