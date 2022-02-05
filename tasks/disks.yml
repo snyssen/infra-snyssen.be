@@ -3,6 +3,8 @@
   ansible.builtin.file:
     path: "{{ item.path  }}"
     state: directory
+    owner: "1000"
+    group: "1000"
   with_items: "{{ disks_mounts }}"
 - name: Mounting disks
   become: yes
