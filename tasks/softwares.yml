@@ -65,3 +65,12 @@
     name: docker
     state: started
     enabled: yes
+
+- name: Cloning SnapRAID-runner
+  become: yes
+  ansible.builtin.git:
+    # git clone https://github.com/Chronial/snapraid-runner.git /opt/snapraid-runner
+    repo: https://github.com/Chronial/snapraid-runner
+    dest: /opt/snapraid-runner
+    clone: yes
+    update: yes
