@@ -53,6 +53,8 @@
   become: yes
   ansible.builtin.package:
     name:
+      - cronie
+      - cronie-anacron
       - git
       - docker-ce
       - docker-compose

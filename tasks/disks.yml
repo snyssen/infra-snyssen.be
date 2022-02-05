@@ -47,3 +47,12 @@
   with_items:
     - snapraid-runner.conf.j2
     - snapraid-runner.no-threshold.conf.j2
+- name: Adds crontab task for SnapRAID-runner
+  become: yes
+  ansible.builtin.cron:
+    name: SnapRAID-runner
+    minute: "0"
+    hour: "01"
+    user: root
+    job: python3 /opt/snapraid-runner/snapraid-runner.py -c /opt/snapraid-runner/snapraid-runner.conf
+    state: present
