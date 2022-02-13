@@ -10,3 +10,5 @@
     - name: Rebooting server to apply changes
       become: yes
       ansible.builtin.reboot:
+
+    - ansible.builtin.include_tasks: tasks/containers.yml

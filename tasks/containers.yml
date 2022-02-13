@@ -1,0 +1,34 @@
+- name: Adding user to docker group
+  become: yes
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
+- name: Starting and enabling docker service
+  become: yes
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Deploying containers files
+  ansible.builtin.copy:
+    src: files/containers/
+    dest: "{{ docker_compose_directory }}"
+- name: Creating web network
+  ansible.builtin.docker_network:
+    name: web
+
+- ansible.builtin.include_tasks: containers/backbone.yml
+
+- name: Querying all container stacks
+  ansible.builtin.find:
+    paths: "{{ docker_compose_directory }}"
+    file_type: directory
+  register: container_stacks
+- name: Starting all containers
+  community.docker.docker_compose:
+    project_src: "{{ item.path }}"
+    state: present
+    pull: yes
+  loop: "{{ container_stacks.files }}"
