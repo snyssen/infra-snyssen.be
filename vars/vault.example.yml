@@ -1,0 +1,20 @@
+smtp:
+  from: admin@example.com
+  to: admin@example.com
+  host: relay.smtp.com
+  port: 587
+  ssl: false
+  tls: true
+  user: smtp
+  pass: smtp
+
+# Used to store the docker-compose.yml files
+docker_compose_directory: ~/containers
+# Used to store docker files that often changes.
+# As such THIS DIRECTORY SHOULD BE ON A DRIVER MANAGED BY SNAPRAID
+# Please either use the main drive or an unmanaged drive (An SSD would be best)
+# Most of the files stored there will be databases. As such they could significantly grow in size
+docker_mounts_directory: ~/docker_mounts
+
+backbone:
+  traefik_dashboard_htpassword: admin:12345
