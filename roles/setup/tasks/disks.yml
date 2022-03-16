@@ -33,7 +33,7 @@
 - name: Deploying SnapRAID configuration
   become: yes
   ansible.builtin.template:
-    src: configs/snapraid/snapraid.conf.j2
+    src: snapraid.conf.j2
     dest: /etc/snapraid.conf
     owner: root
     group: root
@@ -41,8 +41,8 @@
 - name: Deploying SnapRAID-runner configuration
   become: yes
   ansible.builtin.template:
-    src: configs/snapraid/{{ item }}
-    dest: /opt/snapraid-runner/{{ item[:-3] }}
+    src: "{{ item }}"
+    dest: /opt/snapraid-runner/{{ item[:-3] }} # `[:-3]` Is used to remove the `.j2` extension from the template file
     owner: root
     group: root
     mode: '0600'

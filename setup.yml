@@ -3,4 +3,3 @@
     - vars/vault.yml
   roles:
     - setup
-    - docker

@@ -11,17 +11,14 @@
     state: started
     enabled: yes
 
-- name: Deploying containers files
-  ansible.builtin.copy:
-    src: files/containers/
-    dest: "{{ docker_compose_directory }}"
 - name: Creating web network
   ansible.builtin.docker_network:
     name: web
 
-- ansible.builtin.include_tasks: containers/backbone.yml
+- ansible.builtin.include_role:
+    name: backbone
 
-- name: Querying all container stacks
+- name: Querying all deployed container stacks
   ansible.builtin.find:
     paths: "{{ docker_compose_directory }}"
     file_type: directory

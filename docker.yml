@@ -2,5 +2,4 @@
   vars_files:
     - vars/vault.yml
   roles:
-    - setup
     - docker

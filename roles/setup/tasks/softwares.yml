@@ -1,9 +1,3 @@
-- name: Upgrading all packages
-  become: yes
-  ansible.builtin.dnf:
-    name: "*"
-    state: latest
-
 - name: Enabling SnapRAID COPR repos
   become: yes
   community.general.copr:
