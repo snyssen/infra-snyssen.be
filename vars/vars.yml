@@ -1,20 +1,20 @@
 smtp:
-  from: admin@example.com
-  to: admin@example.com
-  host: relay.smtp.com
+  from: "{{ vault_smtp.from }}"
+  to: "{{ vault_smtp.to }}"
+  host: "{{ vault_smtp.host }}"
   port: 587
   ssl: false
   tls: true
-  user: smtp
-  pass: smtp
+  user: "{{ vault_smtp.user }}"
+  pass: "{{ vault_smtp.pass }}"
 
 # Used to store the docker-compose.yml files
-docker_compose_directory: ~/containers
+docker_compose_directory: "{{ vault_docker_compose_directory }}"
 # Used to store docker files that often changes.
 # As such THIS DIRECTORY SHOULD BE ON A DRIVER MANAGED BY SNAPRAID
 # Please either use the main drive or an unmanaged drive (An SSD would be best)
 # Most of the files stored there will be databases. As such they could significantly grow in size
-docker_mounts_directory: ~/docker_mounts
+docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 
 backbone:
-  traefik_dashboard_htpassword: admin:12345
+  traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
