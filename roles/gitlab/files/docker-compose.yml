@@ -5,28 +5,29 @@ services:
     image: gitlab/gitlab-ee:14.6.1-ee.0
     restart: unless-stopped
     container_name: gitlab
-    hostname: 'git.snyssen.be'
+    hostname: 'git.${HOSTNAME}'
     networks:
       - web
     labels:
       - traefik.enable=true
       # gitlab itself
       - traefik.http.routers.gitlab.entryPoints=websecure
-      - traefik.http.routers.gitlab.rule=Host(`git.snyssen.be`)
+      - traefik.http.routers.gitlab.rule=Host(`git.${HOSTNAME}`)
       - traefik.http.routers.gitlab.tls=true
       - traefik.http.routers.gitlab.tls.certresolver=le
       - traefik.http.routers.gitlab.service=gitlab
       - traefik.http.services.gitlab.loadBalancer.server.port=80
       # gitlab registry
       - traefik.http.routers.registry.entryPoints=websecure
-      - traefik.http.routers.registry.rule=Host(`registry.snyssen.be`)
+      - traefik.http.routers.registry.rule=Host(`registry.${HOSTNAME}`)
       - traefik.http.routers.registry.tls=true
       - traefik.http.routers.registry.tls.certresolver=le
       - traefik.http.routers.registry.service=registry
       - traefik.http.services.registry.loadBalancer.server.port=5001
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://git.snyssen.be'
+        external_url "https://git.${HOSTNAME}"
+
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
         nginx['http2_enabled'] = false
@@ -38,7 +39,8 @@ services:
           "X-Forwarded-Ssl" => "on"
         }
 
-        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        gitlab_rails['gitlab_shell_ssh_port'] = ${SSH_PORT}
+        gitlab_rails['initial_root_password'] = "${ADMIN_PASS}"
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_SERVER}"
         gitlab_rails['smtp_port'] = ${SMTP_PORT}
@@ -48,10 +50,10 @@ services:
         gitlab_rails['smtp_authentication'] = "login"
         gitlab_rails['smtp_enable_starttls_auto'] = true
         gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
-        gitlab_rails['gitlab_email_from'] = 'gitlab@snyssen.be'
-        gitlab_rails['gitlab_email_reply_to'] = 'noreply@snyssen.be'
+        gitlab_rails['gitlab_email_from'] = '${SMTP_FROM}'
+        gitlab_rails['gitlab_email_reply_to'] = '${SMTP_TO}'
 
-        registry_external_url 'https://registry.snyssen.be'
+        registry_external_url 'https://registry.${HOSTNAME}'
         registry_nginx['listen_port'] = 5001
         registry_nginx['listen_https'] = false
         registry_nginx['proxy_set_headers'] = {
@@ -64,11 +66,11 @@ services:
 
         gitlab_rails['registry_path'] = "/registry"
 
-        prometheus_monitoring['enable'] = false
+        prometheus_monitoring['enable'] = true
         sidekiq['concurrency'] = 2
         postgresql['shared_buffers'] = "1024MB"
     ports:
-      - '2222:22'
+      - '${SSH_PORT}:22'
     volumes:
       - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
       - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'

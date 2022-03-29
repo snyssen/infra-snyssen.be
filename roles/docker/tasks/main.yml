@@ -17,6 +17,8 @@
 
 - ansible.builtin.include_role:
     name: backbone
+- ansible.builtin.include_role:
+    name: gitlab
 
 - name: Querying all deployed container stacks
   ansible.builtin.find:

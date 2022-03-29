@@ -11,10 +11,14 @@ smtp:
 # Used to store the docker-compose.yml files
 docker_compose_directory: "{{ vault_docker_compose_directory }}"
 # Used to store docker files that often changes.
-# As such THIS DIRECTORY SHOULD BE ON A DRIVER MANAGED BY SNAPRAID
+# As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
 # Please either use the main drive or an unmanaged drive (An SSD would be best)
 # Most of the files stored there will be databases. As such they could significantly grow in size
 docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 
 backbone:
   traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
+
+gitlab:
+  ssh_port: "{{ vault_gitlab.ssh_port }}"
+  admin_pass: "{{ vault_gitlab.admin_pass }}"

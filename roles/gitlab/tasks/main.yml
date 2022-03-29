@@ -1,0 +1,28 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ docker_compose_directory }}/gitlab"
+    # For GitLab itself
+    - "{{ docker_mounts_directory }}/gitlab/config"
+    - "{{ docker_mounts_directory }}/gitlab/logs"
+    - "{{ docker_mounts_directory }}/gitlab/data"
+    - "/mnt/storage/gitlab/backups"
+    - "/mnt/storage/gitlab/registry"
+    # For GitLab runner
+    - "{{ docker_mounts_directory }}/gitlab-runner"
+
+- name: Deploying gitlab-runner config file
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: "{{ docker_mounts_directory }}/gitlab-runner/config.toml"
+
+- name: Deploying docker-compose file
+  ansible.builtin.copy:
+    src: docker-compose.yml
+    dest: "{{ docker_compose_directory }}/gitlab/docker-compose.yml"
+- name: Deploying env file
+  ansible.builtin.template:
+    src: .env.j2
+    dest: "{{ docker_compose_directory }}/gitlab/.env"
