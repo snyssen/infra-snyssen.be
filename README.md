@@ -76,25 +76,7 @@ Clone the repos on the client machine (the one with Ansible installed) and cd in
 git clone https://github.com/snyssen/infra-snyssen.be.git && cd infra-snyssen.be
 ```
 
-Decrypt the variables vault using
-
-```bash
-ansible-vault decrypt vars/vault.yml
-```
-
-then modify the variables using your own values. You can also make use of the `vars/vault.example.yml` instead.
-
-Set your host and its necessary variables (look at the existing examples) in the `hosts.yml` file.
-
-When ready, deploy to your server with:
-
-```bash
-ansible-playbook playbook.yml --limit prod --ask-become-pass --ask-vault-pass
-```
-
-It will ask for the sudo password of the server and your variables vault password before running the entire playbook.
-
-You can also run separate playbooks for the different steps:
+**This is work in progress**
 
 ### Other playbooks
 
