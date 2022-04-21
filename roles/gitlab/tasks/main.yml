@@ -3,7 +3,6 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ docker_compose_directory }}/gitlab"
     # For GitLab itself
     - "{{ docker_mounts_directory }}/gitlab/config"
     - "{{ docker_mounts_directory }}/gitlab/logs"
@@ -18,11 +17,8 @@
     src: config.toml.j2
     dest: "{{ docker_mounts_directory }}/gitlab-runner/config.toml"
 
-- name: Deploying docker-compose file
-  ansible.builtin.copy:
-    src: docker-compose.yml
-    dest: "{{ docker_compose_directory }}/gitlab/docker-compose.yml"
-- name: Deploying env file
-  ansible.builtin.template:
-    src: .env.j2
-    dest: "{{ docker_compose_directory }}/gitlab/.env"
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    docker_compose_path: "{{ docker_compose_directory }}/gitlab"
+    docker_compose_start: yes
