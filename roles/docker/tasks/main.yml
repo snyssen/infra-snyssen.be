@@ -19,3 +19,5 @@
     name: backbone
 - ansible.builtin.include_role:
     name: gitlab
+- ansible.builtin.include_role:
+    name: streaming

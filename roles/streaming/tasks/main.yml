@@ -1,0 +1,34 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    # jellyfin
+    - "{{ docker_mounts_directory }}/jellyfin/config"
+    - "{{ docker_mounts_directory }}/jellyfin/cache"
+    - /mnt/storage/TV_shows
+    - /mnt/storage/movies
+    - /mnt/storage/music
+    - /mnt/storage/books
+    # torrents
+    - "{{ docker_mounts_directory }}/torrent/config"
+    - /mnt/storage/torrents
+    # usenet
+    - "{{ docker_mounts_directory }}/usenet/config"
+    - /mnt/storage/usenet
+    # sonarr
+    - "{{ docker_mounts_directory }}/sonarr/config"
+    # radarr
+    - "{{ docker_mounts_directory }}/radarr/config"
+    # lidarr
+    - "{{ docker_mounts_directory }}/lidarr/config"
+    # prowlarr
+    - "{{ docker_mounts_directory }}/prowlarr/config"
+
+# TODO: export VPN configurations
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    docker_compose_path: "{{ docker_compose_directory }}/streaming"
+    docker_compose_start: false

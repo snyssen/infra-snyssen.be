@@ -8,6 +8,8 @@ smtp:
   user: "{{ vault_smtp.user }}"
   pass: "{{ vault_smtp.pass }}"
 
+dns_server: "{{ vault_dns_server }}"
+
 # Used to store the docker-compose.yml files
 docker_compose_directory: "{{ vault_docker_compose_directory }}"
 # Used to store docker files that often changes.
