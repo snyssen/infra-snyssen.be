@@ -11,10 +11,10 @@
     - /mnt/storage/music
     - /mnt/storage/books
     # torrents
-    - "{{ docker_mounts_directory }}/torrent/config"
+    - "{{ docker_mounts_directory }}/torrent/config/openvpn"
     - /mnt/storage/torrents
     # usenet
-    - "{{ docker_mounts_directory }}/usenet/config"
+    - "{{ docker_mounts_directory }}/usenet/config/openvpn"
     - /mnt/storage/usenet
     # sonarr
     - "{{ docker_mounts_directory }}/sonarr/config"
@@ -25,10 +25,23 @@
     # prowlarr
     - "{{ docker_mounts_directory }}/prowlarr/config"
 
-# TODO: export VPN configurations
+- name: Copying open VPN config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0600
+  loop:
+    - src: creds.conf.aes
+      dest: "{{ docker_mounts_directory }}/torrent/config/openvpn/creds.conf"
+    - src: Windscribe-Brussels-Guildhouse.ovpn.aes
+      dest: "{{ docker_mounts_directory }}/torrent/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
+    - src: creds.conf.aes
+      dest: "{{ docker_mounts_directory }}/usenet/config/openvpn/creds.conf"
+    - src: Windscribe-Brussels-Guildhouse.ovpn.aes
+      dest: "{{ docker_mounts_directory }}/usenet/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
 
 - ansible.builtin.include_role:
     name: container-deploy
   vars:
     docker_compose_path: "{{ docker_compose_directory }}/streaming"
-    docker_compose_start: false
+    docker_compose_start: yes
