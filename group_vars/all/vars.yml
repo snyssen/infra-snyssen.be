@@ -24,3 +24,8 @@ backbone:
 gitlab:
   ssh_port: "{{ vault_gitlab.ssh_port }}"
   admin_pass: "{{ vault_gitlab.admin_pass }}"
+
+nextcloud:
+  postgres_password: "{{ vault_nextcloud.postgres_password }}"
+  nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"
+  nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
