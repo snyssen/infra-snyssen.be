@@ -15,28 +15,30 @@ Vagrant.configure("2") do |config|
   config.vm.box = "generic/fedora35"
   config.vm.hostname = "vagrant.sny"
 
-  # config.vm.provider :virtualbox do |v|
-  #   v.memory = 512
-  # end
-
   # Disks are added here
-  config.vm.disk :disk, name: "parity1", size: "10GB"
-  config.vm.disk :disk, name: "disk1", size: "10GB"
+  config.vm.disk :disk, name: "parity1", size: "100GB"
+  config.vm.disk :disk, name: "disk1", size: "100GB"
+
+  config.vm.provider :virtualbox do |v|
+    # v.customize ["storagectl", :id, "--name", "IDE Controller", "--controller", "IntelAhci", "--portcount", "3"]
+    v.customize ["setextradata", :id, "VBoxInternal/Devices/PIIX4/0/Config/1/SerialNumber", "custom-id"]
+  end
+
 
   # Provision with Ansible
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
-    ansible.galaxy_role_file = "requirements.yml"
-    ansible.host_vars = {
-      "vagrant.sny" => {
-        "disks_mounts" => [
-          {
-            "path" => "",
-            "src" => ""
-          }
-        ]
-      }
-    }
-  end
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.playbook = "playbook.yml"
+  #   ansible.galaxy_role_file = "requirements.yml"
+  #   ansible.host_vars = {
+  #     "vagrant.sny" => {
+  #       "disks_mounts" => [
+  #         {
+  #           "path" => "",
+  #           "src" => ""
+  #         }
+  #       ]
+  #     }
+  #   }
+  # end
 
 end
