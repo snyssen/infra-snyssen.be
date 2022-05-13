@@ -29,3 +29,7 @@ nextcloud:
   postgres_password: "{{ vault_nextcloud.postgres_password }}"
   nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"
   nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
+
+photoprism:
+  photoprism_password: "{{ vault_photoprism.photoprism_password }}"
+  mariadb_password: "{{ vault_photoprism.mariadb_password }}"

@@ -1,0 +1,16 @@
+- name: Creating folders
+  become: yes
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state:  directory
+  loop:
+    - path: "/mnt/storage/pictures"
+    - path: "/mnt/storage/photoprism/mariadb"
+    - path: "/mnt/storage/photoprism/import"
+    - path: "/mnt/storage/photoprism/photoprism"
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    docker_compose_path: "{{ docker_compose_directory }}/photoprism"
+    docker_compose_start: yes
