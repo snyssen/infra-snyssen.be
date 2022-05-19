@@ -12,33 +12,21 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
+  config.vm.define "vagrant.sny"
   config.vm.box = "generic/fedora35"
   config.vm.hostname = "vagrant.sny"
+  config.vm.network :private_network, ip: "192.168.56.12"
 
-  # Disks are added here
-  config.vm.disk :disk, name: "parity1", size: "100GB"
-  config.vm.disk :disk, name: "disk1", size: "100GB"
-
-  config.vm.provider :virtualbox do |v|
-    # v.customize ["storagectl", :id, "--name", "IDE Controller", "--controller", "IntelAhci", "--portcount", "3"]
-    v.customize ["setextradata", :id, "VBoxInternal/Devices/PIIX4/0/Config/1/SerialNumber", "custom-id"]
-  end
-
+  # Adds disks
+  config.vm.disk :disk, size: "10GB", name: "parity1"
+  config.vm.disk :disk, size: "10GB", name: "disk1"
+  config.vm.disk :disk, size: "10GB", name: "disk2"
 
   # Provision with Ansible
-  # config.vm.provision "ansible" do |ansible|
-  #   ansible.playbook = "playbook.yml"
-  #   ansible.galaxy_role_file = "requirements.yml"
-  #   ansible.host_vars = {
-  #     "vagrant.sny" => {
-  #       "disks_mounts" => [
-  #         {
-  #           "path" => "",
-  #           "src" => ""
-  #         }
-  #       ]
-  #     }
-  #   }
-  # end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "playbook.yml"
+    ansible.galaxy_role_file = "requirements.yml"
+    ansible.inventory_path = "hosts/dev.yml"
+  end
 
 end
