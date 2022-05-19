@@ -6,6 +6,15 @@
     owner: "1000"
     group: "1000"
   with_items: "{{ disks_mounts }}"
+
+- name: Creating ext4 filesystem on drives
+  become: yes
+  community.general.filesystem:
+    fstype: ext4
+    state: present
+    dev: "{{ item.src }}"
+  with_items: "{{ disks_mounts }}"
+
 - name: Mounting disks
   become: yes
   ansible.builtin.mount:
