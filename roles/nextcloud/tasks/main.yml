@@ -1,0 +1,20 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    # postgres
+    - "{{ docker_mounts_directory }}/nextcloud/postgresql"
+    # redis
+    - "{{ docker_mounts_directory }}/nextcloud/redis"
+    # nextcloud
+    - /mnt/storage/nextcloud
+    # onlyoffice
+    - /mnt/storage/onlyoffice/data
+    - /mnt/storage/onlyoffice/logs
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    docker_compose_path: "{{ docker_compose_directory }}/nextcloud"
+    docker_compose_start: yes

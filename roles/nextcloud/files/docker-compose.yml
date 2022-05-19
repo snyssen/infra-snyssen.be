@@ -1,9 +1,9 @@
 version: '3'
 services:
 
-  nextcloud_db:
+  nextcloud_postgres:
     restart: always
-    image: postgres:11
+    image: postgres:14
     container_name: nextcloud_postgres
     networks:
       - internal
@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=nextcloud
     volumes:
-      - ${DOCKER_DIRECTORY}/postgresql:/var/lib/postgresql/data
+      - ${DOCKER_DIRECTORY}/nextcloud/postgresql:/var/lib/postgresql/data
 
   nextcloud_redis:
     image: redis:latest
@@ -21,7 +21,7 @@ services:
     networks:
       - internal
     volumes:
-      - ${DOCKER_DIRECTORY}/redis:/var/lib/redis
+      - ${DOCKER_DIRECTORY}/nextcloud/redis:/var/lib/redis
 
   nextcloud:
     image: nextcloud:stable
@@ -31,7 +31,7 @@ services:
       - internal
       - web
     depends_on:
-      - nextcloud_db
+      - nextcloud_postgres
       - nextcloud_redis
     labels:
       - traefik.enable=true
@@ -39,11 +39,9 @@ services:
       - traefik.http.routers.nextcloud.entryPoints=websecure
       - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
       - traefik.http.routers.nextcloud.tls.certresolver=le
-      - traefik.http.routers.nextcloud.rule=Host(`cloud.snyssen.be`)
-      - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM
-        https://cloud.snyssen.be
-      - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors
-        'self' cloud.snyssen.be
+      - traefik.http.routers.nextcloud.rule=Host(`cloud.${HOSTNAME}`)
+      - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://cloud.${HOSTNAME}
+      - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' cloud.${HOSTNAME}
       - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
       - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
       - traefik.http.middlewares.nextcloud.headers.stsPreload=true
@@ -53,32 +51,27 @@ services:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_HOST=nextcloud_db
+      - POSTGRES_HOST=nextcloud_postgres
       - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN}
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_PASSWORD}
       - REDIS_HOST=nextcloud_redis
-      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.snyssen.be
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.${HOSTNAME}
       - OVERWRITEPROTOCOL=https
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
-      # all below are folders that should not be managed by NextCloud directly but should be accessible as external storage
-      - /mnt/storage/TV_shows:/TV_shows
-      - /mnt/storage/movies:/movies
-      - /mnt/storage/music:/music
-      - /mnt/storage/pictures:/pictures
-      - /mnt/storage/books:/books
 
   onlyoffice:
     container_name: onlyoffice
     image: onlyoffice/documentserver:latest
     restart: always
     networks:
+      - internal
       - web
     labels:
       - traefik.enable=true
       - traefik.http.routers.only-office.service=only-office
       - traefik.http.routers.only-office.entrypoints=websecure
-      - traefik.http.routers.only-office.rule=Host(`office.snyssen.be`)
+      - traefik.http.routers.only-office.rule=Host(`office.${HOSTNAME}`)
       - traefik.http.routers.only-office.middlewares=oo-header
       - traefik.http.routers.only-office.tls.certresolver=le
       - traefik.http.services.only-office.loadbalancer.server.port=80
@@ -90,13 +83,10 @@ services:
       - traefik.http.middlewares.oo-header.headers.browserXssFilter=true
       - traefik.http.middlewares.oo-header.headers.customRequestHeaders.X-Forwarded-Proto=https
     volumes:
-      - document_data:/var/www/onlyoffice/Data
-      - document_log:/var/log/onlyoffice
+      - /mnt/storage/onlyoffice/data:/var/www/onlyoffice/Data
+      - /mnt/storage/onlyoffice/logs:/var/log/onlyoffice
 
 networks:
   web:
     external: true
-  internal: null
-volumes:
-  document_data: null
-  document_log: null
+  internal:

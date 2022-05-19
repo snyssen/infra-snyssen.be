@@ -21,3 +21,7 @@
     name: gitlab
 - ansible.builtin.include_role:
     name: streaming
+- ansible.builtin.include_role:
+    name: nextcloud
+- ansible.builtin.include_role:
+    name: photoprism
