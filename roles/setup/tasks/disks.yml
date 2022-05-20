@@ -3,8 +3,7 @@
   ansible.builtin.file:
     path: "{{ item.path  }}"
     state: directory
-    owner: "1000"
-    group: "1000"
+    owner: "{{ ansible_user_id }}"
   with_items: "{{ disks_mounts }}"
 
 - name: Creating ext4 filesystem on drives
@@ -30,6 +29,7 @@
   ansible.builtin.file:
     path: /mnt/storage
     state: directory
+    owner: "{{ ansible_user_id }}"
 - name: Mounting storage volume w/ MergerFS
   become: yes
   ansible.builtin.mount:
