@@ -18,9 +18,9 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: "192.168.56.12"
 
   # Adds disks
-  config.vm.disk :disk, size: "10GB", name: "parity1"
-  config.vm.disk :disk, size: "10GB", name: "disk1"
-  config.vm.disk :disk, size: "10GB", name: "disk2"
+  config.vm.disk :disk, size: "100GB", name: "parity1"
+  config.vm.disk :disk, size: "100GB", name: "disk1"
+  config.vm.disk :disk, size: "100GB", name: "disk2"
 
   # Provision with Ansible
   config.vm.provision "ansible" do |ansible|
