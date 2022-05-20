@@ -4,6 +4,10 @@
     name: "{{ ansible_user_id }}"
     groups: docker
     append: yes
+
+- name: Resetting connection so above change takes effect
+  meta: reset_connection
+
 - name: Starting and enabling docker service
   become: yes
   service:

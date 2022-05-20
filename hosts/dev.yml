@@ -1,3 +1,11 @@
 all:
   hosts:
-    192.168.1.12:
+    vagrant.sny:
+      ansible_host: '192.168.56.12'
+      disks_mounts:
+        - path: /mnt/parity1
+          src: /dev/sdb
+        - path: /mnt/disk1
+          src: /dev/sdc
+        - path: /mnt/disk2
+          src: /dev/sdd
