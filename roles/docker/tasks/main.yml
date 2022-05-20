@@ -29,3 +29,5 @@
     name: nextcloud
 - ansible.builtin.include_role:
     name: photoprism
+- ansible.builtin.include_role:
+    name: recipes

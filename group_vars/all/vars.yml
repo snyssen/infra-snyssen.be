@@ -18,6 +18,8 @@ docker_compose_directory: "{{ vault_docker_compose_directory }}"
 # Most of the files stored there will be databases. As such they could significantly grow in size
 docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 
+iana_timezone: Europe/Brussels
+
 backbone:
   traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
 
@@ -33,3 +35,7 @@ nextcloud:
 photoprism:
   photoprism_password: "{{ vault_photoprism.photoprism_password }}"
   mariadb_password: "{{ vault_photoprism.mariadb_password }}"
+
+recipes:
+  secret_key: "{{ vault_recipes.secret_key }}"
+  db_password: "{{ vault_recipes.db_password }}"

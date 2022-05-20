@@ -1,34 +1,34 @@
 version: "3"
 services:
-  db_recipes:
+  recipes_postgres:
     restart: unless-stopped
     image: postgres:11-alpine
-    container_name: db_recipes
+    container_name: recipes_postgres
     env_file:
       - ./.env
     volumes:
       - ${DOCKER_DIRECTORY}/recipes/postgresql:/var/lib/postgresql/data
     networks:
-      - default
+      - internal
 
   web_recipes:
     image: vabene1111/recipes
     container_name: web_recipes
+    restart: unless-stopped
     env_file:
       - ./.env
-    restart: unless-stopped
     volumes:
-      - /mnt/storage/recipes/staticfiles:/opt/recipes/staticfiles
       - nginx_config:/opt/recipes/nginx/conf.d
+      - /mnt/storage/recipes/staticfiles:/opt/recipes/staticfiles
       - /mnt/storage/recipes/mediafiles:/opt/recipes/mediafiles
     depends_on:
-      - db_recipes
+      - recipes_postgres
     networks:
-      - default
+      - internal
 
-  nginx_recipes:
+  recipes_nginx:
     image: nginx:mainline-alpine
-    container_name: nginx_recipes
+    container_name: recipes_nginx
     restart: always
     env_file:
       - ./.env
@@ -39,21 +39,21 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.recipes.entryPoints=websecure
-      - traefik.http.routers.recipes.rule=Host(`recipes.snyssen.be`)
+      - traefik.http.routers.recipes.rule=Host(`recipes.${HOSTNAME}`)
       - traefik.http.routers.recipes.tls=true
       - traefik.http.routers.recipes.tls.certresolver=le
       - traefik.docker.network=web
     depends_on:
       - web_recipes
     networks:
-      - default
+      - internal
       - web
 
 networks:
-  default: null
+  internal: null
   web:
     # This is you external traefik network
     external: true
 
 volumes:
-  nginx_config: null
+  nginx_config:
