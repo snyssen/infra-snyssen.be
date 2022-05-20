@@ -15,7 +15,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: "192.168.56.12"
 
   # Adds one alias per subdomain
-  subdomains = %w(routing docker).map{|s| s+= ".vagrant.sny"}
+  subdomains = %w(routing docker recipes speedtest wiki git registry cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr)
+    .map{|s| s+= ".vagrant.sny"}
   config.hostmanager.aliases = subdomains
 
   # Adds disks
