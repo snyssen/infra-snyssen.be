@@ -31,3 +31,5 @@
     name: photoprism
 - ansible.builtin.include_role:
     name: recipes
+- ansible.builtin.include_role:
+    name: snyssen.be
