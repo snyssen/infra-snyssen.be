@@ -6,3 +6,4 @@
 - name: Rebooting server to apply changes
   become: yes
   ansible.builtin.reboot:
+  when: filesystem_result.changed or disks_mount_result.changed or storage_mount_result.changed
