@@ -33,3 +33,5 @@
     name: recipes
 - ansible.builtin.include_role:
     name: snyssen.be
+- ansible.builtin.include_role:
+    name: speedtest
