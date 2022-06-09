@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   snyssen-be:
     image: registry.snyssen.be/snyssen/snyssen-be:latest

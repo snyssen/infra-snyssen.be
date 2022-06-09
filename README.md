@@ -50,7 +50,7 @@ The list of services used and how to deploy them can be found under [Docker stac
 Here is the hardware currently used by the machine that runs everything listed in here. Please note that this does not serve as a required or min specs list but is rather provided as additional information.
 
 - <u>CPU</u>: 8x Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
-- <u>RAM</u>: 4x 4GB  Corsair(R) Vengeance Pro Series DDR3 memory
+- <u>RAM</u>: 4x 4GB Corsair(R) Vengeance Pro Series DDR3 memory
 - <u>Motherboard</u>: MSI(R) Z97S SLI Krait edition
 - <u>Cooling</u>: Stock Intel(R) cooling
 - <u>Case</u>: Antec(R) P101 Silent

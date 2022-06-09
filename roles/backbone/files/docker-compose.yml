@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-
   reverse-proxy:
     image: traefik
     restart: always

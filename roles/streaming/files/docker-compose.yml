@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-
   jellyfin:
     image: linuxserver/jellyfin
     restart: unless-stopped
@@ -76,7 +75,7 @@ services:
     volumes:
       - ${DOCKER_DIRECTORY}/torrent/config:/config
       - /mnt/storage/torrents:/downloads
-      
+
   usenet:
     image: snyssen/docker-nzbgetvpn:master
     container_name: usenet

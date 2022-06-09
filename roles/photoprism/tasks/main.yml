@@ -2,7 +2,7 @@
   become: yes
   ansible.builtin.file:
     path: "{{ item.path }}"
-    state:  directory
+    state: directory
   loop:
     - path: "/mnt/storage/pictures"
     - path: "/mnt/storage/photoprism/mariadb"

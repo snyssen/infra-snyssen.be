@@ -1,11 +1,10 @@
-version: '3'
+version: "3"
 services:
-
   gitlab:
     image: gitlab/gitlab-ee:14.6.1-ee.0
     restart: unless-stopped
     container_name: gitlab
-    hostname: 'git.${HOSTNAME}'
+    hostname: "git.${HOSTNAME}"
     networks:
       - web
     labels:
@@ -70,13 +69,13 @@ services:
         sidekiq['concurrency'] = 2
         postgresql['shared_buffers'] = "1024MB"
     ports:
-      - '${SSH_PORT}:22'
+      - "${SSH_PORT}:22"
     volumes:
-      - '${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab'
-      - '${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab'
-      - '${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab'
-      - '/mnt/storage/gitlab/backups:/var/opt/gitlab/backups'
-      - '/mnt/storage/gitlab/registry:/registry'
+      - "${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab"
+      - "${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab"
+      - "${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab"
+      - "/mnt/storage/gitlab/backups:/var/opt/gitlab/backups"
+      - "/mnt/storage/gitlab/registry:/registry"
 
   gitlab-runner:
     image: gitlab/gitlab-runner:latest

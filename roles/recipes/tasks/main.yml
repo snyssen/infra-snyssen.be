@@ -8,7 +8,7 @@
     # recipes
     - /mnt/storage/recipes/staticfiles
     - /mnt/storage/recipes/mediafiles
-    
+
 - ansible.builtin.include_role:
     name: container-deploy
   vars:

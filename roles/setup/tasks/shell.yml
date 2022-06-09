@@ -1,6 +1,6 @@
 - name: Installing OhMyZsh with PowerLevel10K theme
   include_role:
-    name: tomereli.oh_my_zsh_p10k 
+    name: tomereli.oh_my_zsh_p10k
   vars:
     users:
       - username: "{{ ansible_user_id }}"
