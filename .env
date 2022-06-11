@@ -1,0 +1,1 @@
+VAGRANT_EXPERIMENTAL="disks"
