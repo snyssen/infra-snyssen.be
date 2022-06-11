@@ -4,6 +4,7 @@
     path: "{{ item.path  }}"
     state: directory
     owner: "{{ ansible_user_id }}"
+    recurse: yes
   with_items: "{{ disks_mounts }}"
 
 - name: Creating ext4 filesystem on drives
@@ -32,6 +33,7 @@
     path: /mnt/storage
     state: directory
     owner: "{{ ansible_user_id }}"
+    recurse: yes
 - name: Mounting storage volume w/ MergerFS
   become: yes
   ansible.builtin.mount:
