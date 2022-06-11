@@ -7,6 +7,7 @@ chmod +x .git/hooks/pre-commit
 
 # Install the requirements
 ansible-galaxy install -r requirements.yml
+vagrant plugin install vagrant-hostmanager
 
 # Creates vault password file
 read -sp "Enter the Ansible vault password: " VAULT_PASS
