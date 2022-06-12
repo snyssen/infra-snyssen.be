@@ -9,3 +9,5 @@ all:
           src: /dev/sdc
         - path: /mnt/disk2
           src: /dev/sdd
+      ansible_user: 'vagrant'
+      ansible_ssh_pass: 'vagrant'
