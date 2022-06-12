@@ -1,12 +1,3 @@
-- name: Creating mounting directories
-  become: yes
-  ansible.builtin.file:
-    path: "{{ item.path  }}"
-    state: directory
-    owner: "{{ ansible_user_id }}"
-    recurse: yes
-  with_items: "{{ disks_mounts }}"
-
 - name: Creating ext4 filesystem on drives
   become: yes
   community.general.filesystem:
@@ -15,7 +6,6 @@
     dev: "{{ item.src }}"
   with_items: "{{ disks_mounts }}"
   register: filesystem_result
-
 - name: Mounting disks
   become: yes
   ansible.builtin.mount:
@@ -23,17 +13,18 @@
     src: "{{ item.src }}"
     fstype: auto
     opts: defaults
-    state: present
+    state: mounted
   with_items: "{{ disks_mounts }}"
   register: disks_mount_result
-
-- name: Creating storage mount
+- name: Setting owner of mounting directories
   become: yes
   ansible.builtin.file:
-    path: /mnt/storage
+    path: "{{ item.path  }}"
     state: directory
     owner: "{{ ansible_user_id }}"
     recurse: yes
+  with_items: "{{ disks_mounts }}"
+
 - name: Mounting storage volume w/ MergerFS
   become: yes
   ansible.builtin.mount:
@@ -41,8 +32,15 @@
     src: /mnt/disk*
     fstype: fuse.mergerfs
     opts: defaults,nonempty,allow_other,use_ino,cache.files=off,moveonenospc=true,category.create=mfs,minfreespace=20G,fsname=mergerfs-storage
-    state: present
+    state: mounted
   register: storage_mount_result
+- name: Setting owner of storage mount
+  become: yes
+  ansible.builtin.file:
+    path: /mnt/storage
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    recurse: yes
 
 - name: Deploying SnapRAID configuration
   become: yes
