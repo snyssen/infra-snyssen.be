@@ -39,3 +39,6 @@ photoprism:
 recipes:
   secret_key: "{{ vault_recipes.secret_key }}"
   db_password: "{{ vault_recipes.db_password }}"
+
+wikijs:
+  db_password: "{{ vault_wikijs.db_password }}"

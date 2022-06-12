@@ -31,7 +31,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.wiki.entryPoints=websecure
-      - traefik.http.routers.wiki.rule=Host(`wiki.snyssen.be`)
+      - traefik.http.routers.wiki.rule=Host(`wiki.${HOSTNAME}`)
       - traefik.http.routers.wiki.tls=true
       - traefik.http.routers.wiki.tls.certresolver=le
       - traefik.http.routers.wiki.service=wiki

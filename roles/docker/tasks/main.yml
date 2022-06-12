@@ -35,3 +35,5 @@
     name: snyssen.be
 - ansible.builtin.include_role:
     name: speedtest
+- ansible.builtin.include_role:
+    name: wikijs

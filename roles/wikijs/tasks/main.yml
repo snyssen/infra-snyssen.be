@@ -1,0 +1,13 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ docker_mounts_directory }}/wiki/postgresql"
+    - "/mnt/storage/wiki/backups"
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    docker_compose_path: "{{ docker_compose_directory }}/wikijs"
+    docker_compose_start: yes
