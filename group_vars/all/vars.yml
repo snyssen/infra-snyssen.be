@@ -42,3 +42,7 @@ recipes:
 
 wikijs:
   db_password: "{{ vault_wikijs.db_password }}"
+
+backups:
+  destination: "{{ vault_backups.destination }}"
+  encryption_key: "{{ vault_backups.encryption_key }}"
