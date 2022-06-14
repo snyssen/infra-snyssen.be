@@ -1,24 +1,20 @@
-- name: Checking that docker-compose path is set
-  ansible.builtin.assert:
-    that: docker_compose_path is defined
-
-- name: Creating docker-compose directory
+- name: "[{{ container_name }}] Creating docker-compose directory"
   ansible.builtin.file:
     path: "{{ docker_compose_path }}"
     state: directory
 
-- name: Deploying docker-compose file
+- name: "[{{ container_name }}] Deploying docker-compose file"
   ansible.builtin.copy:
     src: docker-compose.yml
     dest: "{{ docker_compose_path }}/docker-compose.yml"
 
-- name: Deploying .env file
+- name: "[{{ container_name }}] Deploying .env file"
   ansible.builtin.template:
     src: .env.j2
     dest: "{{ docker_compose_path }}/.env"
   when: deploy_env_template
 
-- name: Starting docker-compose
+- name: "[{{ container_name }}] Starting docker-compose"
   ansible.builtin.docker_compose:
     project_src: "{{ docker_compose_path }}"
     state: present

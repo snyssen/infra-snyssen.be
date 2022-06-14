@@ -16,7 +16,7 @@
 - ansible.builtin.include_role:
     name: container-deploy
   vars:
-    docker_compose_path: "{{ docker_compose_directory }}/nextcloud"
+    container_name: "nextcloud"
     docker_compose_start: yes
 
 - name: Adds cron job for Nextcloud

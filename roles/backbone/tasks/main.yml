@@ -16,5 +16,5 @@
 - ansible.builtin.include_role:
     name: container-deploy
   vars:
-    docker_compose_path: "{{ docker_compose_directory }}/backbone"
+    container_name: "backbone"
     docker_compose_start: yes

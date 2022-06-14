@@ -9,5 +9,5 @@
 - ansible.builtin.include_role:
     name: container-deploy
   vars:
-    docker_compose_path: "{{ docker_compose_directory }}/duplicity"
+    container_name: "duplicity"
     docker_compose_start: yes
