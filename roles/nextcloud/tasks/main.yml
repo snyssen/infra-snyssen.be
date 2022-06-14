@@ -18,3 +18,12 @@
   vars:
     docker_compose_path: "{{ docker_compose_directory }}/nextcloud"
     docker_compose_start: yes
+
+- name: Adds cron job for Nextcloud
+  become: yes
+  ansible.builtin.cron:
+    name: Nextcloud
+    minute: "*/5"
+    user: root
+    job: "docker exec -u www-data nextcloud php cron.php && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ nextcloud.healthcheck_id }}"
+    state: present

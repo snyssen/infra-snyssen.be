@@ -31,6 +31,7 @@ nextcloud:
   postgres_password: "{{ vault_nextcloud.postgres_password }}"
   nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"
   nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
+  healthcheck_id: "{{ vault_nextcloud.healthcheck_id }}"
 
 photoprism:
   photoprism_password: "{{ vault_photoprism.photoprism_password }}"
