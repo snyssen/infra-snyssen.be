@@ -4,24 +4,23 @@
 
 All the necessary instructions, docker files, scripts, etc. necessary for building my self hosted server (almost) from scratch.
 
-## Table of contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
 
-- [Infrastructure of snyssen.be](#infrastructure-of-snyssenbe)
-  - [Table of contents](#table-of-contents)
-  - [Important notice](#important-notice)
-  - [Objectives](#objectives)
-  - [Hardware](#hardware)
-  - [Requirements](#requirements)
-  - [Getting started](#getting-started)
-    - [Other playbooks](#other-playbooks)
-      - [1. The setup playbook](#1-the-setup-playbook)
-      - [2. The maintenance playbook](#2-the-maintenance-playbook)
-      - [3. The docker playbook](#3-the-docker-playbook)
-- [Everything below is still WIP](#everything-below-is-still-wip)
-  - [Docker stacks list](#docker-stacks-list)
-    - [Backbone](#backbone)
-      - [What it is](#what-it-is)
-      - [How to use](#how-to-use)
+- [Important notice](#important-notice)
+- [Objectives](#objectives)
+- [Hardware](#hardware)
+- [Requirements](#requirements)
+- [Getting started](#getting-started)
+- [Playbooks descriptions](#playbooks-descriptions)
+  - [1. The "playbook" playbook](#1-the-playbook-playbook)
+  - [2. The setup playbook](#2-the-setup-playbook)
+  - [3. The maintenance playbook](#3-the-maintenance-playbook)
+  - [4. The docker playbook](#4-the-docker-playbook)
+- [Web services](#web-services)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Important notice
 
@@ -64,26 +63,55 @@ Most of the hardware was actually scavenged from a previous gaming PC build. Rec
 ## Requirements
 
 - A server with at least 1 system drive, 1 parity drive and 1 data drive. The server should be running Fedora server (it may work with other RedHat based distro but I haven't tested it. **Non RedHat based distro are not supported at the moment** as the playbooks depend on dnf)
-- A computer with ansible installed
+- A computer with ansible, VirtualBox and vagrant (for testing) installed, as well as npm (for installing doctoc)
 - The ability to connect from the client machine to the server using SSH with key-based authentication. You can learn how to manage SSH keys [here](https://wiki.snyssen.be/en/sys-admin/linux/ssh-keys).
 - Some free time and lots of coffee
 
 ## Getting started
 
-Clone the repos on the client machine (the one with Ansible installed) and cd into it
+Clone the repos on the client machine (the one with Ansible installed) and cd into it:
 
 ```bash
 git clone https://github.com/snyssen/infra-snyssen.be.git && cd infra-snyssen.be
 ```
 
-**This is work in progress**
-
-### Other playbooks
-
-#### 1. The setup playbook
+Run the setup script:
 
 ```bash
-ansible-playbook setup.yml --limit prod --ask-become-pass --ask-vault-pass
+./setup.sh
+```
+
+This script will do the following:
+1. Set a pre-commit hook to prevent you from making commits without encrypting the Ansible vaults first. 
+2. Install the Ansible, Vagrant and other requirements.
+3. Create the ansible password file for encrypting and decrypting the vaults. You will be asked for the encryption key. **The generated file (`.vault_pass`) should of course never be committed.**
+
+To build the test virtual machine, run:
+
+
+```bash
+vagrant up
+```
+
+This should create a virtual machine and provision it with Ansible. If you are satisfied with the results, change the `hosts/prod.yml` Ansible inventory file so it points to your own server, then rename the `host_vars/192.168.1.10` folder to your server hostname or ip address (whatever you put in the inventory file) and change the variables files found in this folder for your use. Finally, apply the changes to your server by running:
+```bash
+ansible-playbook playbook.yml --inventory=hosts/prod.yml
+```
+
+## Playbooks descriptions
+
+### 1. The "playbook" playbook
+
+```bash
+ansible-playbook playbook.yml
+```
+
+This playbook turns any fresh machine into the complete server we want it to be. It basically uses all of the tasks and roles defined in this repos.
+
+### 2. The setup playbook
+
+```bash
+ansible-playbook setup.yml
 ```
 
 This playbook will run the setup role, which will:
@@ -92,49 +120,22 @@ This playbook will run the setup role, which will:
 2. Setup the correct disk configuration according to the variables set in the hosts file. It will then configure snapraid and mergerfs and set the necessary cron;
 3. Setup a nice user shell with OhMyZsh and the PowerLevel10k theme
 
-#### 2. The maintenance playbook
+### 3. The maintenance playbook
 
 ```bash
-ansible-playbook maintenance.yml --limit prod --ask-become-pass --ask-vault-pass
+ansible-playbook maintenance.yml
 ```
 
 This playbook will simply update all the installed software using dnf.
 
-#### 3. The docker playbook
+### 4. The docker playbook
 
 ```bash
-ansible-playbook docker.yml --limit prod --ask-become-pass --ask-vault-pass
+ansible-playbook docker.yml
 ```
 
-This playbook will deploy all the containers for the various docker stacks that should be present on the server. You can find [the list of those stacks](#docker-stacks-list) below.
+This playbook will deploy all the containers for the various docker stacks that should be present on the server. You can find [the list of the services provided](#web-services) below.
 
-# Everything below is still WIP
+## Web services
 
-## Docker stacks list
-
-Below you will find the list of all the stacks used to provide the various services of my server. For each stack you will have a description of its purpose as well as how to deploy and use the stack.
-
-### Backbone
-
-#### What it is
-
-The "backbone" is the stack that is used to link and control all the others stacks. It is compose of 2 containers:
-
-- [Traefik](https://traefik.io/) is used as the reverse proxy for all the other stacks. It will automatically (or well, thanks to configuration) detect new containers that should be exposed to the Internet and will forward them as well as generate new SSL certificates for them using Let's Encrypt.
-- [Portainer](https://www.portainer.io/) is optional but is a nice addition that offers a GUI to list and controls the various stacks and containers. I most often use it to access the logs of the containers when debug is needed, as well as to input manual commands inside the containers.
-
-#### How to use
-
-There are 3 environment variables that you should configure in the `.env` file:
-
-1. <u>DOCKER_DIRECTORY</u> is the directory used to store the fast changing files of each container. As such, it should **not** point to a directory inside the **SnapRAID backed disk** as such fast changing files won't play nice with the parity snapshots of SnapRAID.
-2. <u>LETSENCRYPT_EMAIL</u> is the email used when creating the Let's Encrypt certificates.
-3. <u>TRAEFIK_DASHBOARD_HTPASSWORD</u> is the username and password used to access the Traefik dashboard (through basic authentication). You can use a generator for it such as [this one](https://wtools.io/generate-htpasswd-online).
-
-Once you have changed those environment variables, start the stack with
-
-```
-docker-compose up -d
-```
-
-Once it is done, you should be able to connect to the Traefik dashboard at `routing.<your_domain>`. You should also go to `docker.<your_domain>` to configure Portainer for first time use.
+**Coming soon**
