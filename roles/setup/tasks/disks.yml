@@ -22,7 +22,6 @@
     path: "{{ item.path  }}"
     state: directory
     owner: "{{ ansible_user_id }}"
-    recurse: yes
   with_items: "{{ disks_mounts }}"
 
 - name: Mounting storage volume w/ MergerFS
@@ -40,7 +39,6 @@
     path: /mnt/storage
     state: directory
     owner: "{{ ansible_user_id }}"
-    recurse: yes
 
 - name: Deploying SnapRAID configuration
   become: yes
