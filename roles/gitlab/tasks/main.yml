@@ -22,3 +22,13 @@
   vars:
     container_name: "gitlab"
     docker_compose_start: yes
+
+- name: Adds backup cron job
+  become: yes
+  ansible.builtin.cron:
+    name: gitlab_backup
+    minute: "00"
+    hour: "00"
+    user:  root
+    job: "docker exec -t gitlab gitlab-backup create && curl -m 10 --retry 5 https://hc-ping.com/{{ gitlab.healthcheck_id }}"
+    state: present
