@@ -1,0 +1,7 @@
+ansible_user: "{{ vault_ansible_user }}"
+ansible_become_pass: "{{ vault_ansible_become_pass }}"
+disks_mounts:
+  - path: /mnt/parity1
+    src: /dev/disk/by-id/ata-ST3320620AS_3QF0K0CS-part1
+  - path: /mnt/disk1
+    src: /dev/disk/by-id/ata-WDC_WD3200AAJS-56M0A0_WD-WMAV2X307693-part1

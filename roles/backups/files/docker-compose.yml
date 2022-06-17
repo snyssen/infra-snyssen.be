@@ -1,0 +1,31 @@
+version: "3"
+services:
+  duplicity:
+    image: ghcr.io/tecnativa/docker-duplicity
+    restart: unless-stopped
+    container_name: duplicity
+    hostname: snyssen.be
+    environment:
+      - DST=${DST}
+      - EMAIL_FROM=${EMAIL_FROM}
+      - EMAIL_TO=${EMAIL_TO}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - TZ=Europe/Brussels
+      - PASSPHRASE=${PASSPHRASE}
+    volumes:
+      # Preserve duplicity cache and allow it to grow
+      - ${DOCKER_DIRECTORY}/duplicity/root:/root
+      - ${DOCKER_DIRECTORY}/duplicity/tmp:/tmp
+      # Folders to backup
+      - /mnt/storage/nextcloud:/mnt/backup/src/nextcloud
+      - /mnt/storage/pictures:/mnt/backup/src/pictures
+      - /mnt/storage/music:/mnt/backup/src/music
+      - /mnt/storage/books:/mnt/backup/src/books
+      - /mnt/storage/mcmyadmin:/mnt/backup/src/mcmyadmin
+      - /mnt/storage/recipes:/mnt/backup/src/recipes
+      - /mnt/storage/wiki:/mnt/backup/src/wiki
+      - /mnt/storage/nextcloud_dumps:/mnt/backup/src/nextcloud_dumps
+      - /mnt/storage/gitlab/backups:/mnt/backup/src/gitlab/backups

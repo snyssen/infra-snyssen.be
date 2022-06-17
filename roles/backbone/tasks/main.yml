@@ -1,0 +1,20 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ docker_mounts_directory }}/portainer"
+    - "{{ docker_mounts_directory }}/traefik"
+- name: Creating acme file for Traefik
+  ansible.builtin.file:
+    mode: "0600"
+    path: "{{ docker_mounts_directory }}/traefik/acme.json"
+    state: touch
+    access_time: preserve
+    modification_time: preserve
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    container_name: "backbone"
+    docker_compose_start: yes

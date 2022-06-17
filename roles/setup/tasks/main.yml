@@ -1,0 +1,9 @@
+- ansible.builtin.include_role:
+    name: maintenance
+- ansible.builtin.include_tasks: softwares.yml
+- ansible.builtin.include_tasks: disks.yml
+- ansible.builtin.include_tasks: shell.yml
+- name: Rebooting server to apply changes
+  become: yes
+  ansible.builtin.reboot:
+  when: filesystem_result.changed or disks_mount_result.changed or storage_mount_result.changed
