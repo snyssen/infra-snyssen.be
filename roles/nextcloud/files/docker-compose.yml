@@ -13,6 +13,21 @@ services:
     volumes:
       - ${DOCKER_DIRECTORY}/nextcloud/postgresql:/var/lib/postgresql/data
 
+  nextcloud_postgres_backups:
+    restart: always
+    image: prodrigestivill/postgres-backup-local
+    depends_on:
+      - nextcloud_postgres
+    environment:
+      - POSTGRES_HOST=nextcloud_postgres
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/nextcloud:/backups
+
   nextcloud_redis:
     image: redis:latest
     container_name: nextcloud_redis

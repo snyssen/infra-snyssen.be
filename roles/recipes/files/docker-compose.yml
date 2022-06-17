@@ -2,7 +2,7 @@ version: "3"
 services:
   recipes_postgres:
     restart: unless-stopped
-    image: postgres:11-alpine
+    image: postgres:14
     container_name: recipes_postgres
     env_file:
       - ./.env
@@ -10,6 +10,22 @@ services:
       - ${DOCKER_DIRECTORY}/recipes/postgresql:/var/lib/postgresql/data
     networks:
       - internal
+
+  recipes_postgres_backups:
+    restart: always
+    image: prodrigestivill/postgres-backup-local
+    container_name: recipes_postgres_backups
+    depends_on:
+      - recipes_postgres
+    environment:
+      - POSTGRES_HOST=recipes_postgres
+      - POSTGRES_DB=djangodb
+      - POSTGRES_USER=djangouser
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/recipes:/backups
 
   web_recipes:
     image: vabene1111/recipes
