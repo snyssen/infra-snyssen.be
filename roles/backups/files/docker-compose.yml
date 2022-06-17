@@ -1,6 +1,5 @@
-version: '3'
+version: "3"
 services:
-
   duplicity:
     image: ghcr.io/tecnativa/docker-duplicity
     restart: unless-stopped
