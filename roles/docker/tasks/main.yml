@@ -20,22 +20,22 @@
     name: web
 
 - ansible.builtin.include_role:
-    name: backbone
+    name: container-backbone
 - ansible.builtin.include_role:
-    name: gitlab
+    name: container-gitlab
 - ansible.builtin.include_role:
-    name: streaming
+    name: container-streaming
 - ansible.builtin.include_role:
-    name: nextcloud
+    name: container-nextcloud
 - ansible.builtin.include_role:
-    name: photoprism
+    name: container-photoprism
 - ansible.builtin.include_role:
-    name: recipes
+    name: container-recipes
 - ansible.builtin.include_role:
-    name: snyssen.be
+    name: container-snyssen.be
 - ansible.builtin.include_role:
-    name: speedtest
+    name: container-speedtest
 - ansible.builtin.include_role:
-    name: wikijs
+    name: container-wikijs
 - ansible.builtin.include_role:
-    name: backups
+    name: container-backups
