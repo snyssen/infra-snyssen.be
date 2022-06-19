@@ -19,6 +19,20 @@ services:
       MYSQL_USER: photoprism
       MYSQL_PASSWORD: ${MARIADB_PASSWORD}
 
+  photoprism_mariadb_backups:
+    image: zeenlym/mariadb-backup
+    container_name: photoprism_mariadb_backups
+    environment:
+        - TIMEZONE=Europe/Brussels
+        - SCHEDULE=0 0 1 * *
+        - BACKUP_METHOD=mysqldump
+        - MYSQL_HOST=photoprism_mariadb
+        - MYSQL_DATABASE=photoprism
+        - MYSQL_USER=photoprism
+        - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+    volumes:
+        - /mnt/storage/backups/photoprism:/backup
+
   photoprism:
     # Use photoprism/photoprism:preview instead for testing preview builds:
     image: photoprism/photoprism:latest
