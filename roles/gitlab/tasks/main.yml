@@ -7,8 +7,9 @@
     - "{{ docker_mounts_directory }}/gitlab/config"
     - "{{ docker_mounts_directory }}/gitlab/logs"
     - "{{ docker_mounts_directory }}/gitlab/data"
-    - "/mnt/storage/gitlab/backups"
     - "/mnt/storage/gitlab/registry"
+    # gitlab backups
+    - "/mnt/storage/backups/gitlab"
     # For GitLab runner
     - "{{ docker_mounts_directory }}/gitlab-runner"
 

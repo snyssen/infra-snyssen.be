@@ -24,8 +24,5 @@ services:
       - /mnt/storage/pictures:/mnt/backup/src/pictures
       - /mnt/storage/music:/mnt/backup/src/music
       - /mnt/storage/books:/mnt/backup/src/books
-      - /mnt/storage/mcmyadmin:/mnt/backup/src/mcmyadmin
       - /mnt/storage/recipes:/mnt/backup/src/recipes
-      - /mnt/storage/wiki:/mnt/backup/src/wiki
-      - /mnt/storage/nextcloud_dumps:/mnt/backup/src/nextcloud_dumps
-      - /mnt/storage/gitlab/backups:/mnt/backup/src/gitlab/backups
+      - /mnt/storage/backups:/mnt/backup/src/nextcloud_dumps

@@ -74,7 +74,7 @@ services:
       - "${DOCKER_DIRECTORY}/gitlab/config:/etc/gitlab"
       - "${DOCKER_DIRECTORY}/gitlab/logs:/var/log/gitlab"
       - "${DOCKER_DIRECTORY}/gitlab/data:/var/opt/gitlab"
-      - "/mnt/storage/gitlab/backups:/var/opt/gitlab/backups"
+      - "/mnt/storage/backups/gitlab:/var/opt/gitlab/backups"
       - "/mnt/storage/gitlab/registry:/registry"
 
   gitlab-runner:

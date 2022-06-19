@@ -1,8 +1,8 @@
 version: "3"
 services:
-  wiki_db:
+  wiki_postgres:
     image: postgres:13
-    container_name: wiki_db
+    container_name: wiki_postgres
     environment:
       POSTGRES_DB: wiki
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -15,14 +15,29 @@ services:
     networks:
       - internal
 
+  wiki_postgres_backups:
+    restart: always
+    image: prodrigestivill/postgres-backup-local
+    depends_on:
+      - wiki_postgres
+    environment:
+      - POSTGRES_HOST=wiki_postgres
+      - POSTGRES_DB=wiki
+      - POSTGRES_USER=wikijs
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/wiki/dumps:/backups
+
   wiki:
     image: requarks/wiki
     container_name: wiki
     depends_on:
-      - wiki_db
+      - wiki_postgres
     environment:
       DB_TYPE: postgres
-      DB_HOST: wiki_db
+      DB_HOST: wiki_postgres
       DB_PORT: 5432
       DB_USER: wikijs
       DB_PASS: ${DB_PASSWORD}
@@ -43,7 +58,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - /mnt/storage/wiki/backups:/backups
+      - /mnt/storage/backups/wiki/backups:/backups # TODO: Change all articles to markdown and sync with git instead
 
 networks:
   web:

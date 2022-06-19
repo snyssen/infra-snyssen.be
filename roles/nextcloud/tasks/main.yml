@@ -12,6 +12,8 @@
     # onlyoffice
     - /mnt/storage/onlyoffice/data
     - /mnt/storage/onlyoffice/logs
+    # backups
+    - /mnt/storage/backups/nextcloud
 
 - ansible.builtin.include_role:
     name: container-deploy
