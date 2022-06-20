@@ -1,6 +1,6 @@
 all:
   hosts:
-    vagrant.sny:
+    snyssen.sny:
       ansible_host: "192.168.56.12"
       disks_mounts:
         - path: /mnt/parity1
@@ -10,4 +10,4 @@ all:
         - path: /mnt/disk2
           src: /dev/sdd
       ansible_user: "vagrant"
-      ansible_ssh_pass: "vagrant"
+      # ansible_ssh_pass: "vagrant"
