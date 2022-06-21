@@ -12,19 +12,19 @@ Vagrant.configure("2") do |config|
   config.hostmanager.ignore_private_ip = false
   config.hostmanager.include_offline = true
 
-  config.vm.define "snyssen.sny" do |main|
-    main.vm.hostname = "snyssen.sny"
-    main.vm.network :private_network, ip: "192.168.56.12"
+  config.vm.define "snyssen.sny" do |apps|
+    apps.vm.hostname = "snyssen.sny"
+    apps.vm.network :private_network, ip: "192.168.56.12"
 
     # Adds one alias per subdomain
     subdomains = %w(routing docker recipes speedtest wiki git registry cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr)
       .map{|s| s+= ".snyssen.sny"}
-    main.hostmanager.aliases = subdomains
+      apps.hostmanager.aliases = subdomains
 
     # Adds disks
-    main.vm.disk :disk, size: "100GB", name: "parity1"
-    main.vm.disk :disk, size: "100GB", name: "disk1"
-    main.vm.disk :disk, size: "100GB", name: "disk2"
+    apps.vm.disk :disk, size: "100GB", name: "parity1"
+    apps.vm.disk :disk, size: "100GB", name: "disk1"
+    apps.vm.disk :disk, size: "100GB", name: "disk2"
   end
 
   config.vm.define "backup.sny" do |backup|
@@ -35,10 +35,10 @@ Vagrant.configure("2") do |config|
   end
 
   # Provision with Ansible
-  # config.vm.provision "ansible" do |ansible|
-  #   ansible.playbook = "playbook.yml"
-  #   ansible.galaxy_role_file = "requirements.yml"
-  #   ansible.inventory_path = "hosts/dev.yml"
-  # end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "from-scratch.yml"
+    ansible.galaxy_role_file = "requirements.yml"
+    ansible.inventory_path = "hosts/dev.yml"
+  end
 
 end

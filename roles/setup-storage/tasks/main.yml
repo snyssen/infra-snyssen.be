@@ -1,0 +1,2 @@
+- ansible.builtin.include_tasks: filesystems.yml
+- ansible.builtin.include_tasks: snapraid.yml

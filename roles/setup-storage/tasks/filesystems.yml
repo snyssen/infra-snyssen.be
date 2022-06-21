@@ -1,3 +1,18 @@
+- name: Getting uri of latest MergerFS .rpm
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
+    return_content: true
+  register: mergerfs_latest
+- name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
+  become: yes
+  loop: "{{ mergerfs_latest.json.assets }}"
+  when:
+    - "'fc{{ ansible_distribution_major_version }}.x86_64.rpm' in item.name"
+  ansible.builtin.dnf:
+    name: "{{ item.browser_download_url }}"
+    state: present
+    disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key
+
 - name: Creating ext4 filesystem on drives
   become: yes
   community.general.filesystem:
@@ -39,37 +54,3 @@
     path: /mnt/storage
     state: directory
     owner: "{{ ansible_user_id }}"
-
-- name: Deploying SnapRAID configuration
-  become: yes
-  ansible.builtin.template:
-    src: snapraid.conf.j2
-    dest: /etc/snapraid.conf
-    owner: root
-    group: root
-    mode: "0644"
-- name: Deploying SnapRAID-runner configuration
-  become: yes
-  ansible.builtin.template:
-    src: "{{ item }}"
-    dest: /opt/snapraid-runner/{{ item[:-3] }} # `[:-3]` Is used to remove the `.j2` extension from the template file
-    owner: root
-    group: root
-    mode: "0600"
-  with_items:
-    - snapraid-runner.conf.j2
-    - snapraid-runner.no-threshold.conf.j2
-- name: Adds crontab task for SnapRAID-runner
-  become: yes
-  ansible.builtin.cron:
-    name: SnapRAID-runner
-    minute: "0"
-    hour: "01"
-    user: root
-    job: python3 /opt/snapraid-runner/snapraid-runner.py -c /opt/snapraid-runner/snapraid-runner.conf
-    state: present
-- name: Adding log directory for SnapRAID-runner
-  become: yes
-  ansible.builtin.file:
-    path: /var/log/snapraid #/snapraid.log
-    state: directory

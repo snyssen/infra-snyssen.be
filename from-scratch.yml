@@ -1,0 +1,9 @@
+- hosts: all
+  roles:
+    - maintenance
+    - setup-common
+
+- hosts: apps
+  roles:
+    - setup-storage
+    - stacks-deploy

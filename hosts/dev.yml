@@ -1,7 +1,8 @@
-all:
+apps:
   hosts:
     snyssen.sny:
-      ansible_host: "192.168.56.12"
+      # ansible_host: "192.168.56.12"
+      ansible_user: "vagrant"
       disks_mounts:
         - path: /mnt/parity1
           src: /dev/sdb
@@ -9,5 +10,10 @@ all:
           src: /dev/sdc
         - path: /mnt/disk2
           src: /dev/sdd
+
+backup:
+  hosts:
+    backup.sny:
+      # ansible_host: "192.168.56.13"
       ansible_user: "vagrant"
-      # ansible_ssh_pass: "vagrant"
+
