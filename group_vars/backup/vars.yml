@@ -1,3 +1,4 @@
 minio:
   user: "{{ vault_minio.user }}"
   pass: "{{ vault_minio.pass }}"
+  backup_bucket_name: "{{ vault_minio.backup_bucket_name }}"
