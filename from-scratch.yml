@@ -2,8 +2,13 @@
   roles:
     - maintenance
     - setup-common
+    - setup-storage
 
 - hosts: apps
   roles:
-    - setup-storage
-    - stacks-deploy
+    - setup-snapraid
+    - apps-deploy
+
+- hosts: backup
+  roles:
+    - backup-deploy

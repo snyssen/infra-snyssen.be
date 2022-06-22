@@ -1,0 +1,3 @@
+minio:
+  user: "{{ vault_minio.user }}"
+  pass: "{{ vault_minio.pass }}"

@@ -1,20 +1,3 @@
-- name: Adding user to docker group
-  become: yes
-  user:
-    name: "{{ ansible_user_id }}"
-    groups: docker
-    append: yes
-
-- name: Resetting connection so above change takes effect
-  meta: reset_connection
-
-- name: Starting and enabling docker service
-  become: yes
-  service:
-    name: docker
-    state: started
-    enabled: yes
-
 - name: Creating web network
   ansible.builtin.docker_network:
     name: web

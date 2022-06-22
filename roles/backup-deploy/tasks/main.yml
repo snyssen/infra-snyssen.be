@@ -1,0 +1,2 @@
+- ansible.builtin.include_role:
+    name: container-minio
