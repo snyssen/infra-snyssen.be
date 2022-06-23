@@ -25,4 +25,4 @@ services:
       - /mnt/storage/music:/mnt/backup/src/music
       - /mnt/storage/books:/mnt/backup/src/books
       - /mnt/storage/recipes:/mnt/backup/src/recipes
-      - /mnt/storage/backups:/mnt/backup/src/nextcloud_dumps
+      - /mnt/storage/backups:/mnt/backup/src/backups
