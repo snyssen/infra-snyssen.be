@@ -2,7 +2,7 @@ version: "3"
 services:
 
   restic_local: &restic-config
-    image: lobaro/restic-backup-docker:1.2-0.9.4
+    image: lobaro/restic-backup-docker
     restart: unless-stopped
     container_name: restic_local
     hostname: restic_local
@@ -12,8 +12,9 @@ services:
       BACKUP_CRON: 15 3 * * *
       AWS_ACCESS_KEY_ID: ${ACCESS_ID_LOCAL}
       AWS_SECRET_ACCESS_KEY: ${ACCESS_SECRET_LOCAL}
-      MAILX_ARGS: -r '${EMAIL_FROM}' -s 'Backup local - result' -S smtp='${SMTP_HOST}:${SMTP_PORT}' -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user='${SMTP_USER}' -S smtp-auth-password='${SMTP_PASS}' '${EMAIL_TO}'
+      HEALTHCHECK_ID: ${LOCAL_HEALTHCHECK_ID}
     volumes:
+      - ./hooks:/hooks
       # TODO: Since the local backup should be cheaper and faster, we could actually backup more things, such as movies and tv series
       # Folders to backup
       - /mnt/storage/nextcloud:/data/nextcloud
@@ -33,4 +34,4 @@ services:
       BACKUP_CRON: 45 3 * * *
       B2_ACCOUNT_ID: ${ACCESS_ID_REMOTE}
       B2_ACCOUNT_KEY: ${ACCESS_SECRET_REMOTE}
-      MAILX_ARGS: -r '${EMAIL_FROM}' -s 'Backup remote - result' -S smtp='${SMTP_HOST}:${SMTP_PORT}' -S smtp-use-starttls -S smtp-auth=login -S smtp-auth-user='${SMTP_USER}' -S smtp-auth-password='${SMTP_PASS}' '${EMAIL_TO}'
+      HEALTHCHECK_ID: ${REMOTE_HEALTHCHECK_ID}

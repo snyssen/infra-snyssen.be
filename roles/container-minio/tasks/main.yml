@@ -3,7 +3,7 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "/mnt/storage"
+    - "/mnt/storage/data"
 
 - ansible.builtin.include_role:
     name: container-deploy

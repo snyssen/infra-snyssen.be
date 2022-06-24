@@ -1,5 +1,0 @@
-- ansible.builtin.include_role:
-    name: container-deploy
-  vars:
-    container_name: "restic"
-    docker_compose_start: yes
