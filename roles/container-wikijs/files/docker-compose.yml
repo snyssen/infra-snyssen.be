@@ -18,6 +18,9 @@ services:
   wiki_postgres_backups:
     restart: always
     image: prodrigestivill/postgres-backup-local
+    container_name: wiki_postgres_backups
+    networks:
+      - internal
     depends_on:
       - wiki_postgres
     environment:

@@ -16,6 +16,9 @@ services:
   nextcloud_postgres_backups:
     restart: always
     image: prodrigestivill/postgres-backup-local
+    container_name: nextcloud_postgres_backups
+    networks:
+      - internal
     depends_on:
       - nextcloud_postgres
     environment:

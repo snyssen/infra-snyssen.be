@@ -22,6 +22,8 @@ services:
   photoprism_mariadb_backups:
     image: zeenlym/mariadb-backup
     container_name: photoprism_mariadb_backups
+    networks:
+      - internal
     environment:
         - TIMEZONE=Europe/Brussels
         - SCHEDULE=0 0 1 * *

@@ -1,0 +1,9 @@
+- name: Backing up files to local server
+  community.docker.docker_container_exec:
+    container: restic_local
+    command: /bin/backup
+
+- name: Backing up files to remote server
+  community.docker.docker_container_exec:
+    container: restic_remote
+    command: /bin/backup

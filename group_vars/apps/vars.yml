@@ -30,5 +30,10 @@ wikijs:
   db_password: "{{ vault_wikijs.db_password }}"
 
 backups:
-  destination: "{{ vault_backups.destination }}"
+  local_destination: "{{ vault_backups.local_destination }}"
+  access_id_local: "{{ vault_backups.access_id_local }}"
+  access_secret_local: "{{ vault_backups.access_secret_local }}"
+  remote_destination: "{{ vault_backups.remote_destination }}"
+  access_id_remote: "{{ vault_backups.access_id_remote }}"
+  access_secret_remote: "{{ vault_backups.access_secret_remote }}"
   encryption_key: "{{ vault_backups.encryption_key }}"

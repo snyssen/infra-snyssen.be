@@ -1,0 +1,4 @@
+- name: Backing up GitLab to disk
+  community.docker.docker_container_exec:
+    container: gitlab
+    command: gitlab-backup create
