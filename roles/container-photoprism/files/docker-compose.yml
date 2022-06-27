@@ -22,6 +22,7 @@ services:
   photoprism_mariadb_backups:
     image: zeenlym/mariadb-backup
     container_name: photoprism_mariadb_backups
+    restart: unless-stopped
     networks:
       - internal
     environment:
