@@ -1,18 +1,3 @@
-#? NOTE: for some reason the minio based (local) backup needs to be initialized first
-#? But the b2 one (remote) doesn't...
-
-- name: Initializing local server backup repos
-  community.docker.docker_container_exec:
-    container: restic_local
-    command: restic init
-  register: local_init_result
-  failed_when:
-    - "'Fatal' in local_init_result.stderr"
-    # Trying to initialize an already initialized repos will error out but won't do anything,
-    # so we only failed the task if the error is not "already initialized"
-    - "'config already initialized' not in local_init_result.stderr"
-  changed_when: "'created restic repository' in local_init_result.stdout"
-
 - name: Backing up files to local server
   community.docker.docker_container_exec:
     container: restic_local

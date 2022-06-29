@@ -11,4 +11,4 @@
 
 - hosts: backup
   roles:
-    - backup-setup
+    - container-rest
