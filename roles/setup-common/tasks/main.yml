@@ -29,6 +29,7 @@
       - docker-compose
       - python3-pip
       - zsh
+      - nano
     state: present
 - name: Enabling services
   become: yes
