@@ -31,5 +31,5 @@
     minute: "00"
     hour: "00"
     user:  root
-    job: "docker exec -t gitlab gitlab-backup create && curl -m 10 --retry 5 https://hc-ping.com/{{ gitlab.healthcheck_id }}"
+    job: "docker exec -t gitlab gitlab-backup create && cp {{ docker_mounts_directory }}/gitlab/config/gitlab.rb {{ docker_mounts_directory }}/gitlab/config/gitlab-secrets.json /mnt/storage/backups/gitlab/ && curl -m 10 --retry 5 https://hc-ping.com/{{ gitlab.healthcheck_id }}"
     state: present
