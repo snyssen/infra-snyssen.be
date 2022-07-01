@@ -3,4 +3,12 @@
     container: gitlab
     command: gitlab-backup create
 
-# TODO: Backup gitlab.rb and gitlab-secrets.json files
+- name: Making backups of gitlab.rb and gitlab-secrets.json
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    remote_src: yes
+    dest: /mnt/storage/backups/gitlab/
+  with_items:
+    - "{{ docker_mounts_directory }}/gitlab/config/gitlab.rb"
+    - "{{ docker_mounts_directory }}/gitlab/config/gitlab-secrets.json"
