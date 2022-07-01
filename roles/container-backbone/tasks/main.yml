@@ -3,7 +3,6 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ docker_mounts_directory }}/portainer"
     - "{{ docker_mounts_directory }}/traefik"
 - name: Creating acme file for Traefik
   ansible.builtin.file:
