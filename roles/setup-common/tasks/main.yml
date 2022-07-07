@@ -30,6 +30,7 @@
       - python3-pip
       - zsh
       - nano
+      - htop
     state: present
 - name: Enabling services
   become: yes
