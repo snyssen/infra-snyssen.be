@@ -8,14 +8,16 @@
     - "{{ docker_mounts_directory }}/jellyfin/logs"
     - "{{ docker_mounts_directory }}/jellyfin/cache"
     - "{{ docker_mounts_directory }}/jellyfin/data"
-    - /mnt/storage/streaming/media
+    - "/mnt/storage/streaming/media/movies"
+    - "/mnt/storage/streaming/media/tv"
+    - "/mnt/storage/streaming/media/music"
     # torrents
     - "/mnt/storage/torrent/config/openvpn"
     - "/mnt/storage/torrent/config/qBittorrent/config"
     - /mnt/storage/streaming/torrent
     # usenet
     - "/mnt/storage/usenet/config/openvpn"
-    - /mnt/storage/streaming/usenet
+    - "/mnt/storage/streaming/usenet"
     # sonarr
     - "{{ docker_mounts_directory }}/sonarr/config"
     # radarr
