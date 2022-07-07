@@ -4,18 +4,18 @@
     state: directory
   with_items:
     # jellyfin
-    - "{{ docker_mounts_directory }}/jellyfin/config"
+    - "/mnt/storage/jellyfin/config"
+    - "{{ docker_mounts_directory }}/jellyfin/logs"
     - "{{ docker_mounts_directory }}/jellyfin/cache"
-    - /mnt/storage/TV_shows
-    - /mnt/storage/movies
-    - /mnt/storage/music
-    - /mnt/storage/books
+    - "{{ docker_mounts_directory }}/jellyfin/data"
+    - /mnt/storage/streaming/media
     # torrents
-    - "{{ docker_mounts_directory }}/torrent/config/openvpn"
-    - /mnt/storage/torrents
+    - "/mnt/storage/torrent/config/openvpn"
+    - "/mnt/storage/torrent/config/qBittorrent/config"
+    - /mnt/storage/streaming/torrent
     # usenet
-    - "{{ docker_mounts_directory }}/usenet/config/openvpn"
-    - /mnt/storage/usenet
+    - "/mnt/storage/usenet/config/openvpn"
+    - /mnt/storage/streaming/usenet
     # sonarr
     - "{{ docker_mounts_directory }}/sonarr/config"
     # radarr
@@ -32,13 +32,24 @@
     mode: 0600
   loop:
     - src: creds.conf.aes
-      dest: "{{ docker_mounts_directory }}/torrent/config/openvpn/creds.conf"
+      dest: "/mnt/storage/torrent/config/openvpn/creds.conf"
     - src: Windscribe-Brussels-Guildhouse.ovpn.aes
-      dest: "{{ docker_mounts_directory }}/torrent/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
+      dest: "/mnt/storage/torrent/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
     - src: creds.conf.aes
-      dest: "{{ docker_mounts_directory }}/usenet/config/openvpn/creds.conf"
+      dest: "/mnt/storage/usenet/config/openvpn/creds.conf"
     - src: Windscribe-Brussels-Guildhouse.ovpn.aes
-      dest: "{{ docker_mounts_directory }}/usenet/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
+      dest: "/mnt/storage/usenet/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
+
+- name: Copying download clients config
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0600
+  loop:
+    - src: qBittorrent.conf.j2
+      dest: /mnt/storage/torrent/config/qBittorrent/config/qBittorrent.conf
+    - src: nzbget.conf.j2
+      dest: /mnt/storage/usenet/config/nzbget.conf
 
 - ansible.builtin.include_role:
     name: container-deploy

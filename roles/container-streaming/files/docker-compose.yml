@@ -1,18 +1,21 @@
 version: "3"
 services:
   jellyfin:
-    image: linuxserver/jellyfin
+    image: jellyfin/jellyfin
     restart: unless-stopped
     container_name: jellyfin
     networks:
       - web
+    user: 1000:1000
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Brussels
+      - JELLYFIN_LOG_DIR=/logs
+      - JELLYFIN_CACHE_DIR=/cache
+      - JELLYFIN_DATA_DIR=/data
+      - JELLYFIN_PublishedServerUrl=streaming.${HOSTNAME}
     ports:
       - 7359:7359/udp # clients discovery
       - 1900:1900/udp # DLNA
+    # network_mode: "host" # For DLNA, but unfortunately incompatible with "networks" statement, which is necessary for use with Traefik
     devices:
       - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
     labels:
@@ -37,13 +40,12 @@ services:
       - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
       - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.${HOSTNAME}'
     volumes:
-      - ${DOCKER_DIRECTORY}/jellyfin/config:/config
+      - /mnt/storage/jellyfin/config:/config # For easy backups
+      - ${DOCKER_DIRECTORY}/jellyfin/logs:/logs
       - ${DOCKER_DIRECTORY}/jellyfin/cache:/cache
+      - ${DOCKER_DIRECTORY}/jellyfin/data:/data
       # all below refer to media folders
-      - /mnt/storage/TV_shows:/TV_shows
-      - /mnt/storage/movies:/movies
-      - /mnt/storage/music:/music
-      - /mnt/storage/books:/books
+      - /mnt/storage/streaming/media:/data/media
 
   torrent:
     image: markusmcnugen/qbittorrentvpn
@@ -73,11 +75,11 @@ services:
     devices:
       - /dev/net/tun
     volumes:
-      - ${DOCKER_DIRECTORY}/torrent/config:/config
-      - /mnt/storage/torrents:/downloads
+      - /mnt/storage/torrent/config:/config # For easy backup
+      - /mnt/storage/streaming/torrent:/data/torrent
 
   usenet:
-    image: snyssen/docker-nzbgetvpn:master
+    image: jshridha/docker-nzbgetvpn:21.1
     container_name: usenet
     restart: unless-stopped
     networks:
@@ -101,11 +103,11 @@ services:
       - NAME_SERVERS=${NAME_SERVER}
       - VPN_ENABLED=yes
     volumes:
-      - ${DOCKER_DIRECTORY}/usenet/config:/config
-      - /mnt/storage/usenet:/data
+      - /mnt/storage/usenet/config:/config
+      - /mnt/storage/streaming/usenet:/data/usenet
 
   sonarr:
-    image: ghcr.io/linuxserver/sonarr
+    image: lscr.io/linuxserver/sonarr
     container_name: sonarr
     environment:
       - PUID=1000
@@ -121,13 +123,11 @@ services:
       - traefik.http.services.sonarr.loadBalancer.server.port=8989
     volumes:
       - ${DOCKER_DIRECTORY}/sonarr/config:/config
-      - /mnt/storage/TV_shows:/tv
-      - /mnt/storage/tmp:/downloads
-      - /mnt/storage/usenet:/data
+      - /mnt/storage/streaming:/data
     restart: unless-stopped
 
   radarr:
-    image: ghcr.io/linuxserver/radarr
+    image: lscr.io/linuxserver/radarr
     container_name: radarr
     environment:
       - PUID=1000
@@ -143,9 +143,7 @@ services:
       - traefik.http.services.radarr.loadBalancer.server.port=7878
     volumes:
       - ${DOCKER_DIRECTORY}/radarr/config:/config
-      - /mnt/storage/movies:/movies
-      - /mnt/storage/tmp:/downloads
-      - /mnt/storage/usenet:/data
+      - /mnt/storage/streaming:/data
     restart: unless-stopped
 
   lidarr:
@@ -165,13 +163,12 @@ services:
       - traefik.http.services.lidarr.loadBalancer.server.port=8686
     volumes:
       - ${DOCKER_DIRECTORY}/lidarr/config:/config
-      - /mnt/storage/music:/music
-      - /mnt/storage/tmp:/downloads
-      - /mnt/storage/usenet:/data
+      - /mnt/storage/streaming:/data
     restart: unless-stopped
 
+  # TODO: Is this app really necessary ? Maybe remove it.
   prowlarr:
-    image: ghcr.io/linuxserver/prowlarr:develop
+    image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     environment:
       - PUID=1000

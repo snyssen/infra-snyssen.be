@@ -18,6 +18,19 @@ nextcloud:
   nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
   healthcheck_id: "{{ vault_nextcloud.healthcheck_id }}"
 
+torrent:
+  user: "{{ vault_torrent.user }}"
+  pass_pbkdf2: "{{ vault_torrent.pass_pbkdf2 }}"
+
+usenet:
+  server_name: "{{ vault_usenet.server_name }}"
+  server_host: "{{ vault_usenet.server_host }}"
+  server_port: "{{ vault_usenet.server_port }}"
+  server_user: "{{ vault_usenet.server_user }}"
+  server_pass: "{{ vault_usenet.server_pass }}"
+  user: "{{ vault_usenet.user }}"
+  pass: "{{ vault_usenet.pass }}"
+
 photoprism:
   photoprism_password: "{{ vault_photoprism.photoprism_password }}"
   mariadb_password: "{{ vault_photoprism.mariadb_password }}"
