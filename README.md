@@ -19,6 +19,8 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
   - [3. The maintenance playbook](#3-the-maintenance-playbook)
   - [4. The docker playbook](#4-the-docker-playbook)
 - [Web services](#web-services)
+  - [1. The backbone](#1-the-backbone)
+  - [2. Jellyfin](#2-jellyfin)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -42,7 +44,7 @@ As an avid [self-hoster](https://www.reddit.com/r/selfhosted/), I depend on my s
 - Play some games with friends
 - Etc.
 
-The list of services used and how to deploy them can be found under [Docker stacks list](#docker-stacks-list)
+The list of services used and how to deploy them can be found under [Web services](#web-services)
 
 ## Hardware
 
@@ -138,4 +140,10 @@ This playbook will deploy all the containers for the various docker stacks that 
 
 ## Web services
 
-**Coming soon**
+### 1. The backbone
+
+The backbone is what makes all the other services accessible. Its is currently only composed of [Traefik](https://github.com/traefik/traefik), a reverse proxy that automatically forwards requests to the necessary containers based on the subdomain used. It is also responsible for generating SSL certificates for all of those services by using the Let's Encrypt API. Its UI can be accessed at `routing.your.domain`.
+
+### 2. Jellyfin
+
+[Jellyfin](https://jellyfin.org) is part of the streaming stack 

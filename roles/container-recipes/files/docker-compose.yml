@@ -1,0 +1,77 @@
+version: "3"
+services:
+  recipes_postgres:
+    restart: unless-stopped
+    image: postgres:14
+    container_name: recipes_postgres
+    env_file:
+      - ./.env
+    volumes:
+      - ${DOCKER_DIRECTORY}/recipes/postgresql:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  recipes_postgres_backups:
+    restart: always
+    image: prodrigestivill/postgres-backup-local
+    container_name: recipes_postgres_backups
+    networks:
+      - internal
+    depends_on:
+      - recipes_postgres
+    environment:
+      - POSTGRES_HOST=recipes_postgres
+      - POSTGRES_DB=djangodb
+      - POSTGRES_USER=djangouser
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/recipes:/backups
+
+  web_recipes:
+    image: vabene1111/recipes
+    container_name: web_recipes
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    volumes:
+      - nginx_config:/opt/recipes/nginx/conf.d
+      - /mnt/storage/recipes/staticfiles:/opt/recipes/staticfiles
+      - /mnt/storage/recipes/mediafiles:/opt/recipes/mediafiles
+    depends_on:
+      - recipes_postgres
+    networks:
+      - internal
+
+  recipes_nginx:
+    image: nginx:mainline-alpine
+    container_name: recipes_nginx
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - nginx_config:/etc/nginx/conf.d:ro
+      - /mnt/storage/recipes/staticfiles:/static
+      - /mnt/storage/recipes/mediafiles:/media
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.recipes.entryPoints=websecure
+      - traefik.http.routers.recipes.rule=Host(`recipes.${HOSTNAME}`)
+      - traefik.http.routers.recipes.tls=true
+      - traefik.http.routers.recipes.tls.certresolver=le
+      - traefik.docker.network=web
+    depends_on:
+      - web_recipes
+    networks:
+      - internal
+      - web
+
+networks:
+  internal: null
+  web:
+    # This is you external traefik network
+    external: true
+
+volumes:
+  nginx_config:

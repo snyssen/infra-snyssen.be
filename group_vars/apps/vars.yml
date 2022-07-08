@@ -1,0 +1,47 @@
+# Used to store docker files that often changes.
+# As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
+# Please either use the main drive or an unmanaged drive (An SSD would be best)
+# Most of the files stored there will be databases. As such they could significantly grow in size
+docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
+
+backbone:
+  traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
+
+nextcloud:
+  postgres_password: "{{ vault_nextcloud.postgres_password }}"
+  nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"
+  nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
+  healthcheck_id: "{{ vault_nextcloud.healthcheck_id }}"
+
+torrent:
+  user: "{{ vault_torrent.user }}"
+  pass_pbkdf2: "{{ vault_torrent.pass_pbkdf2 }}"
+
+usenet:
+  server_name: "{{ vault_usenet.server_name }}"
+  server_host: "{{ vault_usenet.server_host }}"
+  server_port: "{{ vault_usenet.server_port }}"
+  server_user: "{{ vault_usenet.server_user }}"
+  server_pass: "{{ vault_usenet.server_pass }}"
+  user: "{{ vault_usenet.user }}"
+  pass: "{{ vault_usenet.pass }}"
+
+photoprism:
+  photoprism_password: "{{ vault_photoprism.photoprism_password }}"
+  mariadb_password: "{{ vault_photoprism.mariadb_password }}"
+
+recipes:
+  secret_key: "{{ vault_recipes.secret_key }}"
+  db_password: "{{ vault_recipes.db_password }}"
+
+wikijs:
+  db_password: "{{ vault_wikijs.db_password }}"
+
+backups:
+  local_destination: "{{ vault_backups.local_destination }}"
+  local_healthcheck_id: "{{ vault_backups.local_healthcheck_id }}"
+  remote_destination: "{{ vault_backups.remote_destination }}"
+  access_id_remote: "{{ vault_backups.access_id_remote }}"
+  access_secret_remote: "{{ vault_backups.access_secret_remote }}"
+  remote_healthcheck_id: "{{ vault_backups.remote_healthcheck_id }}"
+  encryption_key: "{{ vault_backups.encryption_key }}"

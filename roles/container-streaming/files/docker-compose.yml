@@ -1,0 +1,191 @@
+version: "3"
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    restart: unless-stopped
+    container_name: jellyfin
+    networks:
+      - web
+    user: 1000:1000
+    environment:
+      - JELLYFIN_LOG_DIR=/logs
+      - JELLYFIN_CACHE_DIR=/cache
+      - JELLYFIN_DATA_DIR=/data
+      - JELLYFIN_PublishedServerUrl=streaming.${HOSTNAME}
+    ports:
+      - 7359:7359/udp # clients discovery
+      - 1900:1900/udp # DLNA
+    # network_mode: "host" # For DLNA, but unfortunately incompatible with "networks" statement, which is necessary for use with Traefik
+    devices:
+      - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.entryPoints=websecure
+      - traefik.http.routers.jellyfin.rule=Host(`streaming.${HOSTNAME}`)
+      - traefik.http.routers.jellyfin.tls=true
+      - traefik.http.routers.jellyfin.tls.certresolver=le
+      - traefik.http.services.jellyfin.loadBalancer.server.port=8096
+      # jellyfin middleware, see https://jellyfin.org/docs/general/networking/traefik2.html
+      - traefik.http.routers.jellyfin.middlewares=jellyfin-mw
+      - traefik.http.middlewares.jellyfin-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLRedirect=true
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLHost=streaming.${HOSTNAME}
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLForceHost=true
+      - traefik.http.middlewares.jellyfin-mw.headers.STSSeconds=315360000
+      - traefik.http.middlewares.jellyfin-mw.headers.STSIncludeSubdomains=true
+      - traefik.http.middlewares.jellyfin-mw.headers.STSPreload=true
+      - traefik.http.middlewares.jellyfin-mw.headers.forceSTSHeader=true
+      - traefik.http.middlewares.jellyfin-mw.headers.frameDeny=true
+      - traefik.http.middlewares.jellyfin-mw.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
+      - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.${HOSTNAME}'
+    volumes:
+      - /mnt/storage/jellyfin/config:/config # For easy backups
+      - ${DOCKER_DIRECTORY}/jellyfin/logs:/logs
+      - ${DOCKER_DIRECTORY}/jellyfin/cache:/cache
+      - ${DOCKER_DIRECTORY}/jellyfin/data:/data
+      # all below refer to media folders
+      - /mnt/storage/streaming/media:/data/media
+
+  torrent:
+    image: markusmcnugen/qbittorrentvpn
+    restart: unless-stopped
+    container_name: torrent
+    environment:
+      - VPN_ENABLED=yes
+      - LAN_NETWORK=192.168.1.0/24
+      - NAME_SERVERS=${NAME_SERVER}
+      - PUID=1000
+      - PGID=1000
+      - INCOMING_PORT_ENV=54783
+    networks:
+      - web
+    ports:
+      - 54783:54783
+      - 54783:54783/udp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.torrent.entryPoints=websecure
+      - traefik.http.routers.torrent.rule=Host(`torrent.${HOSTNAME}`)
+      - traefik.http.routers.torrent.tls=true
+      - traefik.http.routers.torrent.tls.certresolver=le
+      - traefik.http.services.torrent.loadBalancer.server.port=8080
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    volumes:
+      - /mnt/storage/torrent/config:/config # For easy backup
+      - /mnt/storage/streaming/torrent:/data/torrent
+
+  usenet:
+    image: jshridha/docker-nzbgetvpn:21.1
+    container_name: usenet
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.usenet.entryPoints=websecure
+      - traefik.http.routers.usenet.rule=Host(`usenet.${HOSTNAME}`)
+      - traefik.http.routers.usenet.tls=true
+      - traefik.http.routers.usenet.tls.certresolver=le
+      - traefik.http.services.usenet.loadBalancer.server.port=6789
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - VPN_PROV=custom
+      - LAN_NETWORK=192.168.1.0/24
+      - NAME_SERVERS=${NAME_SERVER}
+      - VPN_ENABLED=yes
+    volumes:
+      - /mnt/storage/usenet/config:/config
+      - /mnt/storage/streaming/usenet:/data/usenet
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.entryPoints=websecure
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.${HOSTNAME}`)
+      - traefik.http.routers.sonarr.tls=true
+      - traefik.http.routers.sonarr.tls.certresolver=le
+      - traefik.http.services.sonarr.loadBalancer.server.port=8989
+    volumes:
+      - ${DOCKER_DIRECTORY}/sonarr/config:/config
+      - /mnt/storage/streaming:/data
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.entryPoints=websecure
+      - traefik.http.routers.radarr.rule=Host(`radarr.${HOSTNAME}`)
+      - traefik.http.routers.radarr.tls=true
+      - traefik.http.routers.radarr.tls.certresolver=le
+      - traefik.http.services.radarr.loadBalancer.server.port=7878
+    volumes:
+      - ${DOCKER_DIRECTORY}/radarr/config:/config
+      - /mnt/storage/streaming:/data
+    restart: unless-stopped
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.entryPoints=websecure
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.${HOSTNAME}`)
+      - traefik.http.routers.lidarr.tls=true
+      - traefik.http.routers.lidarr.tls.certresolver=le
+      - traefik.http.services.lidarr.loadBalancer.server.port=8686
+    volumes:
+      - ${DOCKER_DIRECTORY}/lidarr/config:/config
+      - /mnt/storage/streaming:/data
+    restart: unless-stopped
+
+  # TODO: Is this app really necessary ? Maybe remove it.
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.entryPoints=websecure
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.${HOSTNAME}`)
+      - traefik.http.routers.prowlarr.tls=true
+      - traefik.http.routers.prowlarr.tls.certresolver=le
+      - traefik.http.services.prowlarr.loadBalancer.server.port=9696
+    volumes:
+      - ${DOCKER_DIRECTORY}/prowlarr/config:/config
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true

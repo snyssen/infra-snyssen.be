@@ -10,41 +10,7 @@ smtp:
 
 dns_server: "{{ vault_dns_server }}"
 
-# Used to store the docker-compose.yml files
-docker_compose_directory: "{{ vault_docker_compose_directory }}"
-# Used to store docker files that often changes.
-# As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
-# Please either use the main drive or an unmanaged drive (An SSD would be best)
-# Most of the files stored there will be databases. As such they could significantly grow in size
-docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
-
 iana_timezone: Europe/Brussels
 
-backbone:
-  traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
-
-gitlab:
-  ssh_port: "{{ vault_gitlab.ssh_port }}"
-  admin_pass: "{{ vault_gitlab.admin_pass }}"
-  healthcheck_id: "{{ vault_gitlab.healthcheck_id }}"
-
-nextcloud:
-  postgres_password: "{{ vault_nextcloud.postgres_password }}"
-  nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"
-  nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
-  healthcheck_id: "{{ vault_nextcloud.healthcheck_id }}"
-
-photoprism:
-  photoprism_password: "{{ vault_photoprism.photoprism_password }}"
-  mariadb_password: "{{ vault_photoprism.mariadb_password }}"
-
-recipes:
-  secret_key: "{{ vault_recipes.secret_key }}"
-  db_password: "{{ vault_recipes.db_password }}"
-
-wikijs:
-  db_password: "{{ vault_wikijs.db_password }}"
-
-backups:
-  destination: "{{ vault_backups.destination }}"
-  encryption_key: "{{ vault_backups.encryption_key }}"
+# Used to store the docker-compose.yml files
+docker_compose_directory: "{{ vault_docker_compose_directory }}"

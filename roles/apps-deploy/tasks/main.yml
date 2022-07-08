@@ -1,0 +1,22 @@
+- name: Creating web network
+  ansible.builtin.docker_network:
+    name: web
+
+- ansible.builtin.include_role:
+    name: container-backbone
+- ansible.builtin.include_role:
+    name: container-streaming
+- ansible.builtin.include_role:
+    name: container-nextcloud
+- ansible.builtin.include_role:
+    name: container-photoprism
+- ansible.builtin.include_role:
+    name: container-recipes
+- ansible.builtin.include_role:
+    name: container-snyssen.be
+- ansible.builtin.include_role:
+    name: container-speedtest
+- ansible.builtin.include_role:
+    name: container-wikijs
+- ansible.builtin.include_role:
+    name: container-restic

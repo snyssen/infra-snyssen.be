@@ -1,0 +1,14 @@
+- hosts: all
+  roles:
+    - maintenance
+    - setup-common
+    - setup-storage
+
+- hosts: apps
+  roles:
+    - setup-snapraid
+    - apps-deploy
+
+- hosts: backup
+  roles:
+    - container-rest
