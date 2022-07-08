@@ -5,8 +5,6 @@
 - ansible.builtin.include_role:
     name: container-backbone
 - ansible.builtin.include_role:
-    name: container-gitlab
-- ansible.builtin.include_role:
     name: container-streaming
 - ansible.builtin.include_role:
     name: container-nextcloud

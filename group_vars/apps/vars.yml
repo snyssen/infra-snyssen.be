@@ -7,11 +7,6 @@ docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 backbone:
   traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
 
-gitlab:
-  ssh_port: "{{ vault_gitlab.ssh_port }}"
-  admin_pass: "{{ vault_gitlab.admin_pass }}"
-  healthcheck_id: "{{ vault_gitlab.healthcheck_id }}"
-
 nextcloud:
   postgres_password: "{{ vault_nextcloud.postgres_password }}"
   nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"

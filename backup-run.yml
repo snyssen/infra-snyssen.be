@@ -1,5 +1,4 @@
 - hosts: apps
   roles:
     - backup-run-databases
-    - backup-run-gitlab
     - backup-run-files
