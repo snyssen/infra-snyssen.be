@@ -4,7 +4,7 @@
     state: directory
 
 - name: "[{{ container_name }}] Deploying docker-compose file"
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: docker-compose.yml
     dest: "{{ docker_compose_path }}/docker-compose.yml"
 

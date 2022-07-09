@@ -7,10 +7,10 @@ services:
     container_name: restic_local
     hostname: restic_local
     environment: &restic-env
-      RESTIC_REPOSITORY: ${REPOS_LOCAL}
-      RESTIC_PASSWORD: ${PASSPHRASE}
+      RESTIC_REPOSITORY: {{ backups.local_destination }}
+      RESTIC_PASSWORD: {{ backups.encryption_key }}
       BACKUP_CRON: 15 3 * * *
-      HEALTHCHECK_ID: ${LOCAL_HEALTHCHECK_ID}
+      HEALTHCHECK_ID: {{ backups.local_healthcheck_id }}
     volumes:
       - ./hooks:/hooks
       # TODO: Since the local backup should be cheaper and faster, we could actually backup more things, such as movies and tv series
@@ -21,11 +21,11 @@ services:
       - /mnt/storage/backups:/data/backups
       - /mnt/storage/streaming/media/music:/data/streaming/media/music
       - /mnt/storage/jellyfin/config:/data/jellyfin/config
-      # - ${DOCKER_DIRECTORY}/jellyfin/data:/data/jellyfin/data # I don't think we should actually include this folder but I'm not sure
-      - ${DOCKER_DIRECTORY}/sonarr/config:/data/sonarr/config
-      - ${DOCKER_DIRECTORY}/radarr/config:/data/radarr/config
-      - ${DOCKER_DIRECTORY}/lidarr/config:/data/lidarr/config
-      - ${DOCKER_DIRECTORY}/prowlarr/config:/data/prowlarr/config
+      # - "{{ docker_mounts_directory }}/jellyfin/data:/data/jellyfin/data" # I don't think we should actually include this folder but I'm not sure
+      - "{{ docker_mounts_directory }}/sonarr/config:/data/sonarr/config"
+      - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
+      - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
+      - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
 
   restic_remote:
     <<: *restic-config
@@ -33,8 +33,8 @@ services:
     hostname: restic_remote
     environment:
       <<: *restic-env
-      RESTIC_REPOSITORY: ${REPOS_REMOTE}
+      RESTIC_REPOSITORY: {{ backups.remote_destination }}
       BACKUP_CRON: 45 3 * * *
-      B2_ACCOUNT_ID: ${ACCESS_ID_REMOTE}
-      B2_ACCOUNT_KEY: ${ACCESS_SECRET_REMOTE}
-      HEALTHCHECK_ID: ${REMOTE_HEALTHCHECK_ID}
+      B2_ACCOUNT_ID: {{ backups.access_id_remote }}
+      B2_ACCOUNT_KEY: {{ backups.access_secret_remote }}
+      HEALTHCHECK_ID: {{ backups.remote_healthcheck_id }}

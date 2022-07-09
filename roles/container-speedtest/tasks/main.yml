@@ -2,4 +2,3 @@
     name: container-deploy
   vars:
     container_name: "speedtest"
-    docker_compose_start: yes

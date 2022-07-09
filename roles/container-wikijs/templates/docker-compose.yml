@@ -5,13 +5,13 @@ services:
     container_name: wiki_postgres
     environment:
       POSTGRES_DB: wiki
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: {{ wikijs.db_password }}
       POSTGRES_USER: wikijs
     logging:
       driver: "none"
     restart: unless-stopped
     volumes:
-      - ${DOCKER_DIRECTORY}/wiki/postgresql:/var/lib/postgresql/data
+      - "{{ docker_mounts_directory }}/wiki/postgresql:/var/lib/postgresql/data"
     networks:
       - internal
 
@@ -27,7 +27,7 @@ services:
       - POSTGRES_HOST=wiki_postgres
       - POSTGRES_DB=wiki
       - POSTGRES_USER=wikijs
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_PASSWORD={{ wikijs.db_password }}
       - TZ=Europe/Brussels
       - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
     volumes:
@@ -43,13 +43,13 @@ services:
       DB_HOST: wiki_postgres
       DB_PORT: 5432
       DB_USER: wikijs
-      DB_PASS: ${DB_PASSWORD}
+      DB_PASS: {{ wikijs.db_password }}
       DB_NAME: wiki
     restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.wiki.entryPoints=websecure
-      - traefik.http.routers.wiki.rule=Host(`wiki.${HOSTNAME}`)
+      - traefik.http.routers.wiki.rule=Host(`wiki.{{ ansible_fqdn }}`)
       - traefik.http.routers.wiki.tls=true
       - traefik.http.routers.wiki.tls.certresolver=le
       - traefik.http.routers.wiki.service=wiki

@@ -9,5 +9,3 @@
     name: container-deploy
   vars:
     container_name: "rest-server"
-    docker_compose_start: yes
-    deploy_env_template: false

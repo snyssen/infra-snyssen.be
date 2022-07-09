@@ -9,7 +9,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.snyssen-be.entryPoints=websecure
-      - traefik.http.routers.snyssen-be.rule=Host(`${HOSTNAME}`)
+      - traefik.http.routers.snyssen-be.rule=Host(`{{ ansible_fqdn }}`)
       - traefik.http.routers.snyssen-be.tls=true
       - traefik.http.routers.snyssen-be.tls.certresolver=le
       - traefik.http.routers.snyssen-be.service=snyssen-be
