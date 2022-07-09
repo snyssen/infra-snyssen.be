@@ -9,7 +9,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.speedtest.entryPoints=websecure
-      - traefik.http.routers.speedtest.rule=Host(`speedtest.${HOSTNAME}`)
+      - traefik.http.routers.speedtest.rule=Host(`speedtest.{{ ansible_fqdn }}`)
       - traefik.http.routers.speedtest.tls=true
       - traefik.http.routers.speedtest.tls.certresolver=le
       - traefik.http.routers.speedtest.service=speedtest

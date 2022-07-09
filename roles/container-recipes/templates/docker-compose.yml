@@ -7,7 +7,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ${DOCKER_DIRECTORY}/recipes/postgresql:/var/lib/postgresql/data
+      - "{{ docker_mounts_directory }}/recipes/postgresql:/var/lib/postgresql/data"
     networks:
       - internal
 
@@ -57,7 +57,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.recipes.entryPoints=websecure
-      - traefik.http.routers.recipes.rule=Host(`recipes.${HOSTNAME}`)
+      - traefik.http.routers.recipes.rule=Host(`recipes.{{ ansible_fqdn }}`)
       - traefik.http.routers.recipes.tls=true
       - traefik.http.routers.recipes.tls.certresolver=le
       - traefik.docker.network=web

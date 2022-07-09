@@ -14,10 +14,10 @@ services:
       # Don't remove permanent storage for index database files!
       - /mnt/storage/photoprism/mariadb:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: "{{ photoprism.mariadb_password }}"
       MYSQL_DATABASE: photoprism
       MYSQL_USER: photoprism
-      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_PASSWORD: "{{ photoprism.mariadb_password }}"
 
   photoprism_mariadb_backups:
     image: zeenlym/mariadb-backup
@@ -32,7 +32,7 @@ services:
         - MYSQL_HOST=photoprism_mariadb
         - MYSQL_DATABASE=photoprism
         - MYSQL_USER=photoprism
-        - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+        - MYSQL_PASSWORD"{{ photoprism.mariadb_password }}
     volumes:
         - /mnt/storage/backups/photoprism:/backup
 
@@ -57,12 +57,12 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.photoprism.entryPoints=websecure
-      - traefik.http.routers.photoprism.rule=Host(`photo.${HOSTNAME}`)
+      - traefik.http.routers.photoprism.rule=Host(`photo.{{ ansible_fqdn }}`)
       - traefik.http.routers.photoprism.tls=true
       - traefik.http.routers.photoprism.tls.certresolver=le
       - traefik.docker.network=web
     environment:
-      PHOTOPRISM_ADMIN_PASSWORD: ${PHOTOPRISM_PASSWORD}
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism.photoprism_password }}"
       PHOTOPRISM_HTTP_PORT: 2342 # Built-in Web server port
       PHOTOPRISM_HTTP_COMPRESSION: "gzip" # Improves transfer speed and bandwidth utilization (none or gzip)
       PHOTOPRISM_DEBUG: "false" # Run in debug mode (shows additional log messages)
@@ -79,8 +79,8 @@ services:
       PHOTOPRISM_DATABASE_SERVER: "photoprism_mariadb:3306" # MariaDB database server (hostname:port)
       PHOTOPRISM_DATABASE_NAME: "photoprism" # MariaDB database schema name
       PHOTOPRISM_DATABASE_USER: "photoprism" # MariaDB database user name
-      PHOTOPRISM_DATABASE_PASSWORD: "${MARIADB_PASSWORD}" # MariaDB database user password
-      PHOTOPRISM_SITE_URL: "https://photo.${HOSTNAME}" # Public PhotoPrism URL
+      PHOTOPRISM_DATABASE_PASSWORD: "{{ photoprism.mariadb_password }}" # MariaDB database user password
+      PHOTOPRISM_SITE_URL: "https://photo.{{ ansible_fqdn }}" # Public PhotoPrism URL
       PHOTOPRISM_SITE_TITLE: "PhotoPrism"
       PHOTOPRISM_SITE_CAPTION: "Browse Your Life"
       PHOTOPRISM_SITE_DESCRIPTION: ""

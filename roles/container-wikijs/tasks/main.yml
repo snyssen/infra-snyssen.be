@@ -14,4 +14,3 @@
     name: container-deploy
   vars:
     container_name: "wikijs"
-    docker_compose_start: yes

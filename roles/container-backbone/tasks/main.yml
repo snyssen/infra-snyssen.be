@@ -16,4 +16,4 @@
     name: container-deploy
   vars:
     container_name: "backbone"
-    docker_compose_start: yes
+    deploy_env_template: yes

@@ -1,4 +1,4 @@
 container_name: unspecified
 docker_compose_path: "{{ docker_compose_directory }}/{{ container_name }}"
-deploy_env_template: true
-docker_compose_start: false
+deploy_env_template: false
+docker_compose_start: true
