@@ -11,13 +11,25 @@ services:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+
       - "--entryPoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+
       - "--entryPoints.websecure.address=:443"
+
+
       - "--certificatesResolvers.le.acme.email={{ smtp.to }}"
       - "--certificatesResolvers.le.acme.storage=acme.json"
+      - "--certificatesresolvers.le.acme.caserver={{ backbone.acme_ca_server }}"
       - "--certificatesResolvers.le.acme.tlsChallenge=false"
-      - "--certificatesResolvers.le.acme.httpChallenge=false"
+      - "--certificatesresolvers.le.acme.dnschallenge={{ backbone.acme_dns_challenge.enabled | to_json }}"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider={{ backbone.acme_dns_challenge.provider }}"
+      - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=30"
+      - "--certificatesResolvers.le.acme.httpChallenge={{ backbone.acme_http_challenge.enabled | to_json }}"
       - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
+    environment:
+      - "{{ backbone.acme_dns_challenge.api_key_variable }}={{ backbone.acme_dns_challenge.api_key }}"
     ports:
       - 80:80
       - 443:443
@@ -27,12 +39,6 @@ services:
       # certificates storage
       - "{{ docker_mounts_directory }}/traefik/acme.json:/acme.json"
     labels:
-      # Redirect all HTTP to HTTPS permanently
-      - traefik.http.routers.http_catchall.rule=HostRegexp(`{any:.+}`)
-      - traefik.http.routers.http_catchall.entrypoints=web
-      - traefik.http.routers.http_catchall.middlewares=https_redirect
-      - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
       # allow access to traefik UI
       - traefik.enable=true
       - traefik.http.routers.api.entryPoints=websecure

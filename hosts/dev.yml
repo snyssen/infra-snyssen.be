@@ -1,6 +1,6 @@
 apps:
   hosts:
-    snyssen.sny:
+    snyssen.duckdns.org:
       # ansible_host: "192.168.56.12"
       ansible_user: "vagrant"
       disks_mounts:

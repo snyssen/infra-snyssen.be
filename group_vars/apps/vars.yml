@@ -6,6 +6,14 @@ docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 
 backbone:
   traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
+  acme_ca_server: "{{ vault_backbone.acme_ca_server }}"
+  acme_dns_challenge:
+    enabled: "{{ vault_backbone.acme_dns_challenge.enabled }}"
+    provider: "{{ vault_backbone.acme_dns_challenge.provider }}"
+    api_key: "{{ vault_backbone.acme_dns_challenge.api_key }}"
+    api_key_variable: "{{ vault_backbone.acme_dns_challenge.api_key_variable }}"
+  acme_http_challenge:
+    enabled: "{{ vault_backbone.acme_http_challenge.enabled }}"
 
 nextcloud:
   postgres_password: "{{ vault_nextcloud.postgres_password }}"
