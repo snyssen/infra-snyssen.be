@@ -58,8 +58,6 @@ services:
       - traefik.enable=true
       - traefik.http.routers.recipes.entryPoints=websecure
       - traefik.http.routers.recipes.rule=Host(`recipes.{{ ansible_fqdn }}`)
-      - traefik.http.routers.recipes.tls=true
-      - traefik.http.routers.recipes.tls.certresolver=le
       - traefik.docker.network=web
     depends_on:
       - web_recipes

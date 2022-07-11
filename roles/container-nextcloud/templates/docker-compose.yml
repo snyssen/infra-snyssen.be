@@ -55,7 +55,6 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.nextcloud.entryPoints=websecure
       - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
-      - traefik.http.routers.nextcloud.tls.certresolver=le
       - traefik.http.routers.nextcloud.rule=Host(`cloud.{{ ansible_fqdn }}`)
       - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://cloud.{{ ansible_fqdn }}
       - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' cloud.{{ ansible_fqdn }}
@@ -90,7 +89,6 @@ services:
       - traefik.http.routers.only-office.entrypoints=websecure
       - traefik.http.routers.only-office.rule=Host(`office.{{ ansible_fqdn }}`)
       - traefik.http.routers.only-office.middlewares=oo-header
-      - traefik.http.routers.only-office.tls.certresolver=le
       - traefik.http.services.only-office.loadbalancer.server.port=80
       - traefik.http.middlewares.oo-header.headers.referrerPolicy=no-referrer
       - traefik.http.middlewares.oo-header.headers.stsSeconds=31536000

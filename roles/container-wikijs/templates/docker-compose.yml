@@ -50,8 +50,6 @@ services:
       - traefik.enable=true
       - traefik.http.routers.wiki.entryPoints=websecure
       - traefik.http.routers.wiki.rule=Host(`wiki.{{ ansible_fqdn }}`)
-      - traefik.http.routers.wiki.tls=true
-      - traefik.http.routers.wiki.tls.certresolver=le
       - traefik.http.routers.wiki.service=wiki
       - traefik.http.services.wiki.loadBalancer.server.port=3000
     networks:
