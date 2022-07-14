@@ -52,7 +52,7 @@ services:
     environment:
       - VPN_ENABLED=yes
       - LAN_NETWORK=192.168.1.0/24
-      - NAME_SERVERS={{ dns_server }}
+      - NAME_SERVERS={{ dns_servers | join(',') }}
       - PUID=1000
       - PGID=1000
       - INCOMING_PORT_ENV=54783
@@ -94,7 +94,7 @@ services:
       - PUID=1000
       - VPN_PROV=custom
       - LAN_NETWORK=192.168.1.0/24
-      - NAME_SERVERS={{ dns_server }}
+      - NAME_SERVERS={{ dns_servers | join(',') }}
       - VPN_ENABLED=yes
     volumes:
       - /mnt/storage/usenet/config:/config
