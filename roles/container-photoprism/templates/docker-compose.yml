@@ -32,7 +32,7 @@ services:
         - MYSQL_HOST=photoprism_mariadb
         - MYSQL_DATABASE=photoprism
         - MYSQL_USER=photoprism
-        - MYSQL_PASSWORD"{{ photoprism.mariadb_password }}
+        - MYSQL_PASSWORD="{{ photoprism.mariadb_password }}"
     volumes:
         - /mnt/storage/backups/photoprism:/backup
 
