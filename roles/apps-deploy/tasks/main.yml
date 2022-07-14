@@ -1,3 +1,16 @@
+- name: Permitting traffic through http
+  become: yes
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+- name: Permitting traffic through https
+  become: yes
+  ansible.posix.firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+
 - name: Creating web network
   ansible.builtin.docker_network:
     name: web
