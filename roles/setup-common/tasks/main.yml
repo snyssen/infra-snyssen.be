@@ -31,6 +31,7 @@
       - zsh
       - nano
       - htop
+      - bind-utils
     state: present
 - name: Enabling services
   become: yes

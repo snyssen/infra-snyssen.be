@@ -32,7 +32,7 @@ services:
         - MYSQL_HOST=photoprism_mariadb
         - MYSQL_DATABASE=photoprism
         - MYSQL_USER=photoprism
-        - MYSQL_PASSWORD"{{ photoprism.mariadb_password }}
+        - MYSQL_PASSWORD="{{ photoprism.mariadb_password }}"
     volumes:
         - /mnt/storage/backups/photoprism:/backup
 
@@ -58,8 +58,6 @@ services:
       - traefik.enable=true
       - traefik.http.routers.photoprism.entryPoints=websecure
       - traefik.http.routers.photoprism.rule=Host(`photo.{{ ansible_fqdn }}`)
-      - traefik.http.routers.photoprism.tls=true
-      - traefik.http.routers.photoprism.tls.certresolver=le
       - traefik.docker.network=web
     environment:
       PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism.photoprism_password }}"

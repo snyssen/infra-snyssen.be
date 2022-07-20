@@ -2,3 +2,4 @@ container_name: unspecified
 docker_compose_path: "{{ docker_compose_directory }}/{{ container_name }}"
 deploy_env_template: false
 docker_compose_start: true
+docker_compose_force_restart: false

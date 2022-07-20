@@ -8,7 +8,7 @@ smtp:
   user: "{{ vault_smtp.user }}"
   pass: "{{ vault_smtp.pass }}"
 
-dns_server: "{{ vault_dns_server }}"
+dns_servers: "{{ vault_dns_servers }}"
 
 iana_timezone: Europe/Brussels
 
