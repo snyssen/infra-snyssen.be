@@ -1,0 +1,17 @@
+
+
+- name: Querying available dump files
+  ansible.builtin.find:
+    paths:
+      # pgsql dumps locations
+      - /mnt/storage/backups/nextcloud
+      - /mnt/storage/backups/recipes
+      - /mnt/storage/backups/wiki/dumps
+      # other dumps
+      - /mnt/storage/backups/photoprism
+    file_type: file
+    recurse: yes
+  register: available_dump_files
+
+- ansible.builtin.debug:
+    var: available_dump_files.files | map(attribute='path')

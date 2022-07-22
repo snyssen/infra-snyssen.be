@@ -1,4 +1,4 @@
-- name: Finding all aps
+- name: Finding all apps
   ansible.builtin.find:
     path: "{{ docker_compose_directory }}" 
     file_type: directory

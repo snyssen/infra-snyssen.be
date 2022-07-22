@@ -1,0 +1,2 @@
+db_restore_include: [] # db to include in restore. If left empty, all dbs are included. Note that this setting is mutually exclusive with 'db_restore_exclude'; if both are set, only this one will be used
+db_restore_exclude: [] # dbs to exclude from restore
