@@ -3,6 +3,8 @@
       - "restic_server == 'local' or restic_server == 'remote'"
     fail_msg: "`restic_server` must be set to either 'local' or 'remote'. Current value is '{{ restic_server }}'"
 
+# TODO: Shutdown all apps except restic before restore
+
 - name: "Querying restic snapshots on {{ restic_server }}"
   community.docker.docker_container_exec:
     container: "{{ 'restic_remote' if restic_server == 'remote' else 'restic_local' }}"
@@ -10,18 +12,50 @@
   register: restic_available_snapshots
 
 - ansible.builtin.pause:
-    prompt: |
+    prompt: |-
       
       {{ restic_available_snapshots.stdout }}
       
-      -> Please enter the desired snapshot ID to restore from the list above.
+      -> Please enter a snapshot ID below OR leave empty to restore latest snapshot
   register: restic_selected_snapshot
 
-# - ansible.builtin.pause:
-#     prompt: -> Please specify the path you would like to restore. Press 'ctrl + C' then 'C' again to restore everything
-#   register: restic_selected_restore_path
+- ansible.builtin.pause:
+    prompt: |-
+
+      Would you like to restore a specific path?
+
+      -> Please specify the path you would like to restore OR leave empty to restore the whole snapshot
+  register: restic_selected_restore_path
+
+- ansible.builtin.pause:
+    prompt: |-
+
+      -> Remove existing files? (Y/N)
+  register: restic_remove_files
+
+- block:
+  - name: 'Collecting files and directories delete'
+    ansible.builtin.find:
+      paths: "{{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}"
+      hidden: yes
+      recurse: yes
+      file_type: any
+    register: collected_files
+
+  - ansible.builtin.pause:
+      prompt: >-
+        You are about to delete {{ collected_files.matched }} files from directory
+        {{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}.
+        Do you want to continue? ('ctrl+c' then 'c' to continue or 'a' to abort)
+
+  - name: Deleting files and directories
+    ansible.builtin.file:
+      path: "{{ item.path }}"
+      state: absent
+    with_items: "{{ collected_files.files }}"
+  when: restic_remove_files.user_input | lower == 'y' or restic_remove_files.user_input | lower == 'yes'
 
 - name: Restoring files
   community.docker.docker_container_exec:
     container: "{{ 'restic_remote' if restic_server == 'remote' else 'restic_local' }}"
-    command: "restic restore {{ restic_selected_snapshot.user_input }} --target /"
+    command: "restic restore {{ restic_selected_snapshot.user_input | default('latest', true) }} {{ '--include ' + restic_selected_restore_path.user_input | replace('/mnt/storage', '/data') if restic_selected_restore_path.user_input }} --target /"
