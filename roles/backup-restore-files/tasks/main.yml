@@ -34,11 +34,12 @@
   register: restic_remove_files
 
 - block:
-  - name: 'Collecting files and directories delete'
+  - name: 'Collecting files and directories to delete'
+    become: yes
     ansible.builtin.find:
       paths: "{{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}"
       hidden: yes
-      recurse: yes
+      recurse: no
       file_type: any
     register: collected_files
 
@@ -49,6 +50,7 @@
         Do you want to continue? ('ctrl+c' then 'c' to continue or 'a' to abort)
 
   - name: Deleting files and directories
+    become: yes
     ansible.builtin.file:
       path: "{{ item.path }}"
       state: absent
