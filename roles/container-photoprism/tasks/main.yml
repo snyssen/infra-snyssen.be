@@ -14,3 +14,13 @@
     name: container-deploy
   vars:
     container_name: "photoprism"
+
+- name: Adds cron job to backup Photoprism
+  become: yes
+  ansible.builtin.cron:
+    name: photoprism_backup
+    minute: "18"
+    hour: "02"
+    user: root
+    job: "docker exec photoprism photoprism backup -i -f"
+    state: present
