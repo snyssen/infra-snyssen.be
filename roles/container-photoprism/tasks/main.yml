@@ -8,6 +8,7 @@
     - path: "/mnt/storage/photoprism/mariadb"
     - path: "/mnt/storage/photoprism/import"
     - path: "/mnt/storage/photoprism/photoprism"
+    - path: "/mnt/storage/backups/photoprism"
 
 - ansible.builtin.include_role:
     name: container-deploy

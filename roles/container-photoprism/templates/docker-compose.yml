@@ -19,23 +19,6 @@ services:
       MYSQL_USER: photoprism
       MYSQL_PASSWORD: "{{ photoprism.mariadb_password }}"
 
-  photoprism_mariadb_backups:
-    image: zeenlym/mariadb-backup
-    container_name: photoprism_mariadb_backups
-    restart: unless-stopped
-    networks:
-      - internal
-    environment:
-        - TIMEZONE=Europe/Brussels
-        - SCHEDULE=0 0 1 * *
-        - BACKUP_METHOD=mysqldump
-        - MYSQL_HOST=photoprism_mariadb
-        - MYSQL_DATABASE=photoprism
-        - MYSQL_USER=photoprism
-        - MYSQL_PASSWORD="{{ photoprism.mariadb_password }}"
-    volumes:
-        - /mnt/storage/backups/photoprism:/backup
-
   photoprism:
     # Use photoprism/photoprism:preview instead for testing preview builds:
     image: photoprism/photoprism:latest
@@ -84,10 +67,12 @@ services:
       PHOTOPRISM_SITE_DESCRIPTION: ""
       PHOTOPRISM_SITE_AUTHOR: "Simon Nyssen"
       PHOTOPRISM_SPONSOR: "true"
+      PHOTOPRISM_BACKUP_PATH: "/backups"
     volumes:
       - "/mnt/storage/pictures:/photoprism/originals"
       - "/mnt/storage/photoprism/import:/photoprism/import"
       - "/mnt/storage/photoprism/photoprism:/photoprism/storage"
+      - /mnt/storage/backups/photoprism:/backups
 
 networks:
   web:

@@ -15,5 +15,5 @@
 
 - name: Backing up photoprism database to disk
   community.docker.docker_container_exec:
-    container: photoprism_mariadb_backups
-    command: backup
+    container: photoprism
+    command: photoprism backup -i -f
