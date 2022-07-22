@@ -11,6 +11,7 @@ services:
       RESTIC_PASSWORD: {{ backups.encryption_key }}
       BACKUP_CRON: 15 3 * * *
       HEALTHCHECK_ID: {{ backups.local_healthcheck_id }}
+      RESTIC_FORGET_ARGS: --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 2 --keep-monthly 2 --keep-yearly 1
     volumes:
       - ./hooks:/hooks
       # TODO: Since the local backup should be cheaper and faster, we could actually backup more things, such as movies and tv series
