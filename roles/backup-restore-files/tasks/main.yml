@@ -10,6 +10,7 @@
     container: "{{ 'restic_remote' if restic_server == 'remote' else 'restic_local' }}"
     command: restic snapshots
   register: restic_available_snapshots
+  changed_when: false # This task never makes any change
 
 - ansible.builtin.pause:
     prompt: |-
