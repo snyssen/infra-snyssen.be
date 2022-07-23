@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "generic/fedora35"
+  config.vm.box = "generic/fedora36"
   config.ssh.insert_key = false
   
   config.hostmanager.enabled = true
