@@ -1,0 +1,3 @@
+- community.docker.docker_container_exec:
+    container: "{{ item.key }}"
+    command: photoprism restore -i /backups/{{ db_selected_restore.user_input }}

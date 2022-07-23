@@ -41,6 +41,7 @@
   register: restic_remove_files
 
 - block:
+
   - name: 'Collecting files and directories to delete'
     become: yes
     ansible.builtin.find:
@@ -62,6 +63,7 @@
       path: "{{ item.path }}"
       state: absent
     with_items: "{{ collected_files.files }}"
+
   when: restic_remove_files.user_input | lower == 'y' or restic_remove_files.user_input | lower == 'yes'
 
 - name: Restoring files

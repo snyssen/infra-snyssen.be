@@ -1,0 +1,26 @@
+- name: "Querying available dumps for {{ item.key }}"
+  ansible.builtin.find:
+    path: "{{ item.value.directory }}"
+    file_type: file
+    recurse: yes
+  register: available_dump_files
+
+- ansible.builtin.pause:
+    prompt: |-
+
+      {% for path in available_dump_files.files | map(attribute='path') | map('regex_replace', '^' + item.value.directory + '/', '') | sort %}
+        - {{ path }}
+      {% endfor %}
+
+      -> Please select a dump in the list above for restoring the {{ item.key }} database
+  register: db_selected_restore
+
+- ansible.builtin.assert:
+    that:
+      - "item.value.directory + '/' + db_selected_restore.user_input in available_dump_files.files | map(attribute='path')"
+    fail_msg: "'{{ db_selected_restore.user_input }}' is not one of the available dumps."
+
+
+
+- name: "restoring {{ item.value.type }} dump '{{ db_selected_restore.user_input }}' for {{ item.key }} database"
+  ansible.builtin.include_tasks: "{{ item.value.type }}_restore.yml"

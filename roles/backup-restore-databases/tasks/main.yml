@@ -1,17 +1,38 @@
+- ansible.builtin.set_fact:
+    db_restore_available:
+      # TODO: 'user' and 'database' should have same value as service (the key here) and could thus be removed from here
+      nextcloud:
+        directory: /mnt/storage/backups/nextcloud
+        type: pgsql
+        user: nextcloud
+        password: "{{ nextcloud.postgres_password }}"
+        database: nextcloud
+      recipes:
+        directory: /mnt/storage/backups/recipes
+        type: pgsql
+        user: djangouser
+        password: "{{ recipes.db_password }}"
+        database: djangodb
+      wiki:
+        directory: /mnt/storage/backups/wiki/dumps
+        type: pgsql
+        user: wikijs
+        password: "{{ wikijs.db_password }}"
+        database: wiki
+      photoprism:
+        directory: /mnt/storage/backups/photoprism/mysql
+        type: photoprism
 
-
-- name: Querying available dump files
-  ansible.builtin.find:
-    paths:
-      # pgsql dumps locations
-      - /mnt/storage/backups/nextcloud
-      - /mnt/storage/backups/recipes
-      - /mnt/storage/backups/wiki/dumps
-      # other dumps
-      - /mnt/storage/backups/photoprism
-    file_type: file
-    recurse: yes
-  register: available_dump_files
+- ansible.builtin.set_fact:
+    db_restore_selected: >-
+      {{
+        db_restore_available | dict2items | selectattr('key', 'in', db_restore_include) | list | items2dict
+        if db_restore_include is defined and db_restore_include | length > 0 else
+        db_restore_available | dict2items | rejectattr('key', 'in', db_restore_exclude) | list | items2dict
+      }}
 
 - ansible.builtin.debug:
-    var: available_dump_files.files | map(attribute='path')
+    var: db_restore_selected
+
+- ansible.builtin.include_tasks: restore_individual_db.yml
+  loop: "{{ db_restore_selected | dict2items }}"

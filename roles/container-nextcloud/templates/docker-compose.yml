@@ -26,6 +26,7 @@ services:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
       - POSTGRES_PASSWORD={{ nextcloud.postgres_password }}
+      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
       - TZ=Europe/Brussels
       - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
     volumes:
