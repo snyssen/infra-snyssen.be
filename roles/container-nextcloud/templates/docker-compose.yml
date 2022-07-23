@@ -38,8 +38,6 @@ services:
     restart: always
     networks:
       - internal
-    volumes:
-      - "{{ docker_mounts_directory }}/nextcloud/redis:/var/lib/redis"
 
   nextcloud:
     image: nextcloud:stable
