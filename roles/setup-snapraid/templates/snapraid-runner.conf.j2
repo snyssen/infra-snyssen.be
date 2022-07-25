@@ -20,20 +20,20 @@ sendon = error
 ; set to false to get full programm output via email
 short = true
 subject = [SnapRAID] Status Report:
-from = {{ smtp.from }}
-to = {{ smtp.to}}
+from = {{ smtp__from }}
+to = {{ smtp__to}}
 ; maximum email size in KiB
 maxsize = 500
 
 [smtp]
-host = {{ smtp.host }}
+host = {{ smtp__host }}
 ; leave empty for default port
-port = {{ smtp.port }}
+port = {{ smtp__port }}
 ; set to "true" to activate
-ssl = {{ smtp.ssl }}
-tls = {{ smtp.tls }}
-user = {{ smtp.user }}
-password = {{ smtp.pass }}
+ssl = {{ smtp__ssl }}
+tls = {{ smtp__tls }}
+user = {{ smtp__user }}
+password = {{ smtp__pass }}
 
 [scrub]
 ; set to true to run scrub after sync

@@ -22,7 +22,7 @@ services:
       - "--entrypoints.websecure.http.tls.domains[0].main={{ ansible_fqdn }}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ ansible_fqdn }}"
 
-      - "--certificatesResolvers.le.acme.email={{ smtp.to }}"
+      - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
       - "--certificatesResolvers.le.acme.storage=acme.json"
       - "--certificatesresolvers.le.acme.caserver={{ backbone.acme_ca_server }}"
       - "--certificatesResolvers.le.acme.tlsChallenge=false"
