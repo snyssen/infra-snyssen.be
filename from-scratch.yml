@@ -7,7 +7,7 @@
 - hosts: apps
   roles:
     - role: setup-snapraid
-      when: enable_snapraid | default(true)
+      when: not skip_snapraid | default(true)
     - apps-deploy
 
 - hosts: backup
