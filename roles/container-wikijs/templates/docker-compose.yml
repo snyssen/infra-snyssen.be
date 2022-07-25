@@ -5,7 +5,7 @@ services:
     container_name: wiki_postgres
     environment:
       POSTGRES_DB: wiki
-      POSTGRES_PASSWORD: {{ wikijs.db_password }}
+      POSTGRES_PASSWORD: {{ wikijs__db_password }}
       POSTGRES_USER: wikijs
     logging:
       driver: "none"
@@ -27,7 +27,7 @@ services:
       - POSTGRES_HOST=wiki_postgres
       - POSTGRES_DB=wiki
       - POSTGRES_USER=wikijs
-      - POSTGRES_PASSWORD={{ wikijs.db_password }}
+      - POSTGRES_PASSWORD={{ wikijs__db_password }}
       - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
       - TZ=Europe/Brussels
       - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
@@ -44,7 +44,7 @@ services:
       DB_HOST: wiki_postgres
       DB_PORT: 5432
       DB_USER: wikijs
-      DB_PASS: {{ wikijs.db_password }}
+      DB_PASS: {{ wikijs__db_password }}
       DB_NAME: wiki
     restart: unless-stopped
     labels:

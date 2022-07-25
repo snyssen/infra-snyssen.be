@@ -24,15 +24,15 @@ services:
 
       - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
       - "--certificatesResolvers.le.acme.storage=acme.json"
-      - "--certificatesresolvers.le.acme.caserver={{ backbone.acme_ca_server }}"
+      - "--certificatesresolvers.le.acme.caserver={{ backbone__acme_ca_server }}"
       - "--certificatesResolvers.le.acme.tlsChallenge=false"
-      - "--certificatesresolvers.le.acme.dnschallenge={{ backbone.acme_dns_challenge.enabled | to_json }}"
-      - "--certificatesresolvers.le.acme.dnschallenge.provider={{ backbone.acme_dns_challenge.provider }}"
+      - "--certificatesresolvers.le.acme.dnschallenge={{ backbone__acme_dns_challenge__enabled | to_json }}"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider={{ backbone__acme_dns_challenge__provider }}"
       - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=30"
-      - "--certificatesResolvers.le.acme.httpChallenge={{ backbone.acme_http_challenge.enabled | to_json }}"
+      - "--certificatesResolvers.le.acme.httpChallenge={{ backbone__acme_http_challenge__enabled | to_json }}"
       - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
     environment:
-      - "{{ backbone.acme_dns_challenge.api_key_variable }}={{ backbone.acme_dns_challenge.api_key }}"
+      - "{{ backbone__acme_dns_challenge__api_key_variable }}={{ backbone__acme_dns_challenge__api_key }}"
     ports:
       - 80:80
       - 443:443

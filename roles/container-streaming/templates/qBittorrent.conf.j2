@@ -56,14 +56,14 @@ WebUI\HTTPS\KeyPath=
 WebUI\HostHeaderValidation=true
 WebUI\LocalHostAuth=true
 WebUI\MaxAuthenticationFailCount=5
-WebUI\Password_PBKDF2="@ByteArray({{ torrent.pass_pbkdf2 }})"
+WebUI\Password_PBKDF2="@ByteArray({{ torrent__pass_pbkdf2 }})"
 WebUI\Port=8080
 WebUI\RootFolder=
 WebUI\SecureCookie=true
 WebUI\ServerDomains=*
 WebUI\SessionTimeout=3600
 WebUI\UseUPnP=true
-WebUI\Username={{ torrent.user }}
+WebUI\Username={{ torrent__user }}
 
 [RSS]
 AutoDownloader\DownloadRepacks=true

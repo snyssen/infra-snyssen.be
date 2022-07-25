@@ -1,55 +1,46 @@
-# Used to store docker files that often changes.
+# Used to store docker files that often changes__
 # As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
 # Please either use the main drive or an unmanaged drive (An SSD would be best)
-# Most of the files stored there will be databases. As such they could significantly grow in size
+# Most of the files stored there will be databases__ As such they could significantly grow in size
 docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 
-backbone:
-  traefik_dashboard_htpassword: "{{ vault_backbone.traefik_dashboard_htpassword }}"
-  acme_ca_server: "{{ vault_backbone.acme_ca_server }}"
-  acme_dns_challenge:
-    enabled: "{{ vault_backbone.acme_dns_challenge.enabled }}"
-    provider: "{{ vault_backbone.acme_dns_challenge.provider }}"
-    api_key: "{{ vault_backbone.acme_dns_challenge.api_key }}"
-    api_key_variable: "{{ vault_backbone.acme_dns_challenge.api_key_variable }}"
-  acme_http_challenge:
-    enabled: "{{ vault_backbone.acme_http_challenge.enabled }}"
 
-nextcloud:
-  postgres_password: "{{ vault_nextcloud.postgres_password }}"
-  nextcloud_admin: "{{ vault_nextcloud.nextcloud_admin }}"
-  nextcloud_password: "{{ vault_nextcloud.nextcloud_password }}"
-  healthcheck_id: "{{ vault_nextcloud.healthcheck_id }}"
+backbone__traefik_dashboard_htpassword: "{{ vault_backbone__traefik_dashboard_htpassword }}"
+backbone__acme_ca_server: "{{ vault_backbone__acme_ca_server }}"
+backbone__acme_dns_challenge__enabled: "{{ vault_backbone__acme_dns_challenge__enabled }}"
+backbone__acme_dns_challenge__provider: "{{ vault_backbone__acme_dns_challenge__provider }}"
+backbone__acme_dns_challenge__api_key: "{{ vault_backbone__acme_dns_challenge__api_key }}"
+backbone__acme_dns_challenge__api_key_variable: "{{ vault_backbone__acme_dns_challenge__api_key_variable }}"
+backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge__enabled }}"
 
-torrent:
-  user: "{{ vault_torrent.user }}"
-  pass_pbkdf2: "{{ vault_torrent.pass_pbkdf2 }}"
+nextcloud__postgres_password: "{{ vault_nextcloud__postgres_password }}"
+nextcloud__nextcloud_admin: "{{ vault_nextcloud__nextcloud_admin }}"
+nextcloud__nextcloud_password: "{{ vault_nextcloud__nextcloud_password }}"
+nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
 
-usenet:
-  server_name: "{{ vault_usenet.server_name }}"
-  server_host: "{{ vault_usenet.server_host }}"
-  server_port: "{{ vault_usenet.server_port }}"
-  server_user: "{{ vault_usenet.server_user }}"
-  server_pass: "{{ vault_usenet.server_pass }}"
-  user: "{{ vault_usenet.user }}"
-  pass: "{{ vault_usenet.pass }}"
+torrent__user: "{{ vault_torrent__user }}"
+torrent__pass_pbkdf2: "{{ vault_torrent__pass_pbkdf2 }}"
 
-photoprism:
-  photoprism_password: "{{ vault_photoprism.photoprism_password }}"
-  mariadb_password: "{{ vault_photoprism.mariadb_password }}"
+usenet__server_name: "{{ vault_usenet__server_name }}"
+usenet__server_host: "{{ vault_usenet__server_host }}"
+usenet__server_port: "{{ vault_usenet__server_port }}"
+usenet__server_user: "{{ vault_usenet__server_user }}"
+usenet__server_pass: "{{ vault_usenet__server_pass }}"
+usenet__user: "{{ vault_usenet__user }}"
+usenet__pass: "{{ vault_usenet__pass }}"
 
-recipes:
-  secret_key: "{{ vault_recipes.secret_key }}"
-  db_password: "{{ vault_recipes.db_password }}"
+photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
+photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
 
-wikijs:
-  db_password: "{{ vault_wikijs.db_password }}"
+recipes__secret_key: "{{ vault_recipes__secret_key }}"
+recipes__db_password: "{{ vault_recipes__db_password }}"
 
-backups:
-  local_destination: "{{ vault_backups.local_destination }}"
-  local_healthcheck_id: "{{ vault_backups.local_healthcheck_id }}"
-  remote_destination: "{{ vault_backups.remote_destination }}"
-  access_id_remote: "{{ vault_backups.access_id_remote }}"
-  access_secret_remote: "{{ vault_backups.access_secret_remote }}"
-  remote_healthcheck_id: "{{ vault_backups.remote_healthcheck_id }}"
-  encryption_key: "{{ vault_backups.encryption_key }}"
+wikijs__db_password: "{{ vault_wikijs__db_password }}"
+
+backups__local_destination: "{{ vault_backups__local_destination }}"
+backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"
+backups__remote_destination: "{{ vault_backups__remote_destination }}"
+backups__access_id_remote: "{{ vault_backups__access_id_remote }}"
+backups__access_secret_remote: "{{ vault_backups__access_secret_remote }}"
+backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
+backups__encryption_key: "{{ vault_backups__encryption_key }}"
