@@ -8,7 +8,7 @@
     apps_exclude_path: "{{ apps_exclude | map('regex_replace', '^', docker_compose_directory + '/') }}"
 
 - ansible.builtin.set_fact:
-    apps_selected: "{{ apps_include if apps_include is defined and apps_include | length > 0 else docker_compose_directories.files | map(attribute='path') | difference(apps_exclude_path) }}"
+    apps_selected: "{{ apps_include | map('regex_replace', '^', docker_compose_directory + '/') if apps_include is defined and apps_include | length > 0 else docker_compose_directories.files | map(attribute='path') | difference(apps_exclude_path) }}"
 
 - name: "Applying state '{{ apps_state }}' to {{ apps_selected | length }} apps"
   community.docker.docker_compose:
