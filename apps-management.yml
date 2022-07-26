@@ -1,0 +1,33 @@
+- hosts: apps
+  vars_prompt:
+    - name: apps_state
+      prompt: |-
+        Choose the state the app will be in:
+          - present
+          - restarted
+          - absent
+        Your choice
+      private: no
+    - name: apps_include_str
+      prompt: |-
+        Enter the apps to include as a space separated list of names. Leave empty to include all apps.
+        Note that this setting is mutually exclusive with the 'apps_exclude' one (that will be prompted right after this one); if both are set, only this one will be used
+      private: no
+    - name: apps_exclude_str
+      prompt: |-
+        Enter the apps to exclude as a space separated list of names. Leave empty to not exclude any app
+      private: no
+  pre_tasks:
+    - ansible.builtin.set_fact:
+        apps_include: "{{ apps_include_str | split(' ') | list }}"
+      when:
+        - apps_include_str is defined
+        - apps_include_str | length > 0
+    - ansible.builtin.set_fact:
+        apps_exclude: "{{ apps_exclude_str | split(' ') | list }}"
+      when:
+        - apps_exclude_str is defined
+        - apps_exclude_str | length > 0
+  roles:
+    - apps-action
+
