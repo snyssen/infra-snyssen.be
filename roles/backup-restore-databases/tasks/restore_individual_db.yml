@@ -20,7 +20,5 @@
       - "item.value.directory + '/' + db_selected_restore.user_input in available_dump_files.files | map(attribute='path')"
     fail_msg: "'{{ db_selected_restore.user_input }}' is not one of the available dumps."
 
-
-
 - name: "restoring {{ item.value.type }} dump '{{ db_selected_restore.user_input }}' for {{ item.key }} database"
   ansible.builtin.include_tasks: "{{ item.value.type }}_restore.yml"

@@ -5,7 +5,7 @@ services:
     container_name: wiki_postgres
     environment:
       POSTGRES_DB: wiki
-      POSTGRES_PASSWORD: {{ wikijs__db_password }}
+      POSTGRES_PASSWORD: "{{ wikijs__db_password }}"
       POSTGRES_USER: wikijs
     logging:
       driver: "none"
@@ -44,7 +44,7 @@ services:
       DB_HOST: wiki_postgres
       DB_PORT: 5432
       DB_USER: wikijs
-      DB_PASS: {{ wikijs__db_password }}
+      DB_PASS: "{{ wikijs__db_password }}"
       DB_NAME: wiki
     restart: unless-stopped
     labels:

@@ -5,7 +5,7 @@
 
 - name: Shutting down all apps except restic
   ansible.builtin.include_role:
-    name:  apps-action
+    name: apps-action
   vars:
     apps_state: absent
     apps_exclude:
@@ -20,9 +20,9 @@
 
 - ansible.builtin.pause:
     prompt: |-
-      
+
       {{ restic_available_snapshots.stdout }}
-      
+
       -> Please enter a snapshot ID below OR leave empty to restore latest snapshot
   register: restic_selected_snapshot
 
@@ -41,28 +41,27 @@
   register: restic_remove_files
 
 - block:
+    - name: "Collecting files and directories to delete"
+      become: yes
+      ansible.builtin.find:
+        paths: "{{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}"
+        hidden: yes
+        recurse: no
+        file_type: any
+      register: collected_files
 
-  - name: 'Collecting files and directories to delete'
-    become: yes
-    ansible.builtin.find:
-      paths: "{{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}"
-      hidden: yes
-      recurse: no
-      file_type: any
-    register: collected_files
+    - ansible.builtin.pause:
+        prompt: >-
+          You are about to delete {{ collected_files.matched }} files from directory
+          {{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}.
+          Do you want to continue? ('ctrl+c' then 'c' to continue or 'a' to abort)
 
-  - ansible.builtin.pause:
-      prompt: >-
-        You are about to delete {{ collected_files.matched }} files from directory
-        {{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}.
-        Do you want to continue? ('ctrl+c' then 'c' to continue or 'a' to abort)
-
-  - name: Deleting files and directories
-    become: yes
-    ansible.builtin.file:
-      path: "{{ item.path }}"
-      state: absent
-    with_items: "{{ collected_files.files }}"
+    - name: Deleting files and directories
+      become: yes
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ collected_files.files }}"
 
   when: restic_remove_files.user_input | lower == 'y' or restic_remove_files.user_input | lower == 'yes'
 

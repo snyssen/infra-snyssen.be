@@ -4,7 +4,6 @@
 # Most of the files stored there will be databases__ As such they could significantly grow in size
 docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 
-
 backbone__traefik_dashboard_htpassword: "{{ vault_backbone__traefik_dashboard_htpassword }}"
 backbone__acme_ca_server: "{{ vault_backbone__acme_ca_server }}"
 backbone__acme_dns_challenge__enabled: "{{ vault_backbone__acme_dns_challenge__enabled }}"

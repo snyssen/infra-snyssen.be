@@ -1,6 +1,6 @@
 - name: Finding all apps
   ansible.builtin.find:
-    path: "{{ docker_compose_directory }}" 
+    path: "{{ docker_compose_directory }}"
     file_type: directory
   register: docker_compose_directories
 

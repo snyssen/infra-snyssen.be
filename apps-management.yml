@@ -30,4 +30,3 @@
         - apps_exclude_str | length > 0
   roles:
     - apps-action
-
