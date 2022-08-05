@@ -1,7 +1,7 @@
 version: "3"
 services:
   snyssen-be:
-    image: registry.snyssen.be/snyssen/snyssen-be:latest
+    image: snyssen/snyssen-be:latest # TODO: Revert to using self-hosted container registry later
     restart: unless-stopped
     container_name: snyssen-be
     networks:
