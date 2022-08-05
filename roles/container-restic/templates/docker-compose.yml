@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   restic_local: &restic-config
     image: lobaro/restic-backup-docker
     restart: unless-stopped
