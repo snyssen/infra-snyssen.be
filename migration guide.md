@@ -14,12 +14,24 @@ Here are the steps:
 3. From guest, run from-scratch playbook **without starting apps** (apps-deploy has to be modified so a flag can be set for this)
 4. Now restore app by app:
    1. Nextcloud:
-      1. From staging, Start nextcloud_postgres and nextcloud_postgres_backups: `docker-compose up -d nextcloud_postgres nextcloud_postgres_backups`
+      1. From staging, start nextcloud_postgres and nextcloud_postgres_backups: `docker-compose up -d nextcloud_postgres nextcloud_postgres_backups`
       2. From staging, restore `/mnt/storage/nextcloud_dumps` with restic to get access to latest dumps
-      3. Fix the latest dump with `sed -i -e 's/\boc_snyssen\b/nextcloud/g' -e 's/oc_//g' $FILENAME`. This is necessary because old server used `oc_snyssen` user and `oc_` prefixes everywhere
+      3. Fix the latest dump:
+         1. Edit the file to remove `CREATE/ALTER ROLE` commands as the container already defines the role to use
+         2. Run `sed -i -e 's/\boc_snyssen\b/nextcloud/g' -e 's/oc_//g' $FILENAME`. This is necessary because old server used `oc_snyssen` user and `oc_` prefixes everywhere
       4. Move the dump to `/mnt/storage/backups/nextcloud/` so it can be accessed by nextcloud_postgres_backups
       5. Restore the dump: `docker exec -it nextcloud_postgres_backups /bin/sh -c "cat /backups/$FILENAME | psql -U nextcloud -d nextcloud -h nextcloud_postgres -W"`
       6. Restore `/mnt/storage/nextcloud` with restic
-      7. Fix `/mnt/storage/nextcloud/config/config.php`: Check db settings (should connect with nextcloud user and not use any tabvle prefix), add staging domain to trusted domain
+      7. Fix `/mnt/storage/nextcloud/config/config.php`: Check db settings (should connect with nextcloud user and not use any table prefix), add staging domain to trusted domain
       8. Start nextcloud stack and check everything is okay
    2. Photoprism:
+      1. From staging, restore `/mnt/storage/pictures` with restic
+      2. For this service we won't restore anything from old server, rest of configuration is done from scratch.
+   3. Recipes:
+      1. From staging, start recipes_postgres and recipes_postgres_backups: `docker-compose up -d recipes_postgres recipes_postgres_backups`
+      2. From staging, restore `/mnt/storage/recipes` with restic
+      3. Fix the latest dump from `/mnt/storage/recipes/dumps`: Edit the file to remove `CREATE/ALTER ROLE` commands as the container already defines the role to use
+      4. Move latest database dump to `/mnt/storage/backups/recipes` so it can be accessed by recipes_postgres_backups.
+      5. Restore the dump: `docker exec -it recipes_postgres_backups /bin/sh -c "cat /backups/$FILENAME | psql -U djangouser -d djangodb -h recipes_postgres -W"`
+   4. Streaming:
+      1.

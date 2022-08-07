@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["minio"],
+  "cSpell.words": ["minio", "restic"],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#9a8fe9",
     "activityBar.activeBorder": "#ba3725",
