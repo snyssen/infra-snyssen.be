@@ -8,9 +8,11 @@ services:
       - web
     user: 1000:1000
     environment:
-      - JELLYFIN_LOG_DIR=/logs
-      - JELLYFIN_CACHE_DIR=/cache
       - JELLYFIN_DATA_DIR=/data
+      - JELLYFIN_CONFIG_DIR=/config
+      - JELLYFIN_CACHE_DIR=/cache
+      - JELLYFIN_LOG_DIR=/logs
+
       - JELLYFIN_PublishedServerUrl=streaming.{{ ansible_fqdn }}
     ports:
       - 7359:7359/udp # clients discovery
@@ -38,10 +40,10 @@ services:
       - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
       - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.{{ ansible_fqdn }}'
     volumes:
-      - /mnt/storage/jellyfin/config:/config # For easy backups
-      - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
-      - "{{ docker_mounts_directory }}/jellyfin/cache:/cache"
       - "{{ docker_mounts_directory }}/jellyfin/data:/data"
+      - "{{ docker_mounts_directory }}/jellyfin/config:/config"
+      - "{{ docker_mounts_directory }}/jellyfin/cache:/cache"
+      - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
 

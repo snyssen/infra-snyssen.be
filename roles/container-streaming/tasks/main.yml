@@ -4,10 +4,10 @@
     state: directory
   with_items:
     # jellyfin
-    - "/mnt/storage/jellyfin/config"
-    - "{{ docker_mounts_directory }}/jellyfin/logs"
-    - "{{ docker_mounts_directory }}/jellyfin/cache"
     - "{{ docker_mounts_directory }}/jellyfin/data"
+    - "{{ docker_mounts_directory }}/jellyfin/config"
+    - "{{ docker_mounts_directory }}/jellyfin/cache"
+    - "{{ docker_mounts_directory }}/jellyfin/logs"
     - "/mnt/storage/streaming/media/movies"
     - "/mnt/storage/streaming/media/tv"
     - "/mnt/storage/streaming/media/music"

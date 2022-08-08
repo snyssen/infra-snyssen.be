@@ -20,8 +20,7 @@ services:
       - /mnt/storage/recipes:/data/recipes
       - /mnt/storage/backups:/data/backups
       - /mnt/storage/streaming/media/music:/data/streaming/media/music
-      - /mnt/storage/jellyfin/config:/data/jellyfin/config
-      # - "{{ docker_mounts_directory }}/jellyfin/data:/data/jellyfin/data" # I don't think we should actually include this folder but I'm not sure
+      - /mnt/storage/jellyfin:/data/jellyfin
       - "{{ docker_mounts_directory }}/sonarr/config:/data/sonarr/config"
       - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
       - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
