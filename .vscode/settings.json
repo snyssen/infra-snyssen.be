@@ -1,5 +1,9 @@
 {
-  "cSpell.words": ["minio", "restic"],
+  "cSpell.words": [
+    "jellyfin",
+    "minio",
+    "restic"
+  ],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#9a8fe9",
     "activityBar.activeBorder": "#ba3725",

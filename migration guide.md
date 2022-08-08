@@ -34,4 +34,12 @@ Here are the steps:
       4. Move latest database dump to `/mnt/storage/backups/recipes` so it can be accessed by recipes_postgres_backups.
       5. Restore the dump: `docker exec -it recipes_postgres_backups /bin/sh -c "cat /backups/$FILENAME | psql -U djangouser -d djangodb -h recipes_postgres -W"`
    4. Streaming:
-      1.
+      1. From staging, restore with restic:
+         - `/home/snyssen/docker_mounts/jellyfin/config/data` to `/home/snyssen/data/jellyfin/data`
+         - `/home/snyssen/docker_mounts/jellyfin/config` to `/home/snyssen/data/jellyfin/config` **but** exclude `cache`, `custom-cont-init.d`, `custom-services.d`, `data` and `log`
+         - (optional) `/home/snyssen/docker_mounts/jellyfin/config/cache` to `/home/snyssen/data/jellyfin/cache`
+         - `/mnt/storage/movies` to `/mnt/storage/streaming/media/movies`
+         - `/mnt/storage/music` to `/mnt/storage/streaming/media/music`
+         - `/mnt/storage/TV_shows` to `/mnt/storage/streaming/media/tv`
+      2. Other services won't be restored, they will have to be configured from scratch.
+      3. Start stack then go into the libraries settings of jellyfin. Fix the libraries paths from there.
