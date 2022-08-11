@@ -13,12 +13,6 @@
         user: djangouser
         password: "{{ recipes__db_password }}"
         database: djangodb
-      wiki:
-        directory: /mnt/storage/backups/wiki/dumps
-        type: pgsql
-        user: wikijs
-        password: "{{ wikijs__db_password }}"
-        database: wiki
       photoprism:
         directory: /mnt/storage/backups/photoprism/mysql
         type: photoprism

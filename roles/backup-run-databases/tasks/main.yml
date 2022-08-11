@@ -8,11 +8,6 @@
     container: recipes_postgres_backups
     command: /backup.sh
 
-- name: Backing up wikijs database to disk
-  community.docker.docker_container_exec:
-    container: wiki_postgres_backups
-    command: /backup.sh
-
 - name: Backing up photoprism database to disk
   community.docker.docker_container_exec:
     container: photoprism

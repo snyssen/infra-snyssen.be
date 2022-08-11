@@ -34,8 +34,6 @@ photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 
-wikijs__db_password: "{{ vault_wikijs__db_password }}"
-
 backups__local_destination: "{{ vault_backups__local_destination }}"
 backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"
 backups__remote_destination: "{{ vault_backups__remote_destination }}"

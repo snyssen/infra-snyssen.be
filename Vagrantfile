@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "generic/fedora36"
   config.ssh.insert_key = false
-  
+
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     apps.vm.network :private_network, ip: "192.168.56.12"
 
     # Adds one alias per subdomain
-    subdomains = %w(routing docker recipes speedtest wiki git registry cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr)
+    subdomains = %w(routing docker recipes speedtest git registry cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr)
       .map{|s| s+= ".snyssen.duckdns.org"}
       apps.hostmanager.aliases = subdomains
 
