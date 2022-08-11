@@ -14,6 +14,7 @@ services:
       - JELLYFIN_LOG_DIR=/logs
 
       - JELLYFIN_PublishedServerUrl=streaming.{{ ansible_fqdn }}
+      - JELLYFIN_playlists__allowDuplicates=false
     ports:
       - 7359:7359/udp # clients discovery
       - 1900:1900/udp # DLNA
