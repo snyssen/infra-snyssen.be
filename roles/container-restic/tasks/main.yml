@@ -12,6 +12,10 @@
     - pre-backup.sh
     - post-backup.sh
 
+- ansible.builtin.set_fact:
+    backups__volumes_local: "{{ backups__volumes_common + backups__volumes_local_only }}"
+    backups__volumes_remote: "{{ backups__volumes_common + backups__volumes_remote_only }}"
+
 - ansible.builtin.include_role:
     name: container-deploy
   vars:
