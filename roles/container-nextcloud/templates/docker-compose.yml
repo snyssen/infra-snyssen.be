@@ -74,6 +74,7 @@ services:
       - OVERWRITEPROTOCOL=https
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
+      - /mnt/storage/pictures:/pictures
 
   onlyoffice:
     container_name: onlyoffice
