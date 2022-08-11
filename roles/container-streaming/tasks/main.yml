@@ -57,4 +57,3 @@
     name: container-deploy
   vars:
     container_name: "streaming"
-    docker_compose_force_restart: true

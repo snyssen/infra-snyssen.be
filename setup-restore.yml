@@ -1,0 +1,12 @@
+- hosts: apps
+  roles:
+    - packages-upgrade
+    - setup-common
+    - setup-storage
+    - role: setup-snapraid
+      when: not skip_snapraid | default(true)
+    - role: apps-deploy
+      vars:
+        docker_compose_state: absent
+    - backup-restore-files
+    - backup-restore-databases
