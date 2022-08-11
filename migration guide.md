@@ -35,9 +35,10 @@ Here are the steps:
       5. Restore the dump: `docker exec -it recipes_postgres_backups /bin/sh -c "cat /backups/$FILENAME | psql -U djangouser -d djangodb -h recipes_postgres -W"`
    4. Streaming:
       1. From staging, restore with restic:
-         - `/home/snyssen/docker_mounts/jellyfin/config/data` to `/home/snyssen/data/jellyfin/data`
-         - `/home/snyssen/docker_mounts/jellyfin/config` to `/home/snyssen/data/jellyfin/config` **but** exclude `cache`, `custom-cont-init.d`, `custom-services.d`, `data` and `log`
-         - (optional) `/home/snyssen/docker_mounts/jellyfin/config/cache` to `/home/snyssen/data/jellyfin/cache`
+         - These could be used to restore settings etc. but I actually think we should restart from sratch...:
+            - `/home/snyssen/docker_mounts/jellyfin/config/data` to `/home/snyssen/data/jellyfin/data`
+            - `/home/snyssen/docker_mounts/jellyfin/config` to `/home/snyssen/data/jellyfin/config` **but** exclude `cache`, `custom-cont-init.d`, `custom-services.d`, `data` and `log`
+            - (optional) `/home/snyssen/docker_mounts/jellyfin/config/cache` to `/home/snyssen/data/jellyfin/cache`
          - `/mnt/storage/movies` to `/mnt/storage/streaming/media/movies`
          - `/mnt/storage/music` to `/mnt/storage/streaming/media/music`
          - `/mnt/storage/TV_shows` to `/mnt/storage/streaming/media/tv`
