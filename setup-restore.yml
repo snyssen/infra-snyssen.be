@@ -10,3 +10,6 @@
         docker_compose_state: absent
     - backup-restore-files
     - backup-restore-databases
+    - role: apps-action
+      vars:
+        apps_state: restarted

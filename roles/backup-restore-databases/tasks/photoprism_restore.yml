@@ -1,3 +1,12 @@
-- community.docker.docker_container_exec:
+- name: "[{{ item.value.type }} - {{ item.key }}] Ensuring containers are started"
+  ansible.builtin.include_role:
+    name: apps-action
+  vars:
+    apps_state: present
+    apps_include:
+      - "{{ item.key }}"
+
+- name: "[{{ item.value.type }} - {{ item.key }}] Restoring photoprism"
+  community.docker.docker_container_exec:
     container: "{{ item.key }}"
     command: photoprism restore -i /backups/{{ db_selected_restore.user_input }}

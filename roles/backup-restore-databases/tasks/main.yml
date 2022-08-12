@@ -25,8 +25,5 @@
         db_restore_available | dict2items | rejectattr('key', 'in', db_restore_exclude) | list | items2dict
       }}
 
-- ansible.builtin.debug:
-    var: db_restore_selected
-
 - ansible.builtin.include_tasks: restore_individual_db.yml
   loop: "{{ db_restore_selected | dict2items }}"

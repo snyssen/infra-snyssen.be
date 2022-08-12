@@ -1,4 +1,14 @@
-- community.docker.docker_container_exec:
+- name: "[{{ item.value.type }} - {{ item.key }}] Ensuring containers are started"
+  ansible.builtin.include_role:
+    name: apps-action
+  vars:
+    apps_state: present
+    apps_include:
+      - "{{ item.key }}"
+      - "{{ item.key }}_postgres_backups"
+
+- name: "[{{ item.value.type }} - {{ item.key }}] Restoring database {{ item.value.database }}"
+  community.docker.docker_container_exec:
     container: "{{ item.key }}_postgres_backups"
     command: >-
       pg_restore -h {{item.key}}_postgres -U {{ item.value.user }} -d {{ item.value.database }} --clean --if-exists

@@ -77,9 +77,3 @@
   community.docker.docker_container_exec:
     container: "{{ 'restic_remote' if restic_server == 'remote' else 'restic_local' }}"
     command: "restic restore {{ restic_selected_snapshot.user_input | default('latest', true) }} {{ '--include ' + restic_selected_restore_path.user_input | replace('/mnt/storage', '/data') | replace(docker_mounts_directory, '/data') if restic_selected_restore_path.user_input }} --target /"
-
-- name: Restarting all apps
-  ansible.builtin.include_role:
-    name: apps-action
-  vars:
-    apps_state: present
