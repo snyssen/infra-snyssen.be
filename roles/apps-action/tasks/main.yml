@@ -13,5 +13,6 @@
 - name: "Applying state '{{ apps_state }}' to {{ apps_selected | length }} apps"
   community.docker.docker_compose:
     project_src: "{{ item }}"
-    state: "{{ apps_state }}"
+    state: "{{ 'absent' if apps_state == 'absent' else 'present' }}"
+    restarted: "{{ apps_state == 'restarted' }}"
   with_items: "{{ apps_selected }}"
