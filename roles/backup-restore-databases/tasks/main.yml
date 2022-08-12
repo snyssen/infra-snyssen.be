@@ -27,3 +27,5 @@
 
 - ansible.builtin.include_tasks: restore_individual_db.yml
   loop: "{{ db_restore_selected | dict2items }}"
+  loop_control:
+    loop_var: db_restore_selected_individual
