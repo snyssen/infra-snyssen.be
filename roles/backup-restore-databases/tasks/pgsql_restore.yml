@@ -5,7 +5,6 @@
     apps_state: present
     apps_include:
       - "{{ db_restore_selected_individual.key }}"
-      - "{{ db_restore_selected_individual.key }}_postgres_backups"
 
 - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Restoring database {{ db_restore_selected_individual.value.database }}"
   community.docker.docker_container_exec:
