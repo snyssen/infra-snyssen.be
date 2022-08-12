@@ -12,4 +12,4 @@
     - backup-restore-databases
     - role: apps-action
       vars:
-        apps_state: restarted
+        apps_state: present
