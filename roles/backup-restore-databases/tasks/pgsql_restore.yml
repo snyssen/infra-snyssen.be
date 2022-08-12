@@ -10,5 +10,7 @@
   community.docker.docker_container_exec:
     container: "{{ db_restore_selected_individual.key }}_postgres_backups"
     command: >-
+      bash -c
+      PGPASSWORD={{ db_restore_selected_individual.value.password }}
       pg_restore -h {{db_restore_selected_individual.key}}_postgres -U {{ db_restore_selected_individual.value.user }} -d {{ db_restore_selected_individual.value.database }} --clean --if-exists
-      /backups/{{ db_selected_restore.user_input }}
+      < /backups/{{ db_selected_restore.user_input }}
