@@ -24,6 +24,8 @@
     - "{{ docker_mounts_directory }}/radarr/config"
     # lidarr
     - "{{ docker_mounts_directory }}/lidarr/config"
+    # prowlarr
+    - "{{ docker_mounts_directory }}/prowlarr/config"
 
 - name: Copying open VPN config
   ansible.builtin.copy:

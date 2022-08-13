@@ -157,6 +157,24 @@ services:
       - /mnt/storage/streaming:/data
     restart: unless-stopped
 
+  # TODO: Is this app really necessary ? Maybe remove it.
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.entryPoints=websecure
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ ansible_fqdn }}`)
+      - traefik.http.services.prowlarr.loadBalancer.server.port=9696
+    volumes:
+      - "{{ docker_mounts_directory }}/prowlarr/config:/config"
+    restart: unless-stopped
+
 networks:
   web:
     external: true
