@@ -19,8 +19,11 @@ services:
       - "--entryPoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certResolver=le"
+      {% if backbone__acme_dns_challenge__enabled %}
       - "--entrypoints.websecure.http.tls.domains[0].main={{ ansible_fqdn }}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ ansible_fqdn }}"
+      {% endif %}
+
 
       - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
       - "--certificatesResolvers.le.acme.storage=acme.json"
