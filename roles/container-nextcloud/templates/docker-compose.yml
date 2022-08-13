@@ -76,31 +76,6 @@ services:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/pictures:/pictures
 
-  onlyoffice:
-    container_name: onlyoffice
-    image: onlyoffice/documentserver:latest
-    restart: always
-    networks:
-      - internal
-      - web
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.only-office.service=only-office
-      - traefik.http.routers.only-office.entrypoints=websecure
-      - traefik.http.routers.only-office.rule=Host(`office.{{ ansible_fqdn }}`)
-      - traefik.http.routers.only-office.middlewares=oo-header
-      - traefik.http.services.only-office.loadbalancer.server.port=80
-      - traefik.http.middlewares.oo-header.headers.referrerPolicy=no-referrer
-      - traefik.http.middlewares.oo-header.headers.stsSeconds=31536000
-      - traefik.http.middlewares.oo-header.headers.forceSTSHeader=true
-      - traefik.http.middlewares.oo-header.headers.stsPreload=true
-      - traefik.http.middlewares.oo-header.headers.stsIncludeSubdomains=true
-      - traefik.http.middlewares.oo-header.headers.browserXssFilter=true
-      - traefik.http.middlewares.oo-header.headers.customRequestHeaders.X-Forwarded-Proto=https
-    volumes:
-      - /mnt/storage/onlyoffice/data:/var/www/onlyoffice/Data
-      - /mnt/storage/onlyoffice/logs:/var/log/onlyoffice
-
 networks:
   web:
     external: true
