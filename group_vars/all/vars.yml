@@ -12,4 +12,4 @@ dns_servers: "{{ vault_dns_servers }}"
 iana_timezone: Europe/Brussels
 
 # Used to store the docker-compose.yml files
-docker_compose_directory: "{{ vault_docker_compose_directory }}"
+docker_compose_directory: "/home/{{ ansible_user }}/containers"
