@@ -157,7 +157,7 @@ Server1.Active=yes
 #
 # The name is used in UI and for logging. It can be any string, you
 # may even leave it empty.
-Server1.Name={{ usenet.server_name }}
+Server1.Name={{ usenet__server_name }}
 
 # Level (priority) of news server (0-99).
 #
@@ -197,16 +197,16 @@ Server1.Optional=no
 Server1.Group=0
 
 # Host name of news server.
-Server1.Host={{ usenet.server_host }}
+Server1.Host={{ usenet__server_host }}
 
 # Port to connect to (1-65535).
-Server1.Port={{ usenet.server_port }}
+Server1.Port={{ usenet__server_port }}
 
 # User name to use for authentication.
-Server1.Username={{ usenet.server_user }}
+Server1.Username={{ usenet__server_user }}
 
 # Password to use for authentication.
-Server1.Password={{ usenet.server_pass }}
+Server1.Password={{ usenet__server_pass }}
 
 # Server requires "Join Group"-command (yes, no).
 Server1.JoinGroup=no
@@ -311,12 +311,12 @@ ControlPort=6789
 # for older NZBGet versions may not have an option to define user name. In
 # this case you should set option <ControlUsername> to the default value
 # "nzbget" or use empty value.
-ControlUsername={{ usenet.user }}
+ControlUsername={{ usenet__user }}
 
 # Password which NZBGet server and remote client use.
 #
 # Set to empty value to disable authorization request.
-ControlPassword={{ usenet.pass }}
+ControlPassword={{ usenet__pass }}
 
 # User name for restricted access.
 #
@@ -1687,13 +1687,13 @@ Category4.Unpack=yes
 Category4.Extensions=
 Category4.Aliases=
 EMail.py:SendMail=Always
-EMail.py:From="NZBGet" <{{ smtp.from }}>
-EMail.py:To={{ smtp.to }}
-EMail.py:Server={{ smtp.host }}
-EMail.py:Port={{ smtp.port }}
-EMail.py:Encryption={{ smtp.tls }}
-EMail.py:Username={{ smtp.user }}
-EMail.py:Password={{ smtp.pass }}
+EMail.py:From="NZBGet" <{{ smtp__from }}>
+EMail.py:To={{ smtp__to }}
+EMail.py:Server={{ smtp__host }}
+EMail.py:Port={{ smtp__port }}
+EMail.py:Encryption={{ smtp__tls }}
+EMail.py:Username={{ smtp__user }}
+EMail.py:Password={{ smtp__pass }}
 EMail.py:Statistics=yes
 EMail.py:FileList=yes
 EMail.py:BrokenLog=yes

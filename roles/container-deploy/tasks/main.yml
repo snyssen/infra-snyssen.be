@@ -17,6 +17,6 @@
 - name: "[{{ container_name }}] Starting docker-compose"
   ansible.builtin.docker_compose:
     project_src: "{{ docker_compose_path }}"
-    state: "{{  'restarted' if docker_compose_force_restart == 'true' else 'present' }}"
+    state: "{{ 'absent' if docker_compose_state == 'absent' else 'present' }}"
+    restarted: "{{ docker_compose_state == 'restarted' }}"
     pull: yes
-  when: docker_compose_start

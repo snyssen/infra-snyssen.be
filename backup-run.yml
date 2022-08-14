@@ -1,6 +1,5 @@
 - hosts: apps
   tasks:
-
     - ansible.builtin.include_role:
         name: backup-run-databases
       when: backup_skip_databases | default(false) == false

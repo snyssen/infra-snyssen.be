@@ -31,7 +31,7 @@ services:
       - /mnt/storage/backups/recipes:/backups
 
   web_recipes:
-    image: vabene1111/recipes
+    image: vabene1111/recipes:1.2.7
     container_name: web_recipes
     restart: unless-stopped
     env_file:

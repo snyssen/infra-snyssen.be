@@ -6,6 +6,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of Contents
 
 - [Important notice](#important-notice)
@@ -84,18 +85,19 @@ Run the setup script:
 ```
 
 This script will do the following:
-1. Set a pre-commit hook to prevent you from making commits without encrypting the Ansible vaults first. 
+
+1. Set a pre-commit hook to prevent you from making commits without encrypting the Ansible vaults first.
 2. Install the Ansible, Vagrant and other requirements.
 3. Create the ansible password file for encrypting and decrypting the vaults. You will be asked for the encryption key. **The generated file (`.vault_pass`) should of course never be committed.**
 
 To build the test virtual machine, run:
-
 
 ```bash
 vagrant up
 ```
 
 This should create a virtual machine and provision it with Ansible. If you are satisfied with the results, change the `hosts/prod.yml` Ansible inventory file so it points to your own server, then rename the `host_vars/192.168.1.10` folder to your server hostname or ip address (whatever you put in the inventory file) and change the variables files found in this folder for your use. Finally, apply the changes to your server by running:
+
 ```bash
 ansible-playbook playbook.yml --inventory=hosts/prod.yml
 ```
@@ -146,4 +148,4 @@ The backbone is what makes all the other services accessible. Its is currently o
 
 ### 2. Jellyfin
 
-[Jellyfin](https://jellyfin.org) is part of the streaming stack 
+[Jellyfin](https://jellyfin.org) is part of the streaming stack

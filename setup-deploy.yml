@@ -1,12 +1,13 @@
 - hosts: all
   roles:
-    - maintenance
+    - packages-upgrade
     - setup-common
     - setup-storage
 
 - hosts: apps
   roles:
-    - setup-snapraid
+    - role: setup-snapraid
+      when: not skip_snapraid | default(true)
     - apps-deploy
 
 - hosts: backup

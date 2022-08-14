@@ -26,7 +26,7 @@
     owner: root
     group: root
     mode: "0644"
-    
+
 - name: Deploying SnapRAID-runner configuration
   become: yes
   ansible.builtin.template:

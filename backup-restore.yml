@@ -1,6 +1,5 @@
 - hosts: apps
   tasks:
-
     - ansible.builtin.include_role:
         name: backup-restore-files
       when: backup_skip_files | default(false) == false

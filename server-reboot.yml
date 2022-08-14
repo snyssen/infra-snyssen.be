@@ -1,0 +1,24 @@
+- hosts: all
+  vars_prompt:
+    - name: reboot_delay
+      prompt: |-
+        Enter the delay before rebooting (in second, must be above 60). Leave empty to reboot immediately.
+        delay
+      private: no
+  tasks:
+    - name: Ensuring apps are stopped
+      ansible.builtin.include_role:
+        name:  apps-action
+      vars:
+        apps_state: absent
+
+    - ansible.builtin.reboot:
+        pre_reboot_delay: "{{ reboot_delay | default(0, true) }}"
+      become: yes
+
+    - name: Restarting apps
+      ansible.builtin.include_role:
+        name: apps-action
+      vars:
+        apps_state: present
+      when: not prevent_apps_restart | default(false)

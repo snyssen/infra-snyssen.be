@@ -4,10 +4,10 @@
     state: directory
   with_items:
     # jellyfin
-    - "/mnt/storage/jellyfin/config"
-    - "{{ docker_mounts_directory }}/jellyfin/logs"
-    - "{{ docker_mounts_directory }}/jellyfin/cache"
     - "{{ docker_mounts_directory }}/jellyfin/data"
+    - "{{ docker_mounts_directory }}/jellyfin/config"
+    - "{{ docker_mounts_directory }}/jellyfin/cache"
+    - "{{ docker_mounts_directory }}/jellyfin/logs"
     - "/mnt/storage/streaming/media/movies"
     - "/mnt/storage/streaming/media/tv"
     - "/mnt/storage/streaming/media/music"
@@ -24,8 +24,6 @@
     - "{{ docker_mounts_directory }}/radarr/config"
     # lidarr
     - "{{ docker_mounts_directory }}/lidarr/config"
-    # prowlarr
-    - "{{ docker_mounts_directory }}/prowlarr/config"
 
 - name: Copying open VPN config
   ansible.builtin.copy:
@@ -57,4 +55,3 @@
     name: container-deploy
   vars:
     container_name: "streaming"
-    docker_compose_force_restart: true

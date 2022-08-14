@@ -8,10 +8,13 @@ services:
       - web
     user: 1000:1000
     environment:
-      - JELLYFIN_LOG_DIR=/logs
-      - JELLYFIN_CACHE_DIR=/cache
       - JELLYFIN_DATA_DIR=/data
+      - JELLYFIN_CONFIG_DIR=/config
+      - JELLYFIN_CACHE_DIR=/cache
+      - JELLYFIN_LOG_DIR=/logs
+
       - JELLYFIN_PublishedServerUrl=streaming.{{ ansible_fqdn }}
+      - JELLYFIN_playlists__allowDuplicates=false
     ports:
       - 7359:7359/udp # clients discovery
       - 1900:1900/udp # DLNA
@@ -38,10 +41,10 @@ services:
       - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
       - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.{{ ansible_fqdn }}'
     volumes:
-      - /mnt/storage/jellyfin/config:/config # For easy backups
-      - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
-      - "{{ docker_mounts_directory }}/jellyfin/cache:/cache"
       - "{{ docker_mounts_directory }}/jellyfin/data:/data"
+      - "{{ docker_mounts_directory }}/jellyfin/config:/config"
+      - "{{ docker_mounts_directory }}/jellyfin/cache:/cache"
+      - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
 
@@ -152,24 +155,6 @@ services:
     volumes:
       - "{{ docker_mounts_directory }}/lidarr/config:/config"
       - /mnt/storage/streaming:/data
-    restart: unless-stopped
-
-  # TODO: Is this app really necessary ? Maybe remove it.
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:develop
-    container_name: prowlarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-    networks:
-      - web
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.prowlarr.entryPoints=websecure
-      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ ansible_fqdn }}`)
-      - traefik.http.services.prowlarr.loadBalancer.server.port=9696
-    volumes:
-      - "{{ docker_mounts_directory }}/prowlarr/config:/config"
     restart: unless-stopped
 
 networks:

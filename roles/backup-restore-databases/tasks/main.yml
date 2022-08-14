@@ -5,20 +5,14 @@
         directory: /mnt/storage/backups/nextcloud
         type: pgsql
         user: nextcloud
-        password: "{{ nextcloud.postgres_password }}"
+        password: "{{ nextcloud__postgres_password }}"
         database: nextcloud
       recipes:
         directory: /mnt/storage/backups/recipes
         type: pgsql
         user: djangouser
-        password: "{{ recipes.db_password }}"
+        password: "{{ recipes__db_password }}"
         database: djangodb
-      wiki:
-        directory: /mnt/storage/backups/wiki/dumps
-        type: pgsql
-        user: wikijs
-        password: "{{ wikijs.db_password }}"
-        database: wiki
       photoprism:
         directory: /mnt/storage/backups/photoprism/mysql
         type: photoprism
@@ -31,8 +25,7 @@
         db_restore_available | dict2items | rejectattr('key', 'in', db_restore_exclude) | list | items2dict
       }}
 
-- ansible.builtin.debug:
-    var: db_restore_selected
-
 - ansible.builtin.include_tasks: restore_individual_db.yml
   loop: "{{ db_restore_selected | dict2items }}"
+  loop_control:
+    loop_var: db_restore_selected_individual
