@@ -1,0 +1,8 @@
+- hosts: apps
+  tasks:
+    - ansible.builtin.include_role:
+        name: backup-restore-files
+      when: backup_skip_files | default(false) == false
+    - ansible.builtin.include_role:
+        name: backup-restore-databases
+      when: backup_skip_databases | default(false) == false

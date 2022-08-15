@@ -1,0 +1,14 @@
+#! /usr/bin/bash
+PROJECTDIR="{{PROJECTDIR}}"
+
+VAULTS=$(find "${PROJECTDIR}" -type f -name "vault.yml")
+
+for vault_file in ${VAULTS}; do
+	# trunk-ignore(shellcheck/SC2016)
+	if (grep -q '$ANSIBLE_VAULT;' "${vault_file}"); then
+		echo "Vault in $(dirname "${vault_file}") is encrypted."
+	else
+		echo "Vault in $(dirname "${vault_file}") is NOT encrypted! Run 'ansible-vault encrypt ${vault_file}' and try again."
+		exit 1
+	fi
+done

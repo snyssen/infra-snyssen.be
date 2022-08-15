@@ -1,0 +1,59 @@
+# Used to store docker files that often changes__
+# As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
+# Please either use the main drive or an unmanaged drive (An SSD would be best)
+# Most of the files stored there will be databases__ As such they could significantly grow in size
+docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
+
+backbone__traefik_dashboard_htpassword: "{{ vault_backbone__traefik_dashboard_htpassword }}"
+backbone__acme_ca_server: "{{ vault_backbone__acme_ca_server }}"
+backbone__acme_dns_challenge__enabled: "{{ vault_backbone__acme_dns_challenge__enabled }}"
+backbone__acme_dns_challenge__provider: "{{ vault_backbone__acme_dns_challenge__provider }}"
+backbone__acme_dns_challenge__api_key: "{{ vault_backbone__acme_dns_challenge__api_key }}"
+backbone__acme_dns_challenge__api_key_variable: "{{ vault_backbone__acme_dns_challenge__api_key_variable }}"
+backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge__enabled }}"
+
+nextcloud__postgres_password: "{{ vault_nextcloud__postgres_password }}"
+nextcloud__nextcloud_admin: "{{ vault_nextcloud__nextcloud_admin }}"
+nextcloud__nextcloud_password: "{{ vault_nextcloud__nextcloud_password }}"
+nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
+
+torrent__user: "{{ vault_torrent__user }}"
+torrent__pass_pbkdf2: "{{ vault_torrent__pass_pbkdf2 }}"
+
+usenet__server_name: "{{ vault_usenet__server_name }}"
+usenet__server_host: "{{ vault_usenet__server_host }}"
+usenet__server_port: "{{ vault_usenet__server_port }}"
+usenet__server_user: "{{ vault_usenet__server_user }}"
+usenet__server_pass: "{{ vault_usenet__server_pass }}"
+usenet__user: "{{ vault_usenet__user }}"
+usenet__pass: "{{ vault_usenet__pass }}"
+
+photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
+photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
+
+recipes__secret_key: "{{ vault_recipes__secret_key }}"
+recipes__db_password: "{{ vault_recipes__db_password }}"
+
+backups__local_destination: "{{ vault_backups__local_destination }}"
+backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"
+backups__remote_destination: "{{ vault_backups__remote_destination }}"
+backups__access_id_remote: "{{ vault_backups__access_id_remote }}"
+backups__access_secret_remote: "{{ vault_backups__access_secret_remote }}"
+backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
+backups__encryption_key: "{{ vault_backups__encryption_key }}"
+backups__volumes_common:
+  - ./hooks:/hooks
+  # Folders to backup
+  - /mnt/storage/nextcloud:/data/nextcloud
+  - /mnt/storage/pictures:/data/pictures
+  - /mnt/storage/recipes:/data/recipes
+  - /mnt/storage/backups:/data/backups
+  - "{{ docker_mounts_directory }}/jellyfin:/data/jellyfin"
+  - "{{ docker_mounts_directory }}/sonarr/config:/data/sonarr/config"
+  - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
+  - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
+  - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
+backups__volumes_local_only:
+  - /mnt/storage/streaming/media:/data/streaming/media
+backups__volumes_remote_only:
+  - /mnt/storage/streaming/media/music:/data/streaming/media/music

@@ -1,0 +1,14 @@
+- name: Backing up Nextcloud database to disk
+  community.docker.docker_container_exec:
+    container: nextcloud_postgres_backups
+    command: /backup.sh
+
+- name: Backing up Recipes database to disk
+  community.docker.docker_container_exec:
+    container: recipes_postgres_backups
+    command: /backup.sh
+
+- name: Backing up photoprism database to disk
+  community.docker.docker_container_exec:
+    container: photoprism
+    command: photoprism backup -i -f

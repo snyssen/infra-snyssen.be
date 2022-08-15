@@ -1,0 +1,15 @@
+- hosts: all
+  roles:
+    - packages-upgrade
+    - setup-common
+    - setup-storage
+
+- hosts: apps
+  roles:
+    - role: setup-snapraid
+      when: not skip_snapraid | default(true)
+    - apps-deploy
+
+- hosts: backup
+  roles:
+    - container-rest

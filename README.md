@@ -4,13 +4,44 @@
 
 All the necessary instructions, docker files, scripts, etc. necessary for building my self hosted server (almost) from scratch.
 
-## Table of contents
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-[TOC]
+## Table of Contents
+
+- [Infrastructure of snyssen.be](#infrastructure-of-snyssenbe)
+  - [Table of Contents](#table-of-contents)
+  - [Important notice](#important-notice)
+  - [Objectives](#objectives)
+  - [Hardware](#hardware)
+  - [Requirements](#requirements)
+  - [Getting started](#getting-started)
+  - [Playbooks descriptions](#playbooks-descriptions)
+    - [Setup playbooks](#setup-playbooks)
+      - [Setup - deploy](#setup---deploy)
+      - [Setup - restore](#setup---restore)
+    - [Server playbooks](#server-playbooks)
+      - [Server - reboot](#server---reboot)
+      - [Server - shutdown](#server---shutdown)
+    - [Packages playbooks](#packages-playbooks)
+      - [Packages - upgrade](#packages---upgrade)
+    - [Apps playbooks](#apps-playbooks)
+      - [Apps - deploy](#apps---deploy)
+      - [Apps - manage](#apps---manage)
+    - [Backup playbooks](#backup-playbooks)
+      - [Backup - run](#backup---run)
+      - [Backup - restore](#backup---restore)
+  - [Web services](#web-services)
+    - [1. The backbone](#1-the-backbone)
+    - [2. Jellyfin](#2-jellyfin)
+  - [Server schedule](#server-schedule)
+  - [Backups](#backups)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Important notice
 
-As this project is in constant flux and I am the sole contributor, please bear in mind that this README could become out of sync with the actual repository content. You should also remember that the documentation and files present are firstly made for my own use. As such, I won't be responsible for any issue you might have when trying to reproduce my setup, and you should probably at least have some grasp of how to use Linux and Docker before attempting this. That said, I am open to offer **some** help to adventurous people trying to make use of this repository.
+As this project is in constant flux and I am the sole contributor, please bear in mind that this README could become out of sync with the actual repository content. You should also remember that the documentation and files present are firstly made for my own use. As such, I won't be responsible for any issue you might have when trying to reproduce my setup, and you should probably at least have some grasp of how to use Linux, Docker and Ansible before attempting this. That said, I am open to offer **some** help to adventurous people trying to make use of this repository.
 
 ## Objectives
 
@@ -28,14 +59,14 @@ As an avid [self-hoster](https://www.reddit.com/r/selfhosted/), I depend on my s
 - Play some games with friends
 - Etc.
 
-The list of services used and how to deploy them can be found under [Docker stacks list](#Docker-stacks-list)
+The list of services used and how to deploy them can be found under [Web services](#web-services)
 
 ## Hardware
 
 Here is the hardware currently used by the machine that runs everything listed in here. Please note that this does not serve as a required or min specs list but is rather provided as additional information.
 
 - <u>CPU</u>: 8x Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
-- <u>RAM</u>: 4x 4GB  Corsair(R) Vengeance Pro Series DDR3 memory
+- <u>RAM</u>: 4x 4GB Corsair(R) Vengeance Pro Series DDR3 memory
 - <u>Motherboard</u>: MSI(R) Z97S SLI Krait edition
 - <u>Cooling</u>: Stock Intel(R) cooling
 - <u>Case</u>: Antec(R) P101 Silent
@@ -48,50 +79,180 @@ Most of the hardware was actually scavenged from a previous gaming PC build. Rec
 
 ## Requirements
 
-Follow the [Bare Metal installation](https://perfectmediaserver.com/installation/manual-install.html) instructions from the great tutorial/wiki of [Alex Kretzschmar](https://www.linkedin.com/in/alex-kretzschmar/), [Perfect Media Server](https://perfectmediaserver.com/). In the end, you should have :
+- A server with at least 1 system drive, 1 parity drive and 1 data drive. The server should be running Fedora server (it may work with other RedHat based distro but I haven't tested it. **Non RedHat based distro are not supported at the moment** as the playbooks depend on dnf)
+- A computer with ansible, VirtualBox and vagrant (for testing) installed, as well as npm (for installing doctoc)
+- The ability to connect from the client machine to the server using SSH with key-based authentication. You can learn how to manage SSH keys [here](https://wiki.snyssen.be/en/sys-admin/linux/ssh-keys).
+- Some free time and lots of coffee
 
-- At least one parity disk for [SnapRAID](https://www.snapraid.it/). Parity disks naming scheme should follow `parity1`, `parity2`, etc.
-- At least one storage HDD. storage disks should follow the naming scheme `disk1`, `disk2`, etc. and then be pooled by [MergerFS](https://github.com/trapexit/mergerfs) under `/mnt/storage`
-- Automatic `scrub` and `sync` for  [SnapRAID](https://www.snapraid.it/) using [snapraid-runner](https://github.com/Chronial/snapraid-runner)
-- A valid docker and docker compose installation
+## Getting started
 
-A valid domain name is also necessary for this installation. Mine is actually hard coded into all of the `docker-compose.yml` files, meaning you will have to change the files yourself if you intend to use my code. This will probably change in the future though.
+Clone the repos on the client machine (the one with Ansible installed) and cd into it:
 
-## Deployment
-
-Start by first cloning this repository onto the machine you want to use as your server.
-
-```
-git clone https://github.com/snyssen/infra-snyssen.be.git
+```bash
+git clone https://github.com/snyssen/infra-snyssen.be.git && cd infra-snyssen.be
 ```
 
-Each service is deployed using a specific `docker-compose.yml` file and `.env` file containing the environment variables used to configure the container(s). Some containers may also need additional steps before they are ready for use.
+Run the setup script:
 
-### Docker stacks list
-
-Below you will find the list of all the stacks used to provide the various services of my server. For each stack you will have a description of its purpose as well as how to deploy and use the stack.
-
-#### Backbone
-
-##### What it is
-
-The "backbone" is the stack that is used to link and control all the others stacks. It is compose of 2 containers:
-
-- [Traefik](https://traefik.io/) is used as the reverse proxy for all the other stacks. It will automatically (or well, thanks to configuration) detect new containers that should be exposed to the Internet and will forward them as well as generate new SSL certificates for them using Let's Encrypt.
-- [Portainer](https://www.portainer.io/) is optional but is a nice addition that offers a GUI to list and controls the various stacks and containers. I most often use it to access the logs of the containers when debug is needed, as well as to input manual commands inside the containers.
-
-##### How to use
-
-There are 3 environment variables that you should configure in the `.env` file:
-
-1. <u>DOCKER_DIRECTORY</u> is the directory used to store the fast changing files of each container. As such, it should **not** point to a directory inside the **SnapRAID backed disk** as such fast changing files won't play nice with the parity snapshots of SnapRAID.
-2. <u>LETSENCRYPT_EMAIL</u> is the email used when creating the Let's Encrypt certificates.
-3. <u>TRAEFIK_DASHBOARD_HTPASSWORD</u> is the username and password used to access the Traefik dashboard (through basic authentication). You can use a generator for it such as [this one](https://wtools.io/generate-htpasswd-online).
-
-Once you have changed those environment variables, start the stack with
-
-```
-docker-compose up -d
+```bash
+./setup.sh
 ```
 
-Once it is done, you should be able to connect to the Traefik dashboard at `routing.<your_domain>`. You should also go to `docker.<your_domain>` to configure Portainer for first time use.
+This script will do the following:
+
+1. Set a pre-commit hook to prevent you from making commits without encrypting the Ansible vaults first.
+2. Install the Ansible, Vagrant and other requirements.
+3. Create the ansible password file for encrypting and decrypting the vaults. You will be asked for the encryption key. **The generated file (`.vault_pass`) should of course never be committed.**
+
+To build the test virtual machine, run:
+
+```bash
+vagrant up
+```
+
+This should create a virtual machine and provision it with Ansible. If you are satisfied with the results, change the `hosts/prod.yml` Ansible inventory file so it points to your own server, then rename the `host_vars/snyssen.be` folder to your server hostname or ip address (whatever you put in the inventory file) and change the variables files found in this folder for your use. Finally, apply the changes to your server by running:
+
+```bash
+ansible-playbook setup-deploy.yml -i=hosts/prod.yml
+```
+
+## Playbooks descriptions
+
+Playbooks follow the `context-action.yml` filename scheme. As such, they are ordered by context. For each demonstrated command, parts in `[]` are optional, additional variables, and comma separated list in `{}` indicate possible values for such variables (where applicable).
+
+For each playbook, multiple environments are available and should be configured for your use case. ENvironments are defined as inventory files in `/hosts`. There are currently 3 environments:
+- dev: Should be used with vagrant for development. See [getting started](#getting-started) for more information
+- staging: Should be used with an expandable server, for final testing before actual deployment
+- prod: Should be used for actual production deployment
+
+The dev environment is the default one: if you don't specify the environment to use, all playbooks will be run against this one. You can specify the inventory with the `-i` flag:
+
+```bash
+ansible-playbook <playbook_file.yml> -i hosts/<inventory_file.yml>
+```
+
+### Setup playbooks
+
+#### Setup - deploy
+
+Use this playbook to deploy a fresh instance of the server. For example, to have a fresh instance on staging use:
+
+```bash
+ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} skip_snapraid={true,false}"]
+```
+
+- `docker_compose_state` (default = present): The state of the stacks after they are deployed
+- `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
+
+#### Setup - restore
+
+Restore a previous server backup from scratch. This is useful for disaster recovery.
+
+```bash
+ansible-playbook setup-restore.yml [-e "skip_snapraid={true,false} restic_server={local,remote}"]
+```
+
+- `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
+- `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
+
+The playbook requires user input during execution to choose the file backup and then database backups to restore.
+
+### Server playbooks
+
+#### Server - reboot
+
+Reboots the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to reboot all your servers but only one at a time.
+
+```bash
+ansible-playbook server-reboot.yml [--limit={apps,backup}] [-e "reboot_delay=300 prevent_apps_restart={true,false}"]
+```
+
+- `reboot_delay`: The delay (in seconds) the server should wait before rebooting. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
+- `prevent_apps_restart` (default = false): Whether all apps should be restarted or not after reboot. If set to true, apps won't be restarted.
+
+#### Server - shutdown
+
+Shutdowns the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to shutdown all your servers but only one at a time.
+
+```bash
+ansible-playbook server-shutdown.yml [--limit={apps,backup}] [-e "shutdown_delay=300"]
+```
+
+- `shutdown_delay`: The delay (in seconds) the server should wait before shutting down. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
+
+### Packages playbooks
+
+#### Packages - upgrade
+
+Upgrades all DNF packages on the server(s).
+
+```bash
+ansible-playbook packages-upgrade.yml
+```
+
+### Apps playbooks
+
+#### Apps - deploy
+
+Deploys all stacks to the app server.
+
+```bash
+ansible-playbook apps-deploy.yml [-e "docker_compose_state={present,absent,restarted}"]
+```
+
+- `docker_compose_state` (default = present): The state of the stacks after they are deployed
+
+#### Apps - manage
+
+Changes the state of specific stacks.
+
+```bash
+ansible-playbook apps-manage.yml [-e "apps_state={present,absent,restarted} apps_include_str='nextcloud restic' apps_exclude_str='speedtest photoprism'"]
+```
+
+- `apps_state`: Sets the stack state. If not explicitly set, will be asked to user on playbook execution.
+- `apps_include_str`: Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'apps_exclude' one; if both are set, only this one will be used.
+- `apps_exclude_str`: Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
+
+### Backup playbooks
+
+#### Backup - run
+
+Backs up the server.
+
+```bash
+ansible-playbook backup-run.yml [-e "backup_skip_databases={true,false} backup_skip_files={true,false} backup_files_skip_local={true,false} backup_files_skip_remote={true,false}"]
+```
+
+- `backup_skip_databases` (default = false): Whether to skip the databases backups or not. If set to true, no database backup will be made.
+- `backup_skip_files` (default = false): Whether to skip the files backup or not. If set to true, no file will be backed up.
+- `backup_files_skip_local` (default = false): Whether to skip the local backup or not. If set to true, files won't be saved to the local backup server.
+- `backup_files_skip_remote` (default = false): Whether to skip the remote backup or not. If set to true, files won't be saved to the remote backup server.
+
+#### Backup - restore
+
+Restores a server backup.
+
+```bash
+ansible-playbook backup-restore.yml [-e "backup_skip_files={true,false} backup_skip_databases={true,false} restic_server={local,remote} db_restore_include=['nextcloud', 'photoprism'] db_restore_exclude=['recipes']"]
+```
+
+- `backup_skip_databases` (default = false): Whether to skip the databases restore or not. If set to true, no database will be restored.
+- `backup_skip_files` (default = false): Whether to skip the files restore or not. If set to true, no file will be restored.
+- `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
+- `db_restore_include` (default = all): databases to restore. If left empty, all dbs are included. Note that this setting is mutually exclusive with 'db_restore_exclude'; if both are set, only this one will be used
+- `db_restore_exclude` (default = none): databases that should not be restored
+
+## Web services
+
+### 1. The backbone
+
+The backbone is what makes all the other services accessible. Its is currently only composed of [Traefik](https://github.com/traefik/traefik), a reverse proxy that automatically forwards requests to the necessary containers based on the subdomain used. It is also responsible for generating SSL certificates for all of those services by using the Let's Encrypt API. Its UI can be accessed at `routing.your.domain`.
+
+### 2. Jellyfin
+
+[Jellyfin](https://jellyfin.org) is part of the streaming stack
+
+## Server schedule
+
+## Backups

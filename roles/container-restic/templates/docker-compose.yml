@@ -1,0 +1,27 @@
+version: "3"
+services:
+  restic_local: &restic-config
+    image: lobaro/restic-backup-docker
+    restart: unless-stopped
+    container_name: restic_local
+    hostname: "{{ ansible_fqdn }}"
+    environment: &restic-env
+      RESTIC_REPOSITORY: "{{ backups__local_destination }}"
+      RESTIC_PASSWORD: "{{ backups__encryption_key }}"
+      BACKUP_CRON: 15 3 * * *
+      HEALTHCHECK_ID: "{{ backups__local_healthcheck_id }}"
+      RESTIC_FORGET_ARGS: --prune --keep-hourly 12 --keep-daily 7 --keep-weekly 2 --keep-monthly 2 --keep-yearly 1
+    volumes: {{ backups__volumes_local | to_yaml }}
+
+  restic_remote:
+    <<: *restic-config
+    container_name: restic_remote
+    hostname: "{{ ansible_fqdn }}"
+    environment:
+      <<: *restic-env
+      RESTIC_REPOSITORY: "{{ backups__remote_destination }}"
+      BACKUP_CRON: 45 3 * * *
+      B2_ACCOUNT_ID: "{{ backups__access_id_remote }}"
+      B2_ACCOUNT_KEY: "{{ backups__access_secret_remote }}"
+      HEALTHCHECK_ID: "{{ backups__remote_healthcheck_id }}"
+    volumes: {{ backups__volumes_remote | to_yaml }}

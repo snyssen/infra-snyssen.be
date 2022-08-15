@@ -1,0 +1,12 @@
+version: "3"
+services:
+  rest-server:
+    image: restic/rest-server
+    restart: always
+    container_name: rest-server
+    ports:
+      - "8000:8000"
+    environment:
+      - DISABLE_AUTHENTICATION=true # server will only be accessible on LAN, so I'm not worried about auth
+    volumes:
+      - /mnt/storage/data:/data

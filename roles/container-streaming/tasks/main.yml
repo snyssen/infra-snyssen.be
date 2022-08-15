@@ -1,0 +1,59 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    # jellyfin
+    - "{{ docker_mounts_directory }}/jellyfin/data"
+    - "{{ docker_mounts_directory }}/jellyfin/config"
+    - "{{ docker_mounts_directory }}/jellyfin/cache"
+    - "{{ docker_mounts_directory }}/jellyfin/logs"
+    - "/mnt/storage/streaming/media/movies"
+    - "/mnt/storage/streaming/media/tv"
+    - "/mnt/storage/streaming/media/music"
+    # torrents
+    - "/mnt/storage/torrent/config/openvpn"
+    - "/mnt/storage/torrent/config/qBittorrent/config"
+    - /mnt/storage/streaming/torrent
+    # usenet
+    - "/mnt/storage/usenet/config/openvpn"
+    - "/mnt/storage/streaming/usenet"
+    # sonarr
+    - "{{ docker_mounts_directory }}/sonarr/config"
+    # radarr
+    - "{{ docker_mounts_directory }}/radarr/config"
+    # lidarr
+    - "{{ docker_mounts_directory }}/lidarr/config"
+    # prowlarr
+    - "{{ docker_mounts_directory }}/prowlarr/config"
+
+- name: Copying open VPN config
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0600
+  loop:
+    - src: creds.conf.aes
+      dest: "/mnt/storage/torrent/config/openvpn/creds.conf"
+    - src: Windscribe-Brussels-Guildhouse.ovpn.aes
+      dest: "/mnt/storage/torrent/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
+    - src: creds.conf.aes
+      dest: "/mnt/storage/usenet/config/openvpn/creds.conf"
+    - src: Windscribe-Brussels-Guildhouse.ovpn.aes
+      dest: "/mnt/storage/usenet/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
+
+- name: Copying download clients config
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0600
+  loop:
+    - src: qBittorrent.conf.j2
+      dest: /mnt/storage/torrent/config/qBittorrent/config/qBittorrent.conf
+    - src: nzbget.conf.j2
+      dest: /mnt/storage/usenet/config/nzbget.conf
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    container_name: "streaming"

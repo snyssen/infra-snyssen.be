@@ -1,0 +1,4 @@
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    container_name: "speedtest"

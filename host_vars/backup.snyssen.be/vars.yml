@@ -1,0 +1,5 @@
+ansible_user: "{{ vault_ansible_user }}"
+ansible_become_pass: "{{ vault_ansible_become_pass }}"
+disks_mounts:
+  - path: /mnt/disk1
+    src: /dev/disk/by-id/ata-ST8000VN004-2M2101_WSD503DW

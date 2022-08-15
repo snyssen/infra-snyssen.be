@@ -1,0 +1,15 @@
+smtp__from: "{{ vault_smtp__from }}"
+smtp__to: "{{ vault_smtp__to }}"
+smtp__host: "{{ vault_smtp__host }}"
+smtp__port: 587
+smtp__ssl: false
+smtp__tls: true
+smtp__user: "{{ vault_smtp__user }}"
+smtp__pass: "{{ vault_smtp__pass }}"
+
+dns_servers: "{{ vault_dns_servers }}"
+
+iana_timezone: Europe/Brussels
+
+# Used to store the docker-compose.yml files
+docker_compose_directory: "/home/{{ ansible_user }}/containers"

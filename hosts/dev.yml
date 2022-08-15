@@ -1,0 +1,24 @@
+apps:
+  hosts:
+    snyssen.duckdns.org:
+      # ansible_host: "192.168.56.12"
+      ansible_user: "vagrant"
+      disks_mounts:
+        - path: /mnt/parity1
+          src: /dev/sdb
+        - path: /mnt/disk1
+          src: /dev/sdc
+        - path: /mnt/disk2
+          src: /dev/sdd
+      backbone__acme_ca_server: https://acme-staging-v02.api.letsencrypt.org/directory
+      backups__local_destination: rest:http://192.168.56.13:8000/
+      backups__remote_destination: b2:dev-snyssen-be-backup
+
+backup:
+  hosts:
+    backup.sny:
+      # ansible_host: "192.168.56.13"
+      ansible_user: "vagrant"
+      disks_mounts:
+        - path: /mnt/disk1
+          src: /dev/sdb
