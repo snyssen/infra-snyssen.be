@@ -9,19 +9,33 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
 
 ## Table of Contents
 
-- [Important notice](#important-notice)
-- [Objectives](#objectives)
-- [Hardware](#hardware)
-- [Requirements](#requirements)
-- [Getting started](#getting-started)
-- [Playbooks descriptions](#playbooks-descriptions)
-  - [1. The "playbook" playbook](#1-the-playbook-playbook)
-  - [2. The setup playbook](#2-the-setup-playbook)
-  - [3. The maintenance playbook](#3-the-maintenance-playbook)
-  - [4. The docker playbook](#4-the-docker-playbook)
-- [Web services](#web-services)
-  - [1. The backbone](#1-the-backbone)
-  - [2. Jellyfin](#2-jellyfin)
+- [Infrastructure of snyssen.be](#infrastructure-of-snyssenbe)
+  - [Table of Contents](#table-of-contents)
+  - [Important notice](#important-notice)
+  - [Objectives](#objectives)
+  - [Hardware](#hardware)
+  - [Requirements](#requirements)
+  - [Getting started](#getting-started)
+  - [Playbooks descriptions](#playbooks-descriptions)
+    - [Setup playbooks](#setup-playbooks)
+      - [Setup - deploy](#setup---deploy)
+      - [Setup - restore](#setup---restore)
+    - [Server playbooks](#server-playbooks)
+      - [Server - reboot](#server---reboot)
+      - [Server - shutdown](#server---shutdown)
+    - [Packages playbooks](#packages-playbooks)
+      - [Packages - upgrade](#packages---upgrade)
+    - [Apps playbooks](#apps-playbooks)
+      - [Apps - deploy](#apps---deploy)
+      - [Apps - manage](#apps---manage)
+    - [Backup playbooks](#backup-playbooks)
+      - [Backup - run](#backup---run)
+      - [Backup - restore](#backup---restore)
+  - [Web services](#web-services)
+    - [1. The backbone](#1-the-backbone)
+    - [2. Jellyfin](#2-jellyfin)
+  - [Server schedule](#server-schedule)
+  - [Backups](#backups)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -96,49 +110,138 @@ To build the test virtual machine, run:
 vagrant up
 ```
 
-This should create a virtual machine and provision it with Ansible. If you are satisfied with the results, change the `hosts/prod.yml` Ansible inventory file so it points to your own server, then rename the `host_vars/192.168.1.10` folder to your server hostname or ip address (whatever you put in the inventory file) and change the variables files found in this folder for your use. Finally, apply the changes to your server by running:
+This should create a virtual machine and provision it with Ansible. If you are satisfied with the results, change the `hosts/prod.yml` Ansible inventory file so it points to your own server, then rename the `host_vars/snyssen.be` folder to your server hostname or ip address (whatever you put in the inventory file) and change the variables files found in this folder for your use. Finally, apply the changes to your server by running:
 
 ```bash
-ansible-playbook playbook.yml --inventory=hosts/prod.yml
+ansible-playbook setup-deploy.yml -i=hosts/prod.yml
 ```
 
 ## Playbooks descriptions
 
-### 1. The "playbook" playbook
+Playbooks follow the `context-action.yml` filename scheme. As such, they are ordered by context. For each demonstrated command, parts in `[]` are optional, additional variables, and comma separated list in `{}` indicate possible values for such variables (where applicable).
+
+For each playbook, multiple environments are available and should be configured for your use case. ENvironments are defined as inventory files in `/hosts`. There are currently 3 environments:
+- dev: Should be used with vagrant for development. See [getting started](#getting-started) for more information
+- staging: Should be used with an expandable server, for final testing before actual deployment
+- prod: Should be used for actual production deployment
+
+The dev environment is the default one: if you don't specify the environment to use, all playbooks will be run against this one. You can specify the inventory with the `-i` flag:
 
 ```bash
-ansible-playbook playbook.yml
+ansible-playbook <playbook_file.yml> -i hosts/<inventory_file.yml>
 ```
 
-This playbook turns any fresh machine into the complete server we want it to be. It basically uses all of the tasks and roles defined in this repos.
+### Setup playbooks
 
-### 2. The setup playbook
+#### Setup - deploy
+
+Use this playbook to deploy a fresh instance of the server. For example, to have a fresh instance on staging use:
 
 ```bash
-ansible-playbook setup.yml
+ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} skip_snapraid={true,false}"]
 ```
 
-This playbook will run the setup role, which will:
+- `docker_compose_state` (default = present): The state of the stacks after they are deployed
+- `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
 
-1. Install the necessary softwares (snapraid and snapraid-runner, docker, mergerfs, etc.);
-2. Setup the correct disk configuration according to the variables set in the hosts file. It will then configure snapraid and mergerfs and set the necessary cron;
-3. Setup a nice user shell with OhMyZsh and the PowerLevel10k theme
+#### Setup - restore
 
-### 3. The maintenance playbook
+Restore a previous server backup from scratch. This is useful for disaster recovery.
 
 ```bash
-ansible-playbook maintenance.yml
+ansible-playbook setup-restore.yml [-e "skip_snapraid={true,false} restic_server={local,remote}"]
 ```
 
-This playbook will simply update all the installed software using dnf.
+- `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
+- `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
 
-### 4. The docker playbook
+The playbook requires user input during execution to choose the file backup and then database backups to restore.
+
+### Server playbooks
+
+#### Server - reboot
+
+Reboots the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to reboot all your servers but only one at a time.
 
 ```bash
-ansible-playbook docker.yml
+ansible-playbook server-reboot.yml [--limit={apps,backup}] [-e "reboot_delay=300 prevent_apps_restart={true,false}"]
 ```
 
-This playbook will deploy all the containers for the various docker stacks that should be present on the server. You can find [the list of the services provided](#web-services) below.
+- `reboot_delay`: The delay (in seconds) the server should wait before rebooting. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
+- `prevent_apps_restart` (default = false): Whether all apps should be restarted or not after reboot. If set to true, apps won't be restarted.
+
+#### Server - shutdown
+
+Shutdowns the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to shutdown all your servers but only one at a time.
+
+```bash
+ansible-playbook server-shutdown.yml [--limit={apps,backup}] [-e "shutdown_delay=300"]
+```
+
+- `shutdown_delay`: The delay (in seconds) the server should wait before shutting down. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
+
+### Packages playbooks
+
+#### Packages - upgrade
+
+Upgrades all DNF packages on the server(s).
+
+```bash
+ansible-playbook packages-upgrade.yml
+```
+
+### Apps playbooks
+
+#### Apps - deploy
+
+Deploys all stacks to the app server.
+
+```bash
+ansible-playbook apps-deploy.yml [-e "docker_compose_state={present,absent,restarted}"]
+```
+
+- `docker_compose_state` (default = present): The state of the stacks after they are deployed
+
+#### Apps - manage
+
+Changes the state of specific stacks.
+
+```bash
+ansible-playbook apps-manage.yml [-e "apps_state={present,absent,restarted} apps_include_str='nextcloud restic' apps_exclude_str='speedtest photoprism'"]
+```
+
+- `apps_state`: Sets the stack state. If not explicitly set, will be asked to user on playbook execution.
+- `apps_include_str`: Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'apps_exclude' one; if both are set, only this one will be used.
+- `apps_exclude_str`: Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
+
+### Backup playbooks
+
+#### Backup - run
+
+Backs up the server.
+
+```bash
+ansible-playbook backup-run.yml [-e "backup_skip_databases={true,false} backup_skip_files={true,false} backup_files_skip_local={true,false} backup_files_skip_remote={true,false}"]
+```
+
+- `backup_skip_databases` (default = false): Whether to skip the databases backups or not. If set to true, no database backup will be made.
+- `backup_skip_files` (default = false): Whether to skip the files backup or not. If set to true, no file will be backed up.
+- `backup_files_skip_local` (default = false): Whether to skip the local backup or not. If set to true, files won't be saved to the local backup server.
+- `backup_files_skip_remote` (default = false): Whether to skip the remote backup or not. If set to true, files won't be saved to the remote backup server.
+
+#### Backup - restore
+
+Restores a server backup.
+
+```bash
+ansible-playbook backup-restore.yml [-e "backup_skip_files={true,false} backup_skip_databases={true,false} restic_server={local,remote} db_restore_include=['nextcloud', 'photoprism'] db_restore_exclude=['recipes']"]
+```
+
+- `backup_skip_databases` (default = false): Whether to skip the databases restore or not. If set to true, no database will be restored.
+- `backup_skip_files` (default = false): Whether to skip the files restore or not. If set to true, no file will be restored.
+- `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
+- `db_restore_include` (default = all): databases to restore. If left empty, all dbs are included. Note that this setting is mutually exclusive with 'db_restore_exclude'; if both are set, only this one will be used
+- `db_restore_exclude` (default = none): databases that should not be restored
 
 ## Web services
 
@@ -149,3 +252,7 @@ The backbone is what makes all the other services accessible. Its is currently o
 ### 2. Jellyfin
 
 [Jellyfin](https://jellyfin.org) is part of the streaming stack
+
+## Server schedule
+
+## Backups
