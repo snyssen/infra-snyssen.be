@@ -1,6 +1,6 @@
 - hosts: all
   vars_prompt:
-    - name: shtudown_delay
+    - name: shutdown_delay
       prompt: |-
         Enter the delay before shutdown (in second, must be above 60). Leave empty to shutdown immediately.
         delay
@@ -8,10 +8,10 @@
   tasks:
     - name: Ensuring apps are stopped
       ansible.builtin.include_role:
-        name:  apps-action
+        name: apps-action
       vars:
         apps_state: absent
 
     - community.general.shutdown:
-        delay: "{{ reboot_delay | default(0, true) }}"
+        delay: "{{ shutdown_delay | default(0, true) }}"
       become: yes
