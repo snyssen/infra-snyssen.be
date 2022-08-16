@@ -21,6 +21,8 @@ services:
     # network_mode: "host" # For DLNA, but unfortunately incompatible with "networks" statement, which is necessary for use with Traefik
     devices:
       - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
+    group_add:
+      - 105 # Adds render group
     labels:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.entryPoints=websecure
@@ -157,7 +159,6 @@ services:
       - /mnt/storage/streaming:/data
     restart: unless-stopped
 
-  # TODO: Is this app really necessary ? Maybe remove it.
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
