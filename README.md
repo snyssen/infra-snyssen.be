@@ -31,11 +31,15 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [Backup playbooks](#backup-playbooks)
       - [Backup - run](#backup---run)
       - [Backup - restore](#backup---restore)
-  - [Web services](#web-services)
-    - [1. The backbone](#1-the-backbone)
-    - [2. Jellyfin](#2-jellyfin)
+  - [The stacks](#the-stacks)
+    - [The `backbone` stack](#the-backbone-stack)
+    - [The `nextcloud` stack](#the-nextcloud-stack)
+    - [The `Photoprism` stack](#the-photoprism-stack)
+    - [The `recipes` stack](#the-recipes-stack)
+    - [The `restic` stack](#the-restic-stack)
+    - [The `speedtest` stack](#the-speedtest-stack)
+    - [The `streaming` stack](#the-streaming-stack)
   - [Server schedule](#server-schedule)
-  - [Backups](#backups)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -59,7 +63,7 @@ As an avid [self-hoster](https://www.reddit.com/r/selfhosted/), I depend on my s
 - Play some games with friends
 - Etc.
 
-The list of services used and how to deploy them can be found under [Web services](#web-services)
+The list of services used and how to deploy them can be found under [The stacks](#the-stacks)
 
 ## Hardware
 
@@ -243,16 +247,34 @@ ansible-playbook backup-restore.yml [-e "backup_skip_files={true,false} backup_s
 - `db_restore_include` (default = all): databases to restore. If left empty, all dbs are included. Note that this setting is mutually exclusive with 'db_restore_exclude'; if both are set, only this one will be used
 - `db_restore_exclude` (default = none): databases that should not be restored
 
-## Web services
+## The stacks
 
-### 1. The backbone
+### The `backbone` stack
 
 The backbone is what makes all the other services accessible. Its is currently only composed of [Traefik](https://github.com/traefik/traefik), a reverse proxy that automatically forwards requests to the necessary containers based on the subdomain used. It is also responsible for generating SSL certificates for all of those services by using the Let's Encrypt API. Its UI can be accessed at `routing.your.domain`.
 
-### 2. Jellyfin
+### The `nextcloud` stack
 
-[Jellyfin](https://jellyfin.org) is part of the streaming stack
+The nextcloud stack provides a [Nextcloud](https://nextcloud.com) instance with all of its dependencies. The service is accessible at `cloud.your.domain`.
+
+### The `Photoprism` stack
+
+[Photoprism](https://photoprism.app) is a convenient app to browse and manage your pictures library. The picture folder is shared with the [Nextcloud](#the-nextcloud-stack) container so images can be added through NextCloud, even allowing for automatic export from your phone directly into Photoprism! Photoprism can be found at `photo.your.domain`.
+
+### The `recipes` stack
+
+This stack provides the [Tandoor](https://tandoor.dev) recipes app at `recipes.your.domain`.
+
+### The `restic` stack
+
+Restic is used to backup the files of your server. It does not provide any UI.
+
+### The `speedtest` stack
+
+This stack offers a [simple speedtest](https://github.com/librespeed/speedtest) which can be useful to troubleshoot connection issues with your server.
+
+### The `streaming` stack
+
+The streaming stack offers all kind of streaming services, mainly through [Jellyfin](https://jellyfin.org) (accessible on `streaming.your.domain`). It also provides some *Arrs apps for library management.
 
 ## Server schedule
-
-## Backups
