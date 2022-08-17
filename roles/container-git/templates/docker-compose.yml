@@ -58,6 +58,7 @@ services:
       - GITEA__database__USER=gitea
       - GITEA__database__PASSWD={{ git__postgres_password }}
       - ROOT_URL=https://git.{{ ansible_fqdn }}/
+      - GITEA__indexer__ISSUE_INDEXER_TYPE=db # Fix for running under mergerfs
     volumes:
       - /mnt/storage/gitea:/data
       - /etc/timezone:/etc/timezone:ro
