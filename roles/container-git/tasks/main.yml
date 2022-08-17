@@ -1,0 +1,15 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    # postgres
+    - "{{ docker_mounts_directory }}/git/postgresql"
+    - /mnt/storage/backups/gitea
+    # gitea
+    - /mnt/storage/gitea
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    container_name: git

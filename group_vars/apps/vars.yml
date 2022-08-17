@@ -53,7 +53,10 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
+  - /mnt/storage/gitea:/data/gitea
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
   - /mnt/storage/streaming/media/music:/data/streaming/media/music
+
+git__postgres_password: "{{ vault_git__postgres_password }}"

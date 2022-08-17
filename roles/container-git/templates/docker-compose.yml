@@ -1,0 +1,71 @@
+version: '3'
+services:
+
+  gitea_postgres:
+    image: postgres:14
+    container_name: gitea_postgres
+    restart: always
+    networks:
+      - internal
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD={{ git__postgres_password }}
+      - POSTGRES_DB=gitea
+    volumes:
+      - "{{ docker_mounts_directory }}/git/postgresql:/var/lib/postgresql/data"
+
+  gitea_postgres_backups:
+    restart: always
+    image: prodrigestivill/postgres-backup-local
+    container_name: gitea_postgres_backups
+    networks:
+      - internal
+    depends_on:
+      - gitea_postgres
+    environment:
+      - POSTGRES_HOST=gitea_postgres
+      - POSTGRES_DB=gitea
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD={{ git__postgres_password }}
+      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/gitea:/backups
+
+  gitea:
+    image: gitea/gitea:1.16.9
+    container_name: gitea
+    restart: always
+    networks:
+      - internal
+      - web
+    depends_on:
+      - gitea_postgres
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.gitea.entryPoints=websecure
+      - traefik.http.routers.gitea.rule=Host(`git.{{ ansible_fqdn }}`)
+      - traefik.http.routers.gitea.service=gitea
+      - traefik.http.services.gitea.loadBalancer.server.port=3000
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=gitea_postgres:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD={{ git__postgres_password }}
+      - GITEA__LOCAL_ROOT_URL=git.{{ ansible_fqdn }}
+    volumes:
+      - /mnt/storage/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "2222:22" # TODO: Enable SSH passthrough
+
+networks:
+  web:
+    external: true
+  internal:

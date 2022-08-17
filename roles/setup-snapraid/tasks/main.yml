@@ -39,6 +39,7 @@
     - snapraid-runner.conf.j2
     - snapraid-runner.no-threshold.conf.j2
 
+# TODO: Add health check
 - name: Adds crontab task for SnapRAID-runner
   become: yes
   ansible.builtin.cron:
