@@ -57,7 +57,7 @@ services:
       - GITEA__database__NAME=gitea
       - GITEA__database__USER=gitea
       - GITEA__database__PASSWD={{ git__postgres_password }}
-      - GITEA__LOCAL_ROOT_URL=git.{{ ansible_fqdn }}
+      - ROOT_URL=https://git.{{ ansible_fqdn }}/
     volumes:
       - /mnt/storage/gitea:/data
       - /etc/timezone:/etc/timezone:ro
