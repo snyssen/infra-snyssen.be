@@ -59,6 +59,13 @@ services:
       - GITEA__database__PASSWD={{ git__postgres_password }}
       - ROOT_URL=https://git.{{ ansible_fqdn }}/
       - GITEA__indexer__ISSUE_INDEXER_TYPE=db # Fix for running under mergerfs
+      - GITEA__mailer__ENABLED=true
+      - GITEA__mailer__FROM={{ smtp__from }}
+      - GITEA__mailer__MAILER_TYPE=smtp
+      - GITEA__mailer__HOST={{ smtp__host }}
+      - GITEA__mailer__IS_TLS_ENABLED={{ smtp__tls }}
+      - GITEA__mailer__USER={{ smtp__user }}
+      - GITEA__mailer__PASSWD={{ smtp__pass }}
     volumes:
       - /mnt/storage/gitea:/data
       - /etc/timezone:/etc/timezone:ro
