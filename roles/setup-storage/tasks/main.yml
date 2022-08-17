@@ -37,6 +37,7 @@
     path: "{{ item.path  }}"
     state: directory
     owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
   with_items: "{{ disks_mounts }}"
 
 - name: Mounting storage volume w/ MergerFS
