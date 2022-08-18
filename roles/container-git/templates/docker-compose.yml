@@ -50,8 +50,8 @@ services:
       - traefik.http.routers.gitea.service=gitea
       - traefik.http.services.gitea.loadBalancer.server.port=3000
     environment:
-      - USER_UID=1000
-      - USER_GID=1000
+      - USER_UID={{ git_user_creation_result.uid }}
+      - USER_GID={{ git_user_creation_result.group }}
       - GITEA__database__DB_TYPE=postgres
       - GITEA__database__HOST=gitea_postgres:5432
       - GITEA__database__NAME=gitea
@@ -70,7 +70,6 @@ services:
 
       - GITEA__server__LANDING_PAGE=explore
       - GITEA__server__SSH_DOMAIN=git.{{ ansible_fqdn }}
-      - GITEA__server__SSH_PORT=2222
 
       - GITEA__mailer__ENABLED=true
       - GITEA__mailer__FROM={{ smtp__from }}
@@ -83,11 +82,12 @@ services:
       - GITEA__mailer__USER={{ smtp__user }}
       - GITEA__mailer__PASSWD={{ smtp__pass | replace('$', '$$') }}
     volumes:
+      - /home/git/.ssh/:/data/git/.ssh # For SSH passthrough
       - /mnt/storage/gitea:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "2222:22" # TODO: Enable SSH passthrough
+      - "127.0.0.1:2222:22"
 
 networks:
   web:

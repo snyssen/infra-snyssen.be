@@ -1,13 +1,47 @@
-- name: Creating folders
+- name: Creating git user
+  become: yes
+  ansible.builtin.user:
+    name: git
+    password_lock: yes # Don't allow login with password
+    generate_ssh_key: yes
+    ssh_key_comment: Gitea Host Key
+    state: present
+  register: git_user_creation_result
+
+- name: Adding git user SSH key to its own authorized keys
+  become: yes
+  ansible.posix.authorized_key:
+    user: git
+    key: "{{ git_user_creation_result.ssh_public_key }}"
+    state: present
+
+- name: Copying Gitea SSH shim script
+  become: yes
+  ansible.builtin.copy:
+    src: gitea_ssh_shim.sh
+    dest: /usr/local/bin/gitea
+    owner: "{{ git_user_creation_result.uid }}"
+    group: "{{ git_user_creation_result.group }}"
+    mode: "711"
+
+- name: Creating folder for gitea
+  become: yes
+  ansible.builtin.file:
+    path: /mnt/storage/gitea
+    state: directory
+    owner: "{{ git_user_creation_result.uid }}"
+    group: "{{ git_user_creation_result.group }}"
+    mode: "700"
+
+- name: Creating folders for postgres
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: "700"
   with_items:
-    # postgres
     - "{{ docker_mounts_directory }}/git/postgresql"
     - /mnt/storage/backups/gitea
-    # gitea
-    - /mnt/storage/gitea
 
 - ansible.builtin.include_role:
     name: container-deploy
