@@ -30,4 +30,7 @@
 - ansible.builtin.include_role:
     name: container-speedtest
 - ansible.builtin.include_role:
+    name: container-git
+
+- ansible.builtin.include_role:
     name: container-restic

@@ -20,6 +20,7 @@ services:
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certResolver=le"
       {% if backbone__acme_dns_challenge__enabled %}
+
       - "--entrypoints.websecure.http.tls.domains[0].main={{ ansible_fqdn }}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ ansible_fqdn }}"
       {% endif %}

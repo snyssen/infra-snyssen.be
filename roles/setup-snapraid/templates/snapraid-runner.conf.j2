@@ -30,8 +30,8 @@ host = {{ smtp__host }}
 ; leave empty for default port
 port = {{ smtp__port }}
 ; set to "true" to activate
-ssl = {{ smtp__ssl }}
-tls = {{ smtp__tls }}
+ssl = {{ smtp__ssl | to_json }}
+tls = {{ smtp__tls | to_json }}
 user = {{ smtp__user }}
 password = {{ smtp__pass }}
 

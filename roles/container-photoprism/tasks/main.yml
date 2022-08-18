@@ -1,5 +1,4 @@
 - name: Creating folders
-  become: yes
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory

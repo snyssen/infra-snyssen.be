@@ -1,0 +1,38 @@
+- hosts: apps
+  tasks:
+    - ansible.builtin.pause:
+        prompt: |-
+          WARNING: You are about to wipe this entire server!
+
+          This playbook will destroy all containers and all data. The following folders will be entirely emptied (but won't be deleted themselves):
+            - /mnt/storage
+            - {{ docker_mounts_directory }}
+            - {{ docker_compose_directory }}
+
+          Do you really want to wipe the server '{{ ansible_fqdn }}'? (y/N)
+      register: wipe_confirmation
+
+    - ansible.builtin.meta: end_play
+      when: wipe_confirmation.user_input | lower != 'y' and wipe_confirmation.user_input | lower != 'yes'
+
+    - name: Ensuring apps are stopped
+      ansible.builtin.include_role:
+        name: apps-action
+      vars:
+        apps_state: absent
+
+    - name: Finding all files and directories to remove
+      ansible.builtin.find:
+        path:
+          - /mnt/storage
+          - "{{ docker_mounts_directory }}"
+          - "{{ docker_compose_directory }}"
+        file_type: any
+      register: files_to_remove
+
+    - name: Removing all files and directories
+      become: yes
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ files_to_remove.files }}"
