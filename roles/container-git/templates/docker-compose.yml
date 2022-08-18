@@ -73,10 +73,13 @@ services:
       - GITEA__mailer__ENABLED=true
       - GITEA__mailer__FROM={{ smtp__from }}
       - GITEA__mailer__MAILER_TYPE=smtp
-      - GITEA__mailer__HOST={{ smtp__host }}
-      - GITEA__mailer__IS_TLS_ENABLED={{ smtp__tls }}
+      - GITEA__mailer__HOST={{ smtp__host }}:{{ smtp__port }}
+      # 2 below will be used instead as above frome 1.18, so I have put them here for future proofing
+      - GITEA__mailer__SMTP_ADDR={{ smtp__host }}
+      - GITEA__mailer__SMTP_PORT={{ smtp__port }}
+      - GITEA__mailer__IS_TLS_ENABLED=false # I've tried everything and no matter that I use port 465 with TLS enabled it just doesn't want to send mail if I let this on...
       - GITEA__mailer__USER={{ smtp__user }}
-      - GITEA__mailer__PASSWD={{ smtp__pass }}
+      - GITEA__mailer__PASSWD={{ smtp__pass | replace('$', '$$') }}
     volumes:
       - /mnt/storage/gitea:/data
       - /etc/timezone:/etc/timezone:ro
