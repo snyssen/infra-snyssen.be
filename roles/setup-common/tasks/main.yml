@@ -32,6 +32,7 @@
       - nano
       - htop
       - bind-utils
+      - screen
     state: present
 - name: Enabling services
   become: yes
