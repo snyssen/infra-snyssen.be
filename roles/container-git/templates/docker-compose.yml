@@ -69,6 +69,8 @@ services:
       - GITEA__service__REGISTER_MANUAL_CONFIRM=true
 
       - GITEA__server__LANDING_PAGE=explore
+      - GITEA__server__SSH_DOMAIN=git.{{ ansible_fqdn }}
+      - GITEA__server__SSH_PORT=2222
 
       - GITEA__mailer__ENABLED=true
       - GITEA__mailer__FROM={{ smtp__from }}
