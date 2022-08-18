@@ -59,6 +59,17 @@ services:
       - GITEA__database__PASSWD={{ git__postgres_password }}
       - ROOT_URL=https://git.{{ ansible_fqdn }}/
       - GITEA__indexer__ISSUE_INDEXER_TYPE=db # Fix for running under mergerfs
+
+      - GITEA__security__INSTALL_LOCK=true # Disables install page
+      - GITEA__security__SECRET_KEY={{ git__gitea__secret_key }}
+      - GITEA__security__INTERNAL_TOKEN={{ git__gitea__internal_secret }}
+      - GITEA__security__PASSWORD_CHECK_PWN=true
+      - GITEA__security__MIN_PASSWORD_LENGTH=8
+
+      - GITEA__service__REGISTER_MANUAL_CONFIRM=true
+
+      - GITEA__server__LANDING_PAGE=explore
+
       - GITEA__mailer__ENABLED=true
       - GITEA__mailer__FROM={{ smtp__from }}
       - GITEA__mailer__MAILER_TYPE=smtp
