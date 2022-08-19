@@ -2,7 +2,7 @@
   community.docker.docker_container_exec:
     container: restic_local
     command: /bin/backup
-  when: backup_files_skip_local == false
+  when: not backup_files_skip_local
   register: local_backup_result
   failed_when: "'Backup Failed' in local_backup_result.stdout"
 
@@ -10,6 +10,6 @@
   community.docker.docker_container_exec:
     container: restic_remote
     command: /bin/backup
-  when: backup_files_skip_remote == false
+  when: not backup_files_skip_remote
   register: remote_backup_result
   failed_when: "'Backup Failed' in remote_backup_result.stdout"
