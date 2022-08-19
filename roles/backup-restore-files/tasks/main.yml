@@ -5,18 +5,18 @@
 
 - name: Shutting down all apps except restic
   ansible.builtin.include_role:
-    name: apps-action
+    name: stacks-action
   vars:
-    apps_state: absent
-    apps_exclude:
+    stacks_state: absent
+    stacks_exclude:
       - restic
 
 - name: Ensuring restic is up
   ansible.builtin.include_role:
-    name: apps-action
+    name: stacks-action
   vars:
-    apps_state: present
-    apps_include:
+    stacks_state: present
+    stacks_include:
       - restic
 
 - name: "Querying restic snapshots on {{ restic_server }}"

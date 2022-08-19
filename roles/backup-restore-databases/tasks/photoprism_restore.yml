@@ -1,9 +1,9 @@
 - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Ensuring containers are started"
   ansible.builtin.include_role:
-    name: apps-action
+    name: stacks-action
   vars:
-    apps_state: present
-    apps_include:
+    stacks_state: present
+    stacks_include:
       - "{{ db_restore_selected_individual.key }}"
 
 - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Restoring photoprism"
@@ -13,8 +13,8 @@
 
 - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Ensuring containers are started"
   ansible.builtin.include_role:
-    name: apps-action
+    name: stacks-action
   vars:
-    apps_state: restart
-    apps_include:
+    stacks_state: restart
+    stacks_include:
       - "{{ db_restore_selected_individual.key }}"

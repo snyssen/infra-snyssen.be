@@ -5,11 +5,11 @@
     - setup-storage
     - role: setup-snapraid
       when: not skip_snapraid | default(true)
-    - role: apps-deploy
+    - role: stacks-deploy
       vars:
         docker_compose_state: absent
     - backup-restore-files
     - backup-restore-databases
-    - role: apps-action
+    - role: stacks-action
       vars:
-        apps_state: present
+        stacks_state: present

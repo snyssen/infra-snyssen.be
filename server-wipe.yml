@@ -17,9 +17,9 @@
 
     - name: Ensuring apps are stopped
       ansible.builtin.include_role:
-        name: apps-action
+        name: stacks-action
       vars:
-        apps_state: absent
+        stacks_state: absent
 
     - name: Finding all files and directories to remove
       ansible.builtin.find:
