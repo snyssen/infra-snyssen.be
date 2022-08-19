@@ -1,10 +1,14 @@
-ansible_user: "{{ vault_ansible_user }}"
-ansible_become_pass: "{{ vault_ansible_become_pass }}"
+ansible_user: "vagrant"
+vault_ansible_become_pass: "vagrant"
 disks_mounts:
+  - path: /mnt/parity1
+    src: /dev/sdb
   - path: /mnt/disk1
-    src: /dev/disk/by-id/ata-ST12000NM0538-2K2101_ZHZ12PTZ
+    src: /dev/sdc
   - path: /mnt/disk2
-    src: /dev/disk/by-id/ata-ST3320620AS_3QF0K0CS
-  - path: /mnt/disk3
-    src: /dev/disk/by-id/ata-WDC_WD3200AAJS-56M0A0_WD-WMAV2X307693
-skip_snapraid: true
+    src: /dev/sdd
+backbone__acme_ca_server: https://acme-staging-v02.api.letsencrypt.org/directory
+backups__local_destination: rest:http://192.168.56.13:8000/
+backups__remote_destination: b2:dev-snyssen-be-backup
+backbone__acme_dns_challenge__enabled: true
+vault_backbone__acme_http_challenge__enabled: false

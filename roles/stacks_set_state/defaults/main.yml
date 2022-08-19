@@ -1,0 +1,3 @@
+stacks_state: absent # either 'present', 'restarted' or 'absent'
+stacks_include: [] # apps to include. If left empty all apps are included. Note that this setting is mutually exclusive with the 'stacks_exclude' one; if both are set, only this one will be used
+stacks_exclude: [] # apps to exclude

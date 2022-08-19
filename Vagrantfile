@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     apps.vm.network :private_network, ip: "192.168.56.12"
 
     # Adds one alias per subdomain
-    subdomains = %w(routing docker recipes speedtest git registry cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr)
+    subdomains = %w(routing dash recipes speedtest git registry cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr)
       .map{|s| s+= ".snyssen.duckdns.org"}
       apps.hostmanager.aliases = subdomains
 
@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
 
   # Provision with Ansible
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "from-scratch.yml"
+    ansible.playbook = "setup-deploy.yml"
     ansible.galaxy_role_file = "requirements.yml"
     ansible.inventory_path = "hosts/dev.yml"
   end

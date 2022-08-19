@@ -1,0 +1,73 @@
+- name: Adding custom repositories
+  become: yes
+  ansible.builtin.yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+    repo_gpgcheck: "{{ item.repo_gpgcheck }}"
+    gpgkey: "{{ item.gpgkey }}"
+    priority: "{{ item.priority }}"
+  loop:
+    - {
+        name: "docker-ce-stable",
+        description: "Docker CE Stable - $basearch",
+        baseurl: "https://download.docker.com/linux/fedora/$releasever/$basearch/stable",
+        gpgcheck: true,
+        repo_gpgcheck: false,
+        gpgkey: "https://download.docker.com/linux/fedora/gpg",
+        priority: "99",
+      }
+- name: Installing other packages
+  become: yes
+  ansible.builtin.package:
+    name:
+      - cronie
+      - cronie-anacron
+      - git
+      - docker-ce
+      - docker-compose
+      - python3-pip
+      - zsh
+      - nano
+      - htop
+      - bind-utils
+      - screen
+    state: present
+- name: Enabling services
+  become: yes
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Installing OhMyZsh with PowerLevel10K theme
+  include_role:
+    name: tomereli.oh_my_zsh_p10k
+  vars:
+    users:
+      - username: "{{ ansible_user_id }}"
+- name: Copying shell config
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: ~/
+  with_items:
+    - .p10k.zsh
+    - .zshrc
+
+- name: Adding user to docker group
+  become: yes
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
+
+- name: Resetting connection so above change takes effect
+  meta: reset_connection
+
+- name: Starting and enabling docker service
+  become: yes
+  service:
+    name: docker
+    state: started
+    enabled: yes
