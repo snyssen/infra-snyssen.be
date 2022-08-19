@@ -8,7 +8,7 @@
   tasks:
     - name: Ensuring apps are stopped
       ansible.builtin.include_role:
-        name: stacks-action
+        name: stacks_set_state
       vars:
         stacks_state: absent
 
@@ -18,7 +18,7 @@
 
     - name: Restarting apps
       ansible.builtin.include_role:
-        name: stacks-action
+        name: stacks_set_state
       vars:
         stacks_state: present
       when: not prevent_apps_restart | default(false)

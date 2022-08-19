@@ -1,0 +1,38 @@
+- name: Permitting traffic through http
+  become: yes
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+- name: Permitting traffic through https
+  become: yes
+  ansible.posix.firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+
+- name: Creating web network
+  ansible.builtin.docker_network:
+    name: web
+
+- ansible.builtin.include_role:
+    name: container_backbone
+- ansible.builtin.include_role:
+    name: container_dashboard
+- ansible.builtin.include_role:
+    name: container_streaming
+- ansible.builtin.include_role:
+    name: container_nextcloud
+- ansible.builtin.include_role:
+    name: container_photoprism
+- ansible.builtin.include_role:
+    name: container_recipes
+- ansible.builtin.include_role:
+    name: container_snyssen-be
+- ansible.builtin.include_role:
+    name: container_speedtest
+- ansible.builtin.include_role:
+    name: container_git
+
+- ansible.builtin.include_role:
+    name: container_restic
