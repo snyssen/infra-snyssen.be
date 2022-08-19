@@ -36,8 +36,8 @@
   ansible.builtin.file:
     path: "{{ item.path  }}"
     state: directory
-    owner: "{{ ansible_user_id }}"
-    group: "{{ ansible_user_id }}"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
   with_items: "{{ disks_mounts }}"
 
 - name: Mounting storage volume w/ MergerFS
@@ -54,4 +54,5 @@
   ansible.builtin.file:
     path: /mnt/storage
     state: directory
-    owner: "{{ ansible_user_id }}"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
