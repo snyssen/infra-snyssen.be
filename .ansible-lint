@@ -1,0 +1,7 @@
+warn_list:  # or 'skip_list' to silence them completely
+  - experimental  # all rules tagged as experimental
+  - git-latest  # Git checkouts must contain explicit version
+  - literal-compare  # Don't compare to literal True/False
+  - package-latest  # Package installs should not use latest
+  # - unnamed-task  # All tasks should be named
+  - var-spacing  # Variables should have spaces before and after:  {{ var_name }}
