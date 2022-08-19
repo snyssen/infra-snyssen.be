@@ -1,15 +1,15 @@
 - hosts: apps
   roles:
-    - packages-upgrade
-    - setup-common
-    - setup-storage
-    - role: setup-snapraid
+    - packages_upgrade
+    - setup_common
+    - setup_storage
+    - role: setup_snapraid
       when: not skip_snapraid | default(true)
-    - role: apps-deploy
+    - role: stacks_deploy
       vars:
         docker_compose_state: absent
-    - backup-restore-files
-    - backup-restore-databases
-    - role: apps-action
+    - backup_restore_files
+    - backup_restore_databases
+    - role: stacks_set_state
       vars:
-        apps_state: present
+        stacks_state: present

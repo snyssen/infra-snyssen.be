@@ -1,0 +1,32 @@
+- hosts: apps
+  vars_prompt:
+    - name: stacks_state
+      prompt: |-
+        Choose the state the stacks will be in:
+          - present
+          - restarted
+          - absent
+        Your choice
+      private: no
+    - name: stacks_include_str
+      prompt: |-
+        Enter the stacks to include as a space separated list of names. Leave empty to include all stacks.
+        Note that this setting is mutually exclusive with the 'stacks_exclude' one (that will be prompted right after this one); if both are set, only this one will be used
+      private: no
+    - name: stacks_exclude_str
+      prompt: |-
+        Enter the stacks to exclude as a space separated list of names. Leave empty to not exclude any app
+      private: no
+  pre_tasks:
+    - ansible.builtin.set_fact:
+        stacks_include: "{{ stacks_include_str | split(' ') | list }}"
+      when:
+        - stacks_include_str is defined
+        - stacks_include_str | length > 0
+    - ansible.builtin.set_fact:
+        stacks_exclude: "{{ stacks_exclude_str | split(' ') | list }}"
+      when:
+        - stacks_exclude_str is defined
+        - stacks_exclude_str | length > 0
+  roles:
+    - stacks_set_state

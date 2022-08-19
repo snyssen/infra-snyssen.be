@@ -1,3 +1,0 @@
-apps_state: absent # either 'present', 'restarted' or 'absent'
-apps_include: [] # apps to include. If left empty all apps are included. Note that this setting is mutually exclusive with the 'apps_exclude' one; if both are set, only this one will be used
-apps_exclude: [] # apps to exclude

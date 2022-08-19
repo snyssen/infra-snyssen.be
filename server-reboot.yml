@@ -8,9 +8,9 @@
   tasks:
     - name: Ensuring apps are stopped
       ansible.builtin.include_role:
-        name:  apps-action
+        name: stacks_set_state
       vars:
-        apps_state: absent
+        stacks_state: absent
 
     - ansible.builtin.reboot:
         pre_reboot_delay: "{{ reboot_delay | default(0, true) }}"
@@ -18,7 +18,7 @@
 
     - name: Restarting apps
       ansible.builtin.include_role:
-        name: apps-action
+        name: stacks_set_state
       vars:
-        apps_state: present
+        stacks_state: present
       when: not prevent_apps_restart | default(false)

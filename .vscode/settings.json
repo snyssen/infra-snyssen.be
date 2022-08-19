@@ -3,7 +3,8 @@
     "gitea",
     "jellyfin",
     "minio",
-    "restic"
+    "restic",
+    "traefik"
   ],
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#9a8fe9",

@@ -1,3 +1,0 @@
-- hosts: apps
-  roles:
-    - apps-deploy

@@ -25,9 +25,9 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
       - [Server - shutdown](#server---shutdown)
     - [Packages playbooks](#packages-playbooks)
       - [Packages - upgrade](#packages---upgrade)
-    - [Apps playbooks](#apps-playbooks)
-      - [Apps - deploy](#apps---deploy)
-      - [Apps - manage](#apps---manage)
+    - [Stacks playbooks](#stacks-playbooks)
+      - [Stacks - deploy](#stacks---deploy)
+      - [Stacks - manage](#stacks---manage)
     - [Backup playbooks](#backup-playbooks)
       - [Backup - run](#backup---run)
       - [Backup - restore](#backup---restore)
@@ -194,29 +194,29 @@ Upgrades all DNF packages on the server(s).
 ansible-playbook packages-upgrade.yml
 ```
 
-### Apps playbooks
+### Stacks playbooks
 
-#### Apps - deploy
+#### Stacks - deploy
 
 Deploys all stacks to the app server.
 
 ```bash
-ansible-playbook apps-deploy.yml [-e "docker_compose_state={present,absent,restarted}"]
+ansible-playbook stacks-deploy.yml [-e "docker_compose_state={present,absent,restarted}"]
 ```
 
 - `docker_compose_state` (default = present): The state of the stacks after they are deployed
 
-#### Apps - manage
+#### Stacks - manage
 
 Changes the state of specific stacks.
 
 ```bash
-ansible-playbook apps-manage.yml [-e "apps_state={present,absent,restarted} apps_include_str='nextcloud restic' apps_exclude_str='speedtest photoprism'"]
+ansible-playbook stacks-manage.yml [-e "stacks_state={present,absent,restarted} stacks_include_str='nextcloud restic' stacks_exclude_str='speedtest photoprism'"]
 ```
 
-- `apps_state`: Sets the stack state. If not explicitly set, will be asked to user on playbook execution.
-- `apps_include_str`: Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'apps_exclude' one; if both are set, only this one will be used.
-- `apps_exclude_str`: Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
+- `stacks_state`: Sets the stack state. If not explicitly set, will be asked to user on playbook execution.
+- `stacks_include_str`: Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'stacks_exclude' one; if both are set, only this one will be used.
+- `stacks_exclude_str`: Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
 
 ### Backup playbooks
 
