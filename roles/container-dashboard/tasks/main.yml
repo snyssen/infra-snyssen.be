@@ -1,0 +1,10 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "/mnt/storage/backup//heimdall"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+
+- ansible.builtin.include_role:
+    name: container-deploy
+  vars:
+    container_name: dashboard
