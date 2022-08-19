@@ -28,7 +28,7 @@
 - ansible.builtin.include_role:
     name: container_recipes
 - ansible.builtin.include_role:
-    name: container_snyssen-be
+    name: container_snyssen_be
 - ansible.builtin.include_role:
     name: container_speedtest
 - ansible.builtin.include_role:
