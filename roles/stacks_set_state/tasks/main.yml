@@ -1,0 +1,18 @@
+- name: Finding all stacks
+  ansible.builtin.find:
+    path: "{{ docker_compose_directory }}"
+    file_type: directory
+  register: docker_compose_directories
+
+- ansible.builtin.set_fact:
+    stacks_exclude_path: "{{ stacks_exclude | map('regex_replace', '^', docker_compose_directory + '/') }}"
+
+- ansible.builtin.set_fact:
+    apps_selected: "{{ stacks_include | map('regex_replace', '^', docker_compose_directory + '/') if stacks_include is defined and stacks_include | length > 0 else docker_compose_directories.files | map(attribute='path') | difference(stacks_exclude_path) }}"
+
+- name: "Applying state '{{ stacks_state }}' to {{ apps_selected | length }} stacks"
+  community.docker.docker_compose:
+    project_src: "{{ item }}"
+    state: "{{ 'absent' if stacks_state == 'absent' else 'present' }}"
+    restarted: "{{ stacks_state == 'restarted' }}"
+  with_items: "{{ apps_selected }}"

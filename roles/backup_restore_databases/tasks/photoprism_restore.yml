@@ -1,0 +1,20 @@
+- name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Ensuring containers are started"
+  ansible.builtin.include_role:
+    name: stacks-action
+  vars:
+    stacks_state: present
+    stacks_include:
+      - "{{ db_restore_selected_individual.key }}"
+
+- name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Restoring photoprism"
+  community.docker.docker_container_exec:
+    container: "{{ db_restore_selected_individual.key }}"
+    command: photoprism restore -i /backups/{{ db_selected_restore.user_input }}
+
+- name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Ensuring containers are started"
+  ansible.builtin.include_role:
+    name: stacks-action
+  vars:
+    stacks_state: restart
+    stacks_include:
+      - "{{ db_restore_selected_individual.key }}"
