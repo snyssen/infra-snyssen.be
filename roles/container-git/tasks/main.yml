@@ -37,8 +37,6 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ ansible_user_id }}"
-    mode: "700"
   with_items:
     - "{{ docker_mounts_directory }}/git/postgresql"
     - /mnt/storage/backups/gitea
