@@ -4,7 +4,9 @@
     - setup_common
     - setup_storage
     - role: setup_snapraid
-      when: not skip_snapraid | default(true)
+      vars:
+        should_skip: "{{ skip_snapraid | default(false) }}"
+      when: not should_skip
     - role: stacks_deploy
       vars:
         docker_compose_state: absent

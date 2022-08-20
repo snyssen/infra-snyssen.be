@@ -7,7 +7,9 @@
 - hosts: apps
   roles:
     - role: setup_snapraid
-      when: not skip_snapraid | default(true)
+      vars:
+        should_skip: "{{ skip_snapraid | default(false) }}"
+      when: not should_skip
     - stacks_deploy
 
 - hosts: backup
