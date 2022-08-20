@@ -25,6 +25,23 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
 
+  drone-runner:
+    image: drone/drone-runner-docker:1
+    container_name: drone-runner
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_RPC_PROTO=https
+      - DRONE_RPC_HOST=drone.{{ ansible_fqdn }}
+      - DRONE_RPC_SECRET={{ cicd__rpc_secret }}
+      - DRONE_RUNNER_CAPACITY=6
+      - DRONE_RUNNER_NAME=drone-runner
+      - DRONE_UI_USERNAME={{ cicd__runner__username }}
+      - DRONE_UI_PASSWORD={{ cicd__runner__password }}
+    ports:
+      - '3000:3000' # TODO: Expose through Traefik
+
 networks:
   web:
     external: true
