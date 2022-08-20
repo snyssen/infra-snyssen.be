@@ -33,6 +33,8 @@
     name: container_speedtest
 - ansible.builtin.include_role:
     name: container_git
+- ansible.builtin.include_role:
+    name: container_cicd
 
 - ansible.builtin.include_role:
     name: container_restic
