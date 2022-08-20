@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  drone:
+    image: drone/drone:2
+    container_name: drone
+    restart: unless-stopped
+    networks:
+      - internal
+      - web
+    environment:
+      - DRONE_GITEA_SERVER=https://git.{{ ansible_fqdn }}
+      - DRONE_GITEA_CLIENT_ID={{ cicd__drone__gitea_client_id }}
+      - DRONE_GITEA_CLIENT_SECRET={{ cicd__drone__gitea_client_secret }}
+      - DRONE_RPC_SECRET={{ cicd__rpc_secret }}
+      - DRONE_SERVER_HOST=drone.{{ ansible_fqdn }}
+      - DRONE_SERVER_PROTO=https
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.drone.entryPoints=websecure
+      - traefik.http.routers.drone.rule=Host(`drone.{{ ansible_fqdn }}`)
+    volumes:
+      - "{{ docker_mounts_directory }}/drone:/var/lib/postgresql/data"
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+networks:
+  web:
+    external: true
+  internal:

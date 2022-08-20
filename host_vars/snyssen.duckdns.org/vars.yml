@@ -12,3 +12,7 @@ backups__local_destination: rest:http://192.168.56.13:8000/
 backups__remote_destination: b2:dev-snyssen-be-backup
 backbone__acme_dns_challenge__enabled: true
 vault_backbone__acme_http_challenge__enabled: false
+
+# Leave below empty to force user to generate on install
+cicd__drone__gitea_client_id:
+cicd__drone__gitea_client_secret:
