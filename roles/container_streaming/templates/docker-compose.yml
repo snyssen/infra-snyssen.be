@@ -219,13 +219,27 @@ services:
     networks:
       - internal
       - web
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.docker.network=web
+    #   - traefik.http.routers.invidious.entryPoints=websecure
+    #   - traefik.http.routers.invidious.rule=Host(`yt.{{ ansible_fqdn }}`)
+    #   - traefik.http.routers.invidious.service=invidious
+    #   - traefik.http.services.invidious.loadBalancer.server.port=3000
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
-      - traefik.http.routers.invidious.entryPoints=websecure
-      - traefik.http.routers.invidious.rule=Host(`yt.{{ ansible_fqdn }}`)
-      - traefik.http.routers.invidious.service=invidious
       - traefik.http.services.invidious.loadBalancer.server.port=3000
+    # LAN traffic does not require authentication
+      - traefik.http.routers.invidious-lan.entryPoints=websecure
+      - traefik.http.routers.invidious-lan.rule=Host(`yt.{{ ansible_fqdn }}`) && ClientIP(`192.168.1.0/24`) # This rule will have priority since it is longer
+      - traefik.http.routers.invidious-lan.service=invidious
+
+    # While WAN traffic does
+      - traefik.http.routers.invidious-wan.entryPoints=websecure
+      - traefik.http.routers.invidious-wan.rule=Host(`yt.{{ ansible_fqdn }}`)
+      - traefik.http.routers.invidious-wan.service=invidious
+      - traefik.http.routers.invidious-wan.middlewares=auth # TODO: Replace with SSO
     environment:
       # Please read the following file for a comprehensive list of all available
       # configuration options and their associated syntax:
