@@ -176,6 +176,85 @@ services:
       - "{{ docker_mounts_directory }}/prowlarr/config:/config"
     restart: unless-stopped
 
+  invidious_postgres:
+    image: docker.io/library/postgres:14
+    container_name: invidious_postgres
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      POSTGRES_DB: invidious
+      POSTGRES_USER: kemal # Unfortunately it cannot be changed for now...
+      POSTGRES_PASSWORD: "{{ invidious__postgres_password }}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+    volumes:
+      - "{{ docker_mounts_directory }}/invidious/postgresql:/var/lib/postgresql/data"
+      - ./sql:/config/sql
+      - ./init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
+
+  invidious_postgres_backups:
+    image: prodrigestivill/postgres-backup-local
+    container_name: invidious_postgres_backups
+    restart: unless-stopped
+    depends_on:
+      - invidious_postgres
+    networks:
+      - internal
+    environment:
+      - POSTGRES_HOST=invidious_postgres
+      - POSTGRES_DB=invidious
+      - POSTGRES_USER=kemal
+      - POSTGRES_PASSWORD={{ invidious__postgres_password }}
+      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/invidious:/backups
+
+  invidious:
+    image: quay.io/invidious/invidious:latest
+    container_name: invidious
+    restart: unless-stopped
+    networks:
+      - internal
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.invidious.entryPoints=websecure
+      - traefik.http.routers.invidious.rule=Host(`yt.{{ ansible_fqdn }}`)
+      - traefik.http.routers.invidious.service=invidious
+      - traefik.http.services.invidious.loadBalancer.server.port=3000
+    environment:
+      # Please read the following file for a comprehensive list of all available
+      # configuration options and their associated syntax:
+      # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
+      INVIDIOUS_CONFIG: |
+        db:
+          dbname: invidious
+          user: kemal
+          password: {{ invidious__postgres_password }}
+          host: invidious_postgres
+          port: 5432
+        check_tables: true
+        # external_port:
+        domain: yt.{{ ansible_fqdn }}
+        https_only: false
+        use_quic: true
+        dark_mode: true
+        region: {{ invidious__region }}
+    ports:
+      - "127.0.0.1:3000:3000"
+    healthcheck:
+      test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/comments/jNQXAC9IVRw || exit 1
+      interval: 30s
+      timeout: 5s
+      retries: 2
+    depends_on:
+      - invidious_postgres
+
 networks:
   web:
     external: true
+  internal:

@@ -26,6 +26,9 @@
     - "{{ docker_mounts_directory }}/lidarr/config"
     # prowlarr
     - "{{ docker_mounts_directory }}/prowlarr/config"
+    # invidious
+    - "{{ docker_mounts_directory }}/invidious/postgresql"
+    - "{{ docker_compose_directory }}/streaming"
 
 - name: Copying open VPN config
   ansible.builtin.copy:
@@ -52,6 +55,17 @@
       dest: /mnt/storage/torrent/config/qBittorrent/config/qBittorrent.conf
     - src: nzbget.conf.j2
       dest: /mnt/storage/usenet/config/nzbget.conf
+
+- name: Copying Invidious files
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ docker_compose_directory }}/streaming/{{ item }}"
+    mode: "770"
+    owner: "999" # Postgres user
+  loop:
+    - sql/
+    - init-invidious-db.sh
 
 - ansible.builtin.include_role:
     name: container_deploy
