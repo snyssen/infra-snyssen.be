@@ -20,6 +20,10 @@ nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
 torrent__user: "{{ vault_torrent__user }}"
 torrent__pass_pbkdf2: "{{ vault_torrent__pass_pbkdf2 }}"
 
+invidious__postgres_password: "{{ vault_invidious__postgres_password }}"
+invidious__admin_username: "{{ vault_invidious__admin_username }}"
+invidious__region: BE
+
 usenet__server_name: "{{ vault_usenet__server_name }}"
 usenet__server_host: "{{ vault_usenet__server_host }}"
 usenet__server_port: "{{ vault_usenet__server_port }}"
