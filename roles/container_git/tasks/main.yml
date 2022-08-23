@@ -60,3 +60,4 @@
   failed_when:
     - gitea_user_creation.rc > 0
     - "'user already exists' not in gitea_user_creation.stdout"
+  when: docker_compose_state != 'absent' # on restores containers are not started and this command should not be run

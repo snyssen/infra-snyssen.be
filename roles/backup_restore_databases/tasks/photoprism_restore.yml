@@ -1,6 +1,6 @@
 - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Ensuring containers are started"
   ansible.builtin.include_role:
-    name: stacks-action
+    name: stacks_set_state
   vars:
     stacks_state: present
     stacks_include:
@@ -13,7 +13,7 @@
 
 - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Ensuring containers are started"
   ansible.builtin.include_role:
-    name: stacks-action
+    name: stacks_set_state
   vars:
     stacks_state: restart
     stacks_include:

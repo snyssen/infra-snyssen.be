@@ -2,7 +2,11 @@
   tasks:
     - ansible.builtin.include_role:
         name: backup_run_databases
-      when: backup_skip_databases | default(false) == false
+      vars:
+        should_skip_files: "{{ backup_skip_files | default(false) }}"
+      when: not should_skip_files
     - ansible.builtin.include_role:
         name: backup_run_files
-      when: backup_skip_files | default(false) == false
+      vars:
+        should_skip_databases: "{{ backup_skip_databases | default(false) }}"
+      when: not should_skip_databases
