@@ -26,6 +26,8 @@
     - "{{ docker_mounts_directory }}/lidarr/config"
     # prowlarr
     - "{{ docker_mounts_directory }}/prowlarr/config"
+    # bazarr
+    - "{{ docker_mounts_directory }}/bazarr/config"
     # invidious
     - "{{ docker_mounts_directory }}/invidious/postgresql"
     - "{{ docker_compose_directory }}/streaming"
