@@ -66,6 +66,7 @@ services:
       - GITEA__security__PASSWORD_CHECK_PWN=true
       - GITEA__security__MIN_PASSWORD_LENGTH=8
 
+      - GITEA__webhook__ALLOWED_HOST_LIST=*
       - GITEA__service__REGISTER_MANUAL_CONFIRM=true
 
       - GITEA__server__LANDING_PAGE=explore
