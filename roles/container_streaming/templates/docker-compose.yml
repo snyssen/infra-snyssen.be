@@ -127,8 +127,9 @@ services:
     image: lscr.io/linuxserver/radarr
     container_name: radarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_uid }}
+      - TZ=Europe/Brussels
     networks:
       - web
     labels:
@@ -145,8 +146,9 @@ services:
     image: lscr.io/linuxserver/lidarr
     container_name: lidarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_uid }}
+      - TZ=Europe/Brussels
     networks:
       - web
     labels:
@@ -163,8 +165,9 @@ services:
     image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_uid }}
+      - TZ=Europe/Brussels
     networks:
       - web
     labels:
@@ -174,6 +177,25 @@ services:
       - traefik.http.services.prowlarr.loadBalancer.server.port=9696
     volumes:
       - "{{ docker_mounts_directory }}/prowlarr/config:/config"
+    restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_uid }}
+      - TZ=Europe/Brussels
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bazarr.entryPoints=websecure
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.{{ ansible_fqdn }}`)
+      - traefik.http.services.bazarr.loadBalancer.server.port=6767
+    volumes:
+      - "{{ docker_mounts_directory }}/bazarr/config:/config"
+      - /mnt/storage/streaming:/data
     restart: unless-stopped
 
   invidious_postgres:
@@ -260,9 +282,6 @@ services:
           autoplay: true
           continue_autoplay: false
           quality: dash
-
-    ports:
-      - "127.0.0.1:3000:3000"
     healthcheck:
       test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/comments/jNQXAC9IVRw || exit 1
       interval: 30s

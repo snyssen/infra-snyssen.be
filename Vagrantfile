@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     apps.vm.network :private_network, ip: "192.168.56.12"
 
     # Adds one alias per subdomain
-    subdomains = %w(routing dash recipes speedtest git drone cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr yt)
+    subdomains = %w(routing dash recipes speedtest git drone cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr bazarr yt)
       .map{|s| s+= ".snyssen.duckdns.org"}
       apps.hostmanager.aliases = subdomains
 
