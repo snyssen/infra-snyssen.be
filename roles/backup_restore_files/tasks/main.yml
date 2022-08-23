@@ -5,7 +5,7 @@
 
 - name: Shutting down all apps except restic
   ansible.builtin.include_role:
-    name: stacks-action
+    name: stacks_set_state
   vars:
     stacks_state: absent
     stacks_exclude:
@@ -13,7 +13,7 @@
 
 - name: Ensuring restic is up
   ansible.builtin.include_role:
-    name: stacks-action
+    name: stacks_set_state
   vars:
     stacks_state: present
     stacks_include:

@@ -16,6 +16,18 @@
       photoprism:
         directory: /mnt/storage/backups/photoprism/mysql
         type: photoprism
+      invidious:
+        directory: /mnt/storage/backups/invidious
+        type: pgsql
+        user: kemal
+        password: "{{ invidious__postgres_password }}"
+        database: invidious
+      gitea:
+        directory: /mnt/storage/backups/gitea
+        type: pgsql
+        user: gitea
+        password: "{{ git__postgres_password }}"
+        database: gitea
 
 - ansible.builtin.set_fact:
     db_restore_selected: >-

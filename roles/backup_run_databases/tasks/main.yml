@@ -12,3 +12,14 @@
   community.docker.docker_container_exec:
     container: photoprism
     command: photoprism backup -i -f
+
+- name: Backing up Invidious database to disk
+  community.docker.docker_container_exec:
+    container: invidious_postgres_backups
+    command: /backup.sh
+
+- name: Backing up Gitea database to disk
+  community.docker.docker_container_exec:
+    container: gitea_postgres_backups
+    command: /backup.sh
+# TODO: Respect DRY by looping over same databases types
