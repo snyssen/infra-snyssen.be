@@ -39,6 +39,9 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [The `restic` stack](#the-restic-stack)
     - [The `speedtest` stack](#the-speedtest-stack)
     - [The `streaming` stack](#the-streaming-stack)
+    - [The `piped` stack](#the-piped-stack)
+    - [The `git` and `cicd` stacks](#the-git-and-cicd-stacks)
+    - [The `dashboard` stack](#the-dashboard-stack)
   - [Server schedule](#server-schedule)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -276,5 +279,17 @@ This stack offers a [simple speedtest](https://github.com/librespeed/speedtest) 
 ### The `streaming` stack
 
 The streaming stack offers all kind of streaming services, mainly through [Jellyfin](https://jellyfin.org) (accessible on `streaming.your.domain`). It also provides some *Arrs apps for library management.
+
+### The `piped` stack
+
+[Piped](https://github.com/TeamPiped/Piped) is a self-hostable alternative front-end for Youtube. It provides better privacy, ads and sponsors blocking. It can be accessed on `yt.your.domain`.
+
+### The `git` and `cicd` stacks
+
+The git stack provides a [Gitea](https://gitea.io/en-us/) instance at `git.your.domain`. This Gitea instance can be used to store git repositories, built packages, and to do project management and documentation. It has an accompanying "cicd" stack that deploys a [Drone](https://www.drone.io) instance (at `drone.your.domain`) for all your CI/CD needs.
+
+### The `dashboard` stack
+
+This stack provides a starting page to easily access all of the other deployed services as well as any other webpage you would like. Currently it uses [Heimdall](https://heimdall.site), but I am quite disappointed by the current offering of self-hosted starting pages, so I am thinking of creating my own when I get the time. The dashboard is accessible at `dash.your.domain`.
 
 ## Server schedule
