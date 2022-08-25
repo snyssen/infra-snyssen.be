@@ -6,7 +6,7 @@ services:
     container_name: jellyfin
     networks:
       - web
-    user: 1000:1000
+    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
     environment:
       - JELLYFIN_DATA_DIR=/data
       - JELLYFIN_CONFIG_DIR=/config
@@ -58,8 +58,8 @@ services:
       - VPN_ENABLED=yes
       - LAN_NETWORK=192.168.1.0/24
       - NAME_SERVERS={{ dns_servers | join(',') }}
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - INCOMING_PORT_ENV=54783
     networks:
       - web
@@ -95,8 +95,8 @@ services:
     devices:
       - /dev/net/tun
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - VPN_PROV=custom
       - LAN_NETWORK=192.168.1.0/24
       - NAME_SERVERS={{ dns_servers | join(',') }}
@@ -109,8 +109,8 @@ services:
     image: lscr.io/linuxserver/sonarr
     container_name: sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
     networks:
       - web
     labels:
@@ -128,7 +128,7 @@ services:
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_gid }}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -146,8 +146,8 @@ services:
     image: lscr.io/linuxserver/lidarr
     container_name: lidarr
     environment:
-      - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -165,8 +165,8 @@ services:
     image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     environment:
-      - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -183,8 +183,8 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     environment:
-      - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -198,7 +198,99 @@ services:
       - /mnt/storage/streaming:/data
     restart: unless-stopped
 
-
+  piped_postgres:
+    image: postgres:14
+    container_name: piped_postgres
+    restart: unless-stopped
+    networks:
+      - web
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.torrent.entryPoints=websecure
+      - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
+    environment:
+      - POSTGRES_USER=piped
+      - POSTGRES_PASSWORD={{ piped__postgres_password }}
+      - POSTGRES_DB=piped
+    volumes:
+      - "{{ docker_mounts_directory }}/piped/postgresql:/var/lib/postgresql/data"
+  piped_postgres_backups:
+    restart: unless-stopped
+    image: prodrigestivill/postgres-backup-local
+    container_name: piped_postgres_backups
+    networks:
+      - internal
+    depends_on:
+      - piped_postgres
+    environment:
+      - POSTGRES_HOST=piped_postgres
+      - POSTGRES_DB=piped
+      - POSTGRES_USER=piped
+      - POSTGRES_PASSWORD={{ piped__postgres_password }}
+      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+    volumes:
+      - /mnt/storage/backups/piped:/backups
+  piped_proxy_nginx:
+    image: nginx:mainline-alpine
+    container_name: piped_proxy_nginx
+    restart: unless-stopped
+    networks:
+      - internal
+      - web
+    volumes:
+      - /mnt/storage/piped/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /mnt/storage/piped/nginx/pipedproxy.conf:/etc/nginx/conf.d/pipedproxy.conf:ro
+      - /mnt/storage/piped/nginx/ytproxy.conf:/etc/nginx/snippets/ytproxy.conf:ro
+      - "{{ docker_mounts_directory }}/piped/proxy:/var/run/ytproxy"
+    depends_on:
+      - piped_api
+      - piped_proxy
+      - piped_frontend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.piped_proxy.entrypoints=websecure"
+      - "traefik.http.routers.piped_proxy.rule=Host(`proxy-yt.{{ ansible_fqdn }}`)"
+      - "traefik.http.routers.piped_proxy.service=piped_proxy"
+      - "traefik.http.services.piped_proxy.loadbalancer.server.port=80"
+  piped_proxy:
+    image: 1337kavin/ytproxy
+    container_name: piped_proxy
+    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
+    networks:
+      - internal
+    volumes:
+      - "{{ docker_mounts_directory }}/piped/proxy:/app/socket"
+    restart: unless-stopped
+  piped_api:
+    image: 1337kavin/piped
+    container_name: piped_api
+    depends_on:
+      - piped_postgres
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.piped_api.entryPoints=websecure
+      - traefik.http.routers.piped_api.rule=Host(`api-yt.{{ ansible_fqdn }}`)
+      - traefik.http.services.piped_api.loadBalancer.server.port=8080
+    volumes:
+      - /mnt/storage/piped/config.properties:/app/config.properties:ro
+    restart: unless-stopped
+  piped_frontend:
+    image: 1337kavin/piped-frontend
+    container_name: piped_frontend
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.piped_frontend.entryPoints=websecure
+      - traefik.http.routers.piped_frontend.rule=Host(`yt.{{ ansible_fqdn }}`)
+    entrypoint: ash -c 'sed -i s/pipedapi.kavin.rocks/api-yt.{{ ansible_fqdn }}/g /usr/share/nginx/html/assets/* && /docker-entrypoint.sh && nginx -g "daemon off;"'
+    restart: unless-stopped
 
 networks:
   web:

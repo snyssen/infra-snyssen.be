@@ -28,6 +28,10 @@
     - "{{ docker_mounts_directory }}/prowlarr/config"
     # bazarr
     - "{{ docker_mounts_directory }}/bazarr/config"
+    # piped
+    - "{{ docker_mounts_directory }}/piped/postgresql"
+    - "{{ docker_mounts_directory }}/piped/proxy"
+    - /mnt/storage/piped/nginx
 - name: Copying open VPN config
   ansible.builtin.copy:
     src: "{{ item.src }}"
@@ -53,6 +57,21 @@
       dest: /mnt/storage/torrent/config/qBittorrent/config/qBittorrent.conf
     - src: nzbget.conf.j2
       dest: /mnt/storage/usenet/config/nzbget.conf
+
+- name: Copying Piped configuration
+  ansible.builtin.template:
+    src: config.properties
+    dest: /mnt/storage/piped/config.properties
+    mode: 0600
+- name: Copying nginx configuration for Piped proxy
+  ansible.builtin.template:
+    src: "nginx/{{ item }}"
+    dest: "/mnt/storage/piped/nginx/{{ item }}"
+    mode: 0600
+  loop:
+    - nginx.conf
+    - pipedproxy.conf
+    - ytproxy.conf
 
 - ansible.builtin.include_role:
     name: container_deploy

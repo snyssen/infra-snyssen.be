@@ -28,6 +28,8 @@ usenet__server_pass: "{{ vault_usenet__server_pass }}"
 usenet__user: "{{ vault_usenet__user }}"
 usenet__pass: "{{ vault_usenet__pass }}"
 
+piped__postgres_password: "{{ vault_piped__postgres_password }}"
+
 photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
 photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
 
