@@ -22,6 +22,8 @@
 - ansible.builtin.include_role:
     name: container_streaming
 - ansible.builtin.include_role:
+    name: container_piped
+- ansible.builtin.include_role:
     name: container_nextcloud
 - ansible.builtin.include_role:
     name: container_photoprism
