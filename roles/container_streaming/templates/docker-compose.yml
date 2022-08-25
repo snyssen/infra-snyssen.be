@@ -6,7 +6,7 @@ services:
     container_name: jellyfin
     networks:
       - web
-    user: 1000:1000
+    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
     environment:
       - JELLYFIN_DATA_DIR=/data
       - JELLYFIN_CONFIG_DIR=/config
@@ -58,8 +58,8 @@ services:
       - VPN_ENABLED=yes
       - LAN_NETWORK=192.168.1.0/24
       - NAME_SERVERS={{ dns_servers | join(',') }}
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - INCOMING_PORT_ENV=54783
     networks:
       - web
@@ -95,8 +95,8 @@ services:
     devices:
       - /dev/net/tun
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - VPN_PROV=custom
       - LAN_NETWORK=192.168.1.0/24
       - NAME_SERVERS={{ dns_servers | join(',') }}
@@ -109,8 +109,8 @@ services:
     image: lscr.io/linuxserver/sonarr
     container_name: sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
     networks:
       - web
     labels:
@@ -128,7 +128,7 @@ services:
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_gid }}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -146,8 +146,8 @@ services:
     image: lscr.io/linuxserver/lidarr
     container_name: lidarr
     environment:
-      - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -165,8 +165,8 @@ services:
     image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     environment:
-      - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -183,8 +183,8 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     environment:
-      - PUID={{ ansible_user_uid }}
-      - PGID={{ ansible_user_uid }}
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
       - web
@@ -197,98 +197,6 @@ services:
       - "{{ docker_mounts_directory }}/bazarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
-
-  invidious_postgres:
-    image: docker.io/library/postgres:14
-    container_name: invidious_postgres
-    restart: unless-stopped
-    networks:
-      - internal
-    environment:
-      POSTGRES_DB: invidious
-      POSTGRES_USER: kemal # Unfortunately it cannot be changed for now...
-      POSTGRES_PASSWORD: "{{ invidious__postgres_password }}"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-    volumes:
-      - "{{ docker_mounts_directory }}/invidious/postgresql:/var/lib/postgresql/data"
-      - ./sql:/config/sql
-      - ./init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh
-
-  invidious_postgres_backups:
-    image: prodrigestivill/postgres-backup-local
-    container_name: invidious_postgres_backups
-    restart: unless-stopped
-    depends_on:
-      - invidious_postgres
-    networks:
-      - internal
-    environment:
-      - POSTGRES_HOST=invidious_postgres
-      - POSTGRES_DB=invidious
-      - POSTGRES_USER=kemal
-      - POSTGRES_PASSWORD={{ invidious__postgres_password }}
-      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
-      - TZ=Europe/Brussels
-      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
-    volumes:
-      - /mnt/storage/backups/invidious:/backups
-
-  invidious:
-    image: quay.io/invidious/invidious:latest
-    container_name: invidious
-    restart: unless-stopped
-    networks:
-      - internal
-      - web
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=web
-      - traefik.http.services.invidious.loadBalancer.server.port=3000
-    # LAN traffic does not require authentication
-      - traefik.http.routers.invidious-lan.entryPoints=websecure
-      - traefik.http.routers.invidious-lan.rule=Host(`yt.{{ ansible_fqdn }}`) && ClientIP(`192.168.1.0/24`) # This rule will have priority since it is longer
-      - traefik.http.routers.invidious-lan.service=invidious
-
-    # While WAN traffic does
-      - traefik.http.routers.invidious-wan.entryPoints=websecure
-      - traefik.http.routers.invidious-wan.rule=Host(`yt.{{ ansible_fqdn }}`)
-      - traefik.http.routers.invidious-wan.service=invidious
-      - traefik.http.routers.invidious-wan.middlewares=auth # TODO: Replace with SSO
-    environment:
-      # Please read the following file for a comprehensive list of all available
-      # configuration options and their associated syntax:
-      # https://github.com/iv-org/invidious/blob/master/config/config.example.yml
-      INVIDIOUS_CONFIG: |
-        db:
-          dbname: invidious
-          user: kemal
-          password: {{ invidious__postgres_password }}
-          host: invidious_postgres
-          port: 5432
-        check_tables: true
-        domain: yt.{{ ansible_fqdn }}
-        https_only: false
-        use_quic: true
-        captcha_enabled: false
-        admins: ["{{ invidious__admin_username }}"]
-        default_user_preferences:
-          region: {{ invidious__region }}
-          dark_mode: true
-          default_home: Subscriptions
-          annotations: true
-          annotations_subscribed: true
-          autoplay: true
-          autoplay: true
-          continue_autoplay: false
-          quality: dash
-    healthcheck:
-      test: wget -nv --tries=1 --spider http://127.0.0.1:3000/api/v1/comments/jNQXAC9IVRw || exit 1
-      interval: 30s
-      timeout: 5s
-      retries: 2
-    depends_on:
-      - invidious_postgres
 
 networks:
   web:
