@@ -1,0 +1,28 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ docker_mounts_directory }}/piped/postgresql"
+    - "{{ docker_mounts_directory }}/piped/proxy"
+    - /mnt/storage/piped/nginx
+
+- name: Copying Piped configuration
+  ansible.builtin.template:
+    src: config.properties
+    dest: /mnt/storage/piped/config.properties
+    mode: 0600
+- name: Copying nginx configuration for Piped proxy
+  ansible.builtin.template:
+    src: "nginx/{{ item }}"
+    dest: "/mnt/storage/piped/nginx/{{ item }}"
+    mode: 0600
+  loop:
+    - nginx.conf
+    - pipedproxy.conf
+    - ytproxy.conf
+
+- ansible.builtin.include_role:
+    name: container_deploy
+  vars:
+    container_name: "piped"

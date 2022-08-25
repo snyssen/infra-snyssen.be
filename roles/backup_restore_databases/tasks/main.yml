@@ -7,6 +7,12 @@
         user: nextcloud
         password: "{{ nextcloud__postgres_password }}"
         database: nextcloud
+      piped:
+        directory: /mnt/storage/backups/piped
+        type: pgsql
+        user: piped
+        password: "{{ piped__postgres_password }}"
+        database: piped
       recipes:
         directory: /mnt/storage/backups/recipes
         type: pgsql

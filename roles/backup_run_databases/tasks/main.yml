@@ -1,20 +1,14 @@
-- name: Backing up Nextcloud database to disk
+- name: Backing up postgres databases
   community.docker.docker_container_exec:
-    container: nextcloud_postgres_backups
+    container: "{{ item }}"
     command: /backup.sh
-
-- name: Backing up Recipes database to disk
-  community.docker.docker_container_exec:
-    container: recipes_postgres_backups
-    command: /backup.sh
+  loop:
+    - nextcloud_postgres_backups
+    - piped_postgres_backups
+    - recipes_postgres_backups
+    - gitea_postgres_backups
 
 - name: Backing up photoprism database to disk
   community.docker.docker_container_exec:
     container: photoprism
     command: photoprism backup -i -f
-
-- name: Backing up Gitea database to disk
-  community.docker.docker_container_exec:
-    container: gitea_postgres_backups
-    command: /backup.sh
-# TODO: Respect DRY by looping over same databases types
