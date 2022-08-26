@@ -17,28 +17,41 @@
 
 - ansible.builtin.include_role:
     name: container_backbone
+  when: "stacks_deploy_list is not defined or 'backbone' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_dashboard
+  when: "stacks_deploy_list is not defined or 'dashboard' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_streaming
+  when: "stacks_deploy_list is not defined or 'streaming' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_piped
+  when: "stacks_deploy_list is not defined or 'piped' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_nextcloud
+  when: "stacks_deploy_list is not defined or 'nextcloud' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_photoprism
+  when: "stacks_deploy_list is not defined or 'photoprism' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_recipes
+  when: "stacks_deploy_list is not defined or 'recipes' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_snyssen_be
+  when: "stacks_deploy_list is not defined or 'snyssen_be' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_speedtest
+  when: "stacks_deploy_list is not defined or 'speedtest' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_git
+  when: "stacks_deploy_list is not defined or 'git' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_cicd
+  when: "stacks_deploy_list is not defined or 'cicd' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_minecraft
+  when: "stacks_deploy_list is not defined or 'minecraft' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic
+  when: "stacks_deploy_list is not defined or 'restic' in stacks_deploy_list"
