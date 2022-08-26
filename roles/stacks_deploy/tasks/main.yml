@@ -37,6 +37,8 @@
     name: container_git
 - ansible.builtin.include_role:
     name: container_cicd
+- ansible.builtin.include_role:
+    name: container_minecraft
 
 - ansible.builtin.include_role:
     name: container_restic
