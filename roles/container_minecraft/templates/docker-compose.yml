@@ -10,15 +10,21 @@ services:
       - traefik.tcp.routers.minecraft.entryPoints=minecraft
       - traefik.tcp.routers.minecraft.rule=HostSNI(`*`)
       - traefik.tcp.services.minecraft.loadBalancer.server.port=25565
+
+      - traefik.http.routers.dynmap.entryPoints=websecure
+      - traefik.http.routers.dynmap.rule=Host(`mc.{{ ansible_fqdn }}`)
+      - traefik.http.routers.dynmap.service=dynmap
+      - traefik.http.services.dynmap.loadBalancer.server.port=8123
     environment:
       EULA: "TRUE"
       VERSION: LATEST # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#versions
-      # TYPE: # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-types
+      TYPE: SPIGOT # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-types
     tty: true
     stdin_open: true
     restart: unless-stopped
     volumes:
-      - /mnt/storage/backups/minecraft:/data
+      - /mnt/storage/minecraft/data:/data
+      - /mnt/storage/minecraft/plugins:/plugins
 
 networks:
   web:

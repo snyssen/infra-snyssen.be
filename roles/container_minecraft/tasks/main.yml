@@ -1,8 +1,19 @@
 - name: Creating folders
   ansible.builtin.file:
-    path: "/mnt/storage/backups/minecraft"
+    path: "{{ item }}"
     state: directory
     owner: "{{ ansible_user_uid }}"
+    mode: 0774
+  loop:
+    - /mnt/storage/minecraft/data
+    - /mnt/storage/minecraft/plugins
+
+- name: Downloading Dynmap plugin
+  ansible.builtin.get_url:
+    url: https://dev.bukkit.org/projects/dynmap/files/latest
+    dest: /mnt/storage/minecraft/plugins/dynmap.jar
+    owner: "{{ ansible_user_uid }}"
+    mode: 0774
 
 - ansible.builtin.include_role:
     name: container_deploy

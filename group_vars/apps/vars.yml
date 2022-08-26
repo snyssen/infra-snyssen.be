@@ -56,6 +56,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - /mnt/storage/gitea:/data/gitea
+  - /mnt/storage/minecraft/data:/data/minecraft
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
