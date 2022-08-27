@@ -74,3 +74,9 @@ cicd__drone__gitea_client_secret: "{{ vault_cicd__drone__gitea_client_secret }}"
 cicd__rpc_secret: "{{ vault_cicd__rpc_secret }}"
 cicd__runner__username: "{{ vault_cicd__runner__username }}"
 cicd__runner__password: "{{ vault_cicd__runner__password }}"
+
+minecraft__forbid_cracked: true
+minecraft__view_distance: 16
+minecraft__max_player: 15
+minecraft__difficulty: easy
+minecraft__dynmap__resolution: "hi_boost_xhi" # default: hires.
