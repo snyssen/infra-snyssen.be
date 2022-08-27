@@ -146,22 +146,24 @@ ansible-playbook <playbook_file.yml> -i hosts/<inventory_file.yml>
 Use this playbook to deploy a fresh instance of the server. For example, to have a fresh instance on staging use:
 
 ```bash
-ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} skip_snapraid={true,false}"]
+ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} skip_snapraid={true,false} stacks_deploy_list=['backbone','nextcloud']"]
 ```
 
 - `docker_compose_state` (default = present): The state of the stacks after they are deployed
 - `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
+- `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 #### Setup - restore
 
 Restore a previous server backup from scratch. This is useful for disaster recovery.
 
 ```bash
-ansible-playbook setup-restore.yml [-e "skip_snapraid={true,false} restic_server={local,remote}"]
+ansible-playbook setup-restore.yml [-e "skip_snapraid={true,false} restic_server={local,remote} stacks_deploy_list=['backbone','nextcloud']"]
 ```
 
 - `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
 - `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
+- `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 The playbook requires user input during execution to choose the file backup and then database backups to restore.
 
@@ -205,10 +207,11 @@ ansible-playbook packages-upgrade.yml
 Deploys all stacks to the app server.
 
 ```bash
-ansible-playbook stacks-deploy.yml [-e "docker_compose_state={present,absent,restarted}"]
+ansible-playbook stacks-deploy.yml [-e "docker_compose_state={present,absent,restarted} stacks_deploy_list=['backbone','nextcloud']"]
 ```
 
 - `docker_compose_state` (default = present): The state of the stacks after they are deployed
+- `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 #### Stacks - manage
 
