@@ -42,6 +42,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [The `piped` stack](#the-piped-stack)
     - [The `git` and `cicd` stacks](#the-git-and-cicd-stacks)
     - [The `dashboard` stack](#the-dashboard-stack)
+    - [The `minecraft` stack](#the-minecraft-stack)
   - [Server schedule](#server-schedule)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -291,5 +292,9 @@ The git stack provides a [Gitea](https://gitea.io/en-us/) instance at `git.your.
 ### The `dashboard` stack
 
 This stack provides a starting page to easily access all of the other deployed services as well as any other webpage you would like. Currently it uses [Heimdall](https://heimdall.site), but I am quite disappointed by the current offering of self-hosted starting pages, so I am thinking of creating my own when I get the time. The dashboard is accessible at `dash.your.domain`.
+
+### The `minecraft` stack
+
+The minecraft stack powers a [Minecraft](https://www.minecraft.net) server and its accompanying [dynmap](https://github.com/webbukkit/dynmap) server. The dynmap instance can be accessed at `mc.your.domain`.
 
 ## Server schedule
