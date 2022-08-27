@@ -1,0 +1,16 @@
+- hosts: apps
+  vars_prompt:
+    - name: cmd
+      prompt: |-
+        Command to execute
+      private: no
+  tasks:
+    - name: "Executing: {{ cmd }}"
+      community.docker.docker_container_exec:
+        container: minecraft
+        command: "rcon-cli {{ cmd }}"
+      register: returned_value
+
+    - name: Showing stoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines

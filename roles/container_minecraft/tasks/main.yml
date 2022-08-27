@@ -1,0 +1,37 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    mode: 0774
+  loop:
+    - /mnt/storage/minecraft/data
+    - /mnt/storage/minecraft/plugins/dynmap
+
+- name: Copying Minecraft configuration
+  ansible.builtin.template:
+    src: server.properties
+    dest: /mnt/storage/minecraft/data/server.properties
+    mode: 0774
+  register: mc_config
+
+- name: Downloading Dynmap plugin
+  ansible.builtin.get_url:
+    url: https://dev.bukkit.org/projects/dynmap/files/latest
+    dest: /mnt/storage/minecraft/plugins/dynmap.jar
+    owner: "{{ ansible_user_uid }}"
+    mode: 0774
+  register: mc_plugins
+
+- name: Copying dynmap configuration
+  ansible.builtin.template:
+    src: dynmap/configuration.txt
+    dest: /mnt/storage/minecraft/plugins/dynmap/configuration.txt
+    mode: 0774
+  register: mc_dynmap_config
+
+- ansible.builtin.include_role:
+    name: container_deploy
+  vars:
+    container_name: minecraft
+    docker_compose_state: "{{  'restarted' if mc_config.changed or mc_plugins.changed or mc_dynmap_config.changed else 'present' }}"

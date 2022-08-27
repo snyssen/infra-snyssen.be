@@ -45,6 +45,9 @@ backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
 backups__encryption_key: "{{ vault_backups__encryption_key }}"
 backups__volumes_common:
   - ./hooks:/hooks
+  # For cortrect time
+  - /etc/timezone:/etc/timezone:ro
+  - /etc/localtime:/etc/localtime:ro
   # Folders to backup
   - /mnt/storage/nextcloud:/data/nextcloud
   - /mnt/storage/pictures:/data/pictures
@@ -56,6 +59,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - /mnt/storage/gitea:/data/gitea
+  - /mnt/storage/minecraft/data:/data/minecraft
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
@@ -73,3 +77,9 @@ cicd__drone__gitea_client_secret: "{{ vault_cicd__drone__gitea_client_secret }}"
 cicd__rpc_secret: "{{ vault_cicd__rpc_secret }}"
 cicd__runner__username: "{{ vault_cicd__runner__username }}"
 cicd__runner__password: "{{ vault_cicd__runner__password }}"
+
+minecraft__forbid_cracked: true
+minecraft__view_distance: 16
+minecraft__max_player: 15
+minecraft__difficulty: easy
+minecraft__dynmap__resolution: "hi_boost_xhi" # default: hires.
