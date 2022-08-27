@@ -44,6 +44,8 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [The `dashboard` stack](#the-dashboard-stack)
     - [The `minecraft` stack](#the-minecraft-stack)
   - [Server schedule](#server-schedule)
+    - [Morning schedule](#morning-schedule)
+    - [Additional scheduled events](#additional-scheduled-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -301,3 +303,19 @@ This stack provides a starting page to easily access all of the other deployed s
 The minecraft stack powers a [Minecraft](https://www.minecraft.net) server and its accompanying [dynmap](https://github.com/webbukkit/dynmap) server. The dynmap instance can be accessed at `mc.your.domain`.
 
 ## Server schedule
+
+All times are on the Europe/Brussels timezone.
+
+### Morning schedule
+
+| 00:00             | 01:00    | 02:00               | 03:00                | 04:00 | 05:00 | 06:00 |
+|-------------------|----------|---------------------|----------------------|-------|-------|-------|
+| nextcloud db dump | snapraid | :18 photoprism dump | :15 restic to local  |       |       |       |
+| gitea db dump     |          |                     | :45 restic to remote |       |       |       |
+| recipes db dump   |          |                     |                      |       |       |       |
+| Piped db dump     |          |                     |                      |       |       |       |
+
+
+### Additional scheduled events
+  - Packages upgrades at 06:30 on saturdays. **Warning: might incur a server reboot!**
+  - Nextcloud background jobs every 5 minutes (on the clock).
