@@ -18,7 +18,7 @@
   become: yes
   ansible.builtin.cron:
     name: photoprism_backup
-    minute: "18"
+    minute: "0"
     hour: "02"
     user: root
     job: "docker exec photoprism photoprism backup -i -f"
