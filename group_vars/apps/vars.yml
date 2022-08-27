@@ -45,6 +45,9 @@ backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
 backups__encryption_key: "{{ vault_backups__encryption_key }}"
 backups__volumes_common:
   - ./hooks:/hooks
+  # For cortrect time
+  - /etc/timezone:/etc/timezone:ro
+  - /etc/localtime:/etc/localtime:ro
   # Folders to backup
   - /mnt/storage/nextcloud:/data/nextcloud
   - /mnt/storage/pictures:/data/pictures
