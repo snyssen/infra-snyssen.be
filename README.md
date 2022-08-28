@@ -316,5 +316,7 @@ All times are on the Europe/Brussels timezone.
 | Piped db dump     |          |                 |                 |       |                  |       |
 
 ### Additional scheduled events
+
   - Packages upgrades at 08:00 on saturdays. **Warning: might incur a server reboot!**
   - Nextcloud background jobs every 5 minutes (on the clock).
+  - Photoprism indexing jobs every 3 hours (on the clock).
