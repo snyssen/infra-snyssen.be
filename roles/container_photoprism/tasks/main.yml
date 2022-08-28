@@ -15,11 +15,9 @@
     container_name: "photoprism"
 
 - name: Adds cron job to backup Photoprism
-  become: yes
   ansible.builtin.cron:
     name: photoprism_backup
     minute: "0"
     hour: "02"
-    user: root
-    job: "docker exec photoprism photoprism backup -i -f"
+    job: "docker exec photoprism photoprism backup -i -f && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ photoprism__healthcheck_id }}"
     state: present
