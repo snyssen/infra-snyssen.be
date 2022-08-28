@@ -32,7 +32,8 @@ piped__postgres_password: "{{ vault_piped__postgres_password }}"
 
 photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
 photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
-photoprism__healthcheck_id: "{{ vault_photoprism__healthcheck_id }}"
+photoprism___backup_healthcheck_id: "{{ vault_photoprism___backup_healthcheck_id }}"
+photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_id }}"
 
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"

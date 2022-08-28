@@ -19,5 +19,12 @@
     name: photoprism_backup
     minute: "0"
     hour: "02"
-    job: "docker exec photoprism photoprism backup -i -f && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ photoprism__healthcheck_id }}"
+    job: "docker exec photoprism photoprism backup -i -f && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ photoprism___backup_healthcheck_id }}"
     state: present
+
+- name: Adds cron job to run photoprism scans
+  ansible.builtin.cron:
+    name: photoprism_index
+    minute: "0"
+    hour: "*/3"
+    job: "docker exec photoprism photoprism index --cleanup && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ photoprism__indexing_healthcheck_id }}"
