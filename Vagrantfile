@@ -4,7 +4,6 @@
 Vagrant.configure("2") do |config|
 
   config.vm.box = "generic/fedora36"
-  config.ssh.insert_key = false
 
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
@@ -19,7 +18,7 @@ Vagrant.configure("2") do |config|
     # Adds one alias per subdomain
     subdomains = %w(routing dash recipes speedtest git drone cloud office photo streaming torrent usenet sonarr radarr lidarr prowlarr bazarr yt api-yt proxy-yt mc)
       .map{|s| s+= ".snyssen.duckdns.org"}
-      apps.hostmanager.aliases = subdomains
+    apps.hostmanager.aliases = subdomains
 
     # Adds disks
     apps.vm.disk :disk, size: "100GB", name: "parity1"

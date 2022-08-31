@@ -21,7 +21,7 @@ services:
 
   piped_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local
+    image: prodrigestivill/postgres-backup-local:14-alpine
     container_name: piped_postgres_backups
     networks:
       - internal
@@ -34,9 +34,10 @@ services:
       - POSTGRES_PASSWORD={{ piped__postgres_password }}
       - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
       - TZ=Europe/Brussels
-      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+      - HEALTHCHECK_ID={{ piped__postgres_backups_healthcheck_id }}
     volumes:
       - /mnt/storage/backups/piped:/backups
+      - ./hooks:/hooks
 
   piped_proxy_nginx:
     image: nginx:mainline-alpine
