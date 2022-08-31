@@ -41,6 +41,12 @@
     - "{{ docker_mounts_directory }}/git/postgresql"
     - /mnt/storage/backups/gitea
 
+- name: Deploying hooks for database backups
+  ansible.builtin.copy:
+    src: pgsql_backups_hooks
+    dest: "{{ docker_compose_directory }}/git/hooks/"
+    mode: 0770
+
 - ansible.builtin.include_role:
     name: container_deploy
   vars:

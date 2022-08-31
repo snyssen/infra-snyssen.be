@@ -68,6 +68,7 @@ backups__volumes_remote_only:
   - /mnt/storage/streaming/media/music:/data/streaming/media/music
 
 git__postgres_password: "{{ vault_git__postgres_password }}"
+git__postgres_backups_healthcheck_id: "{{ vault_git__postgres_backups_healthcheck_id }}"
 git__gitea__secret_key: "{{ vault_git__gitea__secret_key }}"
 git__gitea__internal_secret: "{{ vault_git__gitea__internal_secret }}"
 git__gitea__admin_username: "{{ vault_git__gitea__admin_username }}"
