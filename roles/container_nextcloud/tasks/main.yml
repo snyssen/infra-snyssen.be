@@ -15,6 +15,12 @@
     # backups
     - /mnt/storage/backups/nextcloud
 
+- name: Deploying hooks for database backups
+  ansible.builtin.copy:
+    src: pgsql_backups_hooks
+    dest: "{{ docker_compose_directory }}/nextcloud/hooks/"
+    mode: 0770
+
 - ansible.builtin.include_role:
     name: container_deploy
   vars:

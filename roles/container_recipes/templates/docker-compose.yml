@@ -13,7 +13,7 @@ services:
 
   recipes_postgres_backups:
     restart: always
-    image: prodrigestivill/postgres-backup-local
+    image: prodrigestivill/postgres-backup-local:14-alpine
     container_name: recipes_postgres_backups
     networks:
       - internal
@@ -26,9 +26,10 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
       - TZ=Europe/Brussels
-      - HEALTHCHECK_PORT=8080 # TODO: Creates cronjob that pings this and reports result to healthchecks.io
+      - HEALTHCHECK_ID={{ recipes__postgres_backups_healthcheck_id }}
     volumes:
       - /mnt/storage/backups/recipes:/backups
+      - ./hooks:/hooks
 
   web_recipes:
     image: vabene1111/recipes:1.2.7

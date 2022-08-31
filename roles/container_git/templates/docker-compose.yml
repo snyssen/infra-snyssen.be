@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD={{ git__postgres_password }}
       - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
       - TZ=Europe/Brussels
-      - HEALTHCHECK_ID={{ vault_git__postgres_backups_healthcheck_id }}
+      - HEALTHCHECK_ID={{ git__postgres_backups_healthcheck_id }}
     volumes:
       - /mnt/storage/backups/gitea:/backups
       - ./hooks:/hooks

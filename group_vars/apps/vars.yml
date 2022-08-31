@@ -13,6 +13,7 @@ backbone__acme_dns_challenge__api_key_variable: "{{ vault_backbone__acme_dns_cha
 backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge__enabled }}"
 
 nextcloud__postgres_password: "{{ vault_nextcloud__postgres_password }}"
+nextcloud__postgres_backups_healthcheck_id: "{{ vault_nextcloud__postgres_backups_healthcheck_id }}"
 nextcloud__nextcloud_admin: "{{ vault_nextcloud__nextcloud_admin }}"
 nextcloud__nextcloud_password: "{{ vault_nextcloud__nextcloud_password }}"
 nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
@@ -29,6 +30,7 @@ usenet__user: "{{ vault_usenet__user }}"
 usenet__pass: "{{ vault_usenet__pass }}"
 
 piped__postgres_password: "{{ vault_piped__postgres_password }}"
+piped__postgres_backups_healthcheck_id: "{{ vault_piped__postgres_backups_healthcheck_id }}"
 
 photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
 photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
@@ -37,6 +39,7 @@ photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_
 
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
+recipes__postgres_backups_healthcheck_id: "{{ vault_recipes__postgres_backups_healthcheck_id }}"
 
 backups__local_destination: "{{ vault_backups__local_destination }}"
 backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"

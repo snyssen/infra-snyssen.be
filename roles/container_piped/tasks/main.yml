@@ -22,6 +22,12 @@
     - pipedproxy.conf
     - ytproxy.conf
 
+- name: Deploying hooks for database backups
+  ansible.builtin.copy:
+    src: pgsql_backups_hooks
+    dest: "{{ docker_compose_directory }}/piped/hooks/"
+    mode: 0770
+
 - ansible.builtin.include_role:
     name: container_deploy
   vars:
