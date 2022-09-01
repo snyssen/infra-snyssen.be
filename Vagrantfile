@@ -33,6 +33,9 @@ Vagrant.configure("2") do |config|
     backup.vm.disk :disk, size: "300GB", name: "storage"
   end
 
+  # Fix static IPs not correctly set up under Fedora 36 and above
+  config.vm.provision "shell", inline: "dnf install -y NetworkManager-initscripts-ifcfg-rh && reboot"
+
   # Provision with Ansible
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "setup-deploy.yml"
