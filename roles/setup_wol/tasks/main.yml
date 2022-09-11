@@ -1,0 +1,21 @@
+# https://wiki.archlinux.org/title/Wake-on-LAN#Enable_WoL_on_the_network_adapter
+
+- ansible.builtin.assert:
+    that:
+      - "wol_interface is defined"
+
+- name: Deploying systemd service for WOL
+  become: yes
+  ansible.builtin.copy:
+    src: wol@.service
+    dest: /etc/systemd/system/wol@.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enabling WOL service
+  become: yes
+  ansible.builtin.systemd:
+    name: "wol@{{ wol_interface }}"
+    state: started
+    enabled: yes
