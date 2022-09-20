@@ -12,6 +12,9 @@ backbone__acme_dns_challenge__api_key: "{{ vault_backbone__acme_dns_challenge__a
 backbone__acme_dns_challenge__api_key_variable: "{{ vault_backbone__acme_dns_challenge__api_key_variable }}"
 backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge__enabled }}"
 
+ddns__user: "{{ vault_ddns__user }}"
+ddns__pass: "{{ vault_ddns__pass }}"
+
 nextcloud__postgres_password: "{{ vault_nextcloud__postgres_password }}"
 nextcloud__postgres_backups_healthcheck_id: "{{ vault_nextcloud__postgres_backups_healthcheck_id }}"
 nextcloud__nextcloud_admin: "{{ vault_nextcloud__nextcloud_admin }}"

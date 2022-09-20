@@ -1,0 +1,10 @@
+version: "3"
+services:
+  ddns:
+    container_name: ddns
+    image: ghcr.io/snyssen/dynu-docker-client:1.1
+    environment:
+      - DYN_HOSTNAME={{ ansible_fqdn }}
+      - DYN_USER={{ ddns__user }}
+      - DYN_PASS={{ ddns__pass }}
+    restart: always

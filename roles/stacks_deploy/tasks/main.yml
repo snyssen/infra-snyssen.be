@@ -19,6 +19,9 @@
     name: container_backbone
   when: "stacks_deploy_list is not defined or 'backbone' in stacks_deploy_list"
 - ansible.builtin.include_role:
+    name: container_ddns
+  when: "stacks_deploy_list is not defined or 'ddns' in stacks_deploy_list"
+- ansible.builtin.include_role:
     name: container_dashboard
   when: "stacks_deploy_list is not defined or 'dashboard' in stacks_deploy_list"
 - ansible.builtin.include_role:
