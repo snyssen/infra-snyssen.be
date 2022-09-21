@@ -3,10 +3,10 @@
     - ansible.builtin.include_role:
         name: backup_run_databases
       vars:
-        should_skip_files: "{{ backup_skip_files | default(false) }}"
-      when: not should_skip_files
+        should_skip_databases: "{{ backup_skip_databases | default(false) }}"
+      when: not should_skip_databases
     - ansible.builtin.include_role:
         name: backup_run_files
       vars:
-        should_skip_databases: "{{ backup_skip_databases | default(false) }}"
-      when: not should_skip_databases
+        should_skip_files: "{{ backup_skip_files | default(false) }}"
+      when: not should_skip_files
