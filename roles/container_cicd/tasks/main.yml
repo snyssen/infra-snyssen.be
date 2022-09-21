@@ -20,6 +20,21 @@
     cicd__drone__gitea_client_id: "{{ cicd__drone__gitea_client_id | default(cicd__drone__gitea_client_id_input.user_input) }}"
     cicd__drone__gitea_client_secret: "{{ cicd__drone__gitea_client_secret | default(cicd__drone__gitea_client_secret_input.user_input) }}"
 
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ docker_mounts_directory }}/drone/postgresql"
+    - "{{ docker_compose_directory }}/cicd/hooks/"
+    - /mnt/storage/backups/drone
+
+- name: Deploying hooks for database backups
+  ansible.builtin.copy:
+    src: pgsql_backups_hooks
+    dest: "{{ docker_compose_directory }}/cicd/hooks/"
+    mode: 0770
+
 - ansible.builtin.include_role:
     name: container_deploy
   vars:

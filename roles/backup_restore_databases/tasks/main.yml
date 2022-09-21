@@ -28,6 +28,12 @@
         user: gitea
         password: "{{ git__postgres_password }}"
         database: gitea
+      drone:
+        directory: /mnt/storage/backups/drone
+        type: pgsql
+        user: drone
+        password: "{{ cicd__postgres__password }}"
+        database: drone
 
 - ansible.builtin.set_fact:
     db_restore_selected: >-

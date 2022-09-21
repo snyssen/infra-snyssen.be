@@ -7,6 +7,7 @@
     - piped_postgres_backups
     - recipes_postgres_backups
     - gitea_postgres_backups
+    - drone_postgres_backups
 
 - name: Backing up photoprism database to disk
   community.docker.docker_container_exec:
