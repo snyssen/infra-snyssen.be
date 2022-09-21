@@ -54,6 +54,9 @@
 - ansible.builtin.include_role:
     name: container_minecraft
   when: "stacks_deploy_list is not defined or 'minecraft' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_wiki
+  when: "stacks_deploy_list is not defined or 'wiki' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic
