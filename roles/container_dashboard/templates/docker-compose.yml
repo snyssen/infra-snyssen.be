@@ -1,21 +1,18 @@
 version: "3.3"
 services:
-  heimdall:
-    image: lscr.io/linuxserver/heimdall:latest
+  dashboard:
+    image: git.snyssen.be/snyssen/webb-launcher:0
     restart: unless-stopped
-    container_name: heimdall
+    container_name: dashboard
     networks:
       - web
-    environment:
-      - PGID={{ ansible_user_uid }}
-      - PUID={{ ansible_user_gid }}
-      - TZ=Europe/Brussels
+    env_file:
+      - ./.env
     labels:
       - traefik.enable=true
-      - traefik.http.routers.heimdall.entryPoints=websecure
-      - traefik.http.routers.heimdall.rule=Host(`dash.{{ ansible_fqdn }}`)
-    volumes:
-      - "/mnt/storage/backups/heimdall:/config"
+      - traefik.http.routers.dashboard.entryPoints=websecure
+      - traefik.http.routers.dashboard.rule=Host(`dash.{{ ansible_fqdn }}`)
+
 networks:
   web:
     external: true

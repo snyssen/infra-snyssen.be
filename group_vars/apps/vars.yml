@@ -94,3 +94,5 @@ minecraft__view_distance: 16
 minecraft__max_player: 15
 minecraft__difficulty: easy
 minecraft__dynmap__resolution: "hi_boost_xhi" # default: hires.
+
+dashboard__shortcuts: "{{ vault_dashboard__shortcuts }}"
