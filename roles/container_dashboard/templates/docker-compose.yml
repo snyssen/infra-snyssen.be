@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   dashboard:
-    image: git.snyssen.be/snyssen/webb-launcher:0
+    image: git.snyssen.be/snyssen/webb-launcher:1
     restart: unless-stopped
     container_name: dashboard
     networks:
