@@ -59,6 +59,10 @@ services:
       - traefik.http.routers.traefik.middlewares=auth
       - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASH_USERS}
 
+      # Adds the compress middleware so its available to all containers that may need it
+      - traefik.http.routers.traefik.middlewares=traefik-compress
+      - traefik.http.middlewares.traefik-compress.compress=true
+
 networks:
   web:
     external: true
