@@ -1,7 +1,7 @@
 version: "3"
 services:
   wiki:
-    image: git.snyssen.be/snyssen/snyssen-wiki:latest
+    image: git.snyssen.be/snyssen/snyssen-wiki:1
     restart: unless-stopped
     container_name: wiki
     networks:
