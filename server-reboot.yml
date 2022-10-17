@@ -6,17 +6,11 @@
         delay
       private: no
   tasks:
-    - name: Ensuring apps are stopped
-      ansible.builtin.include_role:
-        name: stacks_set_state
-      vars:
-        stacks_state: absent
-
     - ansible.builtin.reboot:
         pre_reboot_delay: "{{ reboot_delay | default(0, true) }}"
       become: yes
 
-    - name: Restarting apps
+    - name: Restarting apps (if needed)
       ansible.builtin.include_role:
         name: stacks_set_state
       vars:
