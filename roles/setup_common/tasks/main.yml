@@ -34,12 +34,6 @@
       - bind-utils
       - screen
     state: present
-- name: Enabling services
-  become: yes
-  ansible.builtin.systemd:
-    name: docker
-    state: started
-    enabled: yes
 
 - name: Installing OhMyZsh with PowerLevel10K theme
   include_role:
