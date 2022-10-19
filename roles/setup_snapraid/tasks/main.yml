@@ -4,7 +4,7 @@
       [
         {% for disk in disks_mounts if disk.path.startswith('/mnt/disk') %}
         {
-          "path": "disk.path",
+          "path": "{{ disk.path }}",
           "content": true
         },
         {% endfor %}
@@ -13,7 +13,7 @@
       [
         {% for parity in disks_mounts if parity.path.startswith('/mnt/parity') %}
         {
-          "path": "disk.path",
+          "path": "{{ parity.path }}",
           "content": true
         },
         {% endfor %}
