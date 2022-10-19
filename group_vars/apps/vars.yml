@@ -1,3 +1,5 @@
+snapraid_runner_healthcheck_io_uuid: "{{ vault_snapraid_runner_healthcheck_io_uuid }}"
+
 # Used to store docker files that often changes__
 # As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
 # Please either use the main drive or an unmanaged drive (An SSD would be best)

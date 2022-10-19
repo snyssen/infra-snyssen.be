@@ -7,12 +7,11 @@
 - hosts: apps
   roles:
     - role: setup_snapraid
-      vars:
-        should_skip: "{{ skip_snapraid | default(false) }}"
-      when: not should_skip
+      become: yes
     - stacks_deploy
 
 - hosts: backup
   roles:
     - container_rest
-    - setup_wol
+    - role: setup_wol
+      when: wol_interface is defined

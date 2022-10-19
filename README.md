@@ -148,11 +148,10 @@ ansible-playbook <playbook_file.yml> -i hosts/<inventory_file.yml>
 Use this playbook to deploy a fresh instance of the server. For example, to have a fresh instance on staging use:
 
 ```bash
-ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} skip_snapraid={true,false} stacks_deploy_list=['backbone','nextcloud']"]
+ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} stacks_deploy_list=['backbone','nextcloud']"]
 ```
 
 - `docker_compose_state` (default = present): The state of the stacks after they are deployed
-- `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
 - `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 #### Setup - restore
@@ -160,10 +159,9 @@ ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,rest
 Restore a previous server backup from scratch. This is useful for disaster recovery.
 
 ```bash
-ansible-playbook setup-restore.yml [-e "skip_snapraid={true,false} restic_server={local,remote} stacks_deploy_list=['backbone','nextcloud']"]
+ansible-playbook setup-restore.yml [-e "restic_server={local,remote} stacks_deploy_list=['backbone','nextcloud']"]
 ```
 
-- `skip_snapraid` (default = false): If set to true, does not install snapraid. This is useful if you have limited hard drives available and you don't want to use one for parity
 - `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
 - `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
@@ -309,7 +307,7 @@ All times are on the Europe/Brussels timezone.
 ### Morning schedule
 
 | 00:00             | 01:00    | 02:00           | 03:00           | 04:00 | 05:00            | 06:00 |
-|-------------------|----------|-----------------|-----------------|-------|------------------|-------|
+| ----------------- | -------- | --------------- | --------------- | ----- | ---------------- | ----- |
 | nextcloud db dump | snapraid | photoprism dump | restic to local |       | restic to remote |       |
 | gitea db dump     |          |                 |                 |       |                  |       |
 | recipes db dump   |          |                 |                 |       |                  |       |

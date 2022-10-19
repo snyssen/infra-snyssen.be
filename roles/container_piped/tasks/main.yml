@@ -6,6 +6,7 @@
     - "{{ docker_mounts_directory }}/piped/postgresql"
     - "{{ docker_mounts_directory }}/piped/proxy"
     - /mnt/storage/piped/nginx
+    - /mnt/storage/backups/piped
 
 - name: Copying Piped configuration
   ansible.builtin.template:
