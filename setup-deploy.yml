@@ -13,4 +13,5 @@
 - hosts: backup
   roles:
     - container_rest
-    - setup_wol
+    - role: setup_wol
+      when: wol_interface is defined
