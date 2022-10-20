@@ -19,6 +19,20 @@ services:
       EULA: "TRUE"
       VERSION: LATEST # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#versions
       TYPE: SPIGOT # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-types
+      MEMORY: "2G"
+      ENABLE_AUTOPAUSE: "TRUE"
+      MAX_TICK_TIME: "-1"
+
+      MOTD: "Find the Livemap at https://mc.{{ ansible_fqdn }} !"
+      DIFFICULTY: "{{ minecraft__difficulty }}"
+      OPS: "{{ minecraft__admin_players | join(',') }}"
+      OVERRIDE_OPS: "TRUE"
+      MAX_PLAYERS: "{{ minecraft__max_player }}"
+      VIEW_DISTANCE: "{{ minecraft__view_distance }}"
+      GAMEMODE: "{{ minecraft__gamemode }}"
+      ONLINE_MODE: "{{ minecraft__forbid_cracked | to_json }}"
+      SERVER_NAME: "mc.{{ ansible_fqdn }}"
+
     tty: true
     stdin_open: true
     restart: unless-stopped

@@ -95,6 +95,8 @@ minecraft__forbid_cracked: true
 minecraft__view_distance: 16
 minecraft__max_player: 15
 minecraft__difficulty: easy
-minecraft__dynmap__resolution: "hi_boost_xhi" # default: hires.
+minecraft__gamemode: survival
+minecraft__admin_players: "{{ vault_minecraft__admin_players }}"
+minecraft__dynmap__resolution: "hires" # default: hires.
 
 dashboard__shortcuts: "{{ vault_dashboard__shortcuts }}"
