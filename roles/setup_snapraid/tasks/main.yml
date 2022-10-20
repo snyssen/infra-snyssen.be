@@ -40,5 +40,6 @@
     snapraid_runner_email_address_to: "{{ smtp__to }}"
     snapraid_runner_smtp_host: "{{ smtp__host }}"
     snapraid_runner_smtp_port: "{{ smtp__port }}"
+    snapraid_runner_smtp_user: "{{ smtp__user }}"
     snapraid_runner_use_ssl: "{{ smtp__ssl }}"
     snapraid_runner_use_tls: "{{ smtp__tls }}"
