@@ -7,9 +7,6 @@
 - ansible.builtin.set_fact:
     mergerfs_asset: "{{ mergerfs_latest.json.assets | selectattr('name', 'contains', mergerfs_release_suffix) | first }}"
 
-- ansible.builtin.debug:
-    var: mergerfs_asset
-
 - name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
   become: yes
   ansible.builtin.dnf:
