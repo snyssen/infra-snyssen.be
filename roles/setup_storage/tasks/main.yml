@@ -3,14 +3,17 @@
     url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
     return_content: true
   register: mergerfs_latest
+
+- ansible.builtin.set_fact:
+    mergerfs_asset: "{{ mergerfs_latest.json.assets | selectattr('name', 'contains', mergerfs_release_suffix) | first }}"
+
+- ansible.builtin.debug:
+    var: mergerfs_asset
+
 - name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
   become: yes
-  loop: "{{ mergerfs_latest.json.assets }}"
-  when: mergerfs_release_name in item.name
-  vars:
-    mergerfs_release_name: "fc{{ ansible_distribution_major_version }}.x86_64.rpm"
   ansible.builtin.dnf:
-    name: "{{ item.browser_download_url }}"
+    name: "{{ mergerfs_asset.browser_download_url }}"
     state: present
     disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key
 
