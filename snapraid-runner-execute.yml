@@ -1,0 +1,29 @@
+- hosts: apps
+  vars:
+    snapraid_runner_ignore_threshold: false
+    skip_healthcheck: false
+  tasks:
+    - name: Executing snapraid-runner
+      become: yes
+      ansible.builtin.command: |-
+        python3 {{ snapraid_runner_bin }} -c {{ snapraid_runner_conf }} \
+        {% if snapraid_runner_ignore_threshold %}--ignore-deletethreshold{% endif %}
+      changed_when: yes
+      failed_when: no # Never fails command as on fail it vomits lots of unreadable data on screen
+      register: snapraid_result
+
+    - name: Showing stdout
+      ansible.builtin.debug:
+        var: snapraid_result.stdout_lines
+
+    - ansible.builtin.assert:
+        that:
+          - snapraid_result.rc == 0
+        fail_msg: |-
+          snapraid-runner execution did not result in a success.
+          If this is due to an expected exceeding of the delete threshold, run playbook again with `snapraid_runner_ignore_threshold`et to true
+
+    - name: Pinging healthcheck
+      ansible.builtin.uri:
+        url: "{{ snapraid_healthcheck_io_host }}/{{ snapraid_runner_healthcheck_io_uuid }}"
+      when: not skip_healthcheck

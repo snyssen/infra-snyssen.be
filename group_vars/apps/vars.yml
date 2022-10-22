@@ -1,3 +1,7 @@
+snapraid_runner_path: /opt/snapraid-runner/snapraid-runner
+snapraid_runner_conf: "{{ snapraid_runner_path }}.conf"
+snapraid_runner_bin: "{{ snapraid_runner_path }}.py"
+snapraid_healthcheck_io_host: https://hc-ping.com
 snapraid_runner_healthcheck_io_uuid: "{{ vault_snapraid_runner_healthcheck_io_uuid }}"
 
 # Used to store docker files that often changes__

@@ -11,6 +11,6 @@
         command: "rcon-cli {{ cmd }}"
       register: returned_value
 
-    - name: Showing stoud
+    - name: Showing stdoud
       ansible.builtin.debug:
         var: returned_value.stdout_lines
