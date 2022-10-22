@@ -33,6 +33,10 @@
       - /lost+found/
       - "*.!sync"
       - /tmp/
+      # Folders with files that changes often
+      - /streaming/torrent/
+      - /streaming/usenet/
+      - /minecraft/data/
 
     snapraid_runner_email_address: "{{ smtp__to }}"
     snapraid_runner_email_pass: "{{ smtp__pass }}"
