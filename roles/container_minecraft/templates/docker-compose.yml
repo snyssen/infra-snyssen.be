@@ -32,6 +32,7 @@ services:
       GAMEMODE: "{{ minecraft__gamemode }}"
       ONLINE_MODE: "{{ minecraft__forbid_cracked | to_json }}"
       SERVER_NAME: "mc.{{ ansible_fqdn }}"
+      SPAWN_PROTECTION: "0"
 
     tty: true
     stdin_open: true
