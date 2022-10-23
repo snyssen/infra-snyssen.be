@@ -4,7 +4,7 @@
     state: directory
   loop:
     - path: "/mnt/storage/pictures"
-    - path: "/mnt/storage/photoprism/mariadb"
+    - path: "{{ docker_mounts_directory }}/photoprism/mariadb"
     - path: "/mnt/storage/photoprism/import"
     - path: "/mnt/storage/photoprism/photoprism"
     - path: "/mnt/storage/backups/photoprism"
