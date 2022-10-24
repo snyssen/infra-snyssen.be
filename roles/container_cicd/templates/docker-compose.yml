@@ -75,8 +75,13 @@ services:
       - DRONE_RUNNER_NAME=drone-runner
       - DRONE_UI_USERNAME={{ cicd__runner__username }}
       - DRONE_UI_PASSWORD={{ cicd__runner__password }}
-    ports:
-      - '3000:3000' # TODO: Expose through Traefik
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.tcp.routers.drone-runner.entryPoints=drone-runner
+      - traefik.tcp.routers.drone-runner.rule=HostSNI(`*`)
+      - traefik.tcp.services.drone-runner.loadBalancer.server.port=3000
 
 networks:
   web:
