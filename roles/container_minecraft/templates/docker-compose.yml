@@ -23,6 +23,7 @@ services:
       ENABLE_AUTOPAUSE: "TRUE"
       MAX_TICK_TIME: "-1"
 
+      # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-configuration
       MOTD: "Find the Livemap at https://mc.{{ ansible_fqdn }} !"
       DIFFICULTY: "{{ minecraft__difficulty }}"
       OPS: "{{ minecraft__admin_players | join(',') }}"
