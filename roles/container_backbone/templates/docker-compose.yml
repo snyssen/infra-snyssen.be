@@ -29,6 +29,8 @@ services:
 
       - "--entryPoints.minecraft.address=:25565"
       - "--entryPoints.drone-runner.address=:3000"
+      - "--entryPoints.jellyfin-discovery.address=:7359/udp"
+      - "--entryPoints.dlna.address=:1900/udp"
 
       - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
       - "--certificatesResolvers.le.acme.storage=acme.json"
@@ -46,6 +48,8 @@ services:
       - 443:443
       - 25565:25565
       - 3000:3000
+      - 7359:7359/udp
+      - 1900:1900/udp
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock

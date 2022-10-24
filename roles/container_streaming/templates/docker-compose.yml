@@ -15,10 +15,6 @@ services:
 
       - JELLYFIN_PublishedServerUrl=streaming.{{ ansible_fqdn }}
       - JELLYFIN_playlists__allowDuplicates=false
-    ports:
-      - 7359:7359/udp # clients discovery
-      - 1900:1900/udp # DLNA
-    # network_mode: "host" # For DLNA, but unfortunately incompatible with "networks" statement, which is necessary for use with Traefik
     devices:
       - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
     group_add:
@@ -42,6 +38,13 @@ services:
       - traefik.http.middlewares.jellyfin-mw.headers.contentTypeNosniff=true
       - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
       - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.{{ ansible_fqdn }}'
+
+      - traefik.udp.routers.jellyfin-discovery.entryPoints=jellyfin-discovery
+      - traefik.udp.routers.jellyfin-discovery.service=jellyfin-discovery
+      - traefik.udp.services.jellyfin-discovery.loadBalancer.server.port=7359
+      - traefik.udp.routers.dlna.entryPoints=dlna
+      - traefik.udp.routers.dlna.service=dlna
+      - traefik.udp.services.dlna.loadBalancer.server.port=1900
     volumes:
       - "{{ docker_mounts_directory }}/jellyfin/data:/data"
       - "{{ docker_mounts_directory }}/jellyfin/config:/config"
