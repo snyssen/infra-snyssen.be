@@ -28,7 +28,7 @@ services:
 
 
       - "--entryPoints.minecraft.address=:25565"
-
+      - "--entryPoints.drone-runner.address=:3000"
 
       - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
       - "--certificatesResolvers.le.acme.storage=acme.json"
@@ -45,6 +45,7 @@ services:
       - 80:80
       - 443:443
       - 25565:25565
+      - 3000:3000
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
