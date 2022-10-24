@@ -44,12 +44,12 @@ services:
     environment:
       - "{{ backbone__acme_dns_challenge__api_key_variable }}={{ backbone__acme_dns_challenge__api_key }}"
     ports:
-      - 80:80
-      - 443:443
-      - 25565:25565
-      - 3000:3000
-      - 7359:7359/udp
-      - 1900:1900/udp
+      - 80:80 # HTTP
+      - 443:443 # HTTPS
+      - 25565:25565 # Minecraft
+      - 3000:3000 # Drone runner
+      - 7359:7359/udp # Jellyfin client discovery
+      - 1900:1900/udp # DLNA (for Jellyfin)
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
