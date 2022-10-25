@@ -1,0 +1,16 @@
+- hosts: apps
+  vars_prompt:
+    - name: backup_origin
+      prompt: Retrieve logs for backup ('remote' or 'local')
+      private: no
+  tasks:
+    - ansible.builtin.assert:
+        that: backup_origin == 'remote' or backup_origin == 'local'
+    - name: "Retrieving latest backup logs from restic_{{ backup_origin }}"
+      community.docker.docker_container_exec:
+        container: "restic_{{ backup_origin }}"
+        command: cat /var/log/backup-last.log
+      register: backup_logs
+    - name: Showing logs
+      ansible.builtin.debug:
+        var: backup_logs.stdout_lines
