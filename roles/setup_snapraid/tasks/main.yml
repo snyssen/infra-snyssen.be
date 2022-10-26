@@ -34,9 +34,12 @@
       - "*.!sync"
       - /tmp/
       # Folders with files that changes often
+      - /torrent/
       - /streaming/torrent/
+      - /usenet/
       - /streaming/usenet/
       - /minecraft/data/
+      - uploads/ # For Nextcloud upload folders, files are transactional and thus temporary
 
     snapraid_runner_email_address: "{{ smtp__to }}"
     snapraid_runner_email_pass: "{{ smtp__pass }}"
