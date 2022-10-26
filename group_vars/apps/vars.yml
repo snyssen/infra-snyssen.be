@@ -96,7 +96,7 @@ cicd__runner__username: "{{ vault_cicd__runner__username }}"
 cicd__runner__password: "{{ vault_cicd__runner__password }}"
 
 minecraft__forbid_cracked: true
-minecraft__view_distance: 16
+minecraft__view_distance: 12
 minecraft__max_player: 5
 minecraft__difficulty: easy
 minecraft__gamemode: survival
