@@ -1,0 +1,12 @@
+# TODO: Configure snapraid-runner correctly so it logs its output to a predictable location. Currently, it logs to the current directory, and the role does not allow for configuring this.
+
+- hosts: apps
+  tasks:
+    - name: Getting latest log file
+      become: yes
+      ansible.builtin.command: cat /root/snapraid.log
+      register: snapraid_log
+      changed_when: false
+    - name: Showing content of file
+      ansible.builtin.debug:
+        var: snapraid_log.stdout_lines
