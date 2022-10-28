@@ -104,3 +104,4 @@ minecraft__admin_players: "{{ vault_minecraft__admin_players }}"
 minecraft__dynmap__resolution: "hires" # default: hires.
 
 dashboard__shortcuts: "{{ vault_dashboard__shortcuts }}"
+dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
