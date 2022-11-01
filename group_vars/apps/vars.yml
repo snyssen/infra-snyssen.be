@@ -105,3 +105,7 @@ minecraft__dynmap__resolution: "hires" # default: hires.
 
 dashboard__shortcuts: "{{ vault_dashboard__shortcuts }}"
 dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
+
+foundryvtt__username: "{{ vault_foundryvtt__username }}"
+foundryvtt__password: "{{ vault_foundryvtt__password }}"
+foundryvtt__admin_key: "{{ vault_foundryvtt__admin_key }}"

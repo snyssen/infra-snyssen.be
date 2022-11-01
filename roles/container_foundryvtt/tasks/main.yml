@@ -1,0 +1,11 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /mnt/storage/foundryvtt
+
+- ansible.builtin.include_role:
+    name: container_deploy
+  vars:
+    container_name: foundryvtt

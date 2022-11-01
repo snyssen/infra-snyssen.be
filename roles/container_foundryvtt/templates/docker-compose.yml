@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  foundryvtt:
+    image: felddy/foundryvtt:10
+    container_name: foundryvtt
+    hostname: dnd.{{ ansible_fqdn }}
+    init: true
+    volumes:
+      - /mnt/storage/foundryvtt:/data:rw
+    environment:
+      - FOUNDRY_USERNAME={{ foundryvtt__username }}
+      - FOUNDRY_PASSWORD={{ foundryvtt__password }}
+      - FOUNDRY_ADMIN_KEY={{ foundryvtt__admin_key }}
+      - FOUNDRY_HOSTNAME=dnd.{{ ansible_fqdn }}
+      - FOUNDRY_MINIFY_STATIC_FILES=true
+      - FOUNDRY_PROXY_SSL=true
+      - TIMEZONE={{ iana_timezone }}
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.foundryvtt.entryPoints=websecure
+      - traefik.http.routers.foundryvtt.rule=Host(`dnd.{{ ansible_fqdn }}`)
+      - traefik.http.routers.foundryvtt.service=foundryvtt
+      - traefik.http.services.foundryvtt.loadBalancer.server.port=30000
+
+networks:
+  web:
+    external: true
