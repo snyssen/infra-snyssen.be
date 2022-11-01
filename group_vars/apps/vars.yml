@@ -74,6 +74,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - /mnt/storage/gitea:/data/gitea
   - /mnt/storage/minecraft/data:/data/minecraft
+  - /mnt/storage/foundryvtt:/data/foundryvtt
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
