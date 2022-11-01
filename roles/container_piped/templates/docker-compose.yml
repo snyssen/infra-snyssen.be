@@ -39,7 +39,6 @@ services:
     container_name: piped_proxy_nginx
     restart: unless-stopped
     networks:
-      - internal
       - web
     volumes:
       - /mnt/storage/piped/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -73,10 +72,13 @@ services:
     container_name: piped_api
     depends_on:
       - piped_postgres
+      - piped_proxy
     networks:
       - web
+      - internal
     labels:
       - traefik.enable=true
+      - traefik.docker.network=web
       - traefik.http.routers.piped_api.entryPoints=websecure
       - traefik.http.routers.piped_api.rule=Host(`api-yt.{{ ansible_fqdn }}`)
       - traefik.http.services.piped_api.loadBalancer.server.port=8080
