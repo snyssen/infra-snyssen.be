@@ -33,7 +33,7 @@ services:
       - "--entryPoints.dlna.address=:1900/udp"
 
       - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
-      - "--certificatesResolvers.le.acme.storage=acme.json"
+      - "--certificatesResolvers.le.acme.storage=/certs/acme.json"
       - "--certificatesresolvers.le.acme.caserver={{ backbone__acme_ca_server }}"
       - "--certificatesResolvers.le.acme.tlsChallenge=false"
       - "--certificatesresolvers.le.acme.dnschallenge={{ backbone__acme_dns_challenge__enabled | to_json }}"
@@ -54,7 +54,7 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
       # certificates storage
-      - "{{ docker_mounts_directory }}/traefik/acme.json:/acme.json"
+      - "{{ docker_mounts_directory }}/traefik:/certs"
     labels:
       # allow access to traefik UI
       - traefik.enable=true
