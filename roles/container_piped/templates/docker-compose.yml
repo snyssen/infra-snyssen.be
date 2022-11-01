@@ -6,12 +6,7 @@ services:
     container_name: piped_postgres
     restart: unless-stopped
     networks:
-      - web
       - internal
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.torrent.entryPoints=websecure
-      - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
     environment:
       - POSTGRES_USER=piped
       - POSTGRES_PASSWORD={{ piped__postgres_password }}
