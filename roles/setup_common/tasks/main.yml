@@ -41,13 +41,15 @@
   vars:
     users:
       - username: "{{ ansible_user_id }}"
-- name: Copying shell config
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: ~/
-  with_items:
-    - .p10k.zsh
-    - .zshrc
+    oh_my_zsh_plugins:
+      - colored-man-pages
+      - colorize
+      - docker-compose
+      - docker
+      - screen
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    p10k_src_file: custom.p10k.zsh
 
 - name: Adding user to docker group
   become: yes
