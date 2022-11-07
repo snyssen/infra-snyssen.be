@@ -40,6 +40,7 @@
       - /streaming/usenet/
       - /minecraft/data/
       - uploads/ # For Nextcloud upload folders, files are transactional and thus temporary
+      - /recipes/staticfiles/ # For some reason these static files sure do change a lot...
 
     snapraid_runner_email_address: "{{ smtp__to }}"
     snapraid_runner_email_pass: "{{ smtp__pass }}"
