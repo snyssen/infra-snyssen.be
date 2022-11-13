@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
 
   # Provision with Ansible
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "setup-deploy.yml"
+    ansible.playbook = "setup-deploy.ansible.yml"
     ansible.galaxy_role_file = "requirements.yml"
     ansible.inventory_path = "hosts/dev.yml"
   end
