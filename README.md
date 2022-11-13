@@ -43,6 +43,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [The `git` and `cicd` stacks](#the-git-and-cicd-stacks)
     - [The `dashboard` stack](#the-dashboard-stack)
     - [The `minecraft` stack](#the-minecraft-stack)
+  - [The `foundryvtt` stack](#the-foundryvtt-stack)
   - [Server schedule](#server-schedule)
     - [Morning schedule](#morning-schedule)
     - [Additional scheduled events](#additional-scheduled-events)
@@ -299,6 +300,10 @@ This stack provides a starting page to easily access all of the other deployed s
 ### The `minecraft` stack
 
 The minecraft stack powers a [Minecraft](https://www.minecraft.net) server and its accompanying [dynmap](https://github.com/webbukkit/dynmap) server. The dynmap instance can be accessed at `mc.your.domain`.
+
+## The `foundryvtt` stack
+
+It provides an instance of the [Foundry VTT software](https://foundryvtt.com), for hosting online tabletop RPG games.
 
 ## Server schedule
 
