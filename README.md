@@ -85,8 +85,10 @@ Here is the hardware currently used by the machine that runs everything listed i
 - <u>Case</u>: Antec(R) P101 Silent
 - <u>Storage</u>:
   - <u>System drive</u>: Western Digital(R) Blue 3D NAND SATA SSD M.2 2280 - 500GB
-  - <u>Parity disk</u>: Seagate(R) IronWolf SATA3 5900RPM 64MB cache - 4TB
-  - <u>Storage disks</u>: 3x Seagate(R) IronWolf SATA3 5900RPM 64MB cache - 2TB
+  - <u>Parity disk</u>: Seagate(R) Exos X14 - 12TB
+  - <u>Storage disks</u>:
+    - Seagate(R) IronWolf SATA3 5900RPM 64MB cache - 4TB
+    - 3x Seagate(R) IronWolf SATA3 5900RPM 64MB cache - 2TB
 
 Most of the hardware was actually scavenged from a previous gaming PC build. Recycling yay!
 
