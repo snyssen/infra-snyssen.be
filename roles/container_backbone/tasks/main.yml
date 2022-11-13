@@ -6,7 +6,7 @@
     - "{{ docker_mounts_directory }}/traefik"
 
 - ansible.builtin.include_role:
-    name: container_deploy
+    name: snyssen.compose_deploy
   vars:
     container_name: "backbone"
     deploy_env_template: yes

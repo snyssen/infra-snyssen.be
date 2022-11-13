@@ -22,7 +22,7 @@
     mode: 0770
 
 - ansible.builtin.include_role:
-    name: container_deploy
+    name: snyssen.compose_deploy
   vars:
     container_name: "nextcloud"
 

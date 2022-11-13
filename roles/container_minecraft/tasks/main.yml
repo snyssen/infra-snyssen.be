@@ -24,7 +24,7 @@
   register: mc_dynmap_config
 
 - ansible.builtin.include_role:
-    name: container_deploy
+    name: snyssen.compose_deploy
   vars:
     container_name: minecraft
     docker_compose_state: "{{  'restarted' if mc_plugins.changed or mc_dynmap_config.changed else 'present' }}"

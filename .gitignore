@@ -4,3 +4,5 @@
 .vagrant/
 
 roles/tomereli.oh_my_zsh_p10k/
+
+roles/snyssen.compose_deploy/

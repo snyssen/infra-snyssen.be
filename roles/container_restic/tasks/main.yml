@@ -17,6 +17,6 @@
     backups__volumes_remote: "{{ backups__volumes_common + backups__volumes_remote_only }}"
 
 - ansible.builtin.include_role:
-    name: container_deploy
+    name: snyssen.compose_deploy
   vars:
     container_name: "restic"

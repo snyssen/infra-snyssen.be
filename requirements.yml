@@ -3,4 +3,5 @@ collections:
   - community.docker
 
 roles:
-  - tomereli.oh_my_zsh_p10k
+  - name: tomereli.oh_my_zsh_p10k
+  - name: snyssen.compose_deploy

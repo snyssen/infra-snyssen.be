@@ -6,6 +6,6 @@
     - /mnt/storage/foundryvtt
 
 - ansible.builtin.include_role:
-    name: container_deploy
+    name: snyssen.compose_deploy
   vars:
     container_name: foundryvtt

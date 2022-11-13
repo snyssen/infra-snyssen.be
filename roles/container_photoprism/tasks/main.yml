@@ -10,7 +10,7 @@
     - path: "/mnt/storage/backups/photoprism"
 
 - ansible.builtin.include_role:
-    name: container_deploy
+    name: snyssen.compose_deploy
   vars:
     container_name: "photoprism"
 
