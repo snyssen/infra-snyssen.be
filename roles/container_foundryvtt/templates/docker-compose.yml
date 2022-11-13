@@ -4,6 +4,7 @@ services:
   foundryvtt:
     image: felddy/foundryvtt:10
     container_name: foundryvtt
+    restart: unless-stopped
     hostname: dnd.{{ ansible_fqdn }}
     init: true
     volumes:
