@@ -1,0 +1,16 @@
+- hosts: apps
+  vars_prompt:
+    - name: restic_server
+      prompt: restic server ('remote' or 'local')
+      private: no
+  tasks:
+    - ansible.builtin.assert:
+        that: restic_server == 'remote' or restic_server == 'local'
+    - name: "Checking backups from restic_{{ restic_server }}"
+      community.docker.docker_container_exec:
+        container: "restic_{{ restic_server }}"
+        command: restic check
+      register: check_status
+    - name: Check status
+      ansible.builtin.debug:
+        var: check_status.stdout_lines

@@ -31,6 +31,8 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [Backup playbooks](#backup-playbooks)
       - [Backup - run](#backup---run)
       - [Backup - restore](#backup---restore)
+      - [Backup - check](#backup---check)
+      - [Backup - list snapshots](#backup---list-snapshots)
   - [The stacks](#the-stacks)
     - [The `backbone` stack](#the-backbone-stack)
     - [The `nextcloud` stack](#the-nextcloud-stack)
@@ -254,6 +256,22 @@ ansible-playbook backup-restore.yml [-e "backup_skip_files={true,false} backup_s
 - `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
 - `db_restore_include` (default = all): databases to restore. If left empty, all dbs are included. Note that this setting is mutually exclusive with 'db_restore_exclude'; if both are set, only this one will be used
 - `db_restore_exclude` (default = none): databases that should not be restored
+
+#### Backup - check
+
+Checks all snapshots.
+
+```bash
+ansible-playbook [-i hosts/prod.yml] backup-check.ansible.yml [-e "restic_server={local,remote}"]
+```
+
+#### Backup - list snapshots
+
+List all available snapshots.
+
+```bash
+ansible-playbook [-i hosts/prod.yml] backup-list-snapshots.ansible.yml [-e "restic_server={local,remote}"]
+```
 
 ## The stacks
 
