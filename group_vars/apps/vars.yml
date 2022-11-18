@@ -75,7 +75,6 @@ backups__volumes_common:
   - /mnt/storage/gitea:/data/gitea
   - /mnt/storage/minecraft/data:/data/minecraft
   - /mnt/storage/foundryvtt:/data/foundryvtt
-  - /mnt/storage/scrutiny
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
