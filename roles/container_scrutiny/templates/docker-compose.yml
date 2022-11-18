@@ -1,0 +1,15 @@
+version: "3"
+services:
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:beta-collector
+    container_name: scrutiny
+    cap_add:
+      - SYS_RAWIO
+    volumes:
+      - /run/udev:/run/udev:ro
+    environment:
+      COLLECTOR_API_ENDPOINT: https://scrutiny.{{ app_server_hostname }}
+    devices:
+{% for path in disks_canonical_paths %}
+      - "{{ path }}"
+{% endfor %}

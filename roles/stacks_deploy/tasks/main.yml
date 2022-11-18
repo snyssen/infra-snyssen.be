@@ -60,6 +60,12 @@
 - ansible.builtin.include_role:
     name: container_foundryvtt
   when: "stacks_deploy_list is not defined or 'foundryvtt' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_monitoring
+  when: "stacks_deploy_list is not defined or 'monitoring' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_scrutiny
+  when: "stacks_deploy_list is not defined or 'scrutiny' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic

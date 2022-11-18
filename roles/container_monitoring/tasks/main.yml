@@ -1,0 +1,12 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/mnt/storage/scrutiny"
+    - "{{ docker_mounts_directory }}/monitoring/influxdb"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    container_name: monitoring

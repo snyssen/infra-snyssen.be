@@ -13,3 +13,4 @@
 - hosts: backup
   roles:
     - container_rest
+    - container_scrutiny
