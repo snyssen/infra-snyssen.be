@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  influxdb:
+    image: influxdb:2.2
+    container_name: influxdb
+    networks:
+      - internal
+    volumes:
+      - "{{ docker_mounts_directory }}/monitoring/influxdb:/var/lib/influxdb2"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+
+
+  scrutiny-web:
+    image: ghcr.io/analogj/scrutiny:beta-web
+    container_name: scrutiny-web
+    networks:
+      - internal
+      - web
+    volumes:
+      - /mnt/storage/scrutiny:/opt/scrutiny/config
+    environment:
+      SCRUTINY_WEB_INFLUXDB_HOST: influxdb
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 10s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.scrutiny-web.entryPoints=websecure
+      - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
+
+networks:
+  internal:
+  web:
+    external: true
