@@ -16,4 +16,4 @@ log:
 
 notify:
   urls:
-    - "smtp://{{ smtp__user }}:{{ smtp__pass }}@{{ smtp__host }}:{{ smtp__port }}/?fromAddress={{ smtp__from }}&toAddresses={{ smtp__to }}"
+    - "smtp://{{ smtp__user|urlencode }}:{{ smtp__pass|urlencode }}@{{ smtp__host }}:{{ smtp__port }}/?fromAddress={{ smtp__from }}&toAddresses={{ smtp__to }}"
