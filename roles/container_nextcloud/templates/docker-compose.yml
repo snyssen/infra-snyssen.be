@@ -41,7 +41,7 @@ services:
       - internal
 
   nextcloud:
-    image: nextcloud:24
+    image: nextcloud:25
     container_name: nextcloud
     restart: always
     networks:
