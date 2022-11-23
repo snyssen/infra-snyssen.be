@@ -8,6 +8,7 @@
   roles:
     - role: setup_snapraid
       become: yes
+      when: skip_snapraid is not defined or not skip_snapraid
     - stacks_deploy
 
 - hosts: backup
