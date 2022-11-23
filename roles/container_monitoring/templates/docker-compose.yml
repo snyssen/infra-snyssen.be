@@ -60,6 +60,8 @@ services:
     networks:
       - internal
       - web
+    volumes:
+      - "{{ docker_mounts_directory }}/grafana:/var/lib/grafana"
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
