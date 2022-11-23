@@ -40,6 +40,32 @@ services:
       - traefik.http.routers.scrutiny-web.entryPoints=websecure
       - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
 
+  prometheus:
+    image: quay.io/prometheus/prometheus
+    container_name: prometheus
+    networks:
+      - internal
+      - web
+    volumes:
+      - /mnt/storage/prometheus:/etc/prometheus
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.prometheus.entryPoints=websecure
+      - traefik.http.routers.prometheus.rule=Host(`prometheus.{{ ansible_fqdn }}`)
+
+  grafana:
+    image: grafana/grafana-oss:9.2.6
+    container_name: grafana
+    networks:
+      - internal
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.grafana.entryPoints=websecure
+      - traefik.http.routers.grafana.rule=Host(`monitor.{{ ansible_fqdn }}`)
+
 networks:
   internal:
   web:

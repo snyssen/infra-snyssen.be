@@ -5,11 +5,18 @@
   with_items:
     - "/mnt/storage/scrutiny"
     - "{{ docker_mounts_directory }}/monitoring/influxdb"
+    - "/mnt/storage/prometheus"
 
 - name: Deploying Scrutiny configuration
   ansible.builtin.template:
     src: scrutiny.yaml
     dest: /mnt/storage/scrutiny/
+    mode: 0644
+
+- name: Deploying Prometheus configuration
+  ansible.builtin.template:
+    src: prometheus.yml
+    dest: /mnt/storage/prometheus/
     mode: 0644
 
 - ansible.builtin.include_role:
