@@ -22,11 +22,16 @@
 
 - name: Deploying Prometheus configuration
   ansible.builtin.template:
-    src: prometheus.yml
+    src: "{{ item }}"
     dest: /mnt/storage/prometheus/
     mode: 0644
+  loop:
+    - prometheus.yml
+    - node_rules.yml
+  register: prom_config_status
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     container_name: monitoring
+    docker_compose_state: "{{ 'restarted' if prom_config_status.changed else 'present' }}"

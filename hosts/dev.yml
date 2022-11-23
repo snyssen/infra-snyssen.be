@@ -17,3 +17,8 @@ backup:
       disks_mounts:
         - path: /mnt/disk1
           src: /dev/sdb
+
+monitored:
+  hosts:
+    snyssen.duckdns.org:
+    backup.sny:
