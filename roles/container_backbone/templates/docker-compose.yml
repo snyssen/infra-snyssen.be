@@ -1,6 +1,6 @@
 version: "3"
 services:
-  reverse-proxy:
+  traefik:
     image: traefik:banon
     restart: unless-stopped
     container_name: traefik
@@ -10,6 +10,7 @@ services:
       - "--api=true"
       - "--api.dashboard=true"
       - "--accesslog=true"
+      - "--metrics.prometheus=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
 
