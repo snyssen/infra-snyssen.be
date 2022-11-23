@@ -11,6 +11,9 @@ Vagrant.configure("2") do |config|
   config.hostmanager.ignore_private_ip = false
   config.hostmanager.include_offline = true
 
+  # Fix static IPs not correctly set up under Fedora 36 and above
+  config.vm.provision "shell", inline: "dnf install -y NetworkManager-initscripts-ifcfg-rh && reboot"
+
   config.vm.define "snyssen.duckdns.org" do |apps|
     apps.vm.hostname = "snyssen.duckdns.org"
     apps.vm.network :private_network, ip: "192.168.56.12"
@@ -31,16 +34,15 @@ Vagrant.configure("2") do |config|
     backup.vm.network :private_network, ip: "192.168.56.13"
 
     backup.vm.disk :disk, size: "300GB", name: "storage"
-  end
 
-  # Fix static IPs not correctly set up under Fedora 36 and above
-  config.vm.provision "shell", inline: "dnf install -y NetworkManager-initscripts-ifcfg-rh && reboot"
+    # Provision with Ansible
+    backup.vm.provision "ansible" do |ansible|
+      ansible.playbook = "setup-deploy.ansible.yml"
+      ansible.galaxy_role_file = "requirements.yml"
+      ansible.inventory_path = "hosts/dev.yml"
+      ansible.limit = "all"
+    end
 
-  # Provision with Ansible
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "setup-deploy.ansible.yml"
-    ansible.galaxy_role_file = "requirements.yml"
-    ansible.inventory_path = "hosts/dev.yml"
   end
 
 end
