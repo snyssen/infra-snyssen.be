@@ -59,7 +59,7 @@ backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
 backups__encryption_key: "{{ vault_backups__encryption_key }}"
 backups__volumes_common:
   - ./hooks:/hooks
-  # For cortrect time
+  # For correct time
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
   # Folders to backup
@@ -75,6 +75,7 @@ backups__volumes_common:
   - /mnt/storage/gitea:/data/gitea
   - /mnt/storage/minecraft/data:/data/minecraft
   - /mnt/storage/foundryvtt:/data/foundryvtt
+  - "{{ docker_mounts_directory }}/grafana:/data/grafana"
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:

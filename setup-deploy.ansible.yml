@@ -4,10 +4,27 @@
     - setup_common
     - setup_storage
 
+- hosts: monitored
+  roles:
+    - name: undergreen.prometheus-node-exporter
+      become: yes
+      vars:
+        prometheus_node_exporter_config_flags:
+          "web.listen-address": "0.0.0.0:9100"
+          "log.level": "info"
+  tasks:
+    - name: Permitting traffic for Prometheus Node exporter
+      become: yes
+      ansible.posix.firewalld:
+        port: 9100/tcp
+        permanent: yes
+        state: enabled
+
 - hosts: apps
   roles:
     - role: setup_snapraid
       become: yes
+      when: skip_snapraid is not defined or not skip_snapraid
     - stacks_deploy
 
 - hosts: backup
