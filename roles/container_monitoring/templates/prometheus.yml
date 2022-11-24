@@ -17,6 +17,14 @@ scrape_configs:
   - job_name: 'traefik'
     static_configs:
       - targets: ['traefik:8080']
+  - job_name: 'uptime'
+    scrape_interval: 30s
+    scheme: http
+    static_configs:
+      - targets: ['uptime:3001']
+    basic_auth: # Only needed if authentication is enabled (default)
+      username: "{{ monitoring__uptime_user }}"
+      password: "{{ monitoring__uptime_pass }}"
 
 rule_files:
   - node_rules.yml
