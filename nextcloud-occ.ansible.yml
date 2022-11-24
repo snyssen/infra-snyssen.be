@@ -1,0 +1,17 @@
+- hosts: apps
+  vars_prompt:
+    - name: cmd
+      prompt: |-
+        Command to execute through occ
+      private: no
+  tasks:
+    - name: "Executing: occ {{ cmd }}"
+      community.docker.docker_container_exec:
+        container: nextcloud
+        command: "/var/www/html/occ {{ cmd }}"
+        user: www-data
+      register: returned_value
+
+    - name: Showing stdoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines
