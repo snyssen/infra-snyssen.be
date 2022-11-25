@@ -33,6 +33,7 @@
       - htop
       - bind-utils
       - screen
+      - lm_sensors
     state: present
 
 - name: Installing OhMyZsh with PowerLevel10K theme
