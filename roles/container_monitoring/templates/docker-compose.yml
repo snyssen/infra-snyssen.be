@@ -41,6 +41,7 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.scrutiny-web.entryPoints=websecure
       - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
+      - traefik.http.routers.scrutiny-web.middlewares=auth
 
   prometheus:
     image: quay.io/prometheus/prometheus
