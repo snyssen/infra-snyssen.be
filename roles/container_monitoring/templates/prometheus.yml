@@ -30,6 +30,9 @@ scrape_configs:
       - targets: ['minecraft:9940']
         labels:
           server_name: 'mc.snyssen.be'
+  - job_name: 'jellyfin'
+    static_configs:
+      - targets: ['jellyfin:8096']
 
 rule_files:
   - node_rules.yml
