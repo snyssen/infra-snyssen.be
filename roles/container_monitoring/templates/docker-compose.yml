@@ -6,7 +6,7 @@ services:
     container_name: influxdb
     restart: unless-stopped
     networks:
-      - internal
+      - monitoring
     volumes:
       - "{{ docker_mounts_directory }}/monitoring/influxdb:/var/lib/influxdb2"
     healthcheck:
@@ -21,7 +21,7 @@ services:
     container_name: scrutiny-web
     restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - /mnt/storage/scrutiny:/opt/scrutiny/config
@@ -48,7 +48,7 @@ services:
     container_name: prometheus
     restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - /mnt/storage/prometheus:/etc/prometheus
@@ -64,7 +64,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - "{{ docker_mounts_directory }}/grafana:/var/lib/grafana"
@@ -81,7 +81,7 @@ services:
     container_name: uptime
     restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - "{{ docker_mounts_directory }}/uptime:/app/data"
@@ -92,6 +92,7 @@ services:
       - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
 
 networks:
-  internal:
+  monitoring:
+    external: true
   web:
     external: true

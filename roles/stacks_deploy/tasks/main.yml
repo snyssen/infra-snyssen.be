@@ -14,6 +14,9 @@
 - name: Creating web network
   ansible.builtin.docker_network:
     name: web
+- name: Creating monitoring network
+  ansible.builtin.docker_network:
+    name: monitoring
 
 - ansible.builtin.include_role:
     name: container_backbone

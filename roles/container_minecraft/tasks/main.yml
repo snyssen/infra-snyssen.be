@@ -7,13 +7,19 @@
   loop:
     - /mnt/storage/minecraft/data
     - /mnt/storage/minecraft/plugins/dynmap
+    - /mnt/storage/minecraft/plugins/PrometheusExporter
 
-- name: Downloading Dynmap plugin
+- name: Downloading Minecraft Bukkit/Spigot plugins
   ansible.builtin.get_url:
-    url: https://dev.bukkit.org/projects/dynmap/files/latest
-    dest: /mnt/storage/minecraft/plugins/dynmap.jar
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
     owner: "{{ ansible_user_uid }}"
     mode: 0774
+  loop:
+    - url: https://dev.bukkit.org/projects/dynmap/files/latest
+      dest: /mnt/storage/minecraft/plugins/dynmap.jar
+    - url: https://github.com/sladkoff/minecraft-prometheus-exporter/releases/download/v2.5.0/minecraft-prometheus-exporter-2.5.0.jar
+      dest: /mnt/storage/minecraft/plugins/minecraft-prometheus-exporter.jar
   register: mc_plugins
 
 - name: Copying dynmap configuration
@@ -23,8 +29,15 @@
     mode: 0774
   register: mc_dynmap_config
 
+- name: Copying prometheus exporter configuration
+  ansible.builtin.template:
+    src: prometheus-exporter/config.yml
+    dest: /mnt/storage/minecraft/plugins/PrometheusExporter/config.yml
+    mode: 0774
+  register: mc_prometheus_config
+
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     container_name: minecraft
-    docker_compose_state: "{{  'restarted' if mc_plugins.changed or mc_dynmap_config.changed else 'present' }}"
+    docker_compose_state: "{{  'restarted' if mc_plugins.changed or mc_dynmap_config.changed or mc_prometheus_config.changed else 'present' }}"

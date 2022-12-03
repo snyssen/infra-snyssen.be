@@ -25,6 +25,11 @@ scrape_configs:
     basic_auth: # Only needed if authentication is enabled (default)
       username: "{{ monitoring__uptime_user }}"
       password: "{{ monitoring__uptime_pass }}"
+  - job_name: 'minecraft'
+    static_configs:
+      - targets: ['minecraft:9940']
+        labels:
+          server_name: 'mc.snyssen.be'
 
 rule_files:
   - node_rules.yml
