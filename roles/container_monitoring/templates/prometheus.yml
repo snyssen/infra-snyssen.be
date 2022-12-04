@@ -36,6 +36,9 @@ scrape_configs:
   - job_name: 'gitea'
     static_configs:
       - targets: ['gitea:3000']
+  - job_name: 'nextcloud'
+    static_configs:
+      - targets: ['nextcloud_monitor:9205']
 
 rule_files:
   - node_rules.yml
