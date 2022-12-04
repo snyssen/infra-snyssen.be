@@ -1,7 +1,7 @@
 version: "3"
 services:
   nextcloud_postgres:
-    restart: always
+    restart: unless-stopped
     image: postgres:14
     container_name: nextcloud_postgres
     networks:
@@ -14,7 +14,7 @@ services:
       - "{{ docker_mounts_directory }}/nextcloud/postgresql:/var/lib/postgresql/data"
 
   nextcloud_postgres_backups:
-    restart: always
+    restart: unless-stopped
     image: prodrigestivill/postgres-backup-local:14-alpine
     container_name: nextcloud_postgres_backups
     networks:
@@ -43,7 +43,7 @@ services:
   nextcloud:
     image: nextcloud:25
     container_name: nextcloud
-    restart: always
+    restart: unless-stopped
     networks:
       - internal
       - web
@@ -77,7 +77,21 @@ services:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/pictures:/pictures
 
+  nextcloud_monitor:
+    image: xperimental/nextcloud-exporter:0.6.0
+    container_name: nextcloud_monitor
+    restart: unless-stopped
+    networks:
+      - monitoring
+    depends_on:
+      - nextcloud
+    environment:
+      - NEXTCLOUD_SERVER=https://cloud.{{ ansible_fqdn }}
+      - NEXTCLOUD_AUTH_TOKEN={{ nextcloud__monitor_token }}
+
 networks:
+  monitoring:
+    external: true
   web:
     external: true
   internal:

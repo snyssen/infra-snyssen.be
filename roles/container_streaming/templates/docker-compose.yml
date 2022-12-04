@@ -6,6 +6,7 @@ services:
     container_name: jellyfin
     networks:
       - web
+      - monitoring
     user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
     environment:
       - JELLYFIN_DATA_DIR=/data
@@ -21,8 +22,9 @@ services:
       - 105 # Adds render group
     labels:
       - traefik.enable=true
+      - traefik.docker.network=web
       - traefik.http.routers.jellyfin.entryPoints=websecure
-      - traefik.http.routers.jellyfin.rule=Host(`streaming.{{ ansible_fqdn }}`)
+      - traefik.http.routers.jellyfin.rule=Host(`streaming.{{ ansible_fqdn }}`) && !Path(`/metrics`)
       - traefik.http.services.jellyfin.loadBalancer.server.port=8096
       # jellyfin middleware, see https://jellyfin.org/docs/general/networking/traefik2.html
       - traefik.http.routers.jellyfin.middlewares=jellyfin-mw
@@ -204,4 +206,5 @@ services:
 networks:
   web:
     external: true
-  internal:
+  monitoring:
+    external: true

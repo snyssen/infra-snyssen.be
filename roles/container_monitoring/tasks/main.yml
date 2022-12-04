@@ -11,8 +11,12 @@
       owner: "{{ ansible_user_id }}"
     - src: "/mnt/storage/prometheus"
       owner: "{{ ansible_user_id }}"
+    - src: "{{ docker_mounts_directory }}/monitoring/prometheus"
+      owner: "65534"
     - src: "{{ docker_mounts_directory }}/grafana"
       owner: "472"
+    - src: "{{ docker_mounts_directory }}/uptime"
+      owner: "{{ ansible_user_id }}"
 
 - name: Deploying Scrutiny configuration
   ansible.builtin.template:

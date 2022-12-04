@@ -4,8 +4,9 @@ services:
   influxdb:
     image: influxdb:2.2
     container_name: influxdb
+    restart: unless-stopped
     networks:
-      - internal
+      - monitoring
     volumes:
       - "{{ docker_mounts_directory }}/monitoring/influxdb:/var/lib/influxdb2"
     healthcheck:
@@ -18,8 +19,9 @@ services:
   scrutiny-web:
     image: ghcr.io/analogj/scrutiny:beta-web
     container_name: scrutiny-web
+    restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - /mnt/storage/scrutiny:/opt/scrutiny/config
@@ -39,15 +41,18 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.scrutiny-web.entryPoints=websecure
       - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
+      - traefik.http.routers.scrutiny-web.middlewares=auth
 
   prometheus:
     image: quay.io/prometheus/prometheus
     container_name: prometheus
+    restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - /mnt/storage/prometheus:/etc/prometheus
+      - "{{ docker_mounts_directory }}/monitoring/prometheus:/prometheus"
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
@@ -56,10 +61,11 @@ services:
       - traefik.http.routers.prometheus.middlewares=auth
 
   grafana:
-    image: grafana/grafana-oss:9.2.6
+    image: grafana/grafana-oss:9.3.1
     container_name: grafana
+    restart: unless-stopped
     networks:
-      - internal
+      - monitoring
       - web
     volumes:
       - "{{ docker_mounts_directory }}/grafana:/var/lib/grafana"
@@ -70,8 +76,30 @@ services:
       - traefik.http.routers.grafana.rule=Host(`monitor.{{ ansible_fqdn }}`)
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel
+      - GF_SERVER_ROOT_URL=https://monitor.{{ ansible_fqdn }}
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST={{ smtp__host }}:{{ smtp__port }}
+      - GF_SMTP_USER={{ smtp__user }}
+      - GF_SMTP_PASSWORD={{ smtp__pass | replace('$', '$$') }}
+      - GF_SMTP_FROM_ADDRESS={{ smtp__from }}
+
+  uptime:
+    image: louislam/uptime-kuma:1
+    container_name: uptime
+    restart: unless-stopped
+    networks:
+      - monitoring
+      - web
+    volumes:
+      - "{{ docker_mounts_directory }}/uptime:/app/data"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.uptime.entryPoints=websecure
+      - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
 
 networks:
-  internal:
+  monitoring:
+    external: true
   web:
     external: true

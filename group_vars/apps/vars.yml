@@ -26,6 +26,7 @@ nextcloud__postgres_backups_healthcheck_id: "{{ vault_nextcloud__postgres_backup
 nextcloud__nextcloud_admin: "{{ vault_nextcloud__nextcloud_admin }}"
 nextcloud__nextcloud_password: "{{ vault_nextcloud__nextcloud_password }}"
 nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
+nextcloud__monitor_token: "{{ vault_nextcloud__monitor_token }}"
 
 torrent__user: "{{ vault_torrent__user }}"
 torrent__pass_pbkdf2: "{{ vault_torrent__pass_pbkdf2 }}"
@@ -111,3 +112,6 @@ dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
 foundryvtt__username: "{{ vault_foundryvtt__username }}"
 foundryvtt__password: "{{ vault_foundryvtt__password }}"
 foundryvtt__admin_key: "{{ vault_foundryvtt__admin_key }}"
+
+monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
+monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
