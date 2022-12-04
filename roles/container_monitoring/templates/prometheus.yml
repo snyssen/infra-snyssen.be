@@ -33,6 +33,9 @@ scrape_configs:
   - job_name: 'jellyfin'
     static_configs:
       - targets: ['jellyfin:8096']
+  - job_name: 'gitea'
+    static_configs:
+      - targets: ['gitea:3000']
 
 rule_files:
   - node_rules.yml
