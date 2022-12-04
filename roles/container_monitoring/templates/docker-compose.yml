@@ -52,6 +52,7 @@ services:
       - web
     volumes:
       - /mnt/storage/prometheus:/etc/prometheus
+      - "{{ docker_mounts_directory }}/monitoring/prometheus:/prometheus"
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
