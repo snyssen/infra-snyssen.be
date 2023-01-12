@@ -1,0 +1,17 @@
+version: "3"
+services:
+  personal-website:
+    image: git.snyssen.be/snyssen/personal-website:0
+    restart: unless-stopped
+    container_name: personal-website
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.personal-website.entryPoints=websecure
+      - traefik.http.routers.personal-website.rule=Host(`test.{{ ansible_fqdn }}`)
+      - traefik.http.routers.personal-website.service=personal-website
+      - traefik.http.services.personal-website.loadBalancer.server.port=80
+networks:
+  web:
+    external: true

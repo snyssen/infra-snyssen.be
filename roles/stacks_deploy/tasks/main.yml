@@ -1,14 +1,14 @@
 - name: Permitting traffic through http
-  become: yes
+  become: true
   ansible.posix.firewalld:
     service: http
-    permanent: yes
+    permanent: true
     state: enabled
 - name: Permitting traffic through https
-  become: yes
+  become: true
   ansible.posix.firewalld:
     service: https
-    permanent: yes
+    permanent: true
     state: enabled
 
 - name: Creating web network
@@ -57,6 +57,9 @@
 - ansible.builtin.include_role:
     name: container_snyssen_be
   when: "stacks_deploy_list is not defined or 'snyssen_be' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_personal_website
+  when: "stacks_deploy_list is not defined or 'personal_website' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_wiki
   when: "stacks_deploy_list is not defined or 'wiki' in stacks_deploy_list"
