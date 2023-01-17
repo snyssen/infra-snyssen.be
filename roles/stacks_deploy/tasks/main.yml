@@ -49,23 +49,17 @@
     name: container_cicd
   when: "stacks_deploy_list is not defined or 'cicd' in stacks_deploy_list"
 - ansible.builtin.include_role:
-    name: container_minecraft
-  when: "stacks_deploy_list is not defined or 'minecraft' in stacks_deploy_list"
-- ansible.builtin.include_role:
     name: container_dashboard
   when: "stacks_deploy_list is not defined or 'dashboard' in stacks_deploy_list"
-- ansible.builtin.include_role:
-    name: container_snyssen_be
-  when: "stacks_deploy_list is not defined or 'snyssen_be' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_personal_website
   when: "stacks_deploy_list is not defined or 'personal_website' in stacks_deploy_list"
 - ansible.builtin.include_role:
-    name: container_wiki
-  when: "stacks_deploy_list is not defined or 'wiki' in stacks_deploy_list"
-- ansible.builtin.include_role:
     name: container_foundryvtt
   when: "stacks_deploy_list is not defined or 'foundryvtt' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_minecraft
+  when: "stacks_deploy_list is not defined or 'minecraft' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_monitoring
   when: "stacks_deploy_list is not defined or 'monitoring' in stacks_deploy_list"
