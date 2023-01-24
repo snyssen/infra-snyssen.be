@@ -1,7 +1,7 @@
 version: "3"
 services:
   scrutiny:
-    image: ghcr.io/analogj/scrutiny:v0.5.0-collector
+    image: ghcr.io/analogj/scrutiny:v0.6.0-collector
     container_name: scrutiny
     cap_add:
       - SYS_RAWIO
@@ -9,6 +9,7 @@ services:
       - /run/udev:/run/udev:ro
     environment:
       COLLECTOR_API_ENDPOINT: https://scrutiny.{{ app_server_hostname }}
+      COLLECTOR_HOST_ID: "{{ ansible_fqdn }}"
     devices:
 {% for path in disks_canonical_paths %}
       - "{{ path }}"
