@@ -40,7 +40,10 @@
       - /streaming/usenet/
       - /minecraft/data/
       - uploads/ # For Nextcloud upload folders, files are transactional and thus temporary
+      - /nextcloud/data/nextcloud.log
       - /nextcloud/custom_apps/
+      - /nextcloud/apps/
+      - /nextcloud/core/
       - /recipes/staticfiles/ # For some reason these static files sure do change a lot...
       - /photoprism/
 
