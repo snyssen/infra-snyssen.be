@@ -77,6 +77,8 @@ backups__volumes_common:
   - /mnt/storage/minecraft/data:/data/minecraft
   - /mnt/storage/foundryvtt:/data/foundryvtt
   - "{{ docker_mounts_directory }}/grafana:/data/grafana"
+  - "{{ docker_mounts_directory }}/paperless/data"
+  - /mnt/storage/paperless/media
 backups__volumes_local_only:
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
@@ -115,3 +117,7 @@ foundryvtt__admin_key: "{{ vault_foundryvtt__admin_key }}"
 
 monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
 monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
+
+paperless__postgres_password: "{{ vault_paperless__postgres_password }}"
+paperless__postgres_backups_healthcheck_id: "{{ vault_paperless__postgres_backups_healthcheck_id }}"
+paperless__secret_key: "{{ vault_paperless__secret_key }}"

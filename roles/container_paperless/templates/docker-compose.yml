@@ -1,0 +1,112 @@
+version: "3.4"
+services:
+  paperless_redis:
+    image: docker.io/library/redis:7
+    container_name: paperless_redis
+    networks:
+      - internal
+    restart: unless-stopped
+    volumes:
+      - "{{ docker_mounts_directory }}/paperless/redis:/data"
+
+  paperless_postgres:
+    image: docker.io/library/postgres:13
+    container_name: paperless_postgres
+    networks:
+      - internal
+    restart: unless-stopped
+    volumes:
+      - "{{ docker_mounts_directory }}/paperless/postgres:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: "{{ paperless__postgres_password }}"
+
+  paperless_postgres_backups:
+    restart: unless-stopped
+    image: prodrigestivill/postgres-backup-local:14-alpine
+    container_name: paperless_postgres_backups
+    networks:
+      - internal
+    depends_on:
+      - paperless_postgres
+    environment:
+      - POSTGRES_HOST=paperless_postgres
+      - POSTGRES_DB=paperless
+      - POSTGRES_USER=paperless
+      - POSTGRES_PASSWORD={{ paperless__postgres_password }}
+      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_ID={{ paperless__postgres_backups_healthcheck_id }}
+    volumes:
+      - /mnt/storage/backups/paperless:/backups
+      - ./hooks:/hooks
+
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless
+    restart: unless-stopped
+    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}" # TODO: Use Nextcloud uid instead and mount consume folder into Nextcloud
+    networks:
+      - internal
+      - web
+    depends_on:
+      - paperless_redis
+      - paperless_postgres
+      - paperless_gotenberg
+      - paperless_tika
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.paperless.entryPoints=websecure
+      - traefik.http.routers.paperless.rule=Host(`paperless.{{ ansible_fqdn }}`)
+      - traefik.http.routers.paperless.service=paperless
+      - traefik.http.services.paperless.loadBalancer.server.port=8000
+    volumes:
+      - "{{ docker_mounts_directory }}/paperless/data:/usr/src/paperless/data"
+      - /mnt/storage/paperless/media:/usr/src/paperless/media
+      - /mnt/storage/paperless/export:/usr/src/paperless/export
+      - /mnt/storage/paperless/consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://paperless_redis:6379
+      PAPERLESS_DBHOST: paperless_postgres
+      PAPERLESS_DBPASS: "{{ paperless__postgres_password }}"
+      PAPERLESS_TIKA_ENABLED: 1
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless_gotenberg:3000
+      PAPERLESS_TIKA_ENDPOINT: http://paperless_tika:9998
+      # Paperless specific
+      USERMAP_UID: "{{ ansible_user_uid}}"
+      USERMAP_GID: "{{ ansible_user_gid}}"
+      PAPERLESS_URL: https://paperless.{{ ansible_fqdn }}
+      PAPERLESS_SECRET_KEY: "{{ paperless__secret_key }}"
+      PAPERLESS_TIME_ZONE: Europe/Brussels
+      PAPERLESS_OCR_LANGUAGE: fra
+
+  paperless_gotenberg:
+    image: docker.io/gotenberg/gotenberg:7.6
+    container_name: paperless_gotenberg
+    restart: unless-stopped
+    networks:
+      - internal
+    # The gotenberg chromium route is used to convert .eml files. We do not
+    # want to allow external content like tracking pixels or even javascript.
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+
+  paperless_tika:
+    image: ghcr.io/paperless-ngx/tika:latest
+    container_name: paperless_tika
+    restart: unless-stopped
+    networks:
+      - internal
+
+networks:
+  web:
+    external: true
+  internal:
