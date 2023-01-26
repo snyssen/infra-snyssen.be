@@ -34,6 +34,12 @@
         user: drone
         password: "{{ cicd__postgres__password }}"
         database: drone
+      paperless:
+        directory: /mnt/storage/backups/paperless
+        type: pgsql
+        user: paperless
+        password: "{{ paperless__postgres_password }}"
+        database: paperless
 
 - ansible.builtin.set_fact:
     db_restore_selected: >-

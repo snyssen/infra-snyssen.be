@@ -76,6 +76,7 @@ services:
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/pictures:/pictures
+      - /mnt/storage/paperless:/paperless
 
   nextcloud_monitor:
     image: xperimental/nextcloud-exporter:0.6.0
