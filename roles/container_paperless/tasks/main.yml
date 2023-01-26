@@ -1,15 +1,33 @@
 - name: Creating folders
+  become: true
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
     state: directory
   with_items:
-    - "{{ docker_mounts_directory }}/paperless/redis"
-    - "{{ docker_mounts_directory }}/paperless/postgres"
-    - /mnt/storage/backups/paperless
-    - "{{ docker_mounts_directory }}/paperless/data"
-    - /mnt/storage/paperless/media
-    - /mnt/storage/paperless/export
-    - /mnt/storage/paperless/consume
+    - path: "{{ docker_mounts_directory }}/paperless/redis"
+      owner: "999"
+      group: "{{ ansible_user_gid }}"
+    - path: "{{ docker_mounts_directory }}/paperless/postgres"
+      owner: "999"
+      group: "{{ ansible_user_gid }}"
+    - path: /mnt/storage/backups/paperless
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+    # 33 is the Nextcloud user id, this will allow us to mount the consume folder into Nextcloud and ingest files from it
+    - path: "{{ docker_mounts_directory }}/paperless/data"
+      owner: "33"
+      group: "{{ ansible_user_gid }}"
+    - path: /mnt/storage/paperless/media
+      owner: "33"
+      group: "{{ ansible_user_gid }}"
+    - path: /mnt/storage/paperless/export
+      owner: "33"
+      group: "{{ ansible_user_gid }}"
+    - path: /mnt/storage/paperless/consume
+      owner: "33"
+      group: "{{ ansible_user_gid }}"
 
 - name: Deploying hooks for database backups
   ansible.builtin.copy:

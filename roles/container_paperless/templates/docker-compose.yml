@@ -46,7 +46,6 @@ services:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
     container_name: paperless
     restart: unless-stopped
-    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}" # TODO: Use Nextcloud uid instead and mount consume folder into Nextcloud
     networks:
       - internal
       - web
@@ -79,8 +78,8 @@ services:
       PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless_gotenberg:3000
       PAPERLESS_TIKA_ENDPOINT: http://paperless_tika:9998
       # Paperless specific
-      USERMAP_UID: "{{ ansible_user_uid}}"
-      USERMAP_GID: "{{ ansible_user_gid}}"
+      USERMAP_UID: "33" # 33 is the Nextcloud user id, this will allow us to mount the consume folder into Nextcloud and ingest files from it
+      USERMAP_GID: "{{ ansible_user_gid }}"
       PAPERLESS_URL: https://paperless.{{ ansible_fqdn }}
       PAPERLESS_SECRET_KEY: "{{ paperless__secret_key }}"
       PAPERLESS_TIME_ZONE: Europe/Brussels
