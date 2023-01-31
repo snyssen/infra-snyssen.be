@@ -1,7 +1,5 @@
 # Infrastructure of snyssen.be
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSE)
-
 All the necessary instructions, docker files, scripts, etc. necessary for building my self hosted server (almost) from scratch.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
