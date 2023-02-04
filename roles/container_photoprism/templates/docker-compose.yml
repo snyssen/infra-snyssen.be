@@ -1,7 +1,7 @@
 version: "3"
 services:
   photoprism_mariadb:
-    image: mariadb
+    image: mariadb:10
     container_name: photoprism_mariadb
     restart: unless-stopped
     networks:
