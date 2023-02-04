@@ -103,7 +103,68 @@ services:
       - traefik.http.routers.uptime.entryPoints=websecure
       - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
 
+  # TODO: Backups of database? I don't feel like it would be a huge loss if this one got reset tho...
+  plausible_postgres:
+    image: postgres:14-alpine
+    container_name: plausible_postgres
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - "{{ docker_mounts_directory }}/plausible/postgres:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB=plausible
+      - POSTGRES_USER=plausible
+      - POSTGRES_PASSWORD={{ monitoring__plausible__postgress_pass }}
+
+  plausible_clickhouse:
+    image: clickhouse/clickhouse-server:22.6-alpine
+    container_name: plausible_clickhouse
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - "{{ docker_mounts_directory }}/plausible/clickhouse/data:/var/lib/clickhouse"
+      - "{{ docker_mounts_directory }}/plausible/clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro"
+      - "{{ docker_mounts_directory }}/plausible/clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  plausible:
+    image: plausible/analytics:latest
+    container_name: plausible
+    restart: unless-stopped
+    command: sh -c "sleep 45 && /entrypoint.sh db migrate && /entrypoint.sh run"
+    networks:
+      - internal
+      - web
+    depends_on:
+      - plausible_postgres
+      - plausible_clickhouse
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.plausible.entryPoints=websecure
+      - traefik.http.routers.plausible.rule=Host(`plausible.{{ ansible_fqdn }}`)
+      - traefik.http.routers.plausible.service=plausible
+      - traefik.http.services.plausible.loadBalancer.server.port=8000
+    environment:
+      - DISABLE_REGISTRATION=true
+      - SECRET_KEY_BASE={{ monitoring__plausible_secret }}
+      - BASE_URL=https://plausible.{{ ansible_fqdn }}
+      - DATABASE_URL=postgres://plausible:{{ monitoring__plausible__postgress_pass }}@plausible_postgres:5432/plausible
+      - CLICKHOUSE_DATABASE_URL=http://plausible_clickhouse:8123/plausible_clickhouse
+      - MAILER_EMAIL={{ smtp__from }}
+      - SMTP_HOST_ADDR={{ smtp__host }}
+      - SMTP_HOST_PORT={{ smtp__port }}
+      - SMTP_USER_NAME={{ smtp__user }}
+      - SMTP_USER_PWD={{ smtp__pass|replace('$','$$') }}
+      - SMTP_HOST_SSL_ENABLED={{ smtp__tls }}
+
 networks:
+  internal:
   monitoring:
     external: true
   web:

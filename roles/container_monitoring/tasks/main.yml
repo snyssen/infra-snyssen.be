@@ -4,19 +4,33 @@
     path: "{{ item.src }}"
     state: directory
     owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
   with_items:
     - src: "/mnt/storage/scrutiny"
-      owner: "{{ ansible_user_id }}"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
     - src: "{{ docker_mounts_directory }}/monitoring/influxdb"
-      owner: "{{ ansible_user_id }}"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
     - src: "/mnt/storage/prometheus"
-      owner: "{{ ansible_user_id }}"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
     - src: "{{ docker_mounts_directory }}/monitoring/prometheus"
       owner: "65534"
+      group: "{{ ansible_user_gid }}"
     - src: "{{ docker_mounts_directory }}/grafana"
       owner: "472"
+      group: "{{ ansible_user_gid }}"
     - src: "{{ docker_mounts_directory }}/uptime"
-      owner: "{{ ansible_user_id }}"
+      # I don't like it, but apparently Uptime Kuma is always revertiung to root permissions
+      owner: "0"
+      group: "0"
+    - src: "{{ docker_mounts_directory }}/plausible/postgres"
+      owner: "70"
+      group: "{{ ansible_user_gid }}"
+    - src: "{{ docker_mounts_directory }}/plausible/clickhouse/data"
+      owner: "101"
+      group: "101"
 
 - name: Deploying Scrutiny configuration
   ansible.builtin.template:
@@ -34,8 +48,26 @@
     - node_rules.yml
   register: prom_config_status
 
+- name: Deploying Clickhouse configuration (for Plausible)
+  become: true
+  ansible.builtin.copy:
+    src: clickhouse
+    dest: "{{ docker_mounts_directory }}/plausible/clickhouse"
+    mode: 0644
+    owner: "101"
+    group: "101"
+
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     container_name: monitoring
     docker_compose_state: "{{ 'restarted' if prom_config_status.changed else 'present' }}"
+
+- name: Wait for clickhouse to startup before ensuing commands
+  ansible.builtin.pause:
+    seconds: 10
+
+- name: Creating clickhouse database if needed
+  community.docker.docker_container_exec:
+    container: plausible_clickhouse
+    command: clickhouse-client --host plausible_clickhouse --query "CREATE DATABASE IF NOT EXISTS plausible_clickhouse"
