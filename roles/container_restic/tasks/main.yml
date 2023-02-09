@@ -1,7 +1,14 @@
 - name: Creating folders
   ansible.builtin.file:
-    path: "{{ docker_compose_directory }}/restic/hooks"
+    path: "{{ item }}"
     state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "0744"
+  with_items:
+    - "{{ docker_compose_directory }}/restic/hooks/local"
+    - "{{ docker_compose_directory }}/restic/hooks/remote"
+    - "{{ docker_compose_directory }}/restic/.ssh"
 
 - name: Deploying pre- and post-backup scripts
   ansible.builtin.copy:
@@ -13,6 +20,17 @@
     - local/post-backup.sh
     - remote/pre-backup.sh
     - remote/post-backup.sh
+
+- name: Copy SSH keypair for accessing backup server
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ docker_compose_directory }}/restic/.ssh/"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "0600"
+  with_items:
+    - backup_rsa
+    - backup_rsa.pub
 
 - ansible.builtin.set_fact:
     backups__volumes_local: "{{ backups__volumes_common + backups__volumes_local_only }}"

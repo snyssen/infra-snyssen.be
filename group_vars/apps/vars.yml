@@ -81,6 +81,7 @@ backups__volumes_common:
   - /mnt/storage/paperless/media
 backups__volumes_local_only:
   - ./hooks/local:/hooks
+  - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
   - ./hooks/remote:/hooks

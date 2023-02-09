@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     container_name: restic_local
     hostname: "{{ ansible_fqdn }}"
+    network_mode: host
     environment: &restic-env
       RESTIC_REPOSITORY: "{{ backups__local_destination }}"
       RESTIC_PASSWORD: "{{ backups__encryption_key }}"
