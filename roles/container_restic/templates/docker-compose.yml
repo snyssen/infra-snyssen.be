@@ -11,6 +11,8 @@ services:
       BACKUP_CRON: 0 3 * * *
       HEALTHCHECK_ID: "{{ backups__local_healthcheck_id }}"
       RESTIC_FORGET_ARGS: --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3
+      BACKUP_SERVER_DOMAIN: "{{ backups__local_domain }}"
+      BACKUP_SERVER_MAC_ADDRESS: "{{ backup_server_mac_address }}"
     volumes: {{ backups__volumes_local | to_yaml }}
 
   restic_remote:

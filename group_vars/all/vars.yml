@@ -13,3 +13,5 @@ iana_timezone: Europe/Brussels
 
 # Used to store the docker-compose.yml files
 docker_compose_directory: "/home/{{ ansible_user }}/containers"
+
+backup_server_mac_address: "{{ vault_backup_server_mac_address }}"
