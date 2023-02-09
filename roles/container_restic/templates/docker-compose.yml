@@ -1,7 +1,7 @@
 version: "3"
 services:
   restic_local: &restic-config
-    image: lobaro/restic-backup-docker
+    image: ghcr.io/snyssen/restic-backup-docker-wol:1
     restart: unless-stopped
     container_name: restic_local
     hostname: "{{ ansible_fqdn }}"
