@@ -51,7 +51,8 @@ recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 recipes__postgres_backups_healthcheck_id: "{{ vault_recipes__postgres_backups_healthcheck_id }}"
 
-backups__local_destination: "{{ vault_backups__local_destination }}"
+backups__local_domain: "{{ vault_backups__local_domain }}"
+backups__local_destination: "rest:http://{{backups__local_domain}}:8000/"
 backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"
 backups__remote_destination: "{{ vault_backups__remote_destination }}"
 backups__access_id_remote: "{{ vault_backups__access_id_remote }}"
@@ -59,7 +60,6 @@ backups__access_secret_remote: "{{ vault_backups__access_secret_remote }}"
 backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
 backups__encryption_key: "{{ vault_backups__encryption_key }}"
 backups__volumes_common:
-  - ./hooks:/hooks
   # For correct time
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
@@ -80,8 +80,11 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/paperless/data"
   - /mnt/storage/paperless/media
 backups__volumes_local_only:
+  - ./hooks/local:/hooks
+  - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
   - /mnt/storage/streaming/media:/data/streaming/media
 backups__volumes_remote_only:
+  - ./hooks/remote:/hooks
   - /mnt/storage/streaming/media/music:/data/streaming/media/music
 
 git__postgres_password: "{{ vault_git__postgres_password }}"

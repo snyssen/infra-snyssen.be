@@ -8,5 +8,6 @@ services:
       - "8000:8000"
     environment:
       - DISABLE_AUTHENTICATION=true # server will only be accessible on LAN, so I'm not worried about auth
+      - OPTIONS=--prometheus
     volumes:
       - /mnt/storage/data:/data

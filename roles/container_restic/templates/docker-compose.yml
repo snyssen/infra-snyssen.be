@@ -1,16 +1,19 @@
 version: "3"
 services:
   restic_local: &restic-config
-    image: lobaro/restic-backup-docker
+    image: ghcr.io/snyssen/restic-backup-docker-wol:1
     restart: unless-stopped
     container_name: restic_local
     hostname: "{{ ansible_fqdn }}"
+    network_mode: host
     environment: &restic-env
       RESTIC_REPOSITORY: "{{ backups__local_destination }}"
       RESTIC_PASSWORD: "{{ backups__encryption_key }}"
       BACKUP_CRON: 0 3 * * *
       HEALTHCHECK_ID: "{{ backups__local_healthcheck_id }}"
       RESTIC_FORGET_ARGS: --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3
+      BACKUP_SERVER_DOMAIN: "{{ backups__local_domain }}"
+      BACKUP_SERVER_MAC_ADDRESS: "{{ backup_server_mac_address }}"
     volumes: {{ backups__volumes_local | to_yaml }}
 
   restic_remote:
