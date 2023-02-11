@@ -9,6 +9,7 @@
     - gitea_postgres_backups
     - drone_postgres_backups
     - paperless_postgres_backups
+    - firefly_postgres_backups
 
 - name: Backing up photoprism database to disk
   community.docker.docker_container_exec:

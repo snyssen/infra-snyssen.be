@@ -1,0 +1,19 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /mnt/storage/firefly
+    - "{{ docker_mounts_directory }}/firefly/postgresql"
+    - /mnt/storage/backups/firefly
+
+- name: Deploying hooks for database backups
+  ansible.builtin.copy:
+    src: pgsql_backups_hooks
+    dest: "{{ docker_compose_directory }}/firefly/hooks/"
+    mode: 0770
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    container_name: "firefly"

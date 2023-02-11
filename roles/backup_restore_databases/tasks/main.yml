@@ -40,6 +40,12 @@
         user: paperless
         password: "{{ paperless__postgres_password }}"
         database: paperless
+      firefly:
+        directory: /mnt/storage/backups/firefly
+        type: pgsql
+        user: firefly
+        password: "{{ firefly__postgres_password }}"
+        database: firefly
 
 - ansible.builtin.set_fact:
     db_restore_selected: >-
