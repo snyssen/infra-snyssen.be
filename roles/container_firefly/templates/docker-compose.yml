@@ -32,7 +32,7 @@ services:
       - DB_DATABASE=firefly
       - DB_USERNAME=firefly
       - DB_PASSWORD={{ firefly__postgres_password }}
-      - MAIL_MAILER=log
+      - MAIL_MAILER=smtp
       - MAIL_HOST={{ smtp__host }}
       - MAIL_PORT={{ smtp__port }}
       - MAIL_FROM={{ smtp__from }}
@@ -40,6 +40,43 @@ services:
       - MAIL_PASSWORD={{ smtp__pass | replace('$', '$$') }}
       - MAIL_ENCRYPTION={{ smtp__tls }}
       - ENABLE_EXTERNAL_RATES=true
+      - APP_URL=https://firefly.{{ ansible_fqdn }}
+
+  firefly_importer:
+    image: fireflyiii/data-importer:latest
+    container_name: firefly_importer
+    restart: unless-stopped
+    depends_on:
+      - firefly
+    environment:
+      - FIREFLY_III_ACCESS_TOKEN={{ firefly__access_token }}
+      - FIREFLY_III_URL=http://firefly:8080
+      - VANITY_URL=https://firefly.{{ ansible_fqdn }}
+      - NORDIGEN_ID={{ firefly__nordigen_id }}
+      - NORDIGEN_KEY={{ firefly__nordigen_key }}
+      - APP_ENV=production
+      - TRUSTED_PROXIES=**
+      - TZ={{ iana_timezone }}
+      - ENABLE_MAIL_REPORT=true
+      - MAIL_MAILER=smtp
+      - MAIL_HOST={{ smtp__host }}
+      - MAIL_PORT={{ smtp__port }}
+      - MAIL_FROM={{ smtp__from }}
+      - MAIL_USERNAME={{ smtp__user }}
+      - MAIL_PASSWORD={{ smtp__pass | replace('$', '$$') }}
+      - MAIL_ENCRYPTION={{ smtp__tls }}
+      - APP_URL=https://fidi.{{ ansible_fqdn }}
+    networks:
+      - internal
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.firefly-importer.entrypoints=websecure"
+      - "traefik.http.routers.firefly-importer.rule=Host(`fidi.{{ ansible_fqdn }}`)"
+      - "traefik.http.routers.firefly-importer.service=firefly-importer"
+      - "traefik.http.routers.firefly-importer.middlewares=auth"
+      - "traefik.http.services.firefly-importer.loadbalancer.server.port=8080"
 
   firefly_postgres:
     restart: unless-stopped
