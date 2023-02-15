@@ -1,0 +1,117 @@
+version: '3.3'
+
+services:
+  firefly:
+    image: fireflyiii/core:latest
+    restart: unless-stopped
+    container_name: firefly
+    volumes:
+      - /mnt/storage/firefly:/var/www/html/storage/upload
+    networks:
+      - internal
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.firefly.entrypoints=websecure"
+      - "traefik.http.routers.firefly.rule=Host(`firefly.{{ ansible_fqdn }}`)"
+      - "traefik.http.routers.firefly.service=firefly"
+      - "traefik.http.services.firefly.loadbalancer.server.port=8080"
+    depends_on:
+      - firefly_postgres
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - SITE_OWNER={{ smtp__to }}
+      - APP_KEY={{ firefly__app_key }}
+      - TZ={{ iana_timezone }}
+      - TRUSTED_PROXIES=**
+      - DB_CONNECTION=pgsql
+      - DB_HOST=firefly_postgres
+      - DB_PORT=5432
+      - DB_DATABASE=firefly
+      - DB_USERNAME=firefly
+      - DB_PASSWORD={{ firefly__postgres_password }}
+      - MAIL_MAILER=smtp
+      - MAIL_HOST={{ smtp__host }}
+      - MAIL_PORT={{ smtp__port }}
+      - MAIL_FROM={{ smtp__from }}
+      - MAIL_USERNAME={{ smtp__user }}
+      - MAIL_PASSWORD={{ smtp__pass | replace('$', '$$') }}
+      - MAIL_ENCRYPTION={{ smtp__tls }}
+      - ENABLE_EXTERNAL_RATES=true
+      - APP_URL=https://firefly.{{ ansible_fqdn }}
+
+  firefly_importer:
+    image: fireflyiii/data-importer:latest
+    container_name: firefly_importer
+    restart: unless-stopped
+    depends_on:
+      - firefly
+    environment:
+      - FIREFLY_III_ACCESS_TOKEN={{ firefly__access_token }}
+      - FIREFLY_III_URL=http://firefly:8080
+      - VANITY_URL=https://firefly.{{ ansible_fqdn }}
+      - NORDIGEN_ID={{ firefly__nordigen_id }}
+      - NORDIGEN_KEY={{ firefly__nordigen_key }}
+      - APP_ENV=production
+      - TRUSTED_PROXIES=**
+      - TZ={{ iana_timezone }}
+      - ENABLE_MAIL_REPORT=true
+      - MAIL_MAILER=smtp
+      - MAIL_HOST={{ smtp__host }}
+      - MAIL_PORT={{ smtp__port }}
+      - MAIL_FROM={{ smtp__from }}
+      - MAIL_USERNAME={{ smtp__user }}
+      - MAIL_PASSWORD={{ smtp__pass | replace('$', '$$') }}
+      - MAIL_ENCRYPTION={{ smtp__tls }}
+      - APP_URL=https://fidi.{{ ansible_fqdn }}
+    networks:
+      - internal
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.firefly-importer.entrypoints=websecure"
+      - "traefik.http.routers.firefly-importer.rule=Host(`fidi.{{ ansible_fqdn }}`)"
+      - "traefik.http.routers.firefly-importer.service=firefly-importer"
+      - "traefik.http.routers.firefly-importer.middlewares=auth"
+      - "traefik.http.services.firefly-importer.loadbalancer.server.port=8080"
+
+  firefly_postgres:
+    restart: unless-stopped
+    image: postgres:14
+    container_name: firefly_postgres
+    volumes:
+      - "{{ docker_mounts_directory }}/firefly/postgresql:/var/lib/postgresql/data"
+    networks:
+      - internal
+    environment:
+      - POSTGRES_USER=firefly
+      - POSTGRES_PASSWORD={{ firefly__postgres_password }}
+      - POSTGRES_DB=firefly
+
+  firefly_postgres_backups:
+    restart: unless-stopped
+    image: prodrigestivill/postgres-backup-local:14-alpine
+    container_name: firefly_postgres_backups
+    networks:
+      - internal
+    depends_on:
+      - firefly_postgres
+    environment:
+      - POSTGRES_HOST=firefly_postgres
+      - POSTGRES_DB=firefly
+      - POSTGRES_USER=firefly
+      - POSTGRES_PASSWORD={{ firefly__postgres_password }}
+      - POSTGRES_EXTRA_OPTS=--format c # So we can use pg_restore to restore the database
+      - TZ=Europe/Brussels
+      - HEALTHCHECK_ID={{ firefly__postgres_backups_healthcheck_id }}
+    volumes:
+      - /mnt/storage/backups/firefly:/backups
+      - ./hooks:/hooks
+
+networks:
+  web:
+    external: true
+  internal:
