@@ -41,6 +41,7 @@ services:
       - MAIL_ENCRYPTION={{ smtp__tls }}
       - ENABLE_EXTERNAL_RATES=true
       - APP_URL=https://firefly.{{ ansible_fqdn }}
+      - LOG_CHANNEL=stdout # Let Docker handle logging
 
   firefly_importer:
     image: fireflyiii/data-importer:latest
