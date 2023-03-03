@@ -1,18 +1,10 @@
-ansible_user: "vagrant"
-vault_ansible_become_pass: "vagrant"
+ansible_user: "{{ vault_ansible_user }}"
+ansible_become_pass: "{{ vault_ansible_become_pass }}"
+
 disks_mounts:
-  - path: /mnt/parity1
-    src: /dev/sdb
   - path: /mnt/disk1
-    src: /dev/sdc
-  - path: /mnt/disk2
-    src: /dev/sdd
-backbone__acme_ca_server: https://acme-staging-v02.api.letsencrypt.org/directory
-backups__local_destination: rest:http://192.168.56.13:8000/
-backups__remote_destination: b2:dev-snyssen-be-backup
+    src: /dev/disk/by-id/ata-ST16000NM000J-2TW103_ZR58BLR6 # Seagate Exos X18 16TB
+
 backbone__acme_dns_challenge__enabled: true
 vault_backbone__acme_http_challenge__enabled: false
 skip_snapraid: true
-# Uncomment and leave empty to force user to generate on install
-# cicd__drone__gitea_client_id:
-# cicd__drone__gitea_client_secret:

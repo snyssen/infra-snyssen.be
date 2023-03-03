@@ -1,0 +1,10 @@
+apps:
+  hosts:
+    snyssen.duckdns.org:
+backup:
+  hosts:
+    backup.snyssen.be:
+monitored:
+  hosts:
+    snyssen.duckdns.org:
+    backup.snyssen.be:

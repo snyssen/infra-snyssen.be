@@ -1,11 +1,12 @@
-- hosts: all
+- name: Shutdown server(s)
+  hosts: all
   vars_prompt:
     - name: shutdown_delay
       prompt: |-
         Enter the delay before shutdown (in second, must be above 60). Leave empty to shutdown immediately.
         delay
-      private: no
+      private: false
   tasks:
     - community.general.shutdown:
         delay: "{{ shutdown_delay | default(0, true) }}"
-      become: yes
+      become: true
