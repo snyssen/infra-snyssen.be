@@ -13,6 +13,21 @@ services:
       - traefik.http.routers.personal-website.middlewares=traefik-compress
       - traefik.http.routers.personal-website.service=personal-website
       - traefik.http.services.personal-website.loadBalancer.server.port=80
+
+  # personal-website-testing:
+  #   image: git.snyssen.be/snyssen/personal-website:resume-rework
+  #   restart: unless-stopped
+  #   container_name: personal-website-testing
+  #   networks:
+  #     - web
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.personal-website-testing.entryPoints=websecure
+  #     - traefik.http.routers.personal-website-testing.rule=Host(`testing.{{ ansible_fqdn }}`)
+  #     - traefik.http.routers.personal-website-testing.middlewares=traefik-compress
+  #     - traefik.http.routers.personal-website-testing.service=personal-website-testing
+  #     - traefik.http.services.personal-website-testing.loadBalancer.server.port=80
+    
 networks:
   web:
     external: true
