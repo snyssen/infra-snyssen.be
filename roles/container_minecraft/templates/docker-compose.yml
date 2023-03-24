@@ -29,6 +29,9 @@ services:
       # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-configuration
       MOTD: "Find the Livemap at https://mc.{{ ansible_fqdn }} !"
       DIFFICULTY: "{{ minecraft__difficulty }}"
+      WHITELIST: "{{ minecraft__whitelisted_players | join(',') }}"
+      OVERRIDE_WHITELIST: "TRUE"
+      ENFORCE_WHITELIST: "TRUE"
       OPS: "{{ minecraft__admin_players | join(',') }}"
       OVERRIDE_OPS: "TRUE"
       MAX_PLAYERS: "{{ minecraft__max_player }}"

@@ -108,6 +108,7 @@ minecraft__view_distance: 12
 minecraft__max_player: 5
 minecraft__difficulty: easy
 minecraft__gamemode: survival
+minecraft__whitelisted_players: "{{ vault_minecraft__whitelisted_players }}"
 minecraft__admin_players: "{{ vault_minecraft__admin_players }}"
 minecraft__dynmap__resolution: "hires" # default: hires.
 
