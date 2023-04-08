@@ -79,6 +79,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/grafana:/data/grafana"
   - "{{ docker_mounts_directory }}/paperless/data"
   - /mnt/storage/paperless/media
+  - "{{ docker_mounts_directory }}/wakapi/data"
 backups__volumes_local_only:
   - ./hooks/local:/hooks
   - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
@@ -135,3 +136,6 @@ firefly__access_token: "{{ vault_firefly__access_token }}"
 firefly__nordigen_id: "{{ vault_firefly__nordigen_id }}"
 firefly__nordigen_key: "{{ vault_firefly__nordigen_key }}"
 firefly__cron_healthcheck_id: "{{ vault_firefly__cron_healthcheck_id }}"
+
+wakapi__salt: "{{ vault_wakapi__salt }}"
+wakapi__api_key: "{{ vault_wakapi__api_key }}"

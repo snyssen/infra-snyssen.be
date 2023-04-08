@@ -1,0 +1,15 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item.src }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+  with_items:
+    - src: "{{ docker_mounts_directory }}/wakapi/data"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    container_name: wakapi

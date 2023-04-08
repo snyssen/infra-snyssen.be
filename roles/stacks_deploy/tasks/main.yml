@@ -12,10 +12,10 @@
     state: enabled
 
 - name: Creating web network
-  ansible.builtin.docker_network:
+  community.docker.docker_network:
     name: web
 - name: Creating monitoring network
-  ansible.builtin.docker_network:
+  community.docker.docker_network:
     name: monitoring
 
 - ansible.builtin.include_role:
@@ -72,6 +72,9 @@
 - ansible.builtin.include_role:
     name: container_scrutiny
   when: "stacks_deploy_list is not defined or 'scrutiny' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_wakapi
+  when: "stacks_deploy_list is not defined or 'wakapi' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic

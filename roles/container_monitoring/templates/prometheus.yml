@@ -39,6 +39,12 @@ scrape_configs:
   - job_name: 'nextcloud'
     static_configs:
       - targets: ['nextcloud_monitor:9205']
+  - job_name: 'wakapi'
+    scrape_interval: 1m
+    metrics_path: '/api/metrics'
+    bearer_token: '{{ wakapi__api_key | b64encode }}'
+    static_configs:
+      - targets: ['wakapi:3000']
 
 rule_files:
   - node_rules.yml
