@@ -1,0 +1,39 @@
+version: "2.1"
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    hostname: sync.{{ ansible_fqdn }}
+    networks:
+      - web
+    environment:
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_gid }}
+      - TZ={{ iana_timezone }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+
+      - "traefik.http.routers.syncthing.entrypoints=websecure"
+      - "traefik.http.routers.syncthing.rule=Host(`sync.{{ ansible_fqdn }}`)"
+      - "traefik.http.routers.syncthing.service=syncthing"
+      - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
+      
+      - traefik.tcp.routers.syncthing.entryPoints=syncthing
+      - traefik.tcp.routers.syncthing.rule=HostSNI(`*`)
+      - traefik.tcp.routers.syncthing.service=syncthing
+      - traefik.tcp.services.syncthing.loadBalancer.server.port=22000
+      - traefik.udp.routers.syncthing-udp.entryPoints=syncthing-udp
+      - traefik.udp.routers.syncthing-udp.service=syncthing-udp
+      - traefik.udp.services.syncthing-udp.loadBalancer.server.port=22000
+
+      - traefik.udp.routers.syncthing-discovery.entryPoints=syncthing-discovery
+      - traefik.udp.routers.syncthing-discovery.service=syncthing-discovery
+      - traefik.udp.services.syncthing-discovery.loadBalancer.server.port=21027
+    volumes:
+      - /mnt/storage/syncthing/config:/config
+      - /mnt/storage/syncthing/data:/data
+    restart: unless-stopped
+networks:
+  web:
+    external: true
