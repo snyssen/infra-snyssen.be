@@ -11,12 +11,12 @@
     permanent: true
     state: enabled
 
-- name: Creating web network
+- name: "Creating docker networks"
   community.docker.docker_network:
-    name: web
-- name: Creating monitoring network
-  community.docker.docker_network:
-    name: monitoring
+    name: "{{ item }}"
+  loop:
+    - web
+    - monitoring
 
 - ansible.builtin.include_role:
     name: container_backbone

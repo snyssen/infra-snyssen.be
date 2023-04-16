@@ -75,6 +75,32 @@ services:
       - traefik.http.routers.traefik.middlewares=traefik-compress
       - traefik.http.middlewares.traefik-compress.compress=true
 
+  vpn:
+    image: qmcgaw/gluetun:v3
+    container_name: vpn
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    restart: unless-stopped
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+    volumes:
+      - "{{ docker_mounts_directory }}/gluetun:/gluetun"
+    environment:
+      # See https://github.com/qdm12/gluetun/wiki
+      - VPN_SERVICE_PROVIDER={{ vpn__service_provider }}
+      # OpenVPN:
+      - OPENVPN_USER={{ vpn__user }}
+      - OPENVPN_PASSWORD={{ vpn__pass }}
+      - SERVER_COUNTRIES={{ vpn__countries }}
+      # Timezone for accurate log times
+      - TZ={{ iana_timezone }}
+      # Server list updater. See https://github.com/qdm12/gluetun/wiki/Updating-Servers#periodic-update
+      - UPDATER_PERIOD=24h
+
 networks:
   web:
     external: true
