@@ -48,6 +48,7 @@
       - /nextcloud/lib/
       - /recipes/staticfiles/ # For some reason these static files sure do change a lot...
       - /photoprism/
+      - /syncthing/config/*.db/
 
     snapraid_runner_email_address: "{{ smtp__to }}"
     snapraid_runner_email_pass: "{{ smtp__pass }}"
