@@ -77,9 +77,11 @@ backups__volumes_common:
   - /mnt/storage/minecraft/data:/data/minecraft
   - /mnt/storage/foundryvtt:/data/foundryvtt
   - "{{ docker_mounts_directory }}/grafana:/data/grafana"
-  - "{{ docker_mounts_directory }}/paperless/data"
-  - /mnt/storage/paperless/media
-  - "{{ docker_mounts_directory }}/wakapi/data"
+  - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
+  - /mnt/storage/paperless/media:/data/paperless/media
+  - "{{ docker_mounts_directory }}/wakapi/data:/data/wakapi"
+  - /mnt/storage/syncthing/config:/data/syncthing/config
+  - /mnt/storage/syncthing/data:/data/syncthing/data
 backups__volumes_local_only:
   - ./hooks/local:/hooks
   - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
