@@ -41,6 +41,8 @@ usenet__server_user: "{{ vault_usenet__server_user }}"
 usenet__server_pass: "{{ vault_usenet__server_pass }}"
 usenet__user: "{{ vault_usenet__user }}"
 usenet__pass: "{{ vault_usenet__pass }}"
+usenet__api_key: "{{ vault_usenet__api_key }}"
+usenet__nzb_key: "{{ vault_usenet__nzb_key }}"
 
 piped__postgres_password: "{{ vault_piped__postgres_password }}"
 piped__postgres_backups_healthcheck_id: "{{ vault_piped__postgres_backups_healthcheck_id }}"

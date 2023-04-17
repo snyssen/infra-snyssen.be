@@ -15,7 +15,7 @@
     - "/mnt/storage/torrent"
     - /mnt/storage/streaming/torrent
     # usenet
-    - "/mnt/storage/usenet/config/openvpn"
+    - "/mnt/storage/usenet"
     - "/mnt/storage/streaming/usenet"
     # sonarr
     - "{{ docker_mounts_directory }}/sonarr/config"
@@ -34,6 +34,12 @@
     dest: /mnt/storage/torrent/settings.json
     mode: 0600
   register: transmission_config
+
+- name: Deploying Sabnzbd config
+  ansible.builtin.template:
+    src: sabnzbd.ini
+    dest: /mnt/storage/usenet/sabnzbd.ini
+    mode: 0600
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy

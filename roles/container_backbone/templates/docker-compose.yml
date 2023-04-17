@@ -119,7 +119,7 @@ services:
       - traefik.http.routers.usenet.entryPoints=websecure
       - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)
       - traefik.http.routers.usenet.service=usenet
-      - traefik.http.services.usenet.loadBalancer.server.port=6789
+      - traefik.http.services.usenet.loadBalancer.server.port=8080
 
 networks:
   web:

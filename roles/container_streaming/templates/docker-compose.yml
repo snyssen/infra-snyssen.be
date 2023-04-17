@@ -68,18 +68,18 @@ services:
       - /mnt/storage/streaming/torrent:/data/torrent
     restart: unless-stopped
 
-  # usenet:
-  #   image: lscr.io/linuxserver/nzbget:latest
-  #   container_name: usenet
-  #   network_mode: container:vpn
-  #   environment:
-  #     - PUID={{ ansible_user_uid}}
-  #     - PGID={{ ansible_user_gid}}
-  #     - TZ={{ iana_timezone }}
-  #   volumes:
-  #     - /mnt/storage/usenet/config:/config
-  #     - /mnt/storage/streaming/usenet:/data/usenet
-  #   restart: unless-stopped
+  usenet:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: usenet
+    network_mode: container:vpn
+    environment:
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_gid }}
+      - TZ={{ iana_timezone }}
+    volumes:
+      - /mnt/storage/usenet:/config
+      - /mnt/storage/streaming/usenet:/data/usenet
+    restart: unless-stopped
 
   sonarr:
     image: lscr.io/linuxserver/sonarr
