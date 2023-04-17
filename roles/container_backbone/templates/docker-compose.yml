@@ -83,10 +83,14 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     restart: unless-stopped
+    networks:
+      - web
     ports:
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
+      - 6881:6881
+      - 6881:6881/udp
     volumes:
       - "{{ docker_mounts_directory }}/gluetun:/gluetun"
     environment:
@@ -95,11 +99,27 @@ services:
       # OpenVPN:
       - OPENVPN_USER={{ vpn__user }}
       - OPENVPN_PASSWORD={{ vpn__pass }}
-      - SERVER_COUNTRIES={{ vpn__countries }}
+      - SERVER_COUNTRIES=Switzerland
       # Timezone for accurate log times
       - TZ={{ iana_timezone }}
       # Server list updater. See https://github.com/qdm12/gluetun/wiki/Updating-Servers#periodic-update
       - UPDATER_PERIOD=24h
+      - SHADOWSOCKS=on
+      - HTTPPROXY=on
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      # Torrents
+      - traefik.http.routers.torrent.entryPoints=websecure
+      - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
+      - traefik.http.routers.torrent.service=torrent
+      - traefik.http.services.torrent.loadBalancer.server.port=9091
+      - traefik.http.routers.torrent.middlewares=auth
+      # Usenet
+      - traefik.http.routers.usenet.entryPoints=websecure
+      - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)
+      - traefik.http.routers.usenet.service=usenet
+      - traefik.http.services.usenet.loadBalancer.server.port=6789
 
 networks:
   web:

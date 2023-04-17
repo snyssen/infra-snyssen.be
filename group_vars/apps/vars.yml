@@ -20,7 +20,6 @@ backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge_
 vpn__service_provider: protonvpn
 vpn__user: "{{ vault_vpn__user }}"
 vpn__pass: "{{ vault_vpn__pass }}"
-vpn__countries: Belgium
 
 ddns__user: "{{ vault_ddns__user }}"
 ddns__pass: "{{ vault_ddns__pass }}"
@@ -33,7 +32,7 @@ nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
 nextcloud__monitor_token: "{{ vault_nextcloud__monitor_token }}"
 
 torrent__user: "{{ vault_torrent__user }}"
-torrent__pass_pbkdf2: "{{ vault_torrent__pass_pbkdf2 }}"
+torrent__pass: "{{ vault_torrent__pass }}"
 
 usenet__server_name: "{{ vault_usenet__server_name }}"
 usenet__server_host: "{{ vault_usenet__server_host }}"
