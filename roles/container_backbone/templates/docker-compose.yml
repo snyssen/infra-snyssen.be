@@ -75,6 +75,50 @@ services:
       - traefik.http.routers.traefik.middlewares=traefik-compress
       - traefik.http.middlewares.traefik-compress.compress=true
 
+  vpn:
+    image: qmcgaw/gluetun:v3
+    container_name: vpn
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    restart: unless-stopped
+    networks:
+      - web
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      - 6881:6881
+      - 6881:6881/udp
+    volumes:
+      - "{{ docker_mounts_directory }}/gluetun:/gluetun"
+    environment:
+      # See https://github.com/qdm12/gluetun/wiki
+      - VPN_SERVICE_PROVIDER={{ vpn__service_provider }}
+      # OpenVPN:
+      - OPENVPN_USER={{ vpn__user }}
+      - OPENVPN_PASSWORD={{ vpn__pass }}
+      - SERVER_COUNTRIES=Switzerland # Switzerland has the most P2P compatible servers
+      # Timezone for accurate log times
+      - TZ={{ iana_timezone }}
+      # Server list updater. See https://github.com/qdm12/gluetun/wiki/Updating-Servers#periodic-update
+      - UPDATER_PERIOD=24h
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      # Torrents
+      - traefik.http.routers.torrent.entryPoints=websecure
+      - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
+      - traefik.http.routers.torrent.service=torrent
+      - traefik.http.services.torrent.loadBalancer.server.port=9091
+      - traefik.http.routers.torrent.middlewares=auth
+      # Usenet
+      - traefik.http.routers.usenet.entryPoints=websecure
+      - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)
+      - traefik.http.routers.usenet.service=usenet
+      - traefik.http.services.usenet.loadBalancer.server.port=8080
+
 networks:
   web:
     external: true

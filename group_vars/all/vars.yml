@@ -7,8 +7,6 @@ smtp__tls: true
 smtp__user: "{{ vault_smtp__user }}"
 smtp__pass: "{{ vault_smtp__pass }}"
 
-dns_servers: "{{ vault_dns_servers }}"
-
 iana_timezone: Europe/Brussels
 
 # Used to store the docker-compose.yml files

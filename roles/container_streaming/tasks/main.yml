@@ -12,11 +12,10 @@
     - "/mnt/storage/streaming/media/tv"
     - "/mnt/storage/streaming/media/music"
     # torrents
-    - "/mnt/storage/torrent/config/openvpn"
-    - "/mnt/storage/torrent/config/qBittorrent/config"
+    - "/mnt/storage/torrent"
     - /mnt/storage/streaming/torrent
     # usenet
-    - "/mnt/storage/usenet/config/openvpn"
+    - "/mnt/storage/usenet"
     - "/mnt/storage/streaming/usenet"
     # sonarr
     - "{{ docker_mounts_directory }}/sonarr/config"
@@ -29,33 +28,37 @@
     # bazarr
     - "{{ docker_mounts_directory }}/bazarr/config"
 
-- name: Copying open VPN config
-  ansible.builtin.copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: 0600
-  loop:
-    - src: creds.conf.aes
-      dest: "/mnt/storage/torrent/config/openvpn/creds.conf"
-    - src: Windscribe-Brussels-Guildhouse.ovpn.aes
-      dest: "/mnt/storage/torrent/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
-    - src: creds.conf.aes
-      dest: "/mnt/storage/usenet/config/openvpn/creds.conf"
-    - src: Windscribe-Brussels-Guildhouse.ovpn.aes
-      dest: "/mnt/storage/usenet/config/openvpn/Windscribe-Brussels-Guildhouse.ovpn"
-
-- name: Copying download clients config
+- name: Deploying Transmission config
   ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
+    src: transmission-settings.json
+    dest: /mnt/storage/torrent/settings.json
     mode: 0600
-  loop:
-    - src: qBittorrent.conf.j2
-      dest: /mnt/storage/torrent/config/qBittorrent/config/qBittorrent.conf
-    - src: nzbget.conf.j2
-      dest: /mnt/storage/usenet/config/nzbget.conf
+  register: transmission_config
+
+- name: Deploying Sabnzbd config
+  ansible.builtin.template:
+    src: sabnzbd.ini
+    dest: /mnt/storage/usenet/sabnzbd.ini
+    mode: 0600
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     container_name: "streaming"
+    docker_compose_state: "{{ 'absent' if transmission_config.changed else 'present' }}"
+
+# This is ugly, but Transmission overwrites changes in config file when stopped, so config changes have to be applied when the container is stopped
+# And the easiest way to handle this is to actually try and deploy the new config file to see if a change is needed, and in that case stop the container and redeploy the change.
+- name: Transmission config change detected, stack needs a full restart
+  block:
+    - name: Redeploying Transmission config
+      ansible.builtin.template:
+        src: transmission-settings.json
+        dest: /mnt/storage/torrent/settings.json
+        mode: 0600
+    - name: Restarting stack
+      ansible.builtin.include_role:
+        name: snyssen.compose_deploy
+      vars:
+        container_name: "streaming"
+  when: transmission_config.changed

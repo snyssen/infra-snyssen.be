@@ -56,59 +56,30 @@ services:
       - /mnt/storage/streaming/media:/data/media
 
   torrent:
-    image: markusmcnugen/qbittorrentvpn
-    restart: unless-stopped
+    image: lscr.io/linuxserver/transmission:latest
     container_name: torrent
+    network_mode: container:vpn
     environment:
-      - VPN_ENABLED=yes
-      - LAN_NETWORK=192.168.1.0/24
-      - NAME_SERVERS={{ dns_servers | join(',') }}
-      - PUID={{ ansible_user_uid}}
-      - PGID={{ ansible_user_gid}}
-      - INCOMING_PORT_ENV=54783
-    networks:
-      - web
-    ports:
-      - 54783:54783
-      - 54783:54783/udp
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.torrent.entryPoints=websecure
-      - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
-      - traefik.http.services.torrent.loadBalancer.server.port=8080
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_gid }}
+      - TZ={{ iana_timezone }}
     volumes:
-      - /mnt/storage/torrent/config:/config # For easy backup
+      - /mnt/storage/torrent:/config
       - /mnt/storage/streaming/torrent:/data/torrent
+    restart: unless-stopped
 
   usenet:
-    image: jshridha/docker-nzbgetvpn:21.1
+    image: lscr.io/linuxserver/sabnzbd:latest
     container_name: usenet
-    restart: unless-stopped
-    networks:
-      - web
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.usenet.entryPoints=websecure
-      - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)
-      - traefik.http.services.usenet.loadBalancer.server.port=6789
-    cap_add:
-      - NET_ADMIN
-    devices:
-      - /dev/net/tun
+    network_mode: container:vpn
     environment:
-      - PUID={{ ansible_user_uid}}
-      - PGID={{ ansible_user_gid}}
-      - VPN_PROV=custom
-      - LAN_NETWORK=192.168.1.0/24
-      - NAME_SERVERS={{ dns_servers | join(',') }}
-      - VPN_ENABLED=yes
+      - PUID={{ ansible_user_uid }}
+      - PGID={{ ansible_user_gid }}
+      - TZ={{ iana_timezone }}
     volumes:
-      - /mnt/storage/usenet/config:/config
+      - /mnt/storage/usenet:/config
       - /mnt/storage/streaming/usenet:/data/usenet
+    restart: unless-stopped
 
   sonarr:
     image: lscr.io/linuxserver/sonarr

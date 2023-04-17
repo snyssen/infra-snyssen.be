@@ -17,6 +17,9 @@ backbone__acme_dns_challenge__provider: "{{ vault_backbone__acme_dns_challenge__
 backbone__acme_dns_challenge__api_key: "{{ vault_backbone__acme_dns_challenge__api_key }}"
 backbone__acme_dns_challenge__api_key_variable: "{{ vault_backbone__acme_dns_challenge__api_key_variable }}"
 backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge__enabled }}"
+vpn__service_provider: protonvpn
+vpn__user: "{{ vault_vpn__user }}"
+vpn__pass: "{{ vault_vpn__pass }}"
 
 ddns__user: "{{ vault_ddns__user }}"
 ddns__pass: "{{ vault_ddns__pass }}"
@@ -29,7 +32,7 @@ nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
 nextcloud__monitor_token: "{{ vault_nextcloud__monitor_token }}"
 
 torrent__user: "{{ vault_torrent__user }}"
-torrent__pass_pbkdf2: "{{ vault_torrent__pass_pbkdf2 }}"
+torrent__pass: "{{ vault_torrent__pass }}"
 
 usenet__server_name: "{{ vault_usenet__server_name }}"
 usenet__server_host: "{{ vault_usenet__server_host }}"
@@ -38,6 +41,8 @@ usenet__server_user: "{{ vault_usenet__server_user }}"
 usenet__server_pass: "{{ vault_usenet__server_pass }}"
 usenet__user: "{{ vault_usenet__user }}"
 usenet__pass: "{{ vault_usenet__pass }}"
+usenet__api_key: "{{ vault_usenet__api_key }}"
+usenet__nzb_key: "{{ vault_usenet__nzb_key }}"
 
 piped__postgres_password: "{{ vault_piped__postgres_password }}"
 piped__postgres_backups_healthcheck_id: "{{ vault_piped__postgres_backups_healthcheck_id }}"

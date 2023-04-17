@@ -4,9 +4,10 @@
     state: directory
   with_items:
     - "{{ docker_mounts_directory }}/traefik"
+    - "{{ docker_mounts_directory }}/gluetun"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     container_name: "backbone"
-    deploy_env_template: yes
+    deploy_env_template: true
