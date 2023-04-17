@@ -99,13 +99,11 @@ services:
       # OpenVPN:
       - OPENVPN_USER={{ vpn__user }}
       - OPENVPN_PASSWORD={{ vpn__pass }}
-      - SERVER_COUNTRIES=Switzerland
+      - SERVER_COUNTRIES=Switzerland # Switzerland has the most P2P compatible servers
       # Timezone for accurate log times
       - TZ={{ iana_timezone }}
       # Server list updater. See https://github.com/qdm12/gluetun/wiki/Updating-Servers#periodic-update
       - UPDATER_PERIOD=24h
-      - SHADOWSOCKS=on
-      - HTTPPROXY=on
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
