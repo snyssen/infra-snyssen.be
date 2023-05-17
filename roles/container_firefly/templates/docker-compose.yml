@@ -94,7 +94,7 @@ services:
 
   firefly_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:15-alpine
     container_name: firefly_postgres_backups
     networks:
       - internal

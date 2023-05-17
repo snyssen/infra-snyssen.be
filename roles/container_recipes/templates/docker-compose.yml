@@ -13,7 +13,7 @@ services:
 
   recipes_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:15-alpine
     container_name: recipes_postgres_backups
     networks:
       - internal

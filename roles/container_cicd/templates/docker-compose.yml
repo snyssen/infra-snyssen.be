@@ -16,7 +16,7 @@ services:
 
   drone_postgres_backups:
     restart: always
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:15-alpine
     container_name: drone_postgres_backups
     networks:
       - internal
