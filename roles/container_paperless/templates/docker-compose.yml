@@ -10,7 +10,7 @@ services:
       - "{{ docker_mounts_directory }}/paperless/redis:/data"
 
   paperless_postgres:
-    image: docker.io/library/postgres:13
+    image: docker.io/library/postgres:15
     container_name: paperless_postgres
     networks:
       - internal
@@ -24,7 +24,7 @@ services:
 
   paperless_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:15-alpine
     container_name: paperless_postgres_backups
     networks:
       - internal
