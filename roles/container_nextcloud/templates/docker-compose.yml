@@ -79,7 +79,7 @@ services:
       - /mnt/storage/paperless:/paperless
 
   nextcloud_monitor:
-    image: xperimental/nextcloud-exporter:0.6.0
+    image: xperimental/nextcloud-exporter:0.6.1
     container_name: nextcloud_monitor
     restart: unless-stopped
     networks:
