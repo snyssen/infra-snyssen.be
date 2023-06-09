@@ -3,6 +3,7 @@ services:
   scrutiny:
     image: ghcr.io/analogj/scrutiny:v0.6.0-collector
     container_name: scrutiny
+    restart: unless-stopped
     cap_add:
       - SYS_RAWIO
     volumes:
