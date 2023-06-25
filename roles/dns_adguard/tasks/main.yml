@@ -1,0 +1,26 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item.src }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+  with_items:
+    - src: "{{ data_directory }}/adguard/work"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+    - src: "{{ data_directory }}/adguard/conf"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+
+- name: Deploying configuration
+  ansible.builtin.template:
+    src: AdGuardHome.yaml
+    dest: "{{ data_directory }}/adguard/conf/"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "0700"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    container_name: adguard

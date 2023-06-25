@@ -1,6 +1,32 @@
-- hosts: all
+# TODO: move below into common setup
+- hosts: dns
   roles:
-    - packages_upgrade
+    - name: geerlingguy.docker
+      become: true
+      vars:
+        docker_users:
+          - "{{ ansible_user_id }}"
+  tasks:
+    - name: Installing packages
+      become: true
+      ansible.builtin.package:
+        name:
+          - python3
+          - python3-pip
+          - python3-docker
+          - docker-compose # docker role does not seem to install it correctly...
+          # Useful tools:
+          - nano
+          - htop
+          - screen
+          - curl
+        state: present
+- hosts: dns
+  roles:
+    - name: dns_adguard
+
+- hosts: apps,backup
+  roles:
     - setup_common
     - setup_storage
 
