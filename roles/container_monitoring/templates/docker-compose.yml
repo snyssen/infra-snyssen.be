@@ -169,6 +169,21 @@ services:
       - SMTP_USER_PWD={{ smtp__pass|replace('$','$$') }}
       - SMTP_HOST_SSL_ENABLED={{ smtp__tls }}
 
+  adguard_exporter:
+    image: ebrianne/adguard-exporter:v1.14
+    container_name: adguard_exporter
+    restart: unless-stopped
+    networks:
+      - monitoring
+    environment:
+      - adguard_protocol=http
+      - adguard_hostname={{ hostvars[groups['dns'][0]].ansible_host }}
+      - adguard_username={{ monitoring__adguard_exporter_username }}
+      - adguard_password={{ monitoring__adguard_exporter_password }}
+      - server_port=9617
+      - interval=10s
+      - log_limit=10000
+
 networks:
   internal:
   monitoring:

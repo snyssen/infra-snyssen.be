@@ -45,6 +45,9 @@ scrape_configs:
     bearer_token: '{{ wakapi__api_key | b64encode }}'
     static_configs:
       - targets: ['wakapi:3000']
+  - job_name: 'adguard'
+    static_configs:
+      - targets: ['adguard_exporter:9617']
 
 rule_files:
   - node_rules.yml
