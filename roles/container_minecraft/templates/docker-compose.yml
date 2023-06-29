@@ -21,7 +21,7 @@ services:
       EULA: "TRUE"
       VERSION: "1.19.2" # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#versions
       TYPE: SPIGOT # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-types
-      MEMORY: "2G"
+      MEMORY: "4G"
       ENABLE_AUTOPAUSE: "FALSE" # TODO: Enable once I find a solution. Probably doesn't detect connection because routed through Traefik and listening on wrong interface
       # DEBUG_AUTOPAUSE: "true"
       MAX_TICK_TIME: "-1"
