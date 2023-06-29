@@ -131,6 +131,8 @@ monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
 monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
 monitoring__plausible_secret: "{{ vault_monitoring__plausible_secret }}"
 monitoring__plausible__postgress_pass: "{{ vault_monitoring__plausible__postgress_pass }}"
+monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"
+monitoring__adguard_exporter_password: "{{ vault_monitoring__adguard_exporter_password }}"
 
 paperless__postgres_password: "{{ vault_paperless__postgres_password }}"
 paperless__postgres_backups_healthcheck_id: "{{ vault_paperless__postgres_backups_healthcheck_id }}"
