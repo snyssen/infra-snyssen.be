@@ -80,7 +80,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - /mnt/storage/gitea:/data/gitea
   - /mnt/storage/minecraft/data:/data/minecraft
-  - /mnt/storage/foundryvtt:/data/foundryvtt
+  - "{{ docker_mounts_directory }}/foundryvtt:/data/foundryvtt"
   - "{{ docker_mounts_directory }}/grafana:/data/grafana"
   - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
   - /mnt/storage/paperless/media:/data/paperless/media

@@ -3,7 +3,7 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - /mnt/storage/foundryvtt
+    - "{{ docker_mounts_directory }}/foundryvtt"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
