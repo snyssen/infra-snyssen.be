@@ -78,6 +78,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
+  - "{{ docker_mounts_directory }}/bazarr/config:/data/bazarr/config"
   - /mnt/storage/gitea:/data/gitea
   - /mnt/storage/minecraft/data:/data/minecraft
   - "{{ docker_mounts_directory }}/foundryvtt:/data/foundryvtt"
