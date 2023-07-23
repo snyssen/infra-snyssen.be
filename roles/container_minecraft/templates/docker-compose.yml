@@ -1,5 +1,7 @@
 version: "3"
 services:
+  # See documentation at:
+  # https://docker-minecraft-server.readthedocs.io/en/latest/
   minecraft:
     image: itzg/minecraft-server
     container_name: minecraft
@@ -19,8 +21,8 @@ services:
       - traefik.http.services.dynmap.loadBalancer.server.port=8123
     environment:
       EULA: "TRUE"
-      VERSION: "1.19.2" # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#versions
-      TYPE: SPIGOT # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-types
+      VERSION: "1.20.1"
+      TYPE: SPIGOT
       MEMORY: "4G"
       ENABLE_AUTOPAUSE: "FALSE" # TODO: Enable once I find a solution. Probably doesn't detect connection because routed through Traefik and listening on wrong interface
       # DEBUG_AUTOPAUSE: "true"

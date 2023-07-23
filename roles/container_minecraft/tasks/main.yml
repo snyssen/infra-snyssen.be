@@ -3,7 +3,7 @@
     path: "{{ item }}"
     state: directory
     owner: "{{ ansible_user_uid }}"
-    mode: 0774
+    mode: "774"
   loop:
     - /mnt/storage/minecraft/data
     - /mnt/storage/minecraft/plugins/dynmap
@@ -14,9 +14,9 @@
     url: "{{ item.url }}"
     dest: "{{ item.dest }}"
     owner: "{{ ansible_user_uid }}"
-    mode: 0774
+    mode: "774"
   loop:
-    - url: https://github.com/webbukkit/dynmap/releases/download/v3.2.1/Dynmap-3.2.1-spigot.jar
+    - url: https://dev.bukkit.org/projects/dynmap/files/4632182/download
       dest: /mnt/storage/minecraft/plugins/dynmap.jar
     - url: https://github.com/sladkoff/minecraft-prometheus-exporter/releases/download/v2.5.0/minecraft-prometheus-exporter-2.5.0.jar
       dest: /mnt/storage/minecraft/plugins/minecraft-prometheus-exporter.jar
@@ -26,14 +26,14 @@
   ansible.builtin.template:
     src: dynmap/configuration.txt
     dest: /mnt/storage/minecraft/plugins/dynmap/configuration.txt
-    mode: 0774
+    mode: "774"
   register: mc_dynmap_config
 
 - name: Copying prometheus exporter configuration
   ansible.builtin.template:
     src: prometheus-exporter/config.yml
     dest: /mnt/storage/minecraft/plugins/PrometheusExporter/config.yml
-    mode: 0774
+    mode: "774"
   register: mc_prometheus_config
 
 - ansible.builtin.include_role:
