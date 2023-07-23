@@ -6,6 +6,7 @@ services:
     image: itzg/minecraft-server
     container_name: minecraft
     networks:
+      - internal
       - web
       - monitoring
     labels:
@@ -46,13 +47,41 @@ services:
       - /mnt/storage/minecraft/data:/data
       - /mnt/storage/minecraft/plugins:/plugins
 
+  mc-usw:
+    image: itzg/minecraft-server
+    container_name: mc-usw
+    networks:
+      - internal
+    environment:
+      EULA: "TRUE"
+      VERSION: "1.20.1"
+      MEMORY: "4G"
+      MOTD: Ultimate Survival World by Trixy Blox - vanilla
+      DIFFICULTY: normal
+      WHITELIST: "{{ minecraft__whitelisted_players | join(',') }}"
+      OVERRIDE_WHITELIST: "TRUE"
+      ENFORCE_WHITELIST: "TRUE"
+      OPS: "{{ minecraft__admin_players | join(',') }}"
+      OVERRIDE_OPS: "TRUE"
+      MAX_PLAYERS: "2"
+      VIEW_DISTANCE: "{{ minecraft__view_distance }}"
+      SERVER_NAME: "usw.{{ ansible_fqdn }}"
+      SPAWN_PROTECTION: "0"
+    tty: true
+    stdin_open: true
+    volumes:
+      - /mnt/storage/mc-usw/data:/data
+
   mc-router:
     image: itzg/mc-router
+    container_name: mc-router
     depends_on:
       - minecraft
-    command: --mapping=mc.{{ ansible_fqdn }}=minecraft:25565
+      - mc-usw
+    command: --mapping=mc.{{ ansible_fqdn }}=minecraft:25565,usw.{{ ansible_fqdn }}=mc-usw:25565
     networks:
       - web
+      - internal
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
@@ -61,6 +90,7 @@ services:
       - traefik.tcp.services.mc-router.loadBalancer.server.port=25565
 
 networks:
+  internal:
   monitoring:
     external: true
   web:

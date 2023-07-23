@@ -8,6 +8,7 @@
     - /mnt/storage/minecraft/data
     - /mnt/storage/minecraft/plugins/dynmap
     - /mnt/storage/minecraft/plugins/PrometheusExporter
+    - /mnt/storage/mc-usw/data
 
 - name: Downloading Minecraft Bukkit/Spigot plugins
   ansible.builtin.get_url:
