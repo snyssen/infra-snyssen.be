@@ -11,10 +11,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
-      - traefik.tcp.routers.minecraft.entryPoints=minecraft
-      - traefik.tcp.routers.minecraft.rule=HostSNI(`*`)
-      - traefik.tcp.services.minecraft.loadBalancer.server.port=25565
-
       - traefik.http.routers.dynmap.entryPoints=websecure
       - traefik.http.routers.dynmap.rule=Host(`mc.{{ ansible_fqdn }}`)
       - traefik.http.routers.dynmap.service=dynmap
@@ -49,6 +45,20 @@ services:
     volumes:
       - /mnt/storage/minecraft/data:/data
       - /mnt/storage/minecraft/plugins:/plugins
+
+  mc-router:
+    image: itzg/mc-router
+    depends_on:
+      - minecraft
+    command: --mapping=mc.{{ ansible_fqdn }}=minecraft:25565
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.tcp.routers.mc-router.entryPoints=minecraft
+      - traefik.tcp.routers.mc-router.rule=HostSNI(`*`)
+      - traefik.tcp.services.mc-router.loadBalancer.server.port=25565
 
 networks:
   monitoring:
