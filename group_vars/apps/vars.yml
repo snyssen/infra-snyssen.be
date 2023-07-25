@@ -86,7 +86,6 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/grafana:/data/grafana"
   - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
   - /mnt/storage/paperless/media:/data/paperless/media
-  - "{{ docker_mounts_directory }}/wakapi/data:/data/wakapi"
   - /mnt/storage/syncthing/config:/data/syncthing/config
   - /mnt/storage/syncthing/data:/data/syncthing/data
 backups__volumes_local_only:
@@ -147,6 +146,3 @@ firefly__access_token: "{{ vault_firefly__access_token }}"
 firefly__nordigen_id: "{{ vault_firefly__nordigen_id }}"
 firefly__nordigen_key: "{{ vault_firefly__nordigen_key }}"
 firefly__cron_healthcheck_id: "{{ vault_firefly__cron_healthcheck_id }}"
-
-wakapi__salt: "{{ vault_wakapi__salt }}"
-wakapi__api_key: "{{ vault_wakapi__api_key }}"
