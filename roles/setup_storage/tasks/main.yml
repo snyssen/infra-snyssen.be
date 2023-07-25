@@ -1,21 +1,22 @@
-- name: Getting uri of latest MergerFS .rpm
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
-    return_content: true
-  register: mergerfs_latest
+# - name: Getting uri of latest MergerFS .rpm
+#   ansible.builtin.uri:
+#     url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
+#     return_content: true
+#   register: mergerfs_latest
 
-- ansible.builtin.set_fact:
-    mergerfs_asset: "{{ mergerfs_latest.json.assets | selectattr('name', 'contains', mergerfs_release_suffix) | first }}"
+# - ansible.builtin.set_fact:
+#     mergerfs_asset: "{{ mergerfs_latest.json.assets | selectattr('name', 'contains', mergerfs_release_suffix) | first }}"
 
-- name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
-  become: yes
+# - name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
+- name: Downloading and installing MergerFS V2.35.1
+  become: true
   ansible.builtin.dnf:
-    name: "{{ mergerfs_asset.browser_download_url }}"
+    name: https://github.com/trapexit/mergerfs/releases/download/2.35.1/mergerfs-2.35.1-1.fc36.x86_64.rpm # "{{ mergerfs_asset.browser_download_url }}"
     state: present
-    disable_gpg_check: yes # Unfortunately I could not find the MergerFS GPG key
+    disable_gpg_check: true # Unfortunately I could not find the MergerFS GPG key
 
 - name: Creating ext4 filesystem on drives
-  become: yes
+  become: true
   community.general.filesystem:
     fstype: ext4
     state: present
@@ -23,7 +24,7 @@
   with_items: "{{ disks_mounts }}"
   register: filesystem_result
 - name: Mounting disks
-  become: yes
+  become: true
   ansible.builtin.mount:
     path: "{{ item.path }}"
     src: "{{ item.src }}"
