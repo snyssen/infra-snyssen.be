@@ -1,9 +1,14 @@
+# TODO: As is, this role fails on a fresh installation of Ubuntu.
+# This is due to systemd-resolve using the port. See: https://unix.stackexchange.com/questions/676942/free-up-port-53-on-ubuntu-so-costom-dns-server-can-use-it
+# Due to time constraints I have done the necessary modification by hand, but this should be fixed.
+
 - name: Creating folders
   ansible.builtin.file:
     path: "{{ item.src }}"
     state: directory
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
+    mode: "0740"
   with_items:
     - src: "{{ data_directory }}/adguard/work"
       owner: "{{ ansible_user_uid }}"
