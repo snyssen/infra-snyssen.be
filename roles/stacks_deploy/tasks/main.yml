@@ -1,15 +1,15 @@
-- name: Permitting traffic through http
-  become: true
-  ansible.posix.firewalld:
-    service: http
-    permanent: true
-    state: enabled
-- name: Permitting traffic through https
-  become: true
-  ansible.posix.firewalld:
-    service: https
-    permanent: true
-    state: enabled
+# - name: Permitting traffic through http
+#   become: true
+#   ansible.posix.firewalld:
+#     service: http
+#     permanent: true
+#     state: enabled
+# - name: Permitting traffic through https
+#   become: true
+#   ansible.posix.firewalld:
+#     service: https
+#     permanent: true
+#     state: enabled
 
 - name: "Creating docker networks"
   community.docker.docker_network:

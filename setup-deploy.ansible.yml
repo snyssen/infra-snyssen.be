@@ -1,33 +1,12 @@
-# TODO: move below into common setup
-- hosts: dns
+- hosts: all
   roles:
-    - name: geerlingguy.docker
-      become: true
-      vars:
-        docker_users:
-          - "{{ ansible_user_id }}"
-  tasks:
-    - name: Installing packages
-      become: true
-      ansible.builtin.package:
-        name:
-          - python3
-          - python3-pip
-          - python3-docker
-          - docker-compose # docker role does not seem to install it correctly...
-          # Useful tools:
-          - nano
-          - htop
-          - screen
-          - curl
-        state: present
+    - setup_common
 - hosts: dns
   roles:
     - name: dns_adguard
 
 - hosts: apps,backup
   roles:
-    - setup_common
     - setup_storage
 
 - hosts: monitored
@@ -40,11 +19,11 @@
           "log.level": "info"
   tasks:
     - name: Permitting traffic for Prometheus Node exporter
-      become: true
-      ansible.posix.firewalld:
-        port: 9100/tcp
-        permanent: true
-        state: enabled
+      ansible.builtin.include_role:
+        name: firewall
+      vars:
+        firewall_port: 9100
+        firewall_proto: tcp
 
 - hosts: apps
   roles:

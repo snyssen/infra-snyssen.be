@@ -1,0 +1,13 @@
+- become: true
+  ansible.posix.firewalld:
+    port: "{{ firewall_port }}/{{ firewall_proto }}"
+    permanent: true
+    state: "{{ 'enabled' if firewall_rule == 'allow' else 'disabled' }}"
+  when: ansible_distribution == 'Fedora'
+
+- become: true
+  community.general.ufw:
+    rule: "{{ firewall_rule }}"
+    port: "{{ firewall_port }}"
+    proto: "{{ firewall_proto }}"
+  when: ansible_distribution != 'Fedora'

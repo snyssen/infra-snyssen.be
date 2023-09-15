@@ -1,19 +1,4 @@
-# - name: Getting uri of latest MergerFS .rpm
-#   ansible.builtin.uri:
-#     url: https://api.github.com/repos/trapexit/mergerfs/releases/latest
-#     return_content: true
-#   register: mergerfs_latest
-
-# - ansible.builtin.set_fact:
-#     mergerfs_asset: "{{ mergerfs_latest.json.assets | selectattr('name', 'contains', mergerfs_release_suffix) | first }}"
-
-# - name: Downloading and installing MergerFS V{{ mergerfs_latest.json.tag_name }}
-- name: Downloading and installing MergerFS V2.35.1
-  become: true
-  ansible.builtin.dnf:
-    name: https://github.com/trapexit/mergerfs/releases/download/2.35.1/mergerfs-2.35.1-1.fc36.x86_64.rpm # "{{ mergerfs_asset.browser_download_url }}"
-    state: present
-    disable_gpg_check: true # Unfortunately I could not find the MergerFS GPG key
+- ansible.builtin.include_tasks: "mergerfs_{{ ansible_distribution_file_variety | lower }}.ansible.yaml"
 
 - name: Creating ext4 filesystem on drives
   become: true
@@ -25,7 +10,7 @@
   register: filesystem_result
 - name: Mounting disks
   become: true
-  ansible.builtin.mount:
+  ansible.posix.mount:
     path: "{{ item.path }}"
     src: "{{ item.src }}"
     fstype: auto
@@ -34,17 +19,18 @@
   with_items: "{{ disks_mounts }}"
   register: disks_mount_result
 - name: Setting owner of mounting directories
-  become: yes
+  become: true
   ansible.builtin.file:
-    path: "{{ item.path  }}"
+    path: "{{ item.path }}"
     state: directory
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
+    mode: "740"
   with_items: "{{ disks_mounts }}"
 
 - name: Mounting storage volume w/ MergerFS
-  become: yes
-  ansible.builtin.mount:
+  become: true
+  ansible.posix.mount:
     path: /mnt/storage
     src: /mnt/disk*
     fstype: fuse.mergerfs
@@ -52,9 +38,10 @@
     state: mounted
   register: storage_mount_result
 - name: Setting owner of storage mount
-  become: yes
+  become: true
   ansible.builtin.file:
     path: /mnt/storage
     state: directory
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
+    mode: "740"

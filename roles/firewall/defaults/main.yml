@@ -1,0 +1,3 @@
+firewall_port: "80"
+firewall_proto: tcp # 'tcp', 'udp', or 'service' if port should refer to a service instead of a numeric port
+firewall_rule: allow

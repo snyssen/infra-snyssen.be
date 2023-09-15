@@ -1,0 +1,9 @@
+- name: "Downloading and installing mergerfs V{{ mergerfs_version }}"
+  become: true
+  ansible.builtin.apt:
+    deb: >-
+      https://github.com/trapexit/mergerfs/releases/download/{{ mergerfs_version }}/{{ mergerfs_pkg_name }}
+    state: present
+  vars:
+    mergerfs_pkg_name: >-
+      mergerfs_{{ mergerfs_version }}.{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}_amd64.deb

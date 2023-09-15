@@ -2,28 +2,27 @@ all:
   vars:
     ansible_user: "vagrant"
     ansible_ssh_private_key_file: "{{ playbook_dir }}/.vagrant/machines/{{ inventory_hostname }}/virtualbox/private_key"
-    skip_snapraid: true # Skip snapraid installation to speed up development, as building snapraid takes a looong time
+    # skip_snapraid: true # Skip snapraid installation to speed up development, as building snapraid takes a looong time
 
 apps:
   hosts:
     snyssen.duckdns.org:
       disks_mounts:
         - path: /mnt/disk1
-          src: /dev/sdb
-        - path: /mnt/disk2
           src: /dev/sdc
+        - path: /mnt/disk2
+          src: /dev/sdd
         - path: /mnt/parity1
           src: /dev/sdd
       backbone__acme_dns_challenge__enabled: true
       vault_backbone__acme_http_challenge__enabled: false
-      skip_snapraid: true
 
 backup:
   hosts:
     backup.sny:
       disks_mounts:
         - path: /mnt/disk1
-          src: /dev/sdb
+          src: /dev/sdc
 
 monitored:
   hosts:

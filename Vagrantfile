@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "generic/fedora36"
+  config.vm.box = "ubuntu/jammy64"
 
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
   config.hostmanager.include_offline = true
 
   # Fix static IPs not correctly set up under Fedora 36 and above
-  config.vm.provision "shell", inline: "dnf install -y NetworkManager-initscripts-ifcfg-rh && reboot"
+  # config.vm.provision "shell", inline: "dnf install -y NetworkManager-initscripts-ifcfg-rh && reboot"
 
   config.vm.define "snyssen.duckdns.org" do |apps|
     apps.vm.hostname = "snyssen.duckdns.org"

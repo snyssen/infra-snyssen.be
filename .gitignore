@@ -10,3 +10,5 @@ roles/snyssen.compose_deploy/
 roles/undergreen.prometheus-node-exporter/
 
 roles/UnderGreen.prometheus-exporters-common/
+
+roles/geerlingguy.docker/

@@ -1,1 +1,1 @@
-mergerfs_release_suffix: "fc{{ ansible_distribution_major_version }}.x86_64.rpm"
+mergerfs_version: "2.35.1"

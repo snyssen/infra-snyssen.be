@@ -1,0 +1,10 @@
+- name: "Downloading and installing mergerfs V{{ mergerfs_version }}"
+  become: true
+  ansible.builtin.dnf:
+    name: >-
+      https://github.com/trapexit/mergerfs/releases/download/{{ mergerfs_version }}/{{ mergerfs_pkg_name }}
+    state: present
+    disable_gpg_check: true
+  vars:
+    mergerfs_pkg_name: >-
+      mergerfs-{{ mergerfs_version }}-1.fc{{ ansible_distribution_major_version }}.x86_64.rpm

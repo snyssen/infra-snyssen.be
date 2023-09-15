@@ -50,22 +50,22 @@
 
 - block:
     - name: "Collecting files and directories to delete"
-      become: yes
+      become: true
       ansible.builtin.find:
-        paths: "{{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}"
-        hidden: yes
-        recurse: no
+        paths: "{{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage' }}"
+        hidden: true
+        recurse: false
         file_type: any
       register: collected_files
 
     - ansible.builtin.pause:
         prompt: >-
           You are about to delete {{ collected_files.matched }} files from directory
-          {{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage'}}.
+          {{ restic_selected_restore_path.user_input if restic_selected_restore_path.user_input else '/mnt/storage' }}.
           Do you want to continue? ('ctrl+c' then 'c' to continue or 'a' to abort)
 
     - name: Deleting files and directories
-      become: yes
+      become: true
       ansible.builtin.file:
         path: "{{ item.path }}"
         state: absent
@@ -76,4 +76,7 @@
 - name: Restoring files
   community.docker.docker_container_exec:
     container: "{{ 'restic_remote' if restic_server == 'remote' else 'restic_local' }}"
-    command: "restic restore {{ restic_selected_snapshot.user_input | default('latest', true) }} {{ '--include ' + restic_selected_restore_path.user_input | replace('/mnt/storage', '/data') | replace(docker_mounts_directory, '/data') if restic_selected_restore_path.user_input }} --target /"
+    command: >-
+      restic restore {{ restic_selected_snapshot.user_input | default('latest', true) }}
+      {{ '--include ' + restic_selected_restore_path.user_input | replace('/mnt/storage', '/data') | replace(docker_mounts_directory, '/data') if restic_selected_restore_path.user_input }}
+      --target /
