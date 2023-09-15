@@ -78,7 +78,7 @@ services:
     image: itzg/mc-router
     container_name: mc-router
     depends_on:
-      - minecraft
+      # - minecraft
       - mc-usw
     command: --mapping=mc.{{ ansible_fqdn }}=minecraft:25565,usw.{{ ansible_fqdn }}=mc-usw:25565
     restart: unless-stopped
