@@ -5,13 +5,8 @@
   with_items:
     # postgres
     - "{{ docker_mounts_directory }}/nextcloud/postgresql"
-    # redis
-    - "{{ docker_mounts_directory }}/nextcloud/redis"
     # nextcloud
     - /mnt/storage/nextcloud
-    # onlyoffice
-    - /mnt/storage/onlyoffice/data
-    - /mnt/storage/onlyoffice/logs
     # backups
     - /mnt/storage/backups/nextcloud
 
