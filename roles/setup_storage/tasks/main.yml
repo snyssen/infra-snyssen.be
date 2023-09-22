@@ -25,7 +25,7 @@
     state: directory
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: "740"
+    mode: "755"
   with_items: "{{ disks_mounts }}"
 
 - name: Mounting storage volume w/ MergerFS
@@ -44,4 +44,4 @@
     state: directory
     owner: "{{ ansible_user_uid }}"
     group: "{{ ansible_user_gid }}"
-    mode: "740"
+    mode: "755"
