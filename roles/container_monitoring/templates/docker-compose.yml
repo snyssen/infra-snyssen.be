@@ -72,7 +72,7 @@ services:
       - traefik.http.routers.prometheus.middlewares=auth
 
   grafana:
-    image: grafana/grafana-oss:10.1.1
+    image: grafana/grafana-oss:10.1.2
     container_name: grafana
     restart: unless-stopped
     networks:
@@ -124,7 +124,7 @@ services:
       - POSTGRES_PASSWORD={{ monitoring__plausible__postgress_pass }}
 
   plausible_clickhouse:
-    image: clickhouse/clickhouse-server:23.7-alpine
+    image: clickhouse/clickhouse-server:23.8-alpine
     container_name: plausible_clickhouse
     restart: unless-stopped
     networks:
