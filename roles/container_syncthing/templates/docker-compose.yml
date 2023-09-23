@@ -18,7 +18,7 @@ services:
       - "traefik.http.routers.syncthing.rule=Host(`sync.{{ ansible_fqdn }}`)"
       - "traefik.http.routers.syncthing.service=syncthing"
       - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
-      
+
       - traefik.tcp.routers.syncthing.entryPoints=syncthing
       - traefik.tcp.routers.syncthing.rule=HostSNI(`*`)
       - traefik.tcp.routers.syncthing.service=syncthing
@@ -32,7 +32,6 @@ services:
       - traefik.udp.services.syncthing-discovery.loadBalancer.server.port=21027
     volumes:
       - /mnt/storage/syncthing/config:/config
-      - /mnt/storage/syncthing/data:/data
     restart: unless-stopped
 networks:
   web:
