@@ -79,7 +79,6 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - "{{ docker_mounts_directory }}/bazarr/config:/data/bazarr/config"
-  - /mnt/storage/gitea:/data/gitea
   - /mnt/storage/minecraft/data:/data/minecraft
   - /mnt/storage/mc-usw/data
   - "{{ docker_mounts_directory }}/foundryvtt:/data/foundryvtt"
@@ -94,22 +93,6 @@ backups__volumes_local_only:
 backups__volumes_remote_only:
   - ./hooks/remote:/hooks
   - /mnt/storage/streaming/media/music:/data/streaming/media/music
-
-git__postgres_password: "{{ vault_git__postgres_password }}"
-git__postgres_backups_healthcheck_id: "{{ vault_git__postgres_backups_healthcheck_id }}"
-git__gitea__secret_key: "{{ vault_git__gitea__secret_key }}"
-git__gitea__internal_secret: "{{ vault_git__gitea__internal_secret }}"
-git__gitea__admin_username: "{{ vault_git__gitea__admin_username }}"
-git__gitea__admin_email: "{{ vault_git__gitea__admin_email }}"
-git__gitea__admin_password: "{{ vault_git__gitea__admin_password }}"
-
-cicd__postgres__password: "{{ vault_cicd__postgres__password }}"
-cicd__postgres__backups_healthcheck_id: "{{ vault_cicd__postgres__backups_healthcheck_id }}"
-cicd__drone__gitea_client_id: "{{ vault_cicd__drone__gitea_client_id }}"
-cicd__drone__gitea_client_secret: "{{ vault_cicd__drone__gitea_client_secret }}"
-cicd__rpc_secret: "{{ vault_cicd__rpc_secret }}"
-cicd__runner__username: "{{ vault_cicd__runner__username }}"
-cicd__runner__password: "{{ vault_cicd__runner__password }}"
 
 minecraft__forbid_cracked: true
 minecraft__view_distance: 12

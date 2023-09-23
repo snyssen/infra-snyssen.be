@@ -22,18 +22,6 @@
       photoprism:
         directory: /mnt/storage/backups/photoprism/mysql
         type: photoprism
-      gitea:
-        directory: /mnt/storage/backups/gitea
-        type: pgsql
-        user: gitea
-        password: "{{ git__postgres_password }}"
-        database: gitea
-      drone:
-        directory: /mnt/storage/backups/drone
-        type: pgsql
-        user: drone
-        password: "{{ cicd__postgres__password }}"
-        database: drone
       paperless:
         directory: /mnt/storage/backups/paperless
         type: pgsql

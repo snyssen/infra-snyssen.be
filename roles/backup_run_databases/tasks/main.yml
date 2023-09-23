@@ -6,7 +6,6 @@
     - nextcloud_postgres_backups
     - piped_postgres_backups
     - recipes_postgres_backups
-    - gitea_postgres_backups
     - drone_postgres_backups
     - paperless_postgres_backups
 

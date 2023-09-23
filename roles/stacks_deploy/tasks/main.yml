@@ -46,12 +46,6 @@
     name: container_speedtest
   when: "stacks_deploy_list is not defined or 'speedtest' in stacks_deploy_list"
 - ansible.builtin.include_role:
-    name: container_git
-  when: "stacks_deploy_list is not defined or 'git' in stacks_deploy_list"
-- ansible.builtin.include_role:
-    name: container_cicd
-  when: "stacks_deploy_list is not defined or 'cicd' in stacks_deploy_list"
-- ansible.builtin.include_role:
     name: container_dashboard
   when: "stacks_deploy_list is not defined or 'dashboard' in stacks_deploy_list"
 - ansible.builtin.include_role:
