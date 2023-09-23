@@ -37,9 +37,6 @@
     name: container_paperless
   when: "stacks_deploy_list is not defined or 'paperless' in stacks_deploy_list"
 - ansible.builtin.include_role:
-    name: container_firefly
-  when: "stacks_deploy_list is not defined or 'firefly' in stacks_deploy_list"
-- ansible.builtin.include_role:
     name: container_nextcloud
   when: "stacks_deploy_list is not defined or 'nextcloud' in stacks_deploy_list"
 - ansible.builtin.include_role:
