@@ -15,7 +15,7 @@ services:
 
   nextcloud_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:16-alpine
     container_name: nextcloud_postgres_backups
     networks:
       - internal

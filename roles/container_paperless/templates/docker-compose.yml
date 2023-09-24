@@ -24,7 +24,7 @@ services:
 
   paperless_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:15-alpine
+    image: prodrigestivill/postgres-backup-local:16-alpine
     container_name: paperless_postgres_backups
     networks:
       - internal
