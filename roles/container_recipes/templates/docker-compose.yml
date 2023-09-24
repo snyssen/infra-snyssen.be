@@ -2,7 +2,7 @@ version: "3"
 services:
   recipes_postgres:
     restart: unless-stopped
-    image: postgres:14
+    image: postgres:16
     container_name: recipes_postgres
     env_file:
       - ./.env

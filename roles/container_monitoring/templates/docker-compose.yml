@@ -111,7 +111,7 @@ services:
 
   # TODO: Backups of database? I don't feel like it would be a huge loss if this one got reset tho...
   plausible_postgres:
-    image: postgres:14-alpine
+    image: postgres:16-alpine
     container_name: plausible_postgres
     restart: unless-stopped
     networks:

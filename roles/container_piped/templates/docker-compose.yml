@@ -2,7 +2,7 @@ version: "3"
 services:
 
   piped_postgres:
-    image: postgres:14
+    image: postgres:16
     container_name: piped_postgres
     restart: unless-stopped
     networks:
