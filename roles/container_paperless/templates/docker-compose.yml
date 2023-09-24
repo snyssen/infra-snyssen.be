@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   paperless_redis:
-    image: docker.io/library/redis:7
+    image: redis:7
     container_name: paperless_redis
     networks:
       - internal
@@ -10,7 +10,7 @@ services:
       - "{{ docker_mounts_directory }}/paperless/redis:/data"
 
   paperless_postgres:
-    image: docker.io/library/postgres:15
+    image: postgres:15
     container_name: paperless_postgres
     networks:
       - internal
@@ -55,7 +55,8 @@ services:
       - paperless_gotenberg
       - paperless_tika
     healthcheck:
-      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      test:
+        ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
       interval: 30s
       timeout: 10s
       retries: 5
