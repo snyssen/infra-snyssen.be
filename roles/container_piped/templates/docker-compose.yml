@@ -2,7 +2,7 @@ version: "3"
 services:
 
   piped_postgres:
-    image: postgres:14
+    image: postgres:16
     container_name: piped_postgres
     restart: unless-stopped
     networks:
@@ -16,7 +16,7 @@ services:
 
   piped_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:16-alpine
     container_name: piped_postgres_backups
     networks:
       - internal

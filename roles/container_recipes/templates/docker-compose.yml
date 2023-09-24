@@ -2,7 +2,7 @@ version: "3"
 services:
   recipes_postgres:
     restart: unless-stopped
-    image: postgres:14
+    image: postgres:16
     container_name: recipes_postgres
     env_file:
       - ./.env
@@ -13,7 +13,7 @@ services:
 
   recipes_postgres_backups:
     restart: unless-stopped
-    image: prodrigestivill/postgres-backup-local:14-alpine
+    image: prodrigestivill/postgres-backup-local:16-alpine
     container_name: recipes_postgres_backups
     networks:
       - internal
