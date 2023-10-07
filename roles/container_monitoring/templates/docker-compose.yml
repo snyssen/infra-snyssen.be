@@ -124,7 +124,7 @@ services:
       - POSTGRES_PASSWORD={{ monitoring__plausible__postgress_pass }}
 
   plausible_clickhouse:
-    image: clickhouse/clickhouse-server:23.8-alpine
+    image: clickhouse/clickhouse-server:23.9-alpine
     container_name: plausible_clickhouse
     restart: unless-stopped
     networks:
