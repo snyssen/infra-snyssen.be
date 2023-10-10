@@ -1,5 +1,6 @@
 - name: Server-wol
   hosts: localhost
+  gather_facts: false
   tasks:
     - name: Send wake-on-lan magic packet
       community.general.wakeonlan:
