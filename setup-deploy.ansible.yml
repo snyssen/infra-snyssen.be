@@ -35,13 +35,16 @@
 
 - hosts: backup
   roles:
-    - container_rest
-    - container_scrutiny
+    - name: container_rest
+    - name: container_scrutiny
+    - name: setup_wol
+      become: true
   tasks:
     - name: Create backup user
       become: true
       ansible.builtin.user:
         name: backup
+        create_home: true
         password_lock: true
         generate_ssh_key: true
         state: present

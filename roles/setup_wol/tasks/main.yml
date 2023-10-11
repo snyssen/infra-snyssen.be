@@ -1,0 +1,14 @@
+- name: Deploy wol-enable service file
+  ansible.builtin.template:
+    src: wol-enable.service
+    dest: /etc/systemd/system
+    owner: root
+    group: root
+    mode: "744"
+
+- name: Start and enable service
+  ansible.builtin.systemd_service:
+    name: wol-enable
+    state: started
+    daemon_reload: true
+    enabled: true
