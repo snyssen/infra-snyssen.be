@@ -14,7 +14,7 @@ services:
       - JELLYFIN_CACHE_DIR=/cache
       - JELLYFIN_LOG_DIR=/logs
 
-      - JELLYFIN_PublishedServerUrl=streaming.{{ ansible_fqdn }}
+      - JELLYFIN_PublishedServerUrl=https://streaming.{{ ansible_fqdn }}
       - JELLYFIN_playlists__allowDuplicates=false
     devices:
       - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
