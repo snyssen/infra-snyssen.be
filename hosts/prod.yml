@@ -17,3 +17,7 @@ monitored:
   hosts:
     snyssen.be:
     backup.snyssen.be:
+
+nvidia:
+  hosts:
+    # snyssen.be:

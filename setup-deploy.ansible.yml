@@ -9,6 +9,13 @@
   roles:
     - setup_storage
 
+- hosts: nvidia
+  roles:
+    - name: nvidia.nvidia_driver
+      become: true
+    # TODO: fix below, got fed up and done it by hand...
+    # - name: nvidia_containers
+
 - hosts: monitored
   roles:
     - name: undergreen.prometheus-node-exporter

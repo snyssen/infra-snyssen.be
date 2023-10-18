@@ -54,6 +54,16 @@ services:
       - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
+    {%if 'nvidia' in group_names %}
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    {% endif %}
 
   torrent:
     image: lscr.io/linuxserver/transmission:latest

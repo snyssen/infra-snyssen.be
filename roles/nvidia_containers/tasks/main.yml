@@ -1,0 +1,25 @@
+# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+# TODO: add support for redhat distro
+- name: Add nvidia gpg key
+  become: true
+  ansible.builtin.get_url:
+    url: https://nvidia.github.io/libnvidia-container/gpgkey
+    dest: /etc/apt/keyrings/nvidia-container-toolkit-keyring.asc
+    owner: root
+    group: root
+    mode: "644"
+
+- name: Add nvidia container toolkit repository
+  become: true
+  ansible.builtin.apt_repository:
+    filename: nvidia-container-toolkit
+    repo: >-
+      deb [signed-by=/etc/apt/keyrings/nvidia-container-toolkit-keyring.asc]
+      https://nvidia.github.io/libnvidia-container/stable/{{ ansible_distribution | lower }}{{ ansible_distribution_version }}/nvidia-container-toolkit.list
+    state: present
+
+- name: Install nvidia container toolkit package
+  become: true
+  ansible.builtin.package:
+    name: nvidia-container-toolkit
+    state: present

@@ -7,4 +7,5 @@ roles:
   - name: snyssen.compose_deploy
   - name: undergreen.prometheus-node-exporter
     version: v1.5.1
-  - geerlingguy.docker
+  - name: geerlingguy.docker
+  - name: nvidia.nvidia_driver
