@@ -1,7 +1,7 @@
 version: '3'
 services:
   adguard:
-    image: adguard/adguardhome:v0.107.39
+    image: adguard/adguardhome:v0.107.40
     container_name: adguard
     restart: unless-stopped
     volumes:
