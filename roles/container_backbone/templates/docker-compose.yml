@@ -29,7 +29,6 @@ services:
 
 
       - "--entryPoints.minecraft.address=:25565"
-      - "--entryPoints.drone-runner.address=:3000"
       - "--entryPoints.jellyfin-discovery.address=:7359/udp"
       - "--entryPoints.dlna.address=:1900/udp"
       - "--entryPoints.syncthing.address=:22000"
@@ -51,7 +50,6 @@ services:
       - 80:80 # HTTP
       - 443:443 # HTTPS
       - 25565:25565 # Minecraft
-      - 3000:3000 # Drone runner
       - 7359:7359/udp # Jellyfin client discovery
       - 1900:1900/udp # DLNA (for Jellyfin)
       - 22000:22000/tcp # syncthing (TCP)
