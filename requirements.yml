@@ -4,7 +4,10 @@ collections:
 
 roles:
   - name: tomereli.oh_my_zsh_p10k
+    version: master
   - name: snyssen.compose_deploy
+    version: v0.0.1
   - name: undergreen.prometheus-node-exporter
     version: v1.5.1
-  - geerlingguy.docker
+  - name: geerlingguy.docker
+    version: "6.1.0"
