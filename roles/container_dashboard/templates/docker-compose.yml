@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   dashboard:
-    image: ghcr.io/snyssen/webb-launcher:2
+    image: ghcr.io/snyssen/webb-launcher:2.2.5
     restart: unless-stopped
     container_name: dashboard
     networks:
