@@ -2,6 +2,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: "744"
+    owner: "{{ ansible_user_uid }}"
   with_items:
     # jellyfin
     - "{{ docker_mounts_directory }}/jellyfin/data"
@@ -28,37 +30,13 @@
     # bazarr
     - "{{ docker_mounts_directory }}/bazarr/config"
 
-- name: Deploying Transmission config
-  ansible.builtin.template:
-    src: transmission-settings.json
-    dest: /mnt/storage/torrent/settings.json
-    mode: 0600
-  register: transmission_config
-
 - name: Deploying Sabnzbd config
   ansible.builtin.template:
     src: sabnzbd.ini
     dest: /mnt/storage/usenet/sabnzbd.ini
-    mode: 0600
+    mode: "600"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     container_name: "streaming"
-    docker_compose_state: "{{ 'absent' if transmission_config.changed else 'present' }}"
-
-# This is ugly, but Transmission overwrites changes in config file when stopped, so config changes have to be applied when the container is stopped
-# And the easiest way to handle this is to actually try and deploy the new config file to see if a change is needed, and in that case stop the container and redeploy the change.
-- name: Transmission config change detected, stack needs a full restart
-  block:
-    - name: Redeploying Transmission config
-      ansible.builtin.template:
-        src: transmission-settings.json
-        dest: /mnt/storage/torrent/settings.json
-        mode: 0600
-    - name: Restarting stack
-      ansible.builtin.include_role:
-        name: snyssen.compose_deploy
-      vars:
-        container_name: "streaming"
-  when: transmission_config.changed
