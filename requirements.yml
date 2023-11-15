@@ -1,13 +1,19 @@
 collections:
-  - community.general
-  - community.docker
+  - name: community.general
+    source: https://galaxy.ansible.com
+  - name: community.docker
+    source: https://galaxy.ansible.com
 
 roles:
   - name: tomereli.oh_my_zsh_p10k
+    src: tomereli.oh_my_zsh_p10k
     version: master
   - name: snyssen.compose_deploy
+    src: snyssen.compose_deploy
     version: v0.0.1
   - name: undergreen.prometheus-node-exporter
+    src: undergreen.prometheus-node-exporter
     version: v1.5.1
   - name: geerlingguy.docker
+    src: geerlingguy.docker
     version: "7.0.1"
