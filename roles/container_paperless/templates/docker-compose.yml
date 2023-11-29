@@ -86,7 +86,7 @@ services:
       PAPERLESS_SECRET_KEY: "{{ paperless__secret_key }}"
       PAPERLESS_TIME_ZONE: Europe/Brussels
       PAPERLESS_OCR_LANGUAGE: fra
-      PAPERLESS_OCR_USER_ARGS: '{"continue_on_soft_render_error": true}'
+      PAPERLESS_OCR_USER_ARGS: '{"continue_on_soft_render_error": true, "invalidate_digital_signatures": true}'
 
   paperless_gotenberg:
     image: docker.io/gotenberg/gotenberg:7.10
