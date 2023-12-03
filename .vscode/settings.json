@@ -8,13 +8,14 @@
     "traefik"
   ],
   "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#9a8fe9",
     "activityBar.activeBorder": "#ba3725",
+    "activityBar.activeBackground": "#9a8fe9",
     "activityBar.background": "#9a8fe9",
     "activityBar.foreground": "#15202b",
     "activityBar.inactiveForeground": "#15202b99",
     "activityBarBadge.background": "#ba3725",
     "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
     "sash.hoverBorder": "#9a8fe9",
     "statusBar.background": "#7364e1",
     "statusBar.foreground": "#e7e7e7",
@@ -24,8 +25,7 @@
     "titleBar.activeBackground": "#7364e1",
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#7364e199",
-    "titleBar.inactiveForeground": "#e7e7e799",
-    "commandCenter.border": "#e7e7e799"
+    "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.color": "#7364e1",
   "ansible.python.interpreterPath": "/bin/python"
