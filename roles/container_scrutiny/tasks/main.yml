@@ -11,7 +11,7 @@
   changed_when: false
 - name: Register canonical paths of drives
   ansible.builtin.set_fact:
-    disks_canonical_paths: "{{ disks_canonical_paths|default([]) + [item.stdout] }}"
+    disks_canonical_paths: "{{ disks_canonical_paths | default([]) + [item.stdout] }}"
   loop: "{{ drives_canonical.results }}"
 
 - ansible.builtin.include_role:

@@ -10,7 +10,7 @@ services:
     volumes:
       - "{{ docker_mounts_directory }}/monitoring/influxdb:/var/lib/influxdb2"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8086/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
       interval: 5s
       timeout: 10s
       retries: 20
@@ -30,13 +30,7 @@ services:
       influxdb:
         condition: service_healthy
     healthcheck:
-      test:
-        [
-          "CMD",
-          "curl",
-          "-f",
-          "http://localhost:8080/api/health"
-        ]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
       interval: 5s
       timeout: 10s
       retries: 20
@@ -44,6 +38,11 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
+      # API traffic
+      - traefik.http.routers.scrutiny-api.entryPoints=websecure
+      - traefik.http.routers.scrutiny-api.rule=Host(`scrutiny.{{ ansible_fqdn }}`) && PathPrefix(`/api`)
+      - traefik.http.routers.scrutiny-api.middlewares=lan-whitelist
+      # Web traffic
       - traefik.http.routers.scrutiny-web.entryPoints=websecure
       - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
       - traefik.http.routers.scrutiny-web.middlewares=auth

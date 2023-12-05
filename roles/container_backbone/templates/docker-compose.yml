@@ -67,7 +67,10 @@ services:
       - traefik.http.routers.traefik.rule=Host(`routing.{{ ansible_fqdn }}`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth,traefik-compress
+
+      # Common middlewares definitions
       - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASH_USERS}
+      - traefik.http.middlewares.lan-whitelist.ipwhitelist.sourcerange=192.168.1.0/24
 
       # Adds the compress middleware so its available to all containers that may need it
       - traefik.http.middlewares.traefik-compress.compress=true
