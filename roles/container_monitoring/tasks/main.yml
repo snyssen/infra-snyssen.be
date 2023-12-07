@@ -21,8 +21,14 @@
     - src: "{{ docker_mounts_directory }}/grafana"
       owner: "472"
       group: "{{ ansible_user_gid }}"
+    - src: "{{ docker_mounts_directory }}/monitoring/loki"
+      owner: "10001"
+      group: "{{ ansible_user_gid }}"
+    - src: "{{ docker_mounts_directory }}/monitoring/promtail"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
     - src: "{{ docker_mounts_directory }}/uptime"
-      # I don't like it, but apparently Uptime Kuma is always revertiung to root permissions
+      # I don't like it, but apparently Uptime Kuma is always reverting to root permissions
       owner: "0"
       group: "0"
     - src: "{{ docker_mounts_directory }}/plausible/postgres"
@@ -36,24 +42,30 @@
   ansible.builtin.template:
     src: scrutiny.yaml
     dest: /mnt/storage/scrutiny/
-    mode: 0644
+    mode: "0644"
 
 - name: Deploying Prometheus configuration
   ansible.builtin.template:
     src: "{{ item }}"
     dest: /mnt/storage/prometheus/
-    mode: 0644
+    mode: "0644"
   loop:
     - prometheus.yml
     - node_rules.yml
   register: prom_config_status
+
+- name: Deploy Promtail configuration
+  ansible.builtin.template:
+    src: promtail-config.yml
+    dest: "{{ docker_mounts_directory }}/monitoring/promtail"
+    mode: "0640"
 
 - name: Deploying Clickhouse configuration (for Plausible)
   become: true
   ansible.builtin.copy:
     src: clickhouse
     dest: "{{ docker_mounts_directory }}/plausible/clickhouse"
-    mode: 0644
+    mode: "0644"
     owner: "101"
     group: "101"
 

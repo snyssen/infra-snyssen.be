@@ -93,6 +93,26 @@ services:
       - GF_SMTP_PASSWORD={{ smtp__pass | replace('$', '$$') }}
       - GF_SMTP_FROM_ADDRESS={{ smtp__from }}
 
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    volumes:
+      - "{{ docker_mounts_directory }}/monitoring/loki:/loki"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring
+
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: promtail
+    volumes:
+      - "{{ docker_mounts_directory }}/monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yml"
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: -config.file=/etc/promtail/promtail-config.yml
+    networks:
+      - monitoring
+
   uptime:
     image: louislam/uptime-kuma:1
     container_name: uptime
