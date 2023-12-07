@@ -24,9 +24,6 @@
     - src: "{{ docker_mounts_directory }}/monitoring/loki"
       owner: "10001"
       group: "{{ ansible_user_gid }}"
-    - src: "{{ docker_mounts_directory }}/monitoring/promtail"
-      owner: "{{ ansible_user_uid }}"
-      group: "{{ ansible_user_gid }}"
     - src: "{{ docker_mounts_directory }}/uptime"
       # I don't like it, but apparently Uptime Kuma is always reverting to root permissions
       owner: "0"
@@ -53,12 +50,6 @@
     - prometheus.yml
     - node_rules.yml
   register: prom_config_status
-
-- name: Deploy Promtail configuration
-  ansible.builtin.template:
-    src: promtail-config.yml
-    dest: "{{ docker_mounts_directory }}/monitoring/promtail"
-    mode: "0640"
 
 - name: Deploying Clickhouse configuration (for Plausible)
   become: true

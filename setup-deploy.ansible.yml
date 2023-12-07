@@ -17,6 +17,7 @@
         prometheus_node_exporter_config_flags:
           "web.listen-address": "0.0.0.0:9100"
           "log.level": "info"
+    - name: container_promtail
   tasks:
     - name: Permitting traffic for Prometheus Node exporter
       ansible.builtin.include_role:

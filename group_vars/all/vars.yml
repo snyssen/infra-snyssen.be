@@ -1,3 +1,9 @@
+# Used to store docker files that often changes__
+# As such THIS DIRECTORY SHOULD NOT BE ON A DRIVE MANAGED BY SNAPRAID
+# Please either use the main drive or an unmanaged drive (An SSD would be best)
+# Most of the files stored there will be databases__ As such they could significantly grow in size
+docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
+
 smtp__from: "{{ vault_smtp__from }}"
 smtp__to: "{{ vault_smtp__to }}"
 smtp__host: "{{ vault_smtp__host }}"
