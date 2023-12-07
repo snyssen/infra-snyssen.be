@@ -93,6 +93,24 @@ services:
       - GF_SMTP_PASSWORD={{ smtp__pass | replace('$', '$$') }}
       - GF_SMTP_FROM_ADDRESS={{ smtp__from }}
 
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    volumes:
+      - "{{ docker_mounts_directory }}/monitoring/loki:/loki"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.loki.entryPoints=websecure
+      - traefik.http.routers.loki.rule=Host(`loki.{{ ansible_fqdn }}`)
+      - traefik.http.routers.loki.middlewares=lan-whitelist
+      - traefik.http.routers.loki.service=loki
+      - traefik.http.services.loki.loadBalancer.server.port=3100
+
   uptime:
     image: louislam/uptime-kuma:1
     container_name: uptime

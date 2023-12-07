@@ -6,6 +6,10 @@
       vars:
         docker_users:
           - "{{ ansible_user_id }}"
+        docker_daemon_options:
+          log-driver: json-file
+          log-opts:
+            labels-regex: ^.+
 
 - name: Installing other packages
   become: true
