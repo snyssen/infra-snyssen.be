@@ -39,4 +39,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: "restic"
+    stack_name: "restic"

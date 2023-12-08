@@ -13,4 +13,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: syncthing
+    stack_name: syncthing

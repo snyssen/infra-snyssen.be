@@ -1,5 +1,5 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: dashboard
+    stack_name: dashboard
     deploy_env_template: yes

@@ -63,7 +63,7 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: monitoring
+    stack_name: monitoring
     docker_compose_state: "{{ 'restarted' if prom_config_status.changed else 'present' }}"
 
 - name: Wait for clickhouse to startup before ensuing commands

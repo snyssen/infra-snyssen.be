@@ -38,4 +38,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: "paperless"
+    stack_name: "paperless"

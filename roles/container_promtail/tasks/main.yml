@@ -16,4 +16,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: promtail
+    stack_name: promtail

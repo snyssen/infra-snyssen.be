@@ -32,4 +32,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: "piped"
+    stack_name: "piped"

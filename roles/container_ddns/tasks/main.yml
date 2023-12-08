@@ -1,4 +1,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: "ddns"
+    stack_name: "ddns"
