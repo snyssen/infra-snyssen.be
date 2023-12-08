@@ -19,7 +19,7 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: "nextcloud"
+    stack_name: "nextcloud"
 
 - name: Adds cron job for Nextcloud
   become: yes

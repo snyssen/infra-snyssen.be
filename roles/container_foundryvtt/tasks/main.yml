@@ -8,4 +8,4 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: foundryvtt
+    stack_name: foundryvtt

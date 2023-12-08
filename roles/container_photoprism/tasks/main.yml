@@ -12,7 +12,7 @@
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
-    container_name: "photoprism"
+    stack_name: "photoprism"
 
 - name: Adds cron job to backup Photoprism
   ansible.builtin.cron:
