@@ -1,0 +1,89 @@
+configuration:
+  working_directory: /downloads
+presets:
+  ###############################################################################
+  # Set tv_show_directory here instead of in the subscriptions file
+  tv_show_paths:
+    overrides:
+      tv_show_directory: "/tv"
+
+  ###############################################################################
+  # Filter out any YouTube shorts
+  no_shorts:
+    match_filters:
+      filters:
+        - "original_url!*=/shorts/"
+
+  ###############################################################################
+  # Remove all the following sponsorblock sections
+  sponsorblock:
+    chapters:
+      # Select categories to remove from https://ytdl-sub.readthedocs.io/en/latest/config.html#ytdl_sub.plugins.chapters.ChaptersOptions.sponsorblock_categories
+      sponsorblock_categories:
+        - "sponsor"
+      remove_sponsorblock_categories: "all"
+      force_key_frames: False
+
+  ###############################################################################
+  # Wait 2 days before downloading in hopes to get more accurate sponsorblock
+  sponsorblock_wait:
+    # Import the sponsorblock preset defined above
+    preset:
+      - "sponsorblock"
+    date_range:
+      before: "today-2days"
+
+  ###############################################################################
+  # base preset to use on all TV Show-based subscriptions
+  base:
+    preset:
+      - "Jellyfin TV Show by Date" # Set intended player
+      - "max_1080p" # prebuilt preset to get best quality
+      - "tv_show_paths"
+
+    # Embed chapters into video files
+    chapters:
+      embed_chapters: True
+
+    # Embed English subtitles into video files (supports more)
+    subtitles:
+      subtitles_name: "{title_sanitized}.{lang}.{subtitles_ext}"
+      subtitles_type: "srt"
+      embed_subtitles: False
+      languages:
+        - "en"
+      allow_auto_generated_subtitles: True
+
+    # ytdl_options lets you pass any arg into yt-dlp's Python API
+    ytdl_options:
+      # Set the cookie file
+      # cookiefile: "/config/youtube_cookies.txt"
+
+      # For YouTube, get English metadata if multiple languages are present
+      extractor_args:
+        youtube:
+          lang:
+            - "en"
+
+  ###############################################################################
+  # Custom preset to archive an entire channel
+  TV Show Full Archive:
+    preset:
+      - "base"
+      - "sponsorblock_wait" # wait for sponsorblock when full-archiving
+
+  ###############################################################################
+  # Custom preset to only fetch and keep recent videos.
+  # Format the videos in reverse order, so the first video is the most recent
+  # Also include the prebuilt "Only Recent" preset
+  TV Show Only Recent:
+    preset:
+      - "base"
+      - "sponsorblock_wait"
+      - "no_shorts"
+      - "season_by_year__episode_by_month_day"
+      - "Only Recent"
+
+    overrides:
+      only_recent_date_range: "4weeks"
+      only_recent_max_files: 20

@@ -38,6 +38,8 @@ usenet__pass: "{{ vault_usenet__pass }}"
 usenet__api_key: "{{ vault_usenet__api_key }}"
 usenet__nzb_key: "{{ vault_usenet__nzb_key }}"
 
+ytdl_sub__healthcheck_id: "{{ vault_ytdl_sub__healthcheck_id }}"
+
 piped__postgres_password: "{{ vault_piped__postgres_password }}"
 piped__postgres_backups_healthcheck_id: "{{ vault_piped__postgres_backups_healthcheck_id }}"
 
