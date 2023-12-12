@@ -59,6 +59,7 @@
   become: true
   ansible.builtin.cron:
     name: ytdl-sub
+    minute: "*"
     hour: "*/6"
     user: root
     job: >-
