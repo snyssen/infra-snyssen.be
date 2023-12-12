@@ -3,5 +3,13 @@
   "extends": [
     "config:base",
     ":semanticCommits"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePrefixes": [
+        "grafana"
+      ],
+      "groupName": "grafana"
+    }
   ]
 }
