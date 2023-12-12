@@ -1,15 +1,21 @@
-TV Show Full Archive:
+TV Show Channel Full Archive:
   = Entertainment:
     "eli_handle_b․wav": "https://www.youtube.com/@eli_handle_bwav"
     "Raycevick": "https://www.youtube.com/@Raycevick"
   = Fiction:
-    "The Backrooms": "https://www.youtube.com/playlist?list=PLVAh-MgDVqvDUEq6qDXqORBioE4Yhol_z"
     "Nassault": "https://www.youtube.com/@Nassault"
-    "The Oldest View": "https://www.youtube.com/playlist?list=PLVAh-MgDVqvAwoFF5hJmtRrx86Yw-pdN1"
     "TheParryGod": "https://www.youtube.com/@TheParryGod"
-    "Helluva Boss": "https://www.youtube.com/playlist?list=PL-uopgYBi65HwiiDR9Y23lomAkGr9mm-S"
   = Kitchen:
     "You Suck At Cooking": "https://www.youtube.com/@yousuckatcooking"
+
+playlist_full_archive:
+  = Fiction:
+    "~The Backrooms":
+      collection_season_1_url: "https://www.youtube.com/playlist?list=PLVAh-MgDVqvDUEq6qDXqORBioE4Yhol_z"
+    "~The Oldest View":
+      collection_season_1_url: "https://www.youtube.com/playlist?list=PLVAh-MgDVqvAwoFF5hJmtRrx86Yw-pdN1"
+    "~Helluva Boss":
+      collection_season_1_url: "https://www.youtube.com/playlist?list=PL-uopgYBi65HwiiDR9Y23lomAkGr9mm-S"
 
 TV Show Only Recent:
   = Tech:

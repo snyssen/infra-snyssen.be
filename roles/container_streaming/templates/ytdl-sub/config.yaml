@@ -37,17 +37,14 @@ presets:
   # base preset to use on all TV Show-based subscriptions
   base:
     preset:
-      - "Jellyfin TV Show by Date" # Set intended player
-      - "max_1080p" # prebuilt preset to get best quality
+      - "max_1080p"
       - "tv_show_paths"
 
     # Embed chapters into video files
     chapters:
       embed_chapters: True
 
-    # Embed English subtitles into video files (supports more)
     subtitles:
-      subtitles_name: "{title_sanitized}.{lang}.{subtitles_ext}"
       subtitles_type: "srt"
       embed_subtitles: False
       languages:
@@ -67,10 +64,24 @@ presets:
 
   ###############################################################################
   # Custom preset to archive an entire channel
-  TV Show Full Archive:
+  TV Show Channel Full Archive:
     preset:
       - "base"
-      - "sponsorblock_wait" # wait for sponsorblock when full-archiving
+      - "Jellyfin TV Show by Date"
+      - "sponsorblock_wait"
+
+  ###############################################################################
+  # Custom preset to archive an entire playlist
+  playlist_full_archive:
+    preset:
+      - "base"
+      - "sponsorblock_wait"
+      - "no_shorts"
+      - "jellyfin_tv_show_collection"
+      - "season_by_collection__episode_by_year_month_day"
+      - "collection_season_1"
+    overrides:
+      collection_season_1_name: Season 01
 
   ###############################################################################
   # Custom preset to only fetch and keep recent videos.
@@ -79,6 +90,7 @@ presets:
   TV Show Only Recent:
     preset:
       - "base"
+      - "Jellyfin TV Show by Date"
       - "sponsorblock_wait"
       - "no_shorts"
       - "season_by_year__episode_by_month_day"
