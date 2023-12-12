@@ -64,6 +64,6 @@
     user: root
     job: >-
       curl --retry 5 -o /dev/null https://hc-ping.com/{{ ytdl_sub__healthcheck_id }}/start
-      && docker exec -u abc ytdl-sub ytdl-sub sub --config /config/config.yaml /config/subscriptions.yaml
-      && curl --retry 5 -o /dev/null https://hc-ping.com/{{ ytdl_sub__healthcheck_id }}/$?
+      && docker exec -u abc ytdl-sub ytdl-sub sub --config /config/config.yaml /config/subscriptions.yaml;
+      curl --retry 5 -o /dev/null https://hc-ping.com/{{ ytdl_sub__healthcheck_id }}/$?
     state: present
