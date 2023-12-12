@@ -29,6 +29,9 @@
     - "{{ docker_mounts_directory }}/prowlarr/config"
     # bazarr
     - "{{ docker_mounts_directory }}/bazarr/config"
+    # ytdl-sub
+    - "{{ docker_mounts_directory }}/ytdl-sub/config"
+    - /mnt/storage/streaming/ytdl-sub/downloads
 
 - name: Deploying Sabnzbd config
   ansible.builtin.template:
@@ -36,7 +39,31 @@
     dest: /mnt/storage/usenet/sabnzbd.ini
     mode: "600"
 
+- name: Deploy ytdl-sub configuration
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ docker_mounts_directory }}/ytdl-sub/config/"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "640"
+  loop:
+    - src: ytdl-sub/config.yaml
+    - src: ytdl-sub/subscriptions.yaml
+
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     stack_name: "streaming"
+
+- name: Add cron job for ytdl-sub
+  become: true
+  ansible.builtin.cron:
+    name: ytdl-sub
+    minute: "0"
+    hour: "*/6"
+    user: root
+    job: >-
+      curl --retry 5 -o /dev/null https://hc-ping.com/{{ ytdl_sub__healthcheck_id }}/start
+      && docker exec -u abc ytdl-sub ytdl-sub sub --config /config/config.yaml /config/subscriptions.yaml;
+      curl --retry 5 -o /dev/null https://hc-ping.com/{{ ytdl_sub__healthcheck_id }}/$?
+    state: present
