@@ -10,6 +10,8 @@
           log-driver: json-file
           log-opts:
             labels-regex: ^.+
+            max-size: "100m"
+            max-file: "3"
 
 - name: Installing other packages
   become: true
@@ -43,5 +45,3 @@
       - zsh-autosuggestions
       - zsh-syntax-highlighting
     p10k_src_file: custom.p10k.zsh
-# - name: Resetting connection so above change takes effect
-#   ansible.builtin.meta: reset_connection
