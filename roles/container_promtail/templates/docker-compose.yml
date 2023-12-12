@@ -1,7 +1,7 @@
 version: "3"
 services:
   promtail:
-    image: grafana/promtail:2.9.2
+    image: grafana/promtail:2.9.3
     container_name: promtail
     volumes:
       - "{{ docker_mounts_directory }}/monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yml"
