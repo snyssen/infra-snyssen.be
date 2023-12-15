@@ -18,6 +18,7 @@
           "web.listen-address": "0.0.0.0:9100"
           "log.level": "info"
     - name: container_promtail
+    - name: container_cadvisor
   tasks:
     - name: Permitting traffic for Prometheus Node exporter
       ansible.builtin.include_role:

@@ -14,6 +14,12 @@ scrape_configs:
 {% for host in groups['monitored'] %}
         - "{{ host }}:9100"
 {% endfor %}
+  - job_name: cadvisor
+    static_configs:
+      - targets:
+{% for host in groups['monitored'] %}
+        - "{{ host }}:9200"
+{% endfor %}
   - job_name: 'traefik'
     static_configs:
       - targets: ['traefik:8080']
