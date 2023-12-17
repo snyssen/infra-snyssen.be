@@ -19,10 +19,11 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
       - [Setup - deploy](#setup---deploy)
       - [Setup - restore](#setup---restore)
     - [Server playbooks](#server-playbooks)
+      - [Server - wol (Wake-on-LAN)](#server---wol-wake-on-lan)
+      - [Server - wipe](#server---wipe)
       - [Server - reboot](#server---reboot)
       - [Server - shutdown](#server---shutdown)
-    - [Packages playbooks](#packages-playbooks)
-      - [Packages - upgrade](#packages---upgrade)
+      - [Server - gather facts](#server---gather-facts)
     - [Stacks playbooks](#stacks-playbooks)
       - [Stacks - deploy](#stacks---deploy)
       - [Stacks - manage](#stacks---manage)
@@ -31,6 +32,13 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
       - [Backup - restore](#backup---restore)
       - [Backup - check](#backup---check)
       - [Backup - list snapshots](#backup---list-snapshots)
+      - [Backup - get logs](#backup---get-logs)
+    - [Snapraid playbooks](#snapraid-playbooks)
+      - [Snapraid - runner execute](#snapraid---runner-execute)
+      - [Snapraid - get logs](#snapraid---get-logs)
+    - [Stacks specific playbooks](#stacks-specific-playbooks)
+      - [Nextcloud occ](#nextcloud-occ)
+      - [Minecraft execute](#minecraft-execute)
   - [Server schedule](#server-schedule)
     - [Morning schedule](#morning-schedule)
     - [Additional scheduled events](#additional-scheduled-events)
@@ -159,6 +167,22 @@ The playbook requires user input during execution to choose the file backup and 
 
 ### Server playbooks
 
+#### Server - wol (Wake-on-LAN)
+
+Sends a magic packet to wake supported servers on LAN. The backup server is the sole server having this capability at the moment.
+
+```bash
+ansible-playbook [-i hosts/prod.yml] server-wol.ansible.yml
+```
+
+#### Server - wipe
+
+Completely wipes the apps server, stopping all applications and destroying all the data. This is usually only used during development, as a faster way to iterate without having to fully recreate the VM.
+
+```bash
+ansible-playbook server-wipe.ansible.yml
+```
+
 #### Server - reboot
 
 Reboots the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to reboot all your servers but only one at a time.
@@ -180,14 +204,12 @@ ansible-playbook server-shutdown.yml [--limit={apps,backup}] [-e "shutdown_delay
 
 - `shutdown_delay`: The delay (in seconds) the server should wait before shutting down. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
 
-### Packages playbooks
+#### Server - gather facts
 
-#### Packages - upgrade
-
-Upgrades all DNF packages on the server(s).
+Gather all facts about all servers and output them to console.
 
 ```bash
-ansible-playbook packages-upgrade.yml
+ansible-playbook -i hosts/prod.yml server-gather-facts.ansible.yml [--limit={apps,backup,dns}]
 ```
 
 ### Stacks playbooks
@@ -258,6 +280,53 @@ List all available snapshots.
 
 ```bash
 ansible-playbook [-i hosts/prod.yml] backup-list-snapshots.ansible.yml [-e "restic_server={local,remote}"]
+```
+
+#### Backup - get logs
+
+Get logs of latest backup run
+
+```bash 
+ansible-playbook [-i hosts/prod.yml] backup-get-logs.ansible.yml [-e "restic_server={local,remote}"]
+```
+
+### Snapraid playbooks
+
+#### Snapraid - runner execute
+
+Executes the snapraid-runner on the apps server.
+
+```bash
+ansible-playbook [-i hosts/prod.yml ]snapraid-runner-execute.ansible.yml [-e "snapraid_runner_ignore_threshold=true skip_healthcheck=true"]
+```
+
+- `snapraid_runner_ignore_threshold` (default = false): ignore the default delete threshold, allowing snapraid to be run even after a large delete operation.
+- `skip_healthcheck` (default = false): do not trigger the healthcheck upon successful completion
+
+#### Snapraid - get logs
+
+Retrieves logs from the latest snapraid run.
+
+```bash
+ansible-playbook [-i hosts/prod.yml] snapraid-get-logs.ansible.yml
+```
+
+### Stacks specific playbooks
+
+#### Nextcloud occ
+
+Runs an occ command inside the Nextcloud instance. The command is prompted before executing it. It should not contain the `occ` part but only its args.
+
+```bash
+ansible-playbook [-i hosts/prod.yml] nextcloud-occ.ansible.yml
+```
+
+#### Minecraft execute
+
+Runs a command inside the Minecraft console. The command is prompted before executing it.
+
+```bash
+ansible-playbook [-i hosts/prod.yml] minecraft-execute.ansible.yml
 ```
 
 ## Server schedule
