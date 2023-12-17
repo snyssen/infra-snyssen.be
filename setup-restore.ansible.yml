@@ -1,6 +1,5 @@
 - hosts: apps
   roles:
-    - packages_upgrade
     - setup_common
     - setup_storage
     - role: setup_snapraid
