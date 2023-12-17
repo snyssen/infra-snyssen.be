@@ -31,20 +31,6 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
       - [Backup - restore](#backup---restore)
       - [Backup - check](#backup---check)
       - [Backup - list snapshots](#backup---list-snapshots)
-  - [The stacks](#the-stacks)
-    - [The `backbone` stack](#the-backbone-stack)
-    - [The `nextcloud` stack](#the-nextcloud-stack)
-    - [The `Photoprism` stack](#the-photoprism-stack)
-    - [The `recipes` stack](#the-recipes-stack)
-    - [The `restic` stack](#the-restic-stack)
-    - [The `speedtest` stack](#the-speedtest-stack)
-    - [The `streaming` stack](#the-streaming-stack)
-    - [The `piped` stack](#the-piped-stack)
-    - [The `git` and `cicd` stacks](#the-git-and-cicd-stacks)
-    - [The `dashboard` stack](#the-dashboard-stack)
-    - [The `minecraft` stack](#the-minecraft-stack)
-    - [The `foundryvtt` stack](#the-foundryvtt-stack)
-    - [The `monitoring` stack](#the-monitoring-stack)
   - [Server schedule](#server-schedule)
     - [Morning schedule](#morning-schedule)
     - [Additional scheduled events](#additional-scheduled-events)
@@ -274,60 +260,6 @@ List all available snapshots.
 ansible-playbook [-i hosts/prod.yml] backup-list-snapshots.ansible.yml [-e "restic_server={local,remote}"]
 ```
 
-## The stacks
-
-### The `backbone` stack
-
-The backbone is what makes all the other services accessible. Its is currently only composed of [Traefik](https://github.com/traefik/traefik), a reverse proxy that automatically forwards requests to the necessary containers based on the subdomain used. It is also responsible for generating SSL certificates for all of those services by using the Let's Encrypt API. Its UI can be accessed at `routing.your.domain`.
-
-### The `nextcloud` stack
-
-The nextcloud stack provides a [Nextcloud](https://nextcloud.com) instance with all of its dependencies. The service is accessible at `cloud.your.domain`.
-
-### The `Photoprism` stack
-
-[Photoprism](https://photoprism.app) is a convenient app to browse and manage your pictures library. The picture folder is shared with the [Nextcloud](#the-nextcloud-stack) container so images can be added through NextCloud, even allowing for automatic export from your phone directly into Photoprism! Photoprism can be found at `photo.your.domain`.
-
-### The `recipes` stack
-
-This stack provides the [Tandoor](https://tandoor.dev) recipes app at `recipes.your.domain`.
-
-### The `restic` stack
-
-Restic is used to backup the files of your server. It does not provide any UI.
-
-### The `speedtest` stack
-
-This stack offers a [simple speedtest](https://github.com/librespeed/speedtest) which can be useful to troubleshoot connection issues with your server.
-
-### The `streaming` stack
-
-The streaming stack offers all kind of streaming services, mainly through [Jellyfin](https://jellyfin.org) (accessible on `streaming.your.domain`). It also provides some *Arrs apps for library management.
-
-### The `piped` stack
-
-[Piped](https://github.com/TeamPiped/Piped) is a self-hostable alternative front-end for Youtube. It provides better privacy, ads and sponsors blocking. It can be accessed on `yt.your.domain`.
-
-### The `git` and `cicd` stacks
-
-The git stack provides a [Gitea](https://gitea.io/en-us/) instance at `git.your.domain`. This Gitea instance can be used to store git repositories, built packages, and to do project management and documentation. It has an accompanying "cicd" stack that deploys a [Drone](https://www.drone.io) instance (at `drone.your.domain`) for all your CI/CD needs.
-
-### The `dashboard` stack
-
-This stack provides a starting page to easily access all of the other deployed services as well as any other webpage you would like. Currently it uses [Heimdall](https://heimdall.site), but I am quite disappointed by the current offering of self-hosted starting pages, so I am thinking of creating my own when I get the time. The dashboard is accessible at `dash.your.domain`.
-
-### The `minecraft` stack
-
-The minecraft stack powers a [Minecraft](https://www.minecraft.net) server and its accompanying [dynmap](https://github.com/webbukkit/dynmap) server. The dynmap instance can be accessed at `mc.your.domain`.
-
-### The `foundryvtt` stack
-
-It provides an instance of the [Foundry VTT software](https://foundryvtt.com) at `dnd.your.domain`, for hosting online tabletop RPG games.
-
-### The `monitoring` stack
-
-This stack provides server monitoring. As of now it only contains [Scrutiny](https://github.com/AnalogJ/scrutiny) at `scrutiny.your.domain`.
-
 ## Server schedule
 
 All times are on the Europe/Brussels timezone.
@@ -339,7 +271,6 @@ All times are on the Europe/Brussels timezone.
 | nextcloud db dump | snapraid | photoprism dump | restic to local |       | restic to remote |       |
 | gitea db dump     |          |                 |                 |       |                  |       |
 | recipes db dump   |          |                 |                 |       |                  |       |
-| Piped db dump     |          |                 |                 |       |                  |       |
 
 ### Additional scheduled events
 
