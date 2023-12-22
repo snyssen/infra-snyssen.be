@@ -22,7 +22,7 @@ presets:
       sponsorblock_categories:
         - "sponsor"
       remove_sponsorblock_categories: "all"
-      force_key_frames: False
+      force_key_frames: True
 
   ###############################################################################
   # Wait 2 days before downloading in hopes to get more accurate sponsorblock
