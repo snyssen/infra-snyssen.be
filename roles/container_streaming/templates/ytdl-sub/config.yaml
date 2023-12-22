@@ -46,7 +46,7 @@ presets:
 
     subtitles:
       subtitles_type: "srt"
-      embed_subtitles: False
+      embed_subtitles: True
       languages:
         - "en"
       allow_auto_generated_subtitles: True
