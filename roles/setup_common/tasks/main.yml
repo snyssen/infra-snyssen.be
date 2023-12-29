@@ -1,3 +1,4 @@
+# We have to use a block to apply "become: true" to included roles since "become" cannot be applied on include_role directly
 - become: true
   block:
     - name: Installing and configuring docker
@@ -12,6 +13,10 @@
             labels-regex: ^.+
             max-size: "100m"
             max-file: "3"
+    # TODO: disable fail2ban once crowdsec is in place
+    - name: Harden SSH
+      ansible.builtin.include_role:
+        name: geerlingguy.security
 
 - name: Installing other packages
   become: true
