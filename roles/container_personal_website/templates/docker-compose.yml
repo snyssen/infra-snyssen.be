@@ -1,7 +1,7 @@
 version: "3"
 services:
   personal-website:
-    image: ghcr.io/snyssen/personal-website:2.2.1
+    image: ghcr.io/snyssen/personal-website:2.3.0
     restart: unless-stopped
     container_name: personal-website
     networks:
