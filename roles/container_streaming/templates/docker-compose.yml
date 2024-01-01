@@ -181,6 +181,8 @@ services:
       - PUID={{ ansible_user_uid}}
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
+      - DOCKER_MODS=linuxserver/mods:universal-cron|linuxserver/mods:universal-stdout-logs
+      - LOGS_TO_STDOUT=/config/ytdl-sub.log
     devices:
       - /dev/dri:/dev/dri
     volumes:
