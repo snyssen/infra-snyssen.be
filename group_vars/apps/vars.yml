@@ -83,6 +83,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
   - /mnt/storage/paperless/media:/data/paperless/media
   - /mnt/storage/syncthing/config:/data/syncthing/config
+  - "{{ docker_mounts_directory }}/wallos:/data/wallos"
 backups__volumes_local_only:
   - ./hooks/local:/hooks
   - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
