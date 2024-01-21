@@ -1,0 +1,24 @@
+version: "3.0"
+services:
+  wallos:
+    container_name: wallos
+    # Use digest since project does not provide pinned versions
+    image: bellamy/wallos:latest@sha256:b042caa9dc727a1f238750c7f83e39c4a34911ebedd50eb9f4c281397af9a57c
+    environment:
+      TZ: "{{ iana_timezone }}"
+    # Volumes store your data between container upgrades
+    volumes:
+      - "{{ docker_mounts_directory }}/wallos/db:/var/www/html/db"
+      - "{{ docker_mounts_directory }}/wallos/logos:/var/www/html/images/uploads/logos"
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.wallos.entryPoints=websecure
+      - traefik.http.routers.wallos.rule=Host(`wallos.{{ ansible_fqdn }}`)
+      - traefik.http.services.wallos.loadBalancer.server.port=80
+networks:
+  web:
+    external: true
