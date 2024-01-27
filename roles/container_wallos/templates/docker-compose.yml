@@ -3,7 +3,7 @@ services:
   wallos:
     container_name: wallos
     # Use digest since project does not provide pinned versions
-    image: bellamy/wallos:latest@sha256:b042caa9dc727a1f238750c7f83e39c4a34911ebedd50eb9f4c281397af9a57c
+    image: bellamy/wallos:latest@sha256:43f26d417446886320d4f5962b0e134409481d1bca9b41dff7ce226dfc1a21e8
     environment:
       TZ: "{{ iana_timezone }}"
     # Volumes store your data between container upgrades
