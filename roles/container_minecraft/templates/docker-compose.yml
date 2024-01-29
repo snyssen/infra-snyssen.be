@@ -18,7 +18,7 @@ services:
       - traefik.http.services.dynmap.loadBalancer.server.port=8123
     environment:
       EULA: "TRUE"
-      VERSION: "1.20.1"
+      VERSION: "1.20.2"
       TYPE: SPIGOT
       MEMORY: "4G"
       ENABLE_AUTOPAUSE: "FALSE" # TODO: Enable once I find a solution. Probably doesn't detect connection because routed through Traefik and listening on wrong interface
@@ -58,7 +58,7 @@ services:
       - internal
     environment:
       EULA: "TRUE"
-      VERSION: "1.20.1"
+      VERSION: "1.20.2"
       MEMORY: "4G"
       MAX_TICK_TIME: "-1"
       MOTD: Ultimate Survival World by Trixy Blox - vanilla
