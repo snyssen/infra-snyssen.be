@@ -55,6 +55,24 @@ services:
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
 
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:2.7.2
+    restart: unless-stopped
+    container_name: audiobookshelf
+    networks:
+      - web
+    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.audiobookshelf.entryPoints=websecure
+      - traefik.http.routers.audiobookshelf.rule=Host(`audiobooks.{{ ansible_fqdn }}`)
+    volumes:
+      - /mnt/storage/streaming/media/audiobooks:/audiobooks
+      - /mnt/storage/streaming/media/podcasts:/podcasts
+      - "{{ docker_mounts_directory }}/audiobookshelf/config:/config"
+      - "{{ docker_mounts_directory }}/audiobookshelf/metadata:/metadata"
+
   torrent:
     image: lscr.io/linuxserver/transmission:latest
     container_name: torrent
@@ -134,6 +152,25 @@ services:
       - traefik.http.services.lidarr.loadBalancer.server.port=8686
     volumes:
       - "{{ docker_mounts_directory }}/lidarr/config:/config"
+      - /mnt/storage/streaming:/data
+    restart: unless-stopped
+
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID={{ ansible_user_uid}}
+      - PGID={{ ansible_user_gid}}
+      - TZ=Europe/Brussels
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.readarr.entryPoints=websecure
+      - traefik.http.routers.readarr.rule=Host(`readarr.{{ ansible_fqdn }}`)
+      - traefik.http.services.readarr.loadBalancer.server.port=8787
+    volumes:
+      - "{{ docker_mounts_directory }}/readarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
 

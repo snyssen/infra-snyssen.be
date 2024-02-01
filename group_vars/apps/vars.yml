@@ -73,6 +73,7 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/sonarr/config:/data/sonarr/config"
   - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
+  - "{{ docker_mounts_directory }}/readarr/config:/data/readarr/config"
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - "{{ docker_mounts_directory }}/bazarr/config:/data/bazarr/config"
   - /mnt/storage/minecraft/data:/data/minecraft

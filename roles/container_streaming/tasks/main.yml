@@ -13,6 +13,11 @@
     - "/mnt/storage/streaming/media/movies"
     - "/mnt/storage/streaming/media/tv"
     - "/mnt/storage/streaming/media/music"
+    # audiobookshelf
+    - /mnt/storage/streaming/media/audiobooks
+    - /mnt/storage/streaming/media/podcasts
+    - "{{ docker_mounts_directory }}/audiobookshelf/config"
+    - "{{ docker_mounts_directory }}/audiobookshelf/metadata"
     # torrents
     - "/mnt/storage/torrent"
     - /mnt/storage/streaming/torrent
@@ -25,6 +30,8 @@
     - "{{ docker_mounts_directory }}/radarr/config"
     # lidarr
     - "{{ docker_mounts_directory }}/lidarr/config"
+    # readarr
+    - "{{ docker_mounts_directory }}/readarr/config"
     # prowlarr
     - "{{ docker_mounts_directory }}/prowlarr/config"
     # bazarr
