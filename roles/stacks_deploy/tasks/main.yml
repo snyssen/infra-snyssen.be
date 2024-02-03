@@ -52,6 +52,9 @@
     name: container_wallos
   when: "stacks_deploy_list is not defined or 'wallos' in stacks_deploy_list"
 - ansible.builtin.include_role:
+    name: container_s-pdf
+  when: "stacks_deploy_list is not defined or 's-pdf' in stacks_deploy_list"
+- ansible.builtin.include_role:
     name: container_foundryvtt
   when: "stacks_deploy_list is not defined or 'foundryvtt' in stacks_deploy_list"
 - ansible.builtin.include_role:

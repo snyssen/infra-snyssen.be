@@ -70,6 +70,7 @@ backups__volumes_common:
   - /mnt/storage/recipes:/data/recipes
   - /mnt/storage/backups:/data/backups
   - "{{ docker_mounts_directory }}/jellyfin:/data/jellyfin"
+  - "{{ docker_mounts_directory }}/audiobookshelf:/data/audiobookshelf"
   - "{{ docker_mounts_directory }}/sonarr/config:/data/sonarr/config"
   - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
   - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
@@ -85,6 +86,7 @@ backups__volumes_common:
   - /mnt/storage/paperless/media:/data/paperless/media
   - /mnt/storage/syncthing/config:/data/syncthing/config
   - "{{ docker_mounts_directory }}/wallos:/data/wallos"
+  - "{{ docker_mounts_directory }}/s-pdf:/data/s-pdf"
 backups__volumes_local_only:
   - ./hooks/local:/hooks
   - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
