@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   nextcloud_postgres:
     restart: unless-stopped
@@ -12,6 +12,7 @@ services:
       - POSTGRES_DB=nextcloud
     volumes:
       - "{{ docker_mounts_directory }}/nextcloud/postgresql:/var/lib/postgresql/data"
+    mem_limit: 256m
 
   nextcloud_postgres_backups:
     restart: unless-stopped
@@ -32,6 +33,7 @@ services:
     volumes:
       - /mnt/storage/backups/nextcloud:/backups
       - ./hooks:/hooks
+    mem_limit: 16m
 
   nextcloud_redis:
     image: redis:latest
@@ -39,6 +41,7 @@ services:
     restart: always
     networks:
       - internal
+    mem_limit: 16m
 
   nextcloud:
     image: nextcloud:28
@@ -77,6 +80,7 @@ services:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/pictures:/pictures
       - /mnt/storage/paperless:/paperless
+    mem_limit: 380m
 
   nextcloud_monitor:
     image: xperimental/nextcloud-exporter:0.6.2
@@ -89,6 +93,7 @@ services:
     environment:
       - NEXTCLOUD_SERVER=https://cloud.{{ ansible_fqdn }}
       - NEXTCLOUD_AUTH_TOKEN={{ nextcloud__monitor_token }}
+    mem_limit: 24m
 
 networks:
   monitoring:

@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   recipes_postgres:
     restart: unless-stopped
@@ -10,6 +10,7 @@ services:
       - "{{ docker_mounts_directory }}/recipes/postgresql:/var/lib/postgresql/data"
     networks:
       - internal
+    mem_limit: 32m
 
   recipes_postgres_backups:
     restart: unless-stopped
@@ -30,6 +31,7 @@ services:
     volumes:
       - /mnt/storage/backups/recipes:/backups
       - ./hooks:/hooks
+    mem_limit: 12m
 
   web_recipes:
     image: vabene1111/recipes:1.5
@@ -45,6 +47,7 @@ services:
       - recipes_postgres
     networks:
       - internal
+    mem_limit: 256m
 
   recipes_nginx:
     image: nginx:mainline-alpine
@@ -66,6 +69,7 @@ services:
     networks:
       - internal
       - web
+    mem_limit: 16m
 
 networks:
   internal: null

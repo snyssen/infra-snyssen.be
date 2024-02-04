@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   rest-server:
     image: restic/rest-server
@@ -11,3 +11,4 @@ services:
       - OPTIONS=--prometheus
     volumes:
       - /mnt/storage/data:/data
+    mem_limit: 2g

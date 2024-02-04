@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   ddns:
     container_name: ddns
@@ -8,3 +8,4 @@ services:
       - DYN_USER={{ ddns__user }}
       - DYN_PASS={{ ddns__pass }}
     restart: always
+    mem_limit: 8m

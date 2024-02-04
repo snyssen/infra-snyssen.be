@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   personal-website:
     image: ghcr.io/snyssen/personal-website:2.5.0
@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.personal-website.middlewares=traefik-compress
       - traefik.http.routers.personal-website.service=personal-website
       - traefik.http.services.personal-website.loadBalancer.server.port=80
+    mem_limit: 32m
 
 networks:
   web:

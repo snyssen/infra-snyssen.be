@@ -1,4 +1,4 @@
-version: "3.0"
+version: "2"
 services:
   wallos:
     container_name: wallos
@@ -19,6 +19,7 @@ services:
       - traefik.http.routers.wallos.entryPoints=websecure
       - traefik.http.routers.wallos.rule=Host(`wallos.{{ ansible_fqdn }}`)
       - traefik.http.services.wallos.loadBalancer.server.port=80
+    mem_limit: 56m
 networks:
   web:
     external: true

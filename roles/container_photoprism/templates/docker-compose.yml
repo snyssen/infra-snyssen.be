@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   photoprism_mariadb:
     image: mariadb:11
@@ -20,6 +20,7 @@ services:
       MYSQL_PASSWORD: "{{ photoprism__mariadb_password }}"
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
+    mem_limit: 128m
 
   photoprism:
     # Use photoprism/photoprism:preview instead for testing preview builds:
@@ -76,6 +77,7 @@ services:
       - "/mnt/storage/photoprism/import:/photoprism/import"
       - "/mnt/storage/photoprism/photoprism:/photoprism/storage"
       - /mnt/storage/backups/photoprism:/backups
+    mem_limit: 164m
 
 networks:
   web:

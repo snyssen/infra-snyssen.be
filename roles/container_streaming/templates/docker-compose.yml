@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.13
@@ -54,6 +54,7 @@ services:
       - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
+    mem_limit: 1g
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:2.7.2
@@ -72,6 +73,7 @@ services:
       - /mnt/storage/streaming/media/podcasts:/podcasts
       - "{{ docker_mounts_directory }}/audiobookshelf/config:/config"
       - "{{ docker_mounts_directory }}/audiobookshelf/metadata:/metadata"
+    mem_limit: 128m
 
   torrent:
     image: lscr.io/linuxserver/transmission:latest
@@ -85,6 +87,7 @@ services:
       - /mnt/storage/torrent:/config
       - /mnt/storage/streaming/torrent:/data/torrent
     restart: unless-stopped
+    mem_limit: 712m
 
   usenet:
     image: lscr.io/linuxserver/sabnzbd:latest
@@ -98,6 +101,7 @@ services:
       - /mnt/storage/usenet:/config
       - /mnt/storage/streaming/usenet:/data/usenet
     restart: unless-stopped
+    mem_limit: 128m
 
   sonarr:
     image: lscr.io/linuxserver/sonarr
@@ -116,6 +120,7 @@ services:
       - "{{ docker_mounts_directory }}/sonarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
+    mem_limit: 256m
 
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -135,6 +140,7 @@ services:
       - "{{ docker_mounts_directory }}/radarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
+    mem_limit: 256m
 
   lidarr:
     image: lscr.io/linuxserver/lidarr
@@ -154,6 +160,7 @@ services:
       - "{{ docker_mounts_directory }}/lidarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
+    mem_limit: 256m
 
   readarr:
     image: lscr.io/linuxserver/readarr:develop
@@ -173,6 +180,7 @@ services:
       - "{{ docker_mounts_directory }}/readarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
+    mem_limit: 256m
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
@@ -191,6 +199,7 @@ services:
     volumes:
       - "{{ docker_mounts_directory }}/prowlarr/config:/config"
     restart: unless-stopped
+    mem_limit: 256m
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -210,6 +219,7 @@ services:
       - "{{ docker_mounts_directory }}/bazarr/config:/config"
       - /mnt/storage/streaming:/data
     restart: unless-stopped
+    mem_limit: 256m
 
   ytdl-sub:
     image: ghcr.io/jmbannon/ytdl-sub:ubuntu-2023.11.25
@@ -229,6 +239,7 @@ services:
       - /mnt/storage/streaming/media/movies:/movies
       - /mnt/storage/streaming/media/music:/music
     restart: unless-stopped
+    mem_limit: 512m
 
 networks:
   web:

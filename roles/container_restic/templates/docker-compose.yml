@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   restic_local: &restic-config
     image: ghcr.io/snyssen/restic-backup-docker-wol:1.3.2
@@ -14,6 +14,8 @@ services:
       RESTIC_FORGET_ARGS: --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3
       BACKUP_SERVER_DOMAIN: "{{ backups__local_domain }}"
       BACKUP_SERVER_MAC_ADDRESS: "{{ backup_server_mac_address }}"
+    # This is way too much, but I want to make sure backups never fail
+    mem_limit: 8g
     volumes: {{ backups__volumes_local | to_yaml }}
 
   restic_remote:

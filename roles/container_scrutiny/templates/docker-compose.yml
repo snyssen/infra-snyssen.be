@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   scrutiny:
     image: ghcr.io/analogj/scrutiny:v0.7.2-collector
@@ -13,6 +13,7 @@ services:
       COLLECTOR_HOST_ID: "{{ ansible_fqdn }}"
       COLLECTOR_RUN_STARTUP: "true"
       # DEBUG: "true"
+    mem_limit: 36m
     devices:
 {% for path in disks_canonical_paths %}
       - "{{ path }}"

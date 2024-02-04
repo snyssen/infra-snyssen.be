@@ -1,4 +1,4 @@
-version: "3.4"
+version: "2"
 services:
   paperless_redis:
     image: redis:7
@@ -8,6 +8,7 @@ services:
     restart: unless-stopped
     volumes:
       - "{{ docker_mounts_directory }}/paperless/redis:/data"
+    mem_limit: 12m
 
   paperless_postgres:
     image: postgres:16
@@ -21,6 +22,7 @@ services:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
       POSTGRES_PASSWORD: "{{ paperless__postgres_password }}"
+    mem_limit: 32m
 
   paperless_postgres_backups:
     restart: unless-stopped
@@ -41,6 +43,7 @@ services:
     volumes:
       - /mnt/storage/backups/paperless:/backups
       - ./hooks:/hooks
+    mem_limit: 12m
 
   paperless:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
@@ -87,6 +90,7 @@ services:
       PAPERLESS_TIME_ZONE: Europe/Brussels
       PAPERLESS_OCR_LANGUAGE: fra
       PAPERLESS_OCR_USER_ARGS: '{"continue_on_soft_render_error": true, "invalidate_digital_signatures": true}'
+    mem_limit: 1g
 
   paperless_gotenberg:
     image: docker.io/gotenberg/gotenberg:8.0
@@ -100,6 +104,7 @@ services:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
+    mem_limit: 8m
 
   paperless_tika:
     image: ghcr.io/paperless-ngx/tika:latest
@@ -107,6 +112,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
+    mem_limit: 128m
 
 networks:
   web:

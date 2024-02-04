@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 
 services:
   influxdb:
@@ -14,6 +14,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 20
+    mem_limit: 100m
 
   scrutiny-web:
     image: ghcr.io/analogj/scrutiny:v0.7.2-web
@@ -46,6 +47,7 @@ services:
       - traefik.http.routers.scrutiny-web.entryPoints=websecure
       - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
       - traefik.http.routers.scrutiny-web.middlewares=auth
+    mem_limit: 32m
 
   prometheus:
     image: quay.io/prometheus/prometheus
@@ -69,6 +71,7 @@ services:
       - traefik.http.routers.prometheus.entryPoints=websecure
       - traefik.http.routers.prometheus.rule=Host(`prometheus.{{ ansible_fqdn }}`)
       - traefik.http.routers.prometheus.middlewares=auth
+    mem_limit: 2g
 
   grafana:
     image: grafana/grafana-oss:10.3.1
@@ -92,6 +95,7 @@ services:
       - GF_SMTP_USER={{ smtp__user }}
       - GF_SMTP_PASSWORD={{ smtp__pass | replace('$', '$$') }}
       - GF_SMTP_FROM_ADDRESS={{ smtp__from }}
+    mem_limit: 256m
 
   loki:
     image: grafana/loki:2.9.4
@@ -111,6 +115,7 @@ services:
       - traefik.http.routers.loki.middlewares=lan-whitelist
       - traefik.http.routers.loki.service=loki
       - traefik.http.services.loki.loadBalancer.server.port=3100
+    mem_limit: 164m
 
   uptime:
     image: louislam/uptime-kuma:1
@@ -126,6 +131,7 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.uptime.entryPoints=websecure
       - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
+    mem_limit: 128m
 
   # TODO: Backups of database? I don't feel like it would be a huge loss if this one got reset tho...
   plausible_postgres:
@@ -140,6 +146,7 @@ services:
       - POSTGRES_DB=plausible
       - POSTGRES_USER=plausible
       - POSTGRES_PASSWORD={{ monitoring__plausible__postgress_pass }}
+    mem_limit: 64m
 
   plausible_clickhouse:
     image: clickhouse/clickhouse-server:24.1-alpine
@@ -155,6 +162,8 @@ services:
       nofile:
         soft: 262144
         hard: 262144
+    # TODO: This is way too much mem, we should look into that
+    mem_limit: 712m
 
   plausible:
     image: plausible/analytics:latest
@@ -186,6 +195,7 @@ services:
       - SMTP_USER_NAME={{ smtp__user }}
       - SMTP_USER_PWD={{ smtp__pass|replace('$','$$') }}
       - SMTP_HOST_SSL_ENABLED={{ smtp__tls }}
+    mem_limit: 72m
 
   adguard_exporter:
     image: ebrianne/adguard-exporter:v1.14
@@ -201,6 +211,7 @@ services:
       - server_port=9617
       - interval=10s
       - log_limit=10000
+    mem_limit: 52m
 
 networks:
   internal:

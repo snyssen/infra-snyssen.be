@@ -17,6 +17,7 @@ services:
     environment:
       - DOCKER_ENABLE_SECURITY=true
       - SECURITY_ENABLE_LOGIN=true
+    mem_limit: 512m
 networks:
   web:
     external: true

@@ -1,4 +1,4 @@
-version: "2.1"
+version: "2"
 services:
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
@@ -33,6 +33,7 @@ services:
     volumes:
       - /mnt/storage/syncthing/config:/config
     restart: unless-stopped
+    mem_limit: 256m
 networks:
   web:
     external: true

@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   # See documentation at:
   # https://docker-minecraft-server.readthedocs.io/en/latest/
@@ -46,10 +46,7 @@ services:
     volumes:
       - /mnt/storage/minecraft/data:/data
       - /mnt/storage/minecraft/plugins:/plugins
-    deploy:
-      resources:
-        limits:
-          memory: 4.5G
+    mem_limit: 4.2g
 
   mc-usw:
     image: itzg/minecraft-server
@@ -77,10 +74,7 @@ services:
     restart: unless-stopped
     volumes:
       - /mnt/storage/mc-usw/data:/data
-    deploy:
-      resources:
-        limits:
-          memory: 4.5G
+    mem_limit: 4.2g
 
   mc-router:
     image: itzg/mc-router
@@ -99,6 +93,7 @@ services:
       - traefik.tcp.routers.mc-router.entryPoints=minecraft
       - traefik.tcp.routers.mc-router.rule=HostSNI(`*`)
       - traefik.tcp.services.mc-router.loadBalancer.server.port=25565
+    mem_limit: 16m
 
 networks:
   internal:

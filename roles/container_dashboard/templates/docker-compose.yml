@@ -1,4 +1,4 @@
-version: "3.3"
+version: "2"
 services:
   dashboard:
     image: ghcr.io/snyssen/webb-launcher:2.2.5
@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.dashboard.entryPoints=websecure
       - traefik.http.routers.dashboard.rule=Host(`dash.{{ ansible_fqdn }}`)
       - traefik.http.routers.dashboard.middlewares=traefik-compress
+    mem_limit: 48m
 
 networks:
   web:
