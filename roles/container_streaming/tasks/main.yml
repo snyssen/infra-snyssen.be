@@ -18,6 +18,8 @@
     - /mnt/storage/streaming/media/podcasts
     - "{{ docker_mounts_directory }}/audiobookshelf/config"
     - "{{ docker_mounts_directory }}/audiobookshelf/metadata"
+    # WIP
+    - /mnt/storage/streaming/media/books
     # torrents
     - "/mnt/storage/torrent"
     - /mnt/storage/streaming/torrent
