@@ -195,7 +195,7 @@ services:
       - SMTP_USER_NAME={{ smtp__user }}
       - SMTP_USER_PWD={{ smtp__pass|replace('$','$$') }}
       - SMTP_HOST_SSL_ENABLED={{ smtp__tls }}
-    mem_limit: 72m
+    mem_limit: 256m
 
   adguard_exporter:
     image: ebrianne/adguard-exporter:v1.14
