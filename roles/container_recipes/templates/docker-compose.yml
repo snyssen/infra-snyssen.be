@@ -10,7 +10,7 @@ services:
       - "{{ docker_mounts_directory }}/recipes/postgresql:/var/lib/postgresql/data"
     networks:
       - internal
-    mem_limit: 32m
+    mem_limit: 64m
 
   recipes_postgres_backups:
     restart: unless-stopped

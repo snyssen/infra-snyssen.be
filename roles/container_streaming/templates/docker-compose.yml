@@ -54,7 +54,7 @@ services:
       - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
-    mem_limit: 1g
+    mem_limit: 2.5g
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:2.7.2
