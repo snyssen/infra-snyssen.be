@@ -46,7 +46,7 @@ services:
     mem_limit: 12m
 
   paperless:
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.5.3
     container_name: paperless
     restart: unless-stopped
     networks:
@@ -107,7 +107,7 @@ services:
     mem_limit: 8m
 
   paperless_tika:
-    image: ghcr.io/paperless-ngx/tika:latest
+    image: ghcr.io/paperless-ngx/tika:2.9.1-full
     container_name: paperless_tika
     restart: unless-stopped
     networks:

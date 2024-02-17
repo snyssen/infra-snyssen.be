@@ -36,7 +36,7 @@ services:
     mem_limit: 16m
 
   nextcloud_redis:
-    image: redis:latest
+    image: redis:7.2.4
     container_name: nextcloud_redis
     restart: always
     networks:

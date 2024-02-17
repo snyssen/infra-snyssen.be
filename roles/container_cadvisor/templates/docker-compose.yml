@@ -1,7 +1,7 @@
 version: "2"
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:0.47.2
     container_name: cadvisor
     ports:
       - 9200:8080

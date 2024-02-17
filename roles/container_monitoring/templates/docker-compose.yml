@@ -166,7 +166,7 @@ services:
     mem_limit: 712m
 
   plausible:
-    image: plausible/analytics:latest
+    image: plausible/analytics:v2.0.0
     container_name: plausible
     restart: unless-stopped
     command: sh -c "sleep 45 && /entrypoint.sh db migrate && /entrypoint.sh run"
