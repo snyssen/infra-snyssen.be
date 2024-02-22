@@ -1,0 +1,51 @@
+version: "2"
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: "{{ db__pg_password }}"
+      # Take db list as
+      # db__pg_databases:
+      # - name: dbname1
+      #   password: dbpass1
+      # [...]
+      # And turns it into
+      # dbname1:dbpass1,dbname2:dbpass2,[...]
+      POSTGRES_MULTIBLE_DATABASES: >-
+        {{ db__pg_databases | map(attribute='name') | zip(db__pg_databases | map(attribute='password')) | map('join', ':') | join(',') | replace('$', '$$') }}
+    volumes:
+      - "{{ docker_mounts_directory }}/databases/postgres/data:/var/lib/postgresql/data"
+      - "{{ docker_mounts_directory }}/databases/postgres/init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh"
+    networks:
+      - db
+    mem_limit: 64m
+
+  pgadmin:
+    image: dpage/pgadmin4:8.3
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "{{ db__pgadmin_email }}"
+      PGADMIN_DEFAULT_PASSWORD: "{{ db__pgadmin_password }}"
+    volumes:
+      - "{{ docker_mounts_directory }}/databases/postgres/servers.json:/pgadmin4/servers.json:ro"
+    depends_on:
+      - postgres
+    networks:
+      - db
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pgadmin.entryPoints=websecure
+      - traefik.http.routers.pgadmin.rule=Host(`pgadmin.{{ ansible_fqdn }}`)
+      - traefik.http.routers.pgadmin.service=pgadmin
+      - traefik.http.services.pgadmin.loadBalancer.server.port=80
+    mem_limit: 128m
+
+networks:
+  db:
+    external: true
+  web:
+    external: true

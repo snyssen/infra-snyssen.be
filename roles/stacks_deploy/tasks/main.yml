@@ -1,26 +1,17 @@
-# - name: Permitting traffic through http
-#   become: true
-#   ansible.posix.firewalld:
-#     service: http
-#     permanent: true
-#     state: enabled
-# - name: Permitting traffic through https
-#   become: true
-#   ansible.posix.firewalld:
-#     service: https
-#     permanent: true
-#     state: enabled
-
 - name: "Creating docker networks"
   community.docker.docker_network:
     name: "{{ item }}"
   loop:
     - web
+    - db
     - monitoring
 
 - ansible.builtin.include_role:
     name: container_backbone
   when: "stacks_deploy_list is not defined or 'backbone' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_databases
+  when: "stacks_deploy_list is not defined or 'databases' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_ddns
   when: "stacks_deploy_list is not defined or 'ddns' in stacks_deploy_list"

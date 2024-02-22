@@ -1,0 +1,39 @@
+- name: Creating folders
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.src }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    mode: "{{ item.mode }}"
+    group: "{{ item.group }}"
+  with_items:
+    - src: "{{ docker_mounts_directory }}/databases/postgres/data"
+      # Postgres UID and GID
+      owner: "999"
+      group: "999"
+      mode: "700"
+
+- name: Deploying init script
+  become: true
+  ansible.builtin.copy:
+    src: init-multi-db.sh
+    dest: "{{ docker_mounts_directory }}/databases/postgres/"
+    # Postgres UID and GID
+    owner: "999"
+    group: "999"
+    mode: "700"
+
+- name: Deploying pgadmin config
+  become: true
+  ansible.builtin.template:
+    src: pgadmin/servers.json
+    dest: "{{ docker_mounts_directory }}/databases/postgres/servers.json"
+    # pgadmin UID
+    owner: "5050"
+    group: "{{ ansible_user_gid }}"
+    mode: "740"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: databases

@@ -15,6 +15,15 @@ vpn__service_provider: protonvpn
 vpn__user: "{{ vault_vpn__user }}"
 vpn__pass: "{{ vault_vpn__pass }}"
 
+db__pg_password: "{{ vault_db__pg_password }}"
+db__pg_databases:
+- name: nextcloud
+  password: "{{ vault_nextcloud__postgres_password }}"
+- name: recipes
+  password: "{{ vault_recipes__db_password }}"
+db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
+db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
+
 ddns__user: "{{ vault_ddns__user }}"
 ddns__pass: "{{ vault_ddns__pass }}"
 
@@ -39,9 +48,6 @@ usenet__api_key: "{{ vault_usenet__api_key }}"
 usenet__nzb_key: "{{ vault_usenet__nzb_key }}"
 
 ytdl_sub__healthcheck_id: "{{ vault_ytdl_sub__healthcheck_id }}"
-
-piped__postgres_password: "{{ vault_piped__postgres_password }}"
-piped__postgres_backups_healthcheck_id: "{{ vault_piped__postgres_backups_healthcheck_id }}"
 
 photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
 photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
