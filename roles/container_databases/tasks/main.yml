@@ -27,3 +27,30 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: databases
+
+- name: Installing psycopg2 for connecting to Postgres
+  become: true
+  ansible.builtin.package:
+    name: python3-psycopg2
+    state: present
+
+- name: "Creating databases"
+  community.postgresql.postgresql_db:
+    name: "{{ item.name }}"
+    login_host: "localhost"
+    login_password: "{{ db__pg_password }}"
+    state: present
+  loop: "{{ db__pg_databases }}"
+  loop_control:
+    label: "{'name': '{{ item.name }}', 'password': '***'}"
+- name: "Creating databases users"
+  community.postgresql.postgresql_user:
+    db: "{{ item.name }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    login_host: "localhost"
+    login_password: "{{ db__pg_password }}"
+    state: present
+  loop: "{{ db__pg_databases }}"
+  loop_control:
+    label: "{'name': '{{ item.name }}', 'password': '***'}"

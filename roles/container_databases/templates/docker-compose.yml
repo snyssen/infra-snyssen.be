@@ -8,6 +8,9 @@ services:
       POSTGRES_PASSWORD: "{{ db__pg_password }}"
     volumes:
       - "{{ docker_mounts_directory }}/databases/postgres/data:/var/lib/postgresql/data"
+    # Expose port directly on host so ansible can connect to manage databases
+    ports:
+      - "5432:5432"
     networks:
       - db
     mem_limit: 64m
@@ -33,7 +36,7 @@ services:
       - traefik.http.routers.pgadmin.rule=Host(`pgadmin.{{ ansible_fqdn }}`)
       - traefik.http.routers.pgadmin.service=pgadmin
       - traefik.http.services.pgadmin.loadBalancer.server.port=80
-    mem_limit: 128m
+    mem_limit: 512m
 
 networks:
   db:
