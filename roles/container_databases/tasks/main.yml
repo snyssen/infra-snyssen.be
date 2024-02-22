@@ -13,16 +13,6 @@
       group: "999"
       mode: "700"
 
-- name: Deploying init script
-  become: true
-  ansible.builtin.copy:
-    src: init-multi-db.sh
-    dest: "{{ docker_mounts_directory }}/databases/postgres/"
-    # Postgres UID and GID
-    owner: "999"
-    group: "999"
-    mode: "700"
-
 - name: Deploying pgadmin config
   become: true
   ansible.builtin.template:

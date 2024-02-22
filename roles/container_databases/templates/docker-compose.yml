@@ -6,18 +6,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "{{ db__pg_password }}"
-      # Take db list as
-      # db__pg_databases:
-      # - name: dbname1
-      #   password: dbpass1
-      # [...]
-      # And turns it into
-      # dbname1:dbpass1,dbname2:dbpass2,[...]
-      POSTGRES_MULTIBLE_DATABASES: >-
-        {{ db__pg_databases | map(attribute='name') | zip(db__pg_databases | map(attribute='password')) | map('join', ':') | join(',') | replace('$', '$$') }}
     volumes:
       - "{{ docker_mounts_directory }}/databases/postgres/data:/var/lib/postgresql/data"
-      - "{{ docker_mounts_directory }}/databases/postgres/init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh"
     networks:
       - db
     mem_limit: 64m
@@ -29,6 +19,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: "{{ db__pgadmin_email }}"
       PGADMIN_DEFAULT_PASSWORD: "{{ db__pgadmin_password }}"
+      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: "10" # debug
     volumes:
       - "{{ docker_mounts_directory }}/databases/postgres/servers.json:/pgadmin4/servers.json:ro"
     depends_on:
