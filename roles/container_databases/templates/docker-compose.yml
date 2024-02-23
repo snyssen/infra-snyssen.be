@@ -13,7 +13,7 @@ services:
       - "5432:5432"
     networks:
       - db
-    mem_limit: 64m
+    mem_limit: 1g
 
   pgadmin:
     image: dpage/pgadmin4:8.3
@@ -23,8 +23,13 @@ services:
       PGADMIN_DEFAULT_EMAIL: "{{ db__pgadmin_email }}"
       PGADMIN_DEFAULT_PASSWORD: "{{ db__pgadmin_password }}"
       PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: "10" # debug
+      PGADMIN_CONFIG_SHARED_STORAGE: >-
+        [{'name':'Backups',
+        'path': '/backups',
+        'restricted_access': False}]
     volumes:
       - "{{ docker_mounts_directory }}/databases/postgres/servers.json:/pgadmin4/servers.json:ro"
+      - /mnt/storage/backups:/backups:ro
     depends_on:
       - postgres
     networks:
@@ -32,11 +37,12 @@ services:
       - web
     labels:
       - traefik.enable=true
+      - traefik.docker.network=web
       - traefik.http.routers.pgadmin.entryPoints=websecure
       - traefik.http.routers.pgadmin.rule=Host(`pgadmin.{{ ansible_fqdn }}`)
       - traefik.http.routers.pgadmin.service=pgadmin
       - traefik.http.services.pgadmin.loadBalancer.server.port=80
-    mem_limit: 512m
+    mem_limit: 1g
 
 networks:
   db:
