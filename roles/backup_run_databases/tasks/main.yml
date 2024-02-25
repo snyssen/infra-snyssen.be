@@ -1,11 +1,7 @@
 - name: Backing up postgres databases
   community.docker.docker_container_exec:
-    container: "{{ item }}"
+    container: postgres_backups
     command: /backup.sh
-  loop:
-    - nextcloud_postgres_backups
-    - recipes_postgres_backups
-    - paperless_postgres_backups
 
 - name: Backing up photoprism database to disk
   community.docker.docker_container_exec:

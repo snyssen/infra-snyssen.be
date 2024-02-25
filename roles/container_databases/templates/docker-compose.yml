@@ -52,7 +52,7 @@ services:
       - db
     depends_on:
       - postgres
-    user: "{{ ansible_user_uid }}:{{ ansible_user_gid }}"
+    user: "5050:{{ ansible_user_gid }}"
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_DB: "{{ db__pg_databases | map(attribute='name') | join(',') }}"
