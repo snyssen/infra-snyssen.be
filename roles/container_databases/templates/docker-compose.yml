@@ -29,7 +29,7 @@ services:
         'restricted_access': False}]
     volumes:
       - "{{ docker_mounts_directory }}/databases/postgres/servers.json:/pgadmin4/servers.json:ro"
-      - /mnt/storage/backups:/backups:ro
+      - /mnt/storage/backups:/backups
     depends_on:
       - postgres
     networks:
@@ -43,6 +43,28 @@ services:
       - traefik.http.routers.pgadmin.service=pgadmin
       - traefik.http.services.pgadmin.loadBalancer.server.port=80
     mem_limit: 1g
+
+  postgres_backups:
+    image: prodrigestivill/postgres-backup-local:16-alpine
+    restart: unless-stopped
+    container_name: postgres_backups
+    networks:
+      - db
+    depends_on:
+      - postgres
+    user: "{{ ansible_user_uid }}:{{ ansible_user_gid }}"
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: "{{ db__pg_databases | map(attribute='name') | join(',') }}"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "{{ db__pg_password }}"
+      POSTGRES_EXTRA_OPTS: "--format c" # So we can use pg_restore to restore the database
+      TZ: "Europe/Brussels"
+      HEALTHCHECK_ID: "{{ db__pg_dump_healthcheck_id }}"
+    volumes:
+      - /mnt/storage/backups/postgres:/backups
+      - ./hooks:/hooks
+    mem_limit: 64m
 
 networks:
   db:

@@ -12,16 +12,32 @@
       owner: "999"
       group: "999"
       mode: "700"
+    - src: /mnt/storage/backups/postgres
+      # pgadmin UID
+      owner: "5050"
+      group: "{{ ansible_user_gid }}"
+      mode: "755"
 
-- name: Deploying pgadmin config
+- name: Deploying extra files
   become: true
   ansible.builtin.template:
-    src: pgadmin/servers.json
-    dest: "{{ docker_mounts_directory }}/databases/postgres/servers.json"
-    # pgadmin UID
-    owner: "5050"
-    group: "{{ ansible_user_gid }}"
-    mode: "740"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - src: pgadmin/servers.json
+      dest: "{{ docker_mounts_directory }}/databases/postgres/servers.json"
+      # pgadmin UID
+      owner: "5050"
+      group: "{{ ansible_user_gid }}"
+      mode: "740"
+    - src: hooks/pgsql_backups_hooks.sh
+      dest: "{{ docker_compose_directory }}/databases/hooks/"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+      mode: "744"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
@@ -34,20 +50,21 @@
     name: python3-psycopg2
     state: present
 
-- name: "Creating databases"
-  community.postgresql.postgresql_db:
+- name: "Creating databases users"
+  community.postgresql.postgresql_user:
+    db: postgres
     name: "{{ item.name }}"
+    password: "{{ item.password }}"
     login_host: "localhost"
     login_password: "{{ db__pg_password }}"
     state: present
   loop: "{{ db__pg_databases }}"
   loop_control:
     label: "{'name': '{{ item.name }}', 'password': '***'}"
-- name: "Creating databases users"
-  community.postgresql.postgresql_user:
-    db: "{{ item.name }}"
+- name: "Creating databases"
+  community.postgresql.postgresql_db:
     name: "{{ item.name }}"
-    password: "{{ item.password }}"
+    owner: "{{ item.name }}"
     login_host: "localhost"
     login_password: "{{ db__pg_password }}"
     state: present

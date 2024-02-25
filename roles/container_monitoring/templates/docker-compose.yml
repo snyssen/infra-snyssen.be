@@ -133,21 +133,6 @@ services:
       - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
     mem_limit: 128m
 
-  # TODO: Backups of database? I don't feel like it would be a huge loss if this one got reset tho...
-  plausible_postgres:
-    image: postgres:16-alpine
-    container_name: plausible_postgres
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - "{{ docker_mounts_directory }}/plausible/postgres:/var/lib/postgresql/data"
-    environment:
-      - POSTGRES_DB=plausible
-      - POSTGRES_USER=plausible
-      - POSTGRES_PASSWORD={{ monitoring__plausible__postgress_pass }}
-    mem_limit: 64m
-
   plausible_clickhouse:
     image: clickhouse/clickhouse-server:24.1-alpine
     container_name: plausible_clickhouse
@@ -173,8 +158,8 @@ services:
     networks:
       - internal
       - web
+      - db
     depends_on:
-      - plausible_postgres
       - plausible_clickhouse
     labels:
       - traefik.enable=true
@@ -187,7 +172,7 @@ services:
       - DISABLE_REGISTRATION=true
       - SECRET_KEY_BASE={{ monitoring__plausible_secret }}
       - BASE_URL=https://plausible.{{ ansible_fqdn }}
-      - DATABASE_URL=postgres://plausible:{{ monitoring__plausible__postgress_pass }}@plausible_postgres:5432/plausible
+      - DATABASE_URL=postgres://plausible:{{ monitoring__plausible__postgress_pass }}@postgres:5432/plausible
       - CLICKHOUSE_DATABASE_URL=http://plausible_clickhouse:8123/plausible_clickhouse
       - MAILER_EMAIL={{ smtp__from }}
       - SMTP_HOST_ADDR={{ smtp__host }}
@@ -218,4 +203,6 @@ networks:
   monitoring:
     external: true
   web:
+    external: true
+  db:
     external: true

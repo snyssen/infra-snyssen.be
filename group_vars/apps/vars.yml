@@ -21,6 +21,11 @@ db__pg_databases:
   password: "{{ vault_nextcloud__postgres_password }}"
 - name: recipes
   password: "{{ vault_recipes__db_password }}"
+- name: paperless
+  password: "{{ vault_paperless__postgres_password }}"
+- name: plausible
+  password: "{{ vault_monitoring__plausible__postgress_pass }}"
+db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
 
