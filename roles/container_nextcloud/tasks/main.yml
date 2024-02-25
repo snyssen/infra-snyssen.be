@@ -1,18 +1,34 @@
 - name: Creating folders
+  become: true
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    # nextcloud uid and gid
+    owner: 33
+    group: 33
+    mode: "770"
   with_items:
     # nextcloud
-    - /mnt/storage/nextcloud
+    - /mnt/storage/nextcloud/config
+
+- name: Deploying nextcloud config file
+  become: true
+  ansible.builtin.template:
+    src: config.php
+    dest: /mnt/storage/nextcloud/config/config.php
+    owner: 33
+    group: 33
+    mode: "770"
+  register: nextcloud_config
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     stack_name: "nextcloud"
+    docker_compose_state: "{{ 'restarted' if nextcloud_config.changed else 'present' }}"
 
 - name: Adds cron job for Nextcloud
-  become: yes
+  become: true
   ansible.builtin.cron:
     name: Nextcloud
     minute: "*/5"
