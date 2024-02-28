@@ -73,4 +73,5 @@ $CONFIG = array(
   array(
     0 => 'keeporsweep',
   ),
+  'maintenance_window_start' => 1
 );

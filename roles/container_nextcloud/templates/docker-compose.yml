@@ -6,7 +6,7 @@ services:
     restart: always
     networks:
       - internal
-    mem_limit: 16m
+    mem_limit: 32m
 
   nextcloud:
     image: nextcloud:28
@@ -45,7 +45,7 @@ services:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/pictures:/pictures
       - /mnt/storage/paperless:/paperless
-    mem_limit: 380m
+    mem_limit: 512m
 
   nextcloud_monitor:
     image: xperimental/nextcloud-exporter:0.6.2
