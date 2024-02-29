@@ -34,10 +34,10 @@
       group: "{{ ansible_user_gid }}"
       mode: "740"
     - src: hooks/pgsql_backups_hooks.sh
-      dest: "{{ docker_compose_directory }}/databases/hooks/"
+      dest: "{{ docker_compose_directory }}/databases/hooks/pgsql_backups_hooks"
       owner: "{{ ansible_user_uid }}"
       group: "{{ ansible_user_gid }}"
-      mode: "744"
+      mode: "774"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
