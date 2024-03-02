@@ -1,37 +1,70 @@
-- ansible.builtin.set_fact:
-    db_restore_available:
-      # TODO: 'user' and 'database' should have same value as service (the key here) and could thus be removed from here
-      nextcloud:
-        directory: /mnt/storage/backups/nextcloud
-        type: pgsql
-        user: nextcloud
-        password: "{{ nextcloud__postgres_password }}"
-        database: nextcloud
-      recipes:
-        directory: /mnt/storage/backups/recipes
-        type: pgsql
-        user: djangouser
-        password: "{{ recipes__db_password }}"
-        database: djangodb
-      photoprism:
-        directory: /mnt/storage/backups/photoprism/mysql
-        type: photoprism
-      paperless:
-        directory: /mnt/storage/backups/paperless
-        type: pgsql
-        user: paperless
-        password: "{{ paperless__postgres_password }}"
-        database: paperless
+- name: Ensure databases are running
+  ansible.builtin.include_role:
+    name: stacks_set_state
+  vars:
+    stacks_state: present
+    stacks_include:
+      - databases
+      - photoprism
 
-- ansible.builtin.set_fact:
-    db_restore_selected: >-
-      {{
-        db_restore_available | dict2items | selectattr('key', 'in', db_restore_include) | list | items2dict
-        if db_restore_include is defined and db_restore_include | length > 0 else
-        db_restore_available | dict2items | rejectattr('key', 'in', db_restore_exclude) | list | items2dict
-      }}
-
-- ansible.builtin.include_tasks: restore_individual_db.yml
-  loop: "{{ db_restore_selected | dict2items }}"
+- name: Selecting pgsql databases
+  ansible.builtin.include_tasks: pgsql_restore.yml
+  loop: "{{ db__pg_databases }}"
   loop_control:
-    loop_var: db_restore_selected_individual
+    loop_var: db
+    label: "{'name': '{{ db.name }}', 'password': '***'}"
+  when:
+    (db_restore_include is not defined and db_restore_exclude is not defined)
+    or (db.name in db_restore_include and db.name not in db_restore_exclude)
+
+- name: Selecting Photoprism
+  ansible.builtin.include_tasks: photoprism_restore.yml
+  loop:
+    - name: photoprism
+      password: "{{ photoprism__mariadb_password }}"
+  loop_control:
+    loop_var: db
+    label: "{'name': '{{ db.name }}', 'password': '***'}"
+  when:
+    (db_restore_include is not defined and db_restore_exclude is not defined)
+    or (db.name in db_restore_include and db.name not in db_restore_exclude)
+# - ansible.builtin.set_fact:
+#     db_restore_available:
+#       "{{ db__pg_databases + photoprism_db }}"
+# TODO: 'user' and 'database' should have same value as service (the key here) and could thus be removed from here
+# nextcloud:
+#   directory: /mnt/storage/backups/nextcloud
+#   type: pgsql
+#   user: nextcloud
+#   password: "{{ nextcloud__postgres_password }}"
+#   database: nextcloud
+# recipes:
+#   directory: /mnt/storage/backups/recipes
+#   type: pgsql
+#   user: djangouser
+#   password: "{{ recipes__db_password }}"
+#   database: djangodb
+# photoprism:
+#   directory: /mnt/storage/backups/photoprism/mysql
+#   type: photoprism
+# paperless:
+#   directory: /mnt/storage/backups/paperless
+#   type: pgsql
+#   user: paperless
+#   password: "{{ paperless__postgres_password }}"
+#   database: paperless
+
+# - ansible.builtin.set_fact:
+#     db_restore_selected: >-
+#       {{
+#         db_restore_available | selectattr('name', 'in', db_restore_include)
+#         if db_restore_include is defined and db_restore_include | length > 0 else
+#         db_restore_available | rejectattr('name', 'in', db_restore_exclude)
+#       }}
+
+# - ansible.builtin.debug:
+#     var: db_restore_selected
+# - ansible.builtin.include_tasks: restore_individual_db.yml
+#   loop: "{{ db_restore_selected }}"
+#   loop_control:
+#     loop_var: db_restore_selected_individual
