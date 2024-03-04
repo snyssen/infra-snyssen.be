@@ -40,7 +40,7 @@
     name: tomereli.oh_my_zsh_p10k
   vars:
     users:
-      - username: "{{ ansible_user_id }}"
+      - "{{ ansible_user_id }}"
     oh_my_zsh_plugins:
       - colored-man-pages
       - colorize
