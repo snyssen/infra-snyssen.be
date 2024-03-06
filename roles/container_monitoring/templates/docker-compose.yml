@@ -74,7 +74,7 @@ services:
     mem_limit: 2g
 
   grafana:
-    image: grafana/grafana-oss:10.3.3
+    image: grafana/grafana-oss:10.4.0
     container_name: grafana
     restart: unless-stopped
     networks:
