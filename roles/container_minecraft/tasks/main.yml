@@ -17,7 +17,7 @@
     owner: "{{ ansible_user_uid }}"
     mode: "774"
   loop:
-    # - url: https://dev.bukkit.org/projects/dynmap/files/4632182/download
+    # - url: https://legacy.curseforge.com/minecraft/bukkit-plugins/dynmap/download/4978992/file
     #   dest: /mnt/storage/minecraft/plugins/dynmap.jar
     - url: https://github.com/sladkoff/minecraft-prometheus-exporter/releases/download/v2.5.0/minecraft-prometheus-exporter-2.5.0.jar
       dest: /mnt/storage/minecraft/plugins/minecraft-prometheus-exporter.jar
