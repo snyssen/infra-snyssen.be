@@ -115,7 +115,7 @@ services:
       - traefik.http.routers.loki.middlewares=lan-whitelist
       - traefik.http.routers.loki.service=loki
       - traefik.http.services.loki.loadBalancer.server.port=3100
-    mem_limit: 164m
+    mem_limit: 2g
 
   uptime:
     image: louislam/uptime-kuma:1

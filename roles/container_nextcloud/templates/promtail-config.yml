@@ -1,0 +1,20 @@
+server:
+  http_listen_address: 0.0.0.0
+  http_listen_port: 9080
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: https://loki.snyssen.be/loki/api/v1/push
+
+scrape_configs:
+  - job_name: system
+    static_configs:
+      - targets:
+          - localhost #Promtail target is localhost
+        labels:
+          instance: cloud.snyssen.be #Label identifier for instance (hostname -f)
+          env: snyssen.be #Environment label
+          job: nextcloud #Job label
+          __path__: /var/logs/{nextcloud,audit}.log

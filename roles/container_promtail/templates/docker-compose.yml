@@ -9,4 +9,4 @@ services:
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
     command: -config.file=/etc/promtail/promtail-config.yml
-    mem_limit: 192m
+    mem_limit: 256m

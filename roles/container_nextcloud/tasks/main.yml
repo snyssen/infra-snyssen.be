@@ -10,6 +10,7 @@
   with_items:
     # nextcloud
     - /mnt/storage/nextcloud/config
+    - /mnt/storage/nextcloud_logs
 
 - name: Deploying nextcloud config file
   become: true
@@ -20,6 +21,15 @@
     group: 33
     mode: "770"
   register: nextcloud_config
+
+- name: Deploy Promtail configuration
+  become: true
+  ansible.builtin.template:
+    src: promtail-config.yml
+    dest: /mnt/storage/nextcloud_logs/promtail-config.yml
+    owner: 33
+    group: 33
+    mode: "0640"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
