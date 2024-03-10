@@ -51,6 +51,16 @@
     - node_rules.yml
   register: prom_config_status
 
+- name: Deploy Loki configuration
+  become: true
+  ansible.builtin.template:
+    src: loki-config.yaml
+    dest: "{{ docker_mounts_directory }}/monitoring/loki"
+    owner: 10001
+    group: 10001
+    mode: "644"
+  register: loki_config_status
+
 - name: Deploying Clickhouse configuration (for Plausible)
   become: true
   ansible.builtin.copy:
@@ -64,7 +74,7 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: monitoring
-    docker_compose_state: "{{ 'restarted' if prom_config_status.changed else 'present' }}"
+    docker_compose_state: "{{ 'restarted' if prom_config_status.changed or loki_config_status.changed else 'present' }}"
 
 - name: Wait for clickhouse to startup before ensuing commands
   ansible.builtin.pause:

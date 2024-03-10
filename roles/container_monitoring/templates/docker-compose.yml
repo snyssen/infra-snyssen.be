@@ -103,7 +103,7 @@ services:
     restart: unless-stopped
     volumes:
       - "{{ docker_mounts_directory }}/monitoring/loki:/loki"
-    command: -config.file=/etc/loki/local-config.yaml
+    command: -config.file=/loki/loki-config.yaml
     networks:
       - monitoring
       - web
