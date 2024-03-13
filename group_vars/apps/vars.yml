@@ -25,6 +25,8 @@ db__pg_databases:
   password: "{{ vault_paperless__postgres_password }}"
 - name: plausible
   password: "{{ vault_monitoring__plausible__postgress_pass }}"
+- name: wger
+  password: "{{ vault_wger__db_password }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -135,3 +137,8 @@ monitoring__adguard_exporter_password: "{{ vault_monitoring__adguard_exporter_pa
 paperless__postgres_password: "{{ vault_paperless__postgres_password }}"
 paperless__postgres_backups_healthcheck_id: "{{ vault_paperless__postgres_backups_healthcheck_id }}"
 paperless__secret_key: "{{ vault_paperless__secret_key }}"
+
+wger__db_password: "{{ vault_wger__db_password }}"
+wger__secret_key: "{{ vault_wger__secret_key }}"
+wger__signing_key: "{{ vault_wger__signing_key }}"
+wger__celery_password: "{{ vault_wger__celery_password }}"

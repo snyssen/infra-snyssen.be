@@ -11,12 +11,6 @@
     # backups
     - /mnt/storage/backups/recipes
 
-- name: Deploying hooks for database backups
-  ansible.builtin.copy:
-    src: pgsql_backups_hooks
-    dest: "{{ docker_compose_directory }}/recipes/hooks/"
-    mode: 0770
-
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:

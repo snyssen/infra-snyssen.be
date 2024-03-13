@@ -60,6 +60,9 @@
 - ansible.builtin.include_role:
     name: container_syncthing
   when: "stacks_deploy_list is not defined or 'syncthing' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_wger
+  when: "stacks_deploy_list is not defined or 'wger' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic
