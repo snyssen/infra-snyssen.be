@@ -17,7 +17,7 @@ services:
     mem_limit: 100m
 
   scrutiny-web:
-    image: ghcr.io/analogj/scrutiny:v0.7.3-web
+    image: ghcr.io/analogj/scrutiny:v0.8.0-web
     container_name: scrutiny-web
     restart: unless-stopped
     networks:
