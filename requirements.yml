@@ -21,4 +21,4 @@ roles:
     version: "7.1.0"
   - name: geerlingguy.security
     src: geerlingguy.security
-    version: "2.2.2"
+    version: "2.3.0"
