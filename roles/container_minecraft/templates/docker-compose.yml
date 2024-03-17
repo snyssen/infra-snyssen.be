@@ -3,7 +3,7 @@ services:
   # See documentation at:
   # https://docker-minecraft-server.readthedocs.io/en/latest/
   minecraft:
-    image: itzg/minecraft-server
+    image: itzg/minecraft-server:2024.3.0
     container_name: minecraft
     networks:
       - internal
@@ -19,7 +19,7 @@ services:
     environment:
       EULA: "TRUE"
       VERSION: "1.20.2"
-      TYPE: SPIGOT
+      TYPE: PAPER
       MEMORY: "4G"
       ENABLE_AUTOPAUSE: "FALSE" # TODO: Enable once I find a solution. Probably doesn't detect connection because routed through Traefik and listening on wrong interface
       # DEBUG_AUTOPAUSE: "true"
@@ -48,40 +48,40 @@ services:
       - /mnt/storage/minecraft/plugins:/plugins
     mem_limit: 4.2g
 
-  mc-usw:
-    image: itzg/minecraft-server
-    container_name: mc-usw
-    networks:
-      - internal
-    environment:
-      EULA: "TRUE"
-      VERSION: "1.20.2"
-      MEMORY: "4G"
-      MAX_TICK_TIME: "-1"
-      MOTD: Ultimate Survival World by Trixy Blox - vanilla
-      DIFFICULTY: normal
-      WHITELIST: "{{ minecraft__whitelisted_players | join(',') }}"
-      OVERRIDE_WHITELIST: "TRUE"
-      ENFORCE_WHITELIST: "TRUE"
-      OPS: "{{ minecraft__admin_players | join(',') }}"
-      OVERRIDE_OPS: "TRUE"
-      MAX_PLAYERS: "2"
-      VIEW_DISTANCE: "{{ minecraft__view_distance }}"
-      SERVER_NAME: "usw.{{ ansible_fqdn }}"
-      SPAWN_PROTECTION: "0"
-    tty: true
-    stdin_open: true
-    restart: unless-stopped
-    volumes:
-      - /mnt/storage/mc-usw/data:/data
-    mem_limit: 4.2g
+  # mc-usw:
+  #   image: itzg/minecraft-server:2024.3.0
+  #   container_name: mc-usw
+  #   networks:
+  #     - internal
+  #   environment:
+  #     EULA: "TRUE"
+  #     VERSION: "1.20.2"
+  #     MEMORY: "4G"
+  #     MAX_TICK_TIME: "-1"
+  #     MOTD: Ultimate Survival World by Trixy Blox - vanilla
+  #     DIFFICULTY: normal
+  #     WHITELIST: "{{ minecraft__whitelisted_players | join(',') }}"
+  #     OVERRIDE_WHITELIST: "TRUE"
+  #     ENFORCE_WHITELIST: "TRUE"
+  #     OPS: "{{ minecraft__admin_players | join(',') }}"
+  #     OVERRIDE_OPS: "TRUE"
+  #     MAX_PLAYERS: "2"
+  #     VIEW_DISTANCE: "{{ minecraft__view_distance }}"
+  #     SERVER_NAME: "usw.{{ ansible_fqdn }}"
+  #     SPAWN_PROTECTION: "0"
+  #   tty: true
+  #   stdin_open: true
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /mnt/storage/mc-usw/data:/data
+  #   mem_limit: 4.2g
 
   mc-router:
     image: itzg/mc-router
     container_name: mc-router
-    depends_on:
-      # - minecraft
-      - mc-usw
+    # depends_on:
+    #   - minecraft
+    #   - mc-usw
     command: --mapping=mc.{{ ansible_fqdn }}=minecraft:25565,usw.{{ ansible_fqdn }}=mc-usw:25565
     restart: unless-stopped
     networks:
