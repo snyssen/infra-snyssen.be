@@ -1,0 +1,24 @@
+version: "2"
+services:
+{% for vault in quartz__vaults %}
+  quartz-{{ vault.name }}:
+    image: ghcr.io/snyssen/quartz-docker-auto-publish:v4
+    container_name: quartz-{{ vault.name }}
+    restart: unless-stopped
+    volumes:
+      - "{{ vault.path }}:/usr/src/app/content:ro"
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.quartz-{{ vault.name }}.entryPoints=websecure
+      - traefik.http.routers.quartz-{{ vault.name }}.rule=Host(`{{ vault.name }}.notes.{{ ansible_fqdn }}`)
+      - traefik.http.routers.quartz-{{ vault.name }}.middlewares=auth,traefik-compress
+      - traefik.http.routers.quartz-{{ vault.name }}.service=quartz-{{ vault.name }}
+      - traefik.http.services.quartz-{{ vault.name }}.loadBalancer.server.port=8080
+{% endfor %}
+
+networks:
+  web:
+    external: true

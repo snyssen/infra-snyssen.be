@@ -17,16 +17,16 @@ vpn__pass: "{{ vault_vpn__pass }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:
-- name: nextcloud
-  password: "{{ vault_nextcloud__postgres_password }}"
-- name: recipes
-  password: "{{ vault_recipes__db_password }}"
-- name: paperless
-  password: "{{ vault_paperless__postgres_password }}"
-- name: plausible
-  password: "{{ vault_monitoring__plausible__postgress_pass }}"
-- name: wger
-  password: "{{ vault_wger__db_password }}"
+  - name: nextcloud
+    password: "{{ vault_nextcloud__postgres_password }}"
+  - name: recipes
+    password: "{{ vault_recipes__db_password }}"
+  - name: paperless
+    password: "{{ vault_paperless__postgres_password }}"
+  - name: plausible
+    password: "{{ vault_monitoring__plausible__postgress_pass }}"
+  - name: wger
+    password: "{{ vault_wger__db_password }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -142,3 +142,12 @@ wger__db_password: "{{ vault_wger__db_password }}"
 wger__secret_key: "{{ vault_wger__secret_key }}"
 wger__signing_key: "{{ vault_wger__signing_key }}"
 wger__celery_password: "{{ vault_wger__celery_password }}"
+
+# Obsidian vaults that should be published through quartz
+quartz__vaults:
+  - name: dnd-saltmarsh
+    path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Saltmarsh
+  - name: dnd-yp
+    path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Yawning Portal
+  - name: dnd-bahut
+    path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Bahut
