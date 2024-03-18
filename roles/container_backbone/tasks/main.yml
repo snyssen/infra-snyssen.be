@@ -5,6 +5,16 @@
   with_items:
     - "{{ docker_mounts_directory }}/traefik"
     - "{{ docker_mounts_directory }}/gluetun"
+    - "{{ docker_mounts_directory }}/authelia"
+
+- name: Deploy Authelia config
+  become: true
+  ansible.builtin.template:
+    src: authelia/configuration.yml
+    dest: "{{ docker_mounts_directory }}/authelia/config/"
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "400"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy

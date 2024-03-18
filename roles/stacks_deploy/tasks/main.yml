@@ -4,6 +4,7 @@
   loop:
     - web
     - db
+    - ldap
     - monitoring
 
 - ansible.builtin.include_role:

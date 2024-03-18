@@ -18,12 +18,20 @@ backbone__lldap__jwt_secret: "{{ vault_backbone__lldap__jwt_secret }}"
 backbone__lldap__key_seed: "{{ vault_backbone__lldap__key_seed }}"
 backbone__lldap__db_user: lldap
 backbone__lldap__db_pass: "{{ vault_backbone__lldap__db_pass }}"
+backbone__lldap__user: "{{ vault_backbone__lldap__user }}"
+backbone__lldap__pass: "{{ vault_backbone__lldap__pass }}"
 backbone__authelia__jwt_secret: "{{ vault_backbone__authelia__jwt_secret }}"
+backbone__authelia__encryption_key: "{{ vault_backbone__authelia__encryption_key }}"
+backbone__authelia__db_user: authelia
+backbone__authelia__db_pass: "{{ vault_backbone__authelia__db_pass }}"
+backbone__authelia__session_secret: "{{ vault_backbone__authelia__session_secret }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:
   - name: "{{ backbone__lldap__db_user }}"
     password: "{{ backbone__lldap__db_pass }}"
+  - name: "{{ backbone__authelia__db_user }}"
+    password: "{{ backbone__authelia__db_pass }}"
   - name: nextcloud
     password: "{{ vault_nextcloud__postgres_password }}"
   - name: recipes

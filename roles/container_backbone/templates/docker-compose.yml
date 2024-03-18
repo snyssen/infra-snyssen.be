@@ -6,6 +6,7 @@ services:
     container_name: traefik
     networks:
       - web
+    # TODO: Forwarded Header Trust for Authelia
     command:
       - "--api=true"
       - "--api.dashboard=true"
@@ -67,7 +68,7 @@ services:
       - traefik.http.routers.traefik.entryPoints=websecure
       - traefik.http.routers.traefik.rule=Host(`routing.{{ ansible_fqdn }}`)
       - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.routers.traefik.middlewares=auth,traefik-compress
+      - traefik.http.routers.traefik.middlewares=authelia@docker,traefik-compress
 
       # Common middlewares definitions
       - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASH_USERS}
@@ -139,6 +140,7 @@ services:
     networks:
       - db
       - web
+      - ldap
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
@@ -149,8 +151,31 @@ services:
       - traefik.http.services.lldap.loadBalancer.server.port=17170
       - traefik.http.routers.lldap.middlewares=lan-whitelist
 
+  authelia:
+    container_name: 'authelia'
+    image: 'docker.io/authelia/authelia:4.38.4'
+    restart: 'unless-stopped'
+    networks:
+      - web
+      - db
+      - ldap
+    environment:
+      TZ: "{{ iana_timezone }}"
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=web'
+      - 'traefik.http.routers.authelia.rule=Host(`auth.{{ ansible_fqdn }}`)'
+      - 'traefik.http.routers.authelia.entryPoints=websecure'
+      - 'traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth'
+      - 'traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true'
+      - 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name'
+    volumes:
+      - '{{ docker_mounts_directory }}/authelia/config:/config'
+
 networks:
   web:
     external: true
   db:
+    external: true
+  ldap:
     external: true
