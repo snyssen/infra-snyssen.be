@@ -7,11 +7,11 @@
     - monitoring
 
 - ansible.builtin.include_role:
-    name: container_backbone
-  when: "stacks_deploy_list is not defined or 'backbone' in stacks_deploy_list"
-- ansible.builtin.include_role:
     name: container_databases
   when: "stacks_deploy_list is not defined or 'databases' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_backbone
+  when: "stacks_deploy_list is not defined or 'backbone' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_ddns
   when: "stacks_deploy_list is not defined or 'ddns' in stacks_deploy_list"

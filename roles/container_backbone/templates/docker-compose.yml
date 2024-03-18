@@ -121,6 +121,36 @@ services:
       - traefik.http.services.usenet.loadBalancer.server.port=8080
     mem_limit: 364m
 
+  lldap:
+    image: lldap/lldap:2024-03-07
+    container_name: lldap
+    # ports:
+      # For LDAP, not recommended to expose, see Usage section.
+      #- "3890:3890"
+    environment:
+      TZ: {{ iana_timezone }}
+      LLDAP_JWT_SECRET: {{ backbone__lldap__jwt_secret }}
+      LLDAP_KEY_SEED: {{ backbone__lldap__key_seed }}
+      # Output e.g. "dc=snyssen,dc=be"
+      LLDAP_LDAP_BASE_DN: >-
+        {{ ansible_fqdn | split(".") | map("regex_replace", "^", "dc=") | join(",") }}
+      LLDAP_DATABASE_URL: >-
+        postgres://{{ backbone__lldap__db_user }}:{{ backbone__lldap__db_pass }}@postgres/{{ backbone__lldap__db_user }}
+    networks:
+      - db
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      # web frontend
+      - traefik.http.routers.lldap.entryPoints=websecure
+      - traefik.http.routers.lldap.rule=Host(`ldap.{{ ansible_fqdn }}`)
+      - traefik.http.routers.lldap.service=lldap
+      - traefik.http.services.lldap.loadBalancer.server.port=17170
+      - traefik.http.routers.lldap.middlewares=lan-whitelist
+
 networks:
   web:
+    external: true
+  db:
     external: true

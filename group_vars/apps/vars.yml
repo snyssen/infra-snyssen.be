@@ -14,9 +14,16 @@ backbone__acme_http_challenge__enabled: "{{ vault_backbone__acme_http_challenge_
 vpn__service_provider: protonvpn
 vpn__user: "{{ vault_vpn__user }}"
 vpn__pass: "{{ vault_vpn__pass }}"
+backbone__lldap__jwt_secret: "{{ vault_backbone__lldap__jwt_secret }}"
+backbone__lldap__key_seed: "{{ vault_backbone__lldap__key_seed }}"
+backbone__lldap__db_user: lldap
+backbone__lldap__db_pass: "{{ vault_backbone__lldap__db_pass }}"
+backbone__authelia__jwt_secret: "{{ vault_backbone__authelia__jwt_secret }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:
+  - name: "{{ backbone__lldap__db_user }}"
+    password: "{{ backbone__lldap__db_pass }}"
   - name: nextcloud
     password: "{{ vault_nextcloud__postgres_password }}"
   - name: recipes
