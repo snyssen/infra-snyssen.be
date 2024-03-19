@@ -7,6 +7,8 @@
 ## The theme to display: light, dark, grey, auto.
 theme: "auto"
 
+default_2fa_method: totp
+
 ##
 ## Log Configuration
 ##
@@ -164,8 +166,17 @@ access_control:
   ## resource if there is no policy to be applied to the user.
   default_policy: "deny"
   rules:
-    - domain: "*.{{ ansible_fqdn }}"
+    {% for vault in quartz__vaults -%}
+    - domain: "{{ vault.name }}.notes.{{ ansible_fqdn }}"
       policy: one_factor
+      subject:
+        - ["group:{{ vault.name }}"]
+    {% endfor -%}
+    - domain:
+        - "routing.{{ ansible_fqdn }}"
+      policy: one_factor
+      subject:
+        - ["group:sysadmin"]
 
 ##
 ## Session Provider Configuration

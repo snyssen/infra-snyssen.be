@@ -14,7 +14,7 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.quartz-{{ vault.name }}.entryPoints=websecure
       - traefik.http.routers.quartz-{{ vault.name }}.rule=Host(`{{ vault.name }}.notes.{{ ansible_fqdn }}`)
-      - traefik.http.routers.quartz-{{ vault.name }}.middlewares=auth,traefik-compress
+      - traefik.http.routers.quartz-{{ vault.name }}.middlewares=authelia@docker,traefik-compress
       - traefik.http.routers.quartz-{{ vault.name }}.service=quartz-{{ vault.name }}
       - traefik.http.services.quartz-{{ vault.name }}.loadBalancer.server.port=8080
 {% endfor %}

@@ -72,6 +72,9 @@ services:
       # Common middlewares definitions
       - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASH_USERS}
       - traefik.http.middlewares.lan-whitelist.ipwhitelist.sourcerange=192.168.1.0/24,172.18.0.0/24
+      - traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth
+      - traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true
+      - traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name
 
       # Adds the compress middleware so its available to all containers that may need it
       - traefik.http.middlewares.traefik-compress.compress=true
@@ -165,9 +168,6 @@ services:
       - 'traefik.docker.network=web'
       - 'traefik.http.routers.authelia.rule=Host(`auth.{{ ansible_fqdn }}`)'
       - 'traefik.http.routers.authelia.entryPoints=websecure'
-      - 'traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth'
-      - 'traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true'
-      - 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name'
     volumes:
       - '{{ docker_mounts_directory }}/authelia/config:/config'
 
