@@ -6,7 +6,6 @@ services:
     container_name: traefik
     networks:
       - web
-    # TODO: Forwarded Header Trust for Authelia
     command:
       - "--api=true"
       - "--api.dashboard=true"
