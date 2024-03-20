@@ -46,7 +46,7 @@ services:
       # Web traffic
       - traefik.http.routers.scrutiny-web.entryPoints=websecure
       - traefik.http.routers.scrutiny-web.rule=Host(`scrutiny.{{ ansible_fqdn }}`)
-      - traefik.http.routers.scrutiny-web.middlewares=auth
+      - traefik.http.routers.scrutiny-web.middlewares=authelia@docker
     mem_limit: 32m
 
   prometheus:
@@ -70,7 +70,7 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.prometheus.entryPoints=websecure
       - traefik.http.routers.prometheus.rule=Host(`prometheus.{{ ansible_fqdn }}`)
-      - traefik.http.routers.prometheus.middlewares=auth
+      - traefik.http.routers.prometheus.middlewares=authelia@docker
     mem_limit: 2g
 
   grafana:

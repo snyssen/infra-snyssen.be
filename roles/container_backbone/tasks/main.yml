@@ -21,5 +21,4 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: "backbone"
-    deploy_env_template: true
     docker_compose_state: "{{ 'restarted' if authelia_conf else 'present' }}"

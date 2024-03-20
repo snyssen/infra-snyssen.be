@@ -70,7 +70,6 @@ services:
       - traefik.http.routers.traefik.middlewares=authelia@docker,traefik-compress
 
       # Common middlewares definitions
-      - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_DASH_USERS}
       - traefik.http.middlewares.lan-whitelist.ipwhitelist.sourcerange=192.168.1.0/24,172.18.0.0/24
       - traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth
       - traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true
@@ -116,7 +115,7 @@ services:
       - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
       - traefik.http.routers.torrent.service=torrent
       - traefik.http.services.torrent.loadBalancer.server.port=9091
-      - traefik.http.routers.torrent.middlewares=auth
+      - traefik.http.routers.torrent.middlewares=authelia@docker
       # Usenet
       - traefik.http.routers.usenet.entryPoints=websecure
       - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)

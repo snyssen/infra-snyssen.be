@@ -174,9 +174,17 @@ access_control:
     {% endfor -%}
     - domain:
         - "routing.{{ ansible_fqdn }}"
+        - "prometheus.{{ ansible_fqdn }}"
+        - "scrutiny.{{ ansible_fqdn }}"
       policy: one_factor
       subject:
         - ["group:sysadmin"]
+    - domain:
+        - "torrent.{{ ansible_fqdn }}"
+      policy: one_factor
+      subject:
+        - ["group:sysadmin"]
+        - ["group:media_manager"]
 
 ##
 ## Session Provider Configuration
