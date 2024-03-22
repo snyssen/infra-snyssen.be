@@ -176,7 +176,7 @@ access_control:
         - "routing.{{ ansible_fqdn }}"
         - "prometheus.{{ ansible_fqdn }}"
         - "scrutiny.{{ ansible_fqdn }}"
-      policy: one_factor
+      policy: two_factor
       subject:
         - ["group:sysadmin"]
     - domain:
