@@ -131,6 +131,7 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.uptime.entryPoints=websecure
       - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
+      - traefik.http.routers.uptime.middlewares=authelia@docker
     mem_limit: 128m
 
   plausible_clickhouse:
