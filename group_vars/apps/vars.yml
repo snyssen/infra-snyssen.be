@@ -27,6 +27,10 @@ backbone__authelia__encryption_key: "{{ vault_backbone__authelia__encryption_key
 backbone__authelia__db_user: authelia
 backbone__authelia__db_pass: "{{ vault_backbone__authelia__db_pass }}"
 backbone__authelia__session_secret: "{{ vault_backbone__authelia__session_secret }}"
+backbone__authelia__oidc_hmac_secret: "{{ vault_backbone__authelia__oidc_hmac_secret }}"
+backbone__authelia__oidc_nextcloud_clientid: "{{ vault_backbone__authelia__oidc_nextcloud_clientid }}"
+backbone__authelia__oidc_nextcloud_clientsecret: "{{ vault_backbone__authelia__oidc_nextcloud_clientsecret }}"
+backbone__authelia__oidc_nextcloud_clientsecret_hash: "{{ vault_backbone__authelia__oidc_nextcloud_clientsecret_hash }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:

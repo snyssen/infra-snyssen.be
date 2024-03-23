@@ -11,6 +11,9 @@
   ansible.builtin.set_fact:
     ldap_base_dn: "{{ ansible_fqdn | split('.') | map('regex_replace', '^', 'dc=') | join(',') }}"
 
+- name: Load OIDC private key for Authelia
+  ansible.builtin.set_fact:
+    backbone__authelia__oidc_jwks_key: "{{ lookup('template', 'authelia/oidc/rsa512-4096.private.pem') }}"
 - name: Deploy Authelia config
   become: true
   ansible.builtin.template:

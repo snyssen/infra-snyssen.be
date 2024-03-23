@@ -1,6 +1,9 @@
 <?php
 $CONFIG = array(
   'debug' => false,
+  'allow_local_remote_servers' => true,
+  'allow_user_to_change_display_name' => false,
+  'lost_password_link' => 'disabled',
   'app.mail.attachment-size-limit' => 5242880,
   'app.mail.imap.timeout' => 45,
   'app.mail.smtp.timeout' => 20,
@@ -73,10 +76,9 @@ $CONFIG = array(
   'mail_smtpport' => '{{ smtp__port }}',
   'mail_smtpname' => '{{ smtp__user }}',
   'mail_smtppassword' => '{{ smtp__pass }}',
-  'app_install_overwrite' =>
-  array(
-    0 => 'keeporsweep',
-  ),
   'maintenance_window_start' => 1,
   'ldapProviderFactory' => 'OCA\\User_LDAP\\LDAPProviderFactory',
+  'user_oidc' => [
+    'auto_provision' => false,
+  ],
 );
