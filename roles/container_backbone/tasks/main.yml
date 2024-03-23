@@ -7,13 +7,17 @@
     - "{{ docker_mounts_directory }}/gluetun"
     - "{{ docker_mounts_directory }}/authelia"
 
+- name: Set LDAP base domain
+  ansible.builtin.set_fact:
+    ldap_base_dn: "{{ ansible_fqdn | split('.') | map('regex_replace', '^', 'dc=') | join(',') }}"
+
 - name: Deploy Authelia config
   become: true
   ansible.builtin.template:
     src: authelia/configuration.yml
     dest: "{{ docker_mounts_directory }}/authelia/config/"
-    owner: "{{ ansible_user_uid }}"
-    group: "{{ ansible_user_gid }}"
+    owner: 0
+    group: 0
     mode: "400"
   register: authelia_conf
 
@@ -22,4 +26,18 @@
   vars:
     stack_name: "backbone"
     docker_compose_state: "{{ 'restarted' if authelia_conf.changed else 'present' }}"
-# TODO: manage LDAP groups and technical users (human users will be managed manually)
+# # TODO: manage LDAP groups and technical users (human users will be managed manually)
+# - name: Install python3-ldap for connecting to LDAP
+#   become: true
+#   ansible.builtin.package:
+#     name: python3-ldap
+#     state: present
+
+# - name: Ensure groups are present
+#   community.general.ldap_entry:
+#     server_uri: ldap://localhost:3890
+#     bind_dn: "uid={{ backbone__lldap__user }},ou=people,{{ ldap_base_dn }}"
+#     bind_pw: "{{ backbone__lldap__pass }}"
+#     dn: "uid={{ item.name }},ou=groups,{{ ldap_base_dn }}"
+#     objectClass: groupOfUniqueNames
+#   loop: "{{ backbone__lldapt__groups }}"

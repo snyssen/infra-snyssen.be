@@ -19,6 +19,9 @@ backbone__lldap__db_user: lldap
 backbone__lldap__db_pass: "{{ vault_backbone__lldap__db_pass }}"
 backbone__lldap__user: "{{ vault_backbone__lldap__user }}"
 backbone__lldap__pass: "{{ vault_backbone__lldap__pass }}"
+backbone__lldapt__groups: "{{ vault_backbone__lldapt__groups }}"
+backbone__authelia__ldap_user: "{{ vault_backbone__authelia__ldap_user }}"
+backbone__authelia__ldap_pass: "{{ vault_backbone__authelia__ldap_pass }}"
 backbone__authelia__jwt_secret: "{{ vault_backbone__authelia__jwt_secret }}"
 backbone__authelia__encryption_key: "{{ vault_backbone__authelia__encryption_key }}"
 backbone__authelia__db_user: authelia

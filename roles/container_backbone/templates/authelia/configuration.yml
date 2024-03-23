@@ -101,12 +101,12 @@ authentication_backend:
     ## The distinguished name of the container searched for objects in the directory information tree.
     ## See also: additional_users_dn, additional_groups_dn.
     base_dn: >-
-      {{ ansible_fqdn | split(".") | map("regex_replace", "^", "dc=") | join(",") }}
+      {{ ldap_base_dn }}
     ## The username and password of the admin user.
     user: >-
-      uid={{ vault_backbone__lldap__user }},ou=people,{{ ansible_fqdn | split(".") | map("regex_replace", "^", "dc=") | join(",") }}
+      uid={{ backbone__authelia__ldap_user }},ou=people,{{ ldap_base_dn }}
     ## Password can also be set using a secret: https://www.authelia.com/c/secrets
-    password: "{{ vault_backbone__lldap__pass }}"
+    password: "{{ backbone__authelia__ldap_pass }}"
 
 ##
 ## Password Policy Configuration.
