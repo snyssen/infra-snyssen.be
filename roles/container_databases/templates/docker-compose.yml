@@ -10,7 +10,7 @@ services:
       - "{{ docker_mounts_directory }}/databases/postgres/data:/var/lib/postgresql/data"
     # Expose port directly on host so ansible can connect to manage databases
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     networks:
       - db
     mem_limit: 1g

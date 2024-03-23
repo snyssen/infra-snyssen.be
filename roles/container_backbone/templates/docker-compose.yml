@@ -126,9 +126,9 @@ services:
   lldap:
     image: lldap/lldap:2024-03-07
     container_name: lldap
-    # ports:
-      # For LDAP, not recommended to expose, see Usage section.
-      #- "3890:3890"
+    ports:
+      # For LDAP, only expose to localhost so ANsuble can connect to it
+      - "127.0.0.1:3890:3890"
     environment:
       TZ: {{ iana_timezone }}
       LLDAP_JWT_SECRET: {{ backbone__lldap__jwt_secret }}
