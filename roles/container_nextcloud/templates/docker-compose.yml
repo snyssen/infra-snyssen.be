@@ -15,6 +15,7 @@ services:
       - internal
       - web
       - db
+      - ldap
     depends_on:
       - nextcloud_redis
     labels:
@@ -75,5 +76,7 @@ networks:
   web:
     external: true
   db:
+    external: true
+  ldap:
     external: true
   internal:

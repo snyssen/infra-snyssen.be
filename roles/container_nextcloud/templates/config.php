@@ -77,5 +77,6 @@ $CONFIG = array(
   array(
     0 => 'keeporsweep',
   ),
-  'maintenance_window_start' => 1
+  'maintenance_window_start' => 1,
+  'ldapProviderFactory' => 'OCA\\User_LDAP\\LDAPProviderFactory',
 );

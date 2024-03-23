@@ -53,6 +53,8 @@ ddns__pass: "{{ vault_ddns__pass }}"
 
 nextcloud__postgres_password: "{{ vault_nextcloud__postgres_password }}"
 nextcloud__postgres_backups_healthcheck_id: "{{ vault_nextcloud__postgres_backups_healthcheck_id }}"
+nextcloud__ldap_user: "{{ vault_nextcloud__ldap_user }}"
+nextcloud__ldap_pass: "{{ vault_nextcloud__ldap_pass }}"
 nextcloud__nextcloud_admin: "{{ vault_nextcloud__nextcloud_admin }}"
 nextcloud__nextcloud_password: "{{ vault_nextcloud__nextcloud_password }}"
 nextcloud__healthcheck_id: "{{ vault_nextcloud__healthcheck_id }}"
