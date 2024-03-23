@@ -57,7 +57,7 @@ services:
     mem_limit: 1g
 
   paperless_gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.2
+    image: docker.io/gotenberg/gotenberg:8.3
     container_name: paperless_gotenberg
     restart: unless-stopped
     networks:
