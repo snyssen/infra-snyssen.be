@@ -317,10 +317,10 @@ identity_providers:
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
-      ## The Client ID is the OAuth 2.0 and OpenID Connect 1.0 Client ID which is used to link an application to a
-      - client_id: "{{ backbone__authelia__oidc_nextcloud_clientid }}"
         ## The description to show to users when they end up on the consent screen. Defaults to the ID above.
-        client_name: 'Nextcloud'
+      - client_name: 'Nextcloud'
+        ## The Client ID is the OAuth 2.0 and OpenID Connect 1.0 Client ID which is used to link an application to a
+        client_id: "{{ backbone__authelia__oidc_nextcloud_clientid }}"
         # The client secret is a shared secret between Authelia and the consumer of this client.
         client_secret: "{{ backbone__authelia__oidc_nextcloud_clientsecret_hash }}"
         public: false
@@ -334,3 +334,16 @@ identity_providers:
           - 'groups'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: client_secret_post
+      - client_name: 'Recipes'
+        client_id: "{{ backbone__authelia__oidc_recipes_clientid }}"
+        client_secret: "{{ backbone__authelia__oidc_recipes_clientsecret_hash }}"
+        public: false
+        authorization_policy: "one_factor"
+        redirect_uris:
+          - "https://recipes.{{ ansible_fqdn }}/accounts/oidc/authelia/login/callback/"
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
