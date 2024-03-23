@@ -1,4 +1,3 @@
-version: "2"
 services:
   personal-website:
     image: ghcr.io/snyssen/personal-website:2.5.3

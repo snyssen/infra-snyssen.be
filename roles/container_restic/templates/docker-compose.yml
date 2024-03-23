@@ -1,4 +1,3 @@
-version: "2"
 services:
   restic_local: &restic-config
     image: ghcr.io/snyssen/restic-backup-docker-wol:1.3.2

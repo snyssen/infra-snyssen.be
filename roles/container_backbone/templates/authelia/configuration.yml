@@ -14,7 +14,7 @@ default_2fa_method: totp
 ##
 log:
   ## Level of verbosity for logs: info, debug, trace.
-  level: "info"
+  level: "debug"
 
   ## Format the logs are written as: json, text.
   format: "json"

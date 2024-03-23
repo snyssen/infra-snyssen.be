@@ -12,7 +12,7 @@ roles:
     version: master
   - name: snyssen.compose_deploy
     src: snyssen.compose_deploy
-    version: v2.0.0
+    version: v2.0.3
   - name: undergreen.prometheus-node-exporter
     src: undergreen.prometheus-node-exporter
     version: v1.5.1

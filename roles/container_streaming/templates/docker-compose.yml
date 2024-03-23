@@ -1,4 +1,3 @@
-version: "2"
 services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.13

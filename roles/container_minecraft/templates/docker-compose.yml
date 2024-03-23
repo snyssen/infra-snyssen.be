@@ -1,4 +1,3 @@
-version: "2"
 services:
   # See documentation at:
   # https://docker-minecraft-server.readthedocs.io/en/latest/

@@ -11,8 +11,7 @@
     apps_selected: "{{ stacks_include | map('regex_replace', '^', docker_compose_directory + '/') if stacks_include is defined and stacks_include | length > 0 else docker_compose_directories.files | map(attribute='path') | difference(stacks_exclude_path) }}"
 
 - name: "Applying state '{{ stacks_state }}' to {{ apps_selected | length }} stacks"
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ item }}"
-    state: "{{ 'absent' if stacks_state == 'absent' else 'present' }}"
-    restarted: "{{ stacks_state == 'restarted' }}"
+    state: "{{ stacks_state }}"
   with_items: "{{ apps_selected }}"

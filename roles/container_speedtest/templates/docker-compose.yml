@@ -1,4 +1,3 @@
-version: "2"
 services:
   speedtest:
     image: adolfintel/speedtest

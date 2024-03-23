@@ -1,5 +1,3 @@
-version: "2"
-
 services:
   foundryvtt:
     image: felddy/foundryvtt:11

@@ -21,4 +21,5 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: "backbone"
-    docker_compose_state: "{{ 'restarted' if authelia_conf else 'present' }}"
+    docker_compose_state: "{{ 'restarted' if authelia_conf.changed else 'present' }}"
+# TODO: manage LDAP groups and technical users (human users will be managed manually)

@@ -1,4 +1,3 @@
-version: "2"
 services:
   photoprism_mariadb:
     image: mariadb:11

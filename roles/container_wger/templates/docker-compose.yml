@@ -39,8 +39,6 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.wger.entryPoints=websecure
       - traefik.http.routers.wger.rule=Host(`wger.{{ ansible_fqdn }}`)
-    ports:
-      - "8080:80"
     healthcheck:
       test: service nginx status
       interval: 10s

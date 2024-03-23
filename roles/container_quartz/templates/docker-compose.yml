@@ -1,4 +1,3 @@
-version: "2"
 services:
 {% for vault in quartz__vaults %}
   quartz-{{ vault.name }}:
