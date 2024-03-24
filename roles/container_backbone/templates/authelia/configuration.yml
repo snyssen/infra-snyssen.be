@@ -162,6 +162,12 @@ privacy_policy:
 ##
 ## Note: the order of the rules is important. The first policy matching (domain, resource, subject) applies.
 access_control:
+  networks:
+    - name: internal
+      networks:
+      {% for cidr in internal_networks_cidr -%}
+        - "{{ cidr }}"
+      {% endfor -%}
   ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   ## resource if there is no policy to be applied to the user.
   default_policy: "deny"
@@ -180,9 +186,16 @@ access_control:
       policy: two_factor
       subject:
         - ["group:sysadmin"]
+    # allow direct connection to download clients when called locally so *arr apps can connect
     - domain:
         - "torrent.{{ ansible_fqdn }}"
-      policy: one_factor
+      policy: bypass
+      networks:
+        - internal
+    # otherwise, require two factor and group
+    - domain:
+        - "torrent.{{ ansible_fqdn }}"
+      policy: two_factor
       subject:
         - ["group:sysadmin"]
         - ["group:media_manager"]

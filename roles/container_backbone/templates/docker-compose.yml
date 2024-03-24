@@ -69,7 +69,7 @@ services:
       - traefik.http.routers.traefik.middlewares=authelia@docker,traefik-compress
 
       # Common middlewares definitions
-      - traefik.http.middlewares.lan-whitelist.ipwhitelist.sourcerange=192.168.1.0/24,172.18.0.0/24
+      - traefik.http.middlewares.lan-whitelist.ipwhitelist.sourcerange={{ internal_networks_cidr | join(",") }}
       - traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth
       - traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true
       - traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name
