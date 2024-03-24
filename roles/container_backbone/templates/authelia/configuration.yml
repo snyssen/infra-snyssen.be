@@ -313,7 +313,13 @@ identity_providers:
       # Required Private Key in PEM DER form.
       - key: |
           {{ backbone__authelia__oidc_jwks_key | indent(10, false) }}
-
+    authorization_policies:
+      recipes_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject:
+              - ["group:recipes_user"]
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
@@ -338,7 +344,7 @@ identity_providers:
         client_id: "{{ backbone__authelia__oidc_recipes_clientid }}"
         client_secret: "{{ backbone__authelia__oidc_recipes_clientsecret_hash }}"
         public: false
-        authorization_policy: "one_factor"
+        authorization_policy: "recipes_policy"
         redirect_uris:
           - "https://recipes.{{ ansible_fqdn }}/accounts/oidc/authelia/login/callback/"
         scopes:

@@ -92,7 +92,6 @@ photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_
 
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
-recipes__postgres_backups_healthcheck_id: "{{ vault_recipes__postgres_backups_healthcheck_id }}"
 
 backups__local_domain: "{{ vault_backups__local_domain }}"
 backups__local_destination: "rest:http://{{backups__local_domain}}:8000/"
