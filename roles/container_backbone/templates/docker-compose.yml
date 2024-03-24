@@ -120,6 +120,7 @@ services:
       - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)
       - traefik.http.routers.usenet.service=usenet
       - traefik.http.services.usenet.loadBalancer.server.port=8080
+      - traefik.http.routers.usenet.middlewares=authelia@docker
     mem_limit: 364m
 
   lldap:

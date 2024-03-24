@@ -189,12 +189,14 @@ access_control:
     # allow direct connection to download clients when called locally so *arr apps can connect
     - domain:
         - "torrent.{{ ansible_fqdn }}"
+        - "usenet.{{ ansible_fqdn }}"
       policy: bypass
       networks:
         - internal
     # otherwise, require two factor and group
     - domain:
         - "torrent.{{ ansible_fqdn }}"
+        - "usenet.{{ ansible_fqdn }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]
