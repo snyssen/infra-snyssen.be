@@ -115,6 +115,7 @@ services:
       - traefik.http.routers.sonarr.entryPoints=websecure
       - traefik.http.routers.sonarr.rule=Host(`sonarr.{{ ansible_fqdn }}`)
       - traefik.http.services.sonarr.loadBalancer.server.port=8989
+      - traefik.http.routers.sonarr.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/sonarr/config:/config"
       - /mnt/storage/streaming:/data
@@ -135,6 +136,7 @@ services:
       - traefik.http.routers.radarr.entryPoints=websecure
       - traefik.http.routers.radarr.rule=Host(`radarr.{{ ansible_fqdn }}`)
       - traefik.http.services.radarr.loadBalancer.server.port=7878
+      - traefik.http.routers.radarr.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/radarr/config:/config"
       - /mnt/storage/streaming:/data
@@ -155,6 +157,7 @@ services:
       - traefik.http.routers.lidarr.entryPoints=websecure
       - traefik.http.routers.lidarr.rule=Host(`lidarr.{{ ansible_fqdn }}`)
       - traefik.http.services.lidarr.loadBalancer.server.port=8686
+      - traefik.http.routers.lidarr.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/lidarr/config:/config"
       - /mnt/storage/streaming:/data
@@ -175,6 +178,7 @@ services:
       - traefik.http.routers.readarr.entryPoints=websecure
       - traefik.http.routers.readarr.rule=Host(`readarr.{{ ansible_fqdn }}`)
       - traefik.http.services.readarr.loadBalancer.server.port=8787
+      - traefik.http.routers.readarr.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/readarr/config:/config"
       - /mnt/storage/streaming:/data
@@ -195,6 +199,7 @@ services:
       - traefik.http.routers.prowlarr.entryPoints=websecure
       - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ ansible_fqdn }}`)
       - traefik.http.services.prowlarr.loadBalancer.server.port=9696
+      - traefik.http.routers.prowlarr.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/prowlarr/config:/config"
     restart: unless-stopped
@@ -214,6 +219,7 @@ services:
       - traefik.http.routers.bazarr.entryPoints=websecure
       - traefik.http.routers.bazarr.rule=Host(`bazarr.{{ ansible_fqdn }}`)
       - traefik.http.services.bazarr.loadBalancer.server.port=6767
+      - traefik.http.routers.bazarr.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/bazarr/config:/config"
       - /mnt/storage/streaming:/data
