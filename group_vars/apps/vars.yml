@@ -34,6 +34,9 @@ backbone__authelia__oidc_nextcloud_clientsecret_hash: "{{ vault_backbone__authel
 backbone__authelia__oidc_recipes_clientid: "{{ vault_backbone__authelia__oidc_recipes_clientid }}"
 backbone__authelia__oidc_recipes_clientsecret: "{{ vault_backbone__authelia__oidc_recipes_clientsecret }}"
 backbone__authelia__oidc_recipes_clientsecret_hash: "{{ vault_backbone__authelia__oidc_recipes_clientsecret_hash }}"
+backbone__authelia__oidc_paperless_clientid: "{{ vault_backbone__authelia__oidc_paperless_clientid }}"
+backbone__authelia__oidc_paperless_clientsecret: "{{ vault_backbone__authelia__oidc_paperless_clientsecret }}"
+backbone__authelia__oidc_paperless_clientsecret_hash: "{{ vault_backbone__authelia__oidc_paperless_clientsecret_hash }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:

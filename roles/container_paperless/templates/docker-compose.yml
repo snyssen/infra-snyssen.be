@@ -54,6 +54,17 @@ services:
       PAPERLESS_TIME_ZONE: Europe/Brussels
       PAPERLESS_OCR_LANGUAGE: fra
       PAPERLESS_OCR_USER_ARGS: '{"continue_on_soft_render_error": true, "invalidate_digital_signatures": true}'
+      # OIDC
+      PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
+      PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: '{"openid_connect":{"APPS":[{"provider_id":"authelia","name":"Authelia","client_id":"{{ backbone__authelia__oidc_paperless_clientid }}","secret":"{{ backbone__authelia__oidc_paperless_clientsecret }}","settings":{"server_url":"https://auth.{{ ansible_fqdn }}/.well-known/openid-configuration"}}]}}'
+      # RBAC is done on Authelia side, so only authorized users can actually signup
+      # Direct LDAP implementation would probably be better, and there is a way to enable it: https://github.com/paperless-ngx/paperless-ngx/discussions/3228
+      # But this is not an official implementation, so I prefer this way.
+      # Note that user do not have any permissions ater signup, so an admin still has to login and change them
+      PAPERLESS_SOCIALACCOUNT_AUTO_SIGNUP: "true"
+      PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "true"
+      PAPERLESS_SOCIALACCOUNT_EMAIL_AUTHENTICATION: "true"
     mem_limit: 1g
 
   paperless_gotenberg:

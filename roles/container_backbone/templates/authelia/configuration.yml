@@ -340,6 +340,12 @@ identity_providers:
           - policy: 'one_factor'
             subject:
               - ["group:recipes_user"]
+      paperless_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'two_factor'
+            subject:
+              - ["group:paperless_user"]
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
@@ -367,6 +373,19 @@ identity_providers:
         authorization_policy: "recipes_policy"
         redirect_uris:
           - "https://recipes.{{ ansible_fqdn }}/accounts/oidc/authelia/login/callback/"
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+      - client_name: 'Paperless'
+        client_id: "{{ backbone__authelia__oidc_paperless_clientid }}"
+        client_secret: "{{ backbone__authelia__oidc_paperless_clientsecret_hash }}"
+        public: false
+        authorization_policy: "paperless_policy"
+        redirect_uris:
+          - "https://paperless.{{ ansible_fqdn }}/accounts/oidc/authelia/login/callback/"
         scopes:
           - 'openid'
           - 'profile'
