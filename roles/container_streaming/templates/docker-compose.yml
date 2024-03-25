@@ -6,6 +6,7 @@ services:
     networks:
       - web
       - monitoring
+      - ldap
     user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
     environment:
       - JELLYFIN_DATA_DIR=/data
@@ -250,4 +251,6 @@ networks:
   web:
     external: true
   monitoring:
+    external: true
+  ldap:
     external: true
