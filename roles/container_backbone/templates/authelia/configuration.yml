@@ -170,6 +170,7 @@ access_control:
       {% endfor -%}
   ## Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   ## resource if there is no policy to be applied to the user.
+  ## https://www.authelia.com/configuration/security/access-control/
   default_policy: "deny"
   rules:
     {% for vault in quartz__vaults -%}
@@ -186,6 +187,21 @@ access_control:
       policy: two_factor
       subject:
         - ["group:sysadmin"]
+    # Disable access to Django admin for users not in sysadmin group
+    - domain:
+        - "paperless.{{ ansible_fqdn }}"
+        - "recipes.{{ ansible_fqdn }}"
+      policy: two_factor
+      subject:
+        - ["group:sysadmin"]
+      resources:
+        # IMPORTANT: use of single quotes -> https://www.authelia.com/configuration/prologue/common/#regular-expressions
+        - '^/admin.*$'
+    # Bypass auth on OIDC enabled sites (be sure to put after more restrictive rules)
+    - domain:
+        - "paperless.{{ ansible_fqdn }}"
+        - "recipes.{{ ansible_fqdn }}"
+      policy: "bypass"
     # allow direct connection to download clients when called locally so *arr apps can connect
     - domain:
         - "torrent.{{ ansible_fqdn }}"

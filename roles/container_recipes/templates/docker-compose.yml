@@ -26,9 +26,10 @@ services:
       - /mnt/storage/recipes/mediafiles:/media
     labels:
       - traefik.enable=true
+      - traefik.docker.network=web
       - traefik.http.routers.recipes.entryPoints=websecure
       - traefik.http.routers.recipes.rule=Host(`recipes.{{ ansible_fqdn }}`)
-      - traefik.docker.network=web
+      - traefik.http.routers.recipes.middlewares=authelia@docker
     depends_on:
       - web_recipes
     networks:
