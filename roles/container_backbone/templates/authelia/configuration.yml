@@ -187,6 +187,11 @@ access_control:
       policy: two_factor
       subject:
         - ["group:sysadmin"]
+    - domain:
+        - "wallos.{{ ansible_fqdn }}"
+      policy: two_factor
+      subject:
+        - ["group:sysadmin"]
     # Disable access to Django admin for users not in sysadmin group
     - domain:
         - "paperless.{{ ansible_fqdn }}"
