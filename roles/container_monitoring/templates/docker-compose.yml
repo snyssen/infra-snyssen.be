@@ -133,7 +133,7 @@ services:
     mem_limit: 128m
 
   plausible_clickhouse:
-    image: clickhouse/clickhouse-server:24.1-alpine
+    image: clickhouse/clickhouse-server:24.3-alpine
     container_name: plausible_clickhouse
     restart: unless-stopped
     networks:
