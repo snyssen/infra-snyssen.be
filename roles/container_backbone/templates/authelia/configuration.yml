@@ -179,6 +179,10 @@ access_control:
       subject:
         - ["group:{{ vault.name }}"]
     {% endfor -%}
+    - domain: "dnd.{{ ansible_fqdn }}"
+      policy: one_factor
+      subject:
+        - ["group:foundry_player"]
     - domain:
         - "routing.{{ ansible_fqdn }}"
         - "prometheus.{{ ansible_fqdn }}"

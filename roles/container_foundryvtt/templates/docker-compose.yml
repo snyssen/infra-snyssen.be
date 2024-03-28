@@ -26,6 +26,7 @@ services:
       - traefik.http.routers.foundryvtt.rule=Host(`dnd.{{ ansible_fqdn }}`)
       - traefik.http.routers.foundryvtt.service=foundryvtt
       - traefik.http.services.foundryvtt.loadBalancer.server.port=30000
+      - traefik.http.routers.foundryvtt.middlewares=authelia@docker
     mem_limit: 256m
 
 networks:
