@@ -40,6 +40,9 @@ backbone__authelia__oidc_paperless_clientsecret_hash: "{{ vault_backbone__authel
 backbone__authelia__oidc_grafana_clientid: "{{ vault_backbone__authelia__oidc_grafana_clientid }}"
 backbone__authelia__oidc_grafana_clientsecret: "{{ vault_backbone__authelia__oidc_grafana_clientsecret }}"
 backbone__authelia__oidc_grafana_clientsecret_hash: "{{ vault_backbone__authelia__oidc_grafana_clientsecret_hash }}"
+backbone__authelia__oidc_audiobookshelf_clientid: "{{ vault_backbone__authelia__oidc_audiobookshelf_clientid }}"
+backbone__authelia__oidc_audiobookshelf_clientsecret: "{{ vault_backbone__authelia__oidc_audiobookshelf_clientsecret }}"
+backbone__authelia__oidc_audiobookshelf_clientsecret_hash: "{{ vault_backbone__authelia__oidc_audiobookshelf_clientsecret_hash }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:

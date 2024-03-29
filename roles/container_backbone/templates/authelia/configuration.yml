@@ -389,6 +389,12 @@ identity_providers:
           - policy: 'two_factor'
             subject:
               - ["group:paperless_user"]
+      media_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'two_factor'
+            subject:
+              - ["group:media_viewer"]
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
@@ -442,6 +448,20 @@ identity_providers:
         authorization_policy: 'two_factor'
         redirect_uris:
           - 'https://monitor.{{ ansible_fqdn }}/login/generic_oauth'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        userinfo_signed_response_alg: 'none'
+      - client_name: 'Audiobookshelf'
+        client_id: '{{ backbone__authelia__oidc_audiobookshelf_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_audiobookshelf_clientsecret_hash }}'
+        public: false
+        authorization_policy: 'media_policy'
+        redirect_uris:
+          - 'https://audiobooks.{{ ansible_fqdn }}/auth/openid/callback'
+          - 'https://audiobooks.{{ ansible_fqdn }}/auth/openid/mobile-redirect'
         scopes:
           - 'openid'
           - 'profile'
