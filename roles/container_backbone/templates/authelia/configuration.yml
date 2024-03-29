@@ -435,3 +435,16 @@ identity_providers:
           - 'email'
           - 'groups'
         userinfo_signed_response_alg: 'none'
+      - client_name: 'Grafana'
+        client_id: '{{ backbone__authelia__oidc_grafana_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_grafana_clientsecret_hash }}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://monitor.{{ ansible_fqdn }}/login/generic_oauth'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        userinfo_signed_response_alg: 'none'

@@ -37,6 +37,9 @@ backbone__authelia__oidc_recipes_clientsecret_hash: "{{ vault_backbone__authelia
 backbone__authelia__oidc_paperless_clientid: "{{ vault_backbone__authelia__oidc_paperless_clientid }}"
 backbone__authelia__oidc_paperless_clientsecret: "{{ vault_backbone__authelia__oidc_paperless_clientsecret }}"
 backbone__authelia__oidc_paperless_clientsecret_hash: "{{ vault_backbone__authelia__oidc_paperless_clientsecret_hash }}"
+backbone__authelia__oidc_grafana_clientid: "{{ vault_backbone__authelia__oidc_grafana_clientid }}"
+backbone__authelia__oidc_grafana_clientsecret: "{{ vault_backbone__authelia__oidc_grafana_clientsecret }}"
+backbone__authelia__oidc_grafana_clientsecret_hash: "{{ vault_backbone__authelia__oidc_grafana_clientsecret_hash }}"
 
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:
@@ -161,8 +164,6 @@ monitoring__plausible_secret: "{{ vault_monitoring__plausible_secret }}"
 monitoring__plausible__postgress_pass: "{{ vault_monitoring__plausible__postgress_pass }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"
 monitoring__adguard_exporter_password: "{{ vault_monitoring__adguard_exporter_password }}"
-monitoring__grafana_ldap_user: "{{ vault_monitoring__grafana_ldap_user }}"
-monitoring__grafana_ldap_pass: "{{ vault_monitoring__grafana_ldap_pass }}"
 
 paperless__postgres_password: "{{ vault_paperless__postgres_password }}"
 paperless__postgres_backups_healthcheck_id: "{{ vault_paperless__postgres_backups_healthcheck_id }}"

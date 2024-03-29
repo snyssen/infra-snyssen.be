@@ -61,16 +61,6 @@
     mode: "644"
   register: loki_config_status
 
-- name: Deploy LDAP config for Grafana
-  become: true
-  ansible.builtin.template:
-    src: grafana/ldap.toml
-    dest: "{{ docker_mounts_directory }}/grafana"
-    owner: "472"
-    group: "{{ ansible_user_gid }}"
-    mode: "400"
-  register: grafana_config_status
-
 - name: Deploying Clickhouse configuration (for Plausible)
   become: true
   ansible.builtin.copy:
@@ -84,7 +74,7 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: monitoring
-    docker_compose_state: "{{ 'restarted' if prom_config_status.changed or loki_config_status.changed or grafana_config_status.changed else 'present' }}"
+    docker_compose_state: "{{ 'restarted' if prom_config_status.changed or loki_config_status.changed else 'present' }}"
 
 - name: Wait for clickhouse to startup before ensuing commands
   ansible.builtin.pause:
