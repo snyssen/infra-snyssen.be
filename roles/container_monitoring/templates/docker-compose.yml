@@ -78,8 +78,10 @@ services:
     networks:
       - monitoring
       - web
+      - ldap
     volumes:
-      - "{{ docker_mounts_directory }}/grafana:/var/lib/grafana"
+      - "{{ docker_mounts_directory }}/grafana/ldap.toml:/etc/grafana/ldap.toml:ro"
+      - "{{ docker_mounts_directory }}/grafana/data:/var/lib/grafana"
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
@@ -88,11 +90,15 @@ services:
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-piechart-panel
       - GF_SERVER_ROOT_URL=https://monitor.{{ ansible_fqdn }}
+      # SMTP
       - GF_SMTP_ENABLED=true
       - GF_SMTP_HOST={{ smtp__host }}:{{ smtp__port }}
       - GF_SMTP_USER={{ smtp__user }}
       - GF_SMTP_PASSWORD={{ smtp__pass | replace('$', '$$') }}
       - GF_SMTP_FROM_ADDRESS={{ smtp__from }}
+      # LDAP
+      - GF_AUTH_LDAP_ENABLED=true
+      - GF_AUTH_LDAP_ALLOW_SIGN_UP=true # Automatically create users in Grafana when they successfully auth through LDAP
     mem_limit: 256m
 
   loki:
@@ -204,4 +210,6 @@ networks:
   web:
     external: true
   db:
+    external: true
+  ldap:
     external: true
