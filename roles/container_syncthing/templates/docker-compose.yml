@@ -5,6 +5,7 @@ services:
     hostname: sync.{{ ansible_fqdn }}
     networks:
       - web
+      - ldap
     environment:
       - PUID={{ ansible_user_uid }}
       - PGID={{ ansible_user_gid }}
@@ -35,4 +36,6 @@ services:
     mem_limit: 256m
 networks:
   web:
+    external: true
+  ldap:
     external: true
