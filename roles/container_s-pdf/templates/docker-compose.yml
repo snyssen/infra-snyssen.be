@@ -10,12 +10,10 @@ services:
       - traefik.http.routers.s-pdf.entryPoints=websecure
       - traefik.http.routers.s-pdf.rule=Host(`pdf.{{ ansible_fqdn }}`)
       - traefik.http.services.s-pdf.loadBalancer.server.port=8080
+      - traefik.http.routers.s-pdf.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/s-pdf/ocr:/usr/share/tesseract-ocr/5/tessdata" #Required for extra OCR languages
       - "{{ docker_mounts_directory }}/s-pdf/config:/configs"
-    environment:
-      - DOCKER_ENABLE_SECURITY=true
-      - SECURITY_ENABLE_LOGIN=true
     mem_limit: 512m
 networks:
   web:

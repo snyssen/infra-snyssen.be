@@ -173,6 +173,15 @@ access_control:
   ## https://www.authelia.com/configuration/security/access-control/
   default_policy: "deny"
   rules:
+    #
+    ## General services - services that are accessible to any registered user
+    #
+    - domain:
+        - "pdf.{{ ansible_fqdn }}"
+      policy: one_factor
+    #
+    ## DnD stuff
+    #
     {% for vault in quartz__vaults -%}
     - domain: "{{ vault.name }}.notes.{{ ansible_fqdn }}"
       policy: one_factor
@@ -183,6 +192,9 @@ access_control:
       policy: one_factor
       subject:
         - ["group:foundry_player"]
+    #
+    ## sysadmin stuff
+    #
     - domain:
         - "routing.{{ ansible_fqdn }}"
         - "prometheus.{{ ansible_fqdn }}"
@@ -191,11 +203,17 @@ access_control:
       policy: two_factor
       subject:
         - ["group:sysadmin"]
+    #
+    ## Misc
+    #
     - domain:
         - "wallos.{{ ansible_fqdn }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]
+    #
+    ## Exceptions
+    #
     # Disable access to Django admin for users not in sysadmin group
     - domain:
         - "paperless.{{ ansible_fqdn }}"
