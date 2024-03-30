@@ -468,3 +468,16 @@ identity_providers:
           - 'groups'
           - 'email'
         userinfo_signed_response_alg: 'none'
+      - client_name: 'pgadmin'
+        client_id: '{{ backbone__authelia__oidc_pgadmin_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_pgadmin_clientsecret_hash }}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://pgadmin.{{ ansible_fqdn }}/oauth2/authorize'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        userinfo_signed_response_alg: 'none'

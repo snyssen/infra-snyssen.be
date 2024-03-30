@@ -33,6 +33,12 @@
       owner: "5050"
       group: "{{ ansible_user_gid }}"
       mode: "740"
+    - src: pgadmin/config_local.py
+      dest: "{{ docker_mounts_directory }}/databases/postgres/config_local.py"
+      # pgadmin UID
+      owner: "5050"
+      group: "{{ ansible_user_gid }}"
+      mode: "400"
     - src: hooks/pgsql_backups_hooks.sh
       dest: "{{ docker_compose_directory }}/databases/hooks/pgsql_backups_hooks"
       owner: "{{ ansible_user_uid }}"

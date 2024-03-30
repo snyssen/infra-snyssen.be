@@ -26,8 +26,10 @@ services:
         [{'name':'Backups',
         'path': '/backups',
         'restricted_access': False}]
+      PGADMIN_CONFIG_AUTHENTICATION_SOURCES: "['oauth2']"
     volumes:
       - "{{ docker_mounts_directory }}/databases/postgres/servers.json:/pgadmin4/servers.json:ro"
+      - "{{ docker_mounts_directory }}/databases/postgres/config_local.py:/pgadmin4/config_local.py:ro"
       - /mnt/storage/backups:/backups
     depends_on:
       - postgres
