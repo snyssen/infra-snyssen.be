@@ -48,19 +48,6 @@ services:
       - /mnt/storage/paperless:/paperless
     mem_limit: 512m
 
-  nextcloud_monitor:
-    image: xperimental/nextcloud-exporter:0.7.0
-    container_name: nextcloud_monitor
-    restart: unless-stopped
-    networks:
-      - monitoring
-    depends_on:
-      - nextcloud
-    environment:
-      - NEXTCLOUD_SERVER=https://cloud.{{ ansible_fqdn }}
-      - NEXTCLOUD_AUTH_TOKEN={{ nextcloud__monitor_token }}
-    mem_limit: 24m
-
   nextcloud_promtail:
     image: grafana/promtail:2.9.6
     container_name: nextcloud_promtail
