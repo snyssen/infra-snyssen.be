@@ -6,10 +6,4 @@ services:
     volumes:
       - "{{ data_directory }}/adguard/work:/opt/adguardhome/work"
       - "{{ data_directory }}/adguard/conf:/opt/adguardhome/conf"
-    ports:
-      # Plain DNS
-      - 53:53/tcp
-      - 53:53/udp
-      # Unencrypted admin panel access
-      - 80:80/tcp
-      # - 3000:3000/tcp # This is only used for initial setup. Since we deploy config through Ansible, we don't need it.
+    network_mode: host
