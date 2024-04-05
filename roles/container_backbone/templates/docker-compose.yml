@@ -27,9 +27,15 @@ services:
       {% endif %}
 
 
+      - "--entryPoints.unifi-stun.address=:3478/udp"
+      - "--entryPoints.unifi-discovery.address=:10001/udp"
+      - "--entryPoints.unifi-comm.address=:8081"
+      # TODO: fix DLNA (should be exposed as physical device)
+      # - "--entryPoints.unifi-discovery-l2.address=:1900/udp"
       - "--entryPoints.minecraft.address=:25565"
       - "--entryPoints.jellyfin-discovery.address=:7359/udp"
-      - "--entryPoints.dlna.address=:1900/udp"
+      # TODO: fix DLNA (should be exposed as physical device)
+      # - "--entryPoints.dlna.address=:1900/udp"
       - "--entryPoints.syncthing.address=:22000"
       - "--entryPoints.syncthing-udp.address=:22000/udp"
       - "--entryPoints.syncthing-discovery.address=:21027/udp"
@@ -43,14 +49,23 @@ services:
       - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=30"
       - "--certificatesResolvers.le.acme.httpChallenge={{ backbone__acme_http_challenge__enabled | to_json }}"
       - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
+
+      # Do not check certificates from apps (some apps, such as unifi, do not provide a way to disable their own cert...)
+      - "--serverstransport.insecureskipverify"
     environment:
       - "{{ backbone__acme_dns_challenge__api_key_variable }}={{ backbone__acme_dns_challenge__api_key }}"
     ports:
       - 80:80 # HTTP
       - 443:443 # HTTPS
+      - 3478:3478/udp # unifi STUN
+      - 10001:10001/udp # unifi AP discovery
+      - 8080:8081 # unifi device communication /!\ Internally (in Traefik), uses 8081 because 8080 is taken by API => but unifi then receives it again in 8080, so should be transprent /!\
+      # TODO: fix DLNA (should be exposed as physical device)
+      # - 1900:1900/udp # unifi discovery on L2 network
       - 25565:25565 # Minecraft
       - 7359:7359/udp # Jellyfin client discovery
-      - 1900:1900/udp # DLNA (for Jellyfin)
+      # TODO: fix DLNA (should be exposed as physical device)
+      # - 1900:1900/udp # DLNA (for Jellyfin)
       - 22000:22000/tcp # syncthing (TCP)
       - 22000:22000/udp # syncthing (UDP)
       - 21027:21027/udp # syncthing discovery 
@@ -73,8 +88,6 @@ services:
       - traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth
       - traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true
       - traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Email,Remote-Name
-
-      # Adds the compress middleware so its available to all containers that may need it
       - traefik.http.middlewares.traefik-compress.compress=true
 
   vpn:

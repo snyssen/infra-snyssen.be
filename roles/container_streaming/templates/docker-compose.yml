@@ -44,9 +44,10 @@ services:
       - traefik.udp.routers.jellyfin-discovery.entryPoints=jellyfin-discovery
       - traefik.udp.routers.jellyfin-discovery.service=jellyfin-discovery
       - traefik.udp.services.jellyfin-discovery.loadBalancer.server.port=7359
-      - traefik.udp.routers.dlna.entryPoints=dlna
-      - traefik.udp.routers.dlna.service=dlna
-      - traefik.udp.services.dlna.loadBalancer.server.port=1900
+      # TODO: fix DLNA (should be exposed as physical device)
+      # - traefik.udp.routers.dlna.entryPoints=dlna
+      # - traefik.udp.routers.dlna.service=dlna
+      # - traefik.udp.services.dlna.loadBalancer.server.port=1900
     volumes:
       - "{{ docker_mounts_directory }}/jellyfin/data:/data"
       - "{{ docker_mounts_directory }}/jellyfin/config:/config"

@@ -1,0 +1,78 @@
+services:
+  unifi-network-application:
+    image: lscr.io/linuxserver/unifi-network-application:8.1.113
+    container_name: unifi-network-application
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ={{ iana_timezone }}
+      - MONGO_USER=unifi
+      - MONGO_PASS={{ unifi__mongo_pass }}
+      - MONGO_HOST=unifi-db
+      - MONGO_PORT=27017
+      - MONGO_DBNAME=unifi
+      - MEM_LIMIT=1024 #optional
+      - MEM_STARTUP=1024 #optional
+    volumes:
+      - "{{ docker_mounts_directory }}/unifi/config:/config"
+    networks:
+      - internal
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      # web portal
+      - traefik.http.routers.unifi-portal.entryPoints=websecure
+      - traefik.http.routers.unifi-portal.rule=Host(`unifi.{{ ansible_fqdn }}`)
+      - traefik.http.routers.unifi-portal.service=unifi-portal
+      - traefik.http.services.unifi-portal.loadbalancer.server.port=8443
+      - traefik.http.services.unifi-portal.loadbalancer.server.scheme=https
+      - traefik.http.routers.unifi-portal.middlewares=lan-whitelist
+      # STUN
+      - traefik.udp.routers.unifi-stun.entryPoints=unifi-stun
+      - traefik.udp.routers.unifi-stun.service=unifi-stun
+      - traefik.udp.services.unifi-stun.loadBalancer.server.port=3478
+      # AP discovery
+      - traefik.udp.routers.unifi-discovery.entryPoints=unifi-discovery
+      - traefik.udp.routers.unifi-discovery.service=unifi-discovery
+      - traefik.udp.services.unifi-discovery.loadBalancer.server.port=10001
+      # device communication
+      - traefik.tcp.routers.unifi-comm.entryPoints=unifi-comm
+      - traefik.tcp.routers.unifi-comm.rule=HostSNI(`*`)
+      - traefik.tcp.routers.unifi-comm.service=unifi-comm
+      - traefik.tcp.services.unifi-comm.loadBalancer.server.port=8080
+      # Discovery on L2 network
+      # TODO: fix DLNA (should be exposed as physical device)
+      # - traefik.udp.routers.unifi-discovery-l2.entryPoints=unifi-discovery-l2
+      # - traefik.udp.routers.unifi-discovery-l2.service=unifi-discovery-l2
+      # - traefik.udp.services.unifi-discovery-l2.loadBalancer.server.port=1900
+      # Guest portal
+      - traefik.http.routers.unifi-portal-guest.entryPoints=websecure
+      - traefik.http.routers.unifi-portal-guest.rule=Host(`unifi-guest.{{ ansible_fqdn }}`)
+      - traefik.http.routers.unifi-portal-guest.service=unifi-portal-guest
+      - traefik.http.services.unifi-portal-guest.loadbalancer.server.port=8843
+      - traefik.http.services.unifi-portal-guest.loadbalancer.server.scheme=https
+      - traefik.http.routers.unifi-portal-guest.middlewares=lan-whitelist
+    # ports: # See: https://github.com/linuxserver/docker-unifi-network-application?tab=readme-ov-file#parameters
+    #   - 6789:6789 #optional
+    #   - 5514:5514/udp #optional
+    restart: unless-stopped
+    depends_on:
+      - unifi-db
+  unifi-db:
+    image: docker.io/mongo:7.0.8
+    container_name: unifi-db
+    volumes:
+      - "{{ docker_mounts_directory }}/unifi/mongodb:/data/db"
+      - "{{ docker_mounts_directory }}/unifi/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
+    networks:
+      - internal
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "{{ unifi__mongo_root_pass }}"
+      MONGO_INITDB_DATABASE: unifi
+networks:
+  web:
+    external: true
+  internal:

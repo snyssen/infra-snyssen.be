@@ -1,0 +1,29 @@
+- name: Create folders
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.src }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "0740"
+  with_items:
+    - src: "{{ docker_mounts_directory }}/unifi/config"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+    - src: "{{ docker_mounts_directory }}/unifi/mongodb"
+      owner: "999"
+      group: "{{ ansible_user_gid }}"
+
+- name: Deploy config
+  become: true
+  ansible.builtin.template:
+    src: init-mongo.js
+    dest: "{{ docker_mounts_directory }}/unifi/"
+    owner: "999"
+    group: "{{ ansible_user_gid }}"
+    mode: "500"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: unifi

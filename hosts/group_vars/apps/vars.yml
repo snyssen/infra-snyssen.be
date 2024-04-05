@@ -47,6 +47,9 @@ backbone__authelia__oidc_pgadmin_clientid: "{{ vault_backbone__authelia__oidc_pg
 backbone__authelia__oidc_pgadmin_clientsecret: "{{ vault_backbone__authelia__oidc_pgadmin_clientsecret }}"
 backbone__authelia__oidc_pgadmin_clientsecret_hash: "{{ vault_backbone__authelia__oidc_pgadmin_clientsecret_hash }}"
 
+unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
+unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
+
 db__pg_password: "{{ vault_db__pg_password }}"
 db__pg_databases:
   - name: "{{ backbone__lldap__db_user }}"
@@ -139,6 +142,7 @@ backups__volumes_common:
   - /mnt/storage/syncthing/config:/data/syncthing/config
   - "{{ docker_mounts_directory }}/wallos:/data/wallos"
   - "{{ docker_mounts_directory }}/s-pdf:/data/s-pdf"
+  - "{{ docker_mounts_directory }}/unifi:/data/unifi"
 backups__volumes_local_only:
   - ./hooks/local:/hooks
   - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
