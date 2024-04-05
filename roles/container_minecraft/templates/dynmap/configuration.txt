@@ -255,7 +255,7 @@ enabletilehash: true
 #hideores: true
 
 # Optional - enabled BetterGrass style rendering of grass and snow block sides
-#better-grass: true
+better-grass: true
 
 # Optional - enable smooth lighting by default on all maps supporting it (can be set per map as lighting option)
 smooth-lighting: true
@@ -503,7 +503,7 @@ soft-ref-cache: true
 
 # Published public URL for Dynmap server (allows users to use 'dynmap url' command to get public URL usable to access server
 # If not set, 'dynmap url' will not return anything.  URL should be fully qualified (e.g. https://mc.westeroscraft.com/)
-#publicURL: http://my.greatserver.com/dynmap
+publicURL: https://mc.snyssen.be
 
 # Send this message if the player does not have permission to use the command
 noPermissionMsg: "You don't have permission to use this command!"
