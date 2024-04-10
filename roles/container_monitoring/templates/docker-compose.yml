@@ -93,7 +93,7 @@ services:
       - GF_SMTP_HOST={{ smtp__host }}:{{ smtp__port }}
       - GF_SMTP_USER={{ smtp__user }}
       - GF_SMTP_PASSWORD={{ smtp__pass | replace('$', '$$') }}
-      - GF_SMTP_FROM_ADDRESS={{ smtp__from }}
+      - GF_SMTP_FROM_ADDRESS=grafana@{{ ansible_fqdn }}
       # OIDC
       - GF_AUTH_GENERIC_OAUTH_ENABLED=true
       - GF_AUTH_GENERIC_OAUTH_NAME=Authelia
