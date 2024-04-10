@@ -49,7 +49,7 @@ services:
     mem_limit: 512m
 
   nextcloud_promtail:
-    image: grafana/promtail:2.9.6
+    image: grafana/promtail:3.0.0
     container_name: nextcloud_promtail
     restart: unless-stopped
     volumes:

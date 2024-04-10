@@ -114,7 +114,7 @@ services:
     mem_limit: 256m
 
   loki:
-    image: grafana/loki:2.9.6
+    image: grafana/loki:3.0.0
     container_name: loki
     restart: unless-stopped
     volumes:
