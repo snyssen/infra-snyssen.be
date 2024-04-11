@@ -1,0 +1,11 @@
+{
+  "settings": [
+    {
+      "provider": "dynu",
+      "domain": "{{ ansible_fqdn }}",
+      "host": "@",
+      "username": "{{ ddns__user }}",
+      "password": "{{ ddns__pass }}"
+    }
+  ]
+}

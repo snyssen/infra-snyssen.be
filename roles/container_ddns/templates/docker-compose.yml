@@ -1,10 +1,23 @@
 services:
   ddns:
     container_name: ddns
-    image: ghcr.io/snyssen/dynu-docker-client:1.1
+    image: qmcgaw/ddns-updater:2.6.0
+    restart: unless-stopped
+    mem_limit: 32m
+    volumes:
+      - "{{ docker_mounts_directory }}/ddns:/updater/data"
     environment:
-      - DYN_HOSTNAME={{ ansible_fqdn }}
-      - DYN_USER={{ ddns__user }}
-      - DYN_PASS={{ ddns__pass }}
-    restart: always
-    mem_limit: 8m
+      - RESOLVER_ADDRESS=9.9.9.10:53
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.ddns.entryPoints=websecure
+      - traefik.http.routers.ddns.rule=Host(`ddns.{{ ansible_fqdn }}`)
+      - traefik.http.routers.ddns.middlewares=authelia@docker
+      - traefik.http.routers.ddns.service=ddns
+      - traefik.http.services.ddns.loadBalancer.server.port=8000
+networks:
+  web:
+    external: true
