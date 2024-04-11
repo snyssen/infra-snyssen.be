@@ -4,8 +4,15 @@
       "provider": "dynu",
       "domain": "{{ ansible_fqdn }}",
       "host": "@",
-      "username": "{{ ddns__user }}",
-      "password": "{{ ddns__pass }}"
+      "username": "{{ ddns__dynu_user }}",
+      "password": "{{ ddns__dynu_pass }}"
+    },
+    {
+      "provider": "porkbun",
+      "domain": "{{ team_domain }}",
+      "host": "@",
+      "api_key": "{{ ddns__porkbun_api_key }}",
+      "secret_api_key": "{{ ddns__porkbun_secret_api_key }}"
     }
   ]
 }

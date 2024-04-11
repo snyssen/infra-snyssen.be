@@ -70,8 +70,12 @@ db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
 
-ddns__user: "{{ vault_ddns__user }}"
-ddns__pass: "{{ vault_ddns__pass }}"
+team_domain: "{{ vault_team_domain }}"
+
+ddns__dynu_user: "{{ vault_ddns__dynu_user }}"
+ddns__dynu_pass: "{{ vault_ddns__dynu_pass }}"
+ddns__porkbun_api_key: "{{ vault_ddns__porkbun_api_key }}"
+ddns__porkbun_secret_api_key: "{{ vault_ddns__porkbun_secret_api_key }}"
 
 nextcloud__postgres_password: "{{ vault_nextcloud__postgres_password }}"
 nextcloud__postgres_backups_healthcheck_id: "{{ vault_nextcloud__postgres_backups_healthcheck_id }}"
