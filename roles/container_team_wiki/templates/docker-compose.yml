@@ -1,6 +1,7 @@
 services:
-  wiki:
+  team_wiki:
     image: ghcr.io/requarks/wiki:2
+    container_name: team_wiki
     networks:
       - web
       - db
@@ -18,7 +19,6 @@ services:
       - traefik.docker.network=web
       - traefik.http.routers.team_wiki.entryPoints=websecure
       - traefik.http.routers.team_wiki.rule=Host(`{{ team_domain }}`)
-      - traefik.http.routers.team_wiki.middlewares=lan-whitelist
       - traefik.http.routers.team_wiki.service=team_wiki
       - traefik.http.services.team_wiki.loadBalancer.server.port=3000
 

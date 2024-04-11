@@ -176,10 +176,10 @@ services:
     environment:
       TZ: "{{ iana_timezone }}"
     labels:
-      - 'traefik.enable=true'
-      - 'traefik.docker.network=web'
-      - 'traefik.http.routers.authelia.rule=Host(`auth.{{ ansible_fqdn }}`)'
-      - 'traefik.http.routers.authelia.entryPoints=websecure'
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.authelia.rule=Host(`auth.{{ ansible_fqdn }}`)||Host(`auth.{{ team_domain }}`)
+      - traefik.http.routers.authelia.entryPoints=websecure
     volumes:
       - '{{ docker_mounts_directory }}/authelia/config:/config'
 

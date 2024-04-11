@@ -40,7 +40,7 @@ totp:
   disable: false
 
   ## The issuer name displayed in the Authenticator application of your choice.
-  issuer: "auth.{{ ansible_fqdn }}"
+  issuer: "Authelia"
 
 ##
 ## WebAuthn Configuration
@@ -274,15 +274,14 @@ session:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
       authelia_url: "https://auth.{{ ansible_fqdn }}"
+    - domain: "{{ team_domain }}"
+      authelia_url: "https://auth.{{ team_domain }}"
 
   ## Cookie Session Domain default 'name' value.
   name: "authelia_session"
 
   ## Cookie Session Domain default 'same_site' value.
   same_site: "lax"
-
-  ## Cookie Session Domain default 'inactivity' value.
-  inactivity: "5m"
 
   ## Cookie Session Domain default 'expiration' value.
   expiration: "1h"
@@ -396,6 +395,12 @@ identity_providers:
           - policy: 'two_factor'
             subject:
               - ["group:media_viewer"]
+      team_wiki_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject:
+              - ["group:team_wiki_member"]
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
@@ -482,3 +487,17 @@ identity_providers:
           - 'groups'
           - 'email'
         userinfo_signed_response_alg: 'none'
+      - client_name: 'team_wiki'
+        client_id: '{{ backbone__authelia__oidc_team_wiki_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_team_wiki_clientsecret_hash }}'
+        public: false
+        authorization_policy: 'team_wiki_policy'
+        redirect_uris:
+          - 'https://{{ team_domain }}/login/782aa720-97a8-439f-949e-fd75fed1085c/callback'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'groups'
+          - 'email'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: client_secret_post
