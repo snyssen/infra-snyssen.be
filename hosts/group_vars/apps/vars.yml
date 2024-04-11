@@ -152,7 +152,7 @@ backups__volumes_remote_only:
   - /mnt/storage/streaming/media/music:/data/streaming/media/music
 
 minecraft__forbid_cracked: true
-minecraft__view_distance: 12
+minecraft__view_distance: 16
 minecraft__max_player: 5
 minecraft__difficulty: easy
 minecraft__gamemode: survival

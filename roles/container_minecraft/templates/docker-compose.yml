@@ -19,7 +19,7 @@ services:
       EULA: "TRUE"
       VERSION: "1.20.2"
       TYPE: PAPER
-      MEMORY: "4G"
+      MEMORY: "8G"
       ENABLE_AUTOPAUSE: "FALSE" # TODO: Enable once I find a solution. Probably doesn't detect connection because routed through Traefik and listening on wrong interface
       # DEBUG_AUTOPAUSE: "true"
       MAX_TICK_TIME: "-1"
@@ -45,7 +45,7 @@ services:
     volumes:
       - /mnt/storage/minecraft/data:/data
       - /mnt/storage/minecraft/plugins:/plugins
-    mem_limit: 4.2g
+    mem_limit: 8.2g
 
   # mc-usw:
   #   image: itzg/minecraft-server:2024.3.0
