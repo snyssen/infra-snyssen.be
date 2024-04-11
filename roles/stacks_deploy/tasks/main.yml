@@ -70,6 +70,9 @@
 - ansible.builtin.include_role:
     name: container_wger
   when: "stacks_deploy_list is not defined or 'wger' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_team_wiki
+  when: "stacks_deploy_list is not defined or 'team_wiki' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic

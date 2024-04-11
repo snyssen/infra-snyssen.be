@@ -66,6 +66,8 @@ db__pg_databases:
     password: "{{ vault_monitoring__plausible__postgress_pass }}"
   - name: wger
     password: "{{ vault_wger__db_password }}"
+  - name: team_wiki
+    password: "{{ vault_team_wiki__db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -195,3 +197,5 @@ quartz__vaults:
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Yawning Portal
   - name: dnd-bahut
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Bahut
+
+team_wiki__db_pass: "{{ vault_team_wiki__db_pass }}"
