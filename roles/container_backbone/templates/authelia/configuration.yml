@@ -27,9 +27,8 @@ telemetry:
   ## Metrics Configuration
   ##
   metrics:
-    # TODO: enable
     ## Enable Metrics.
-    enabled: false
+    enabled: true
 
 ##
 ## TOTP Configuration

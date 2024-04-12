@@ -173,6 +173,7 @@ services:
       - web
       - db
       - ldap
+      - monitoring
     environment:
       TZ: "{{ iana_timezone }}"
     labels:
@@ -189,4 +190,6 @@ networks:
   db:
     external: true
   ldap:
+    external: true
+  monitoring:
     external: true

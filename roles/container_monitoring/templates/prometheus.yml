@@ -44,6 +44,9 @@ scrape_configs:
     metrics_path: /projects/{{ monitoring__healthchecks_project_uuid }}/metrics/{{ monitoring__healthchecks_api_key }}
     static_configs:
       - targets: ["healthchecks.io"]
+  - job_name: 'authelia'
+    static_configs:
+      - targets: ['authelia:9959']
 
 
 rule_files:
