@@ -28,9 +28,6 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets: ['uptime:3001']
-    basic_auth: # Only needed if authentication is enabled (default)
-      username: "{{ monitoring__uptime_user }}"
-      password: "{{ monitoring__uptime_pass }}"
   - job_name: 'minecraft'
     static_configs:
       - targets: ['minecraft:9940']
@@ -42,6 +39,12 @@ scrape_configs:
   - job_name: 'adguard'
     static_configs:
       - targets: ['adguard_exporter:9617']
+  - job_name: "healthchecks"
+    scrape_interval: 60s
+    metrics_path: /projects/{{ monitoring__healthchecks_project_uuid }}/metrics/{{ monitoring__healthchecks_api_key }}
+    static_configs:
+      - targets: ["healthchecks.io"]
+
 
 rule_files:
   - node_rules.yml

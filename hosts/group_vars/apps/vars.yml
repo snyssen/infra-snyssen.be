@@ -313,6 +313,8 @@ monitoring__plausible_secret: "{{ vault_monitoring__plausible_secret }}"
 monitoring__plausible__postgress_pass: "{{ vault_monitoring__plausible__postgress_pass }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"
 monitoring__adguard_exporter_password: "{{ vault_monitoring__adguard_exporter_password }}"
+monitoring__healthchecks_project_uuid: "{{ vault_monitoring__healthchecks_project_uuid }}"
+monitoring__healthchecks_api_key: "{{ vault_monitoring__healthchecks_api_key }}"
 
 paperless__postgres_password: "{{ vault_paperless__postgres_password }}"
 paperless__postgres_backups_healthcheck_id: "{{ vault_paperless__postgres_backups_healthcheck_id }}"
