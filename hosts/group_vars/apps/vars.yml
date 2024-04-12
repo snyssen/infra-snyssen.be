@@ -169,7 +169,138 @@ minecraft__whitelisted_players: "{{ vault_minecraft__whitelisted_players }}"
 minecraft__admin_players: "{{ vault_minecraft__admin_players }}"
 minecraft__dynmap__resolution: "hires" # default: hires.
 
-dashboard__shortcuts: "{{ vault_dashboard__shortcuts }}"
+dashboard__shortcuts:
+  - name: Work & Tools
+    icon_classes: las la-laptop-code
+    children:
+      - name: GitHub
+        url: https://github.com
+      - name: Authelia
+        url: https://auth.snyssen.be
+      - name: PDF tools
+        url: https://pdf.snyssen.be
+      - name: Recipes
+        url: https://recipes.snyssen.be
+      - name: Wallos
+        url: https://wallos.snyssen.be
+  - name: Documents
+    icon_classes: las la-folder-open
+    children:
+      - name: websites
+        children:
+          - name: Personal website
+            url: https://snyssen.be
+          - name: Bigdouf'site
+            url: https://bigdouf.team
+      - name: Storage
+        children:
+          - name: Nextcloud
+            url: https://cloud.snyssen.be
+          - name: Syncthing
+            url: https://sync.snyssen.be
+          - name: Paperless
+            url: https://paperless.snyssen.be
+      - name: Notes
+        children:
+          - name: DnD - Saltmarsh
+            url: https://dnd-saltmarsh.notes.snyssen.be
+          - name: DnD - Bahut
+            url: https://dnd-bahut.notes.snyssen.be
+          - name: DnD - Yanwning Portal
+            url: https://dnd-yp.notes.snyssen.be
+  - name: Media
+    icon_classes: las la-photo-video
+    children:
+      - name: Jellyfin
+        url: https://streaming.snyssen.be
+      - name: Nebula
+        url: https://nebula.tv
+      - name: Audiobooks
+        url: https://audiobooks.snyssen.be
+      - name: Pictures
+        url: https://photo.snyssen.be
+      - name: Management
+        children:
+          - name: Prowlarr
+            url: https://prowlarr.snyssen.be
+          - name: Sonarr
+            url: https://sonarr.snyssen.be
+          - name: Radarr
+            url: https://Radarr.snyssen.be
+          - name: Lidarr
+            url: https://lidarr.snyssen.be
+          - name: Bazarr
+            url: https://bazarr.snyssen.be
+          - name: Readarr
+            url: https://readarr.snyssen.be
+          - name: Torrents
+            url: https://torrent.snyssen.be
+          - name: Usenet
+            url: https://usenet.snyssen.be
+  - name: Infrastructure
+    icon_classes: las la-server
+    children:
+      - name: DNS management
+        children:
+          - name: DDNS updater
+            url: https://ddns.snyssen.be
+          - name: Dynu
+            url: https://www.dynu.com/en-US/ControlPanel
+          - name: Porkbun
+            url: https://porkbun.com/account/login
+          - name: Local DNS
+            url: http://192.168.1.2
+      - name: Networking
+        children:
+          - name: Router
+            url: http://192.168.1.1
+          - name: Unifi controller
+            url: http://unifi.snyssen.be
+          - name: Speedtest (with server)
+            url: https://speedtest.snyssen.be
+          - name: Speedtest (outside)
+            url: https://www.speedtest.net
+      - name: Tools
+        children:
+          - name: LDAP
+            url: https://ldap.snyssen.be
+          - name: pgadmin
+            url: https://pgadmin.snyssen.be
+          - name: Plausible
+            url: https://plausible.snyssen.be
+      - name: Monitoring
+        children:
+          - name: Grafana
+            url: https://monitor.snyssen.be
+          - name: Uptime Kuma
+            url: https://uptime.snyssen.be
+          - name: Scrutiny
+            url: https://scrutiny.snyssen.be
+          - name: Prometheus
+            url: https://prometheus.snyssen.be
+          - name: Traefik
+            url: https://routing.snyssen.be
+          - name: Healthchecks.io
+            url: https://healthchecks.io/projects/b7456f9a-2422-4e2a-8b0f-96909b448f78/checks/
+  - name: Games
+    icon_classes: las la-gamepad
+    children:
+      - name: Tabletop RPG
+        children:
+          - name: Foundry VTT
+            url: https://dnd.snyssen.be
+          - name: Roll20
+            url: https://roll20.net
+          - name: 5e tools
+            url: https://5e.tools
+          - name: HeroForge
+            url: https://www.heroforge.com
+          - name: Token stamp
+            url: https://rolladvantage.com/tokenstamp
+          - name: Fantasy name generator
+            url: https://www.fantasynamegenerators.com
+      - name: Minecraft live map
+        url: https://mc.snyssen.be
 dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
 
 foundryvtt__username: "{{ vault_foundryvtt__username }}"
