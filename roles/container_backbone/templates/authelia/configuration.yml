@@ -283,6 +283,8 @@ session:
   ## Cookie Session Domain default 'same_site' value.
   same_site: "lax"
 
+  inactivity: "45m"
+
   ## Cookie Session Domain default 'expiration' value.
   expiration: "1h"
 
