@@ -4,8 +4,10 @@ ansible_become_pass: "{{ vault_ansible_become_pass }}"
 disks_mounts: # bays are numbered from bottom to top
   - path: /mnt/parity1
     src: /dev/disk/by-id/ata-ST16000NM000J-2TW103_ZR58BLR6 # Seagate Exos X18 16TB, 1st bay
-  - path: /mnt/disk1
-    src: /dev/disk/by-id/ata-ST4000VN008-2DR166_ZDH9AT9F # Seagate IronWolf 4TB, 2nd bay
+  ### TODO: replace by new disk
+  # - path: /mnt/disk1
+  #   src: /dev/disk/by-id/ata-ST4000VN008-2DR166_ZDH9AT9F # Seagate IronWolf 4TB, 2nd bay
+  ### ^^^
   - path: /mnt/disk2
     src: /dev/disk/by-id/ata-ST12000NM0538-2K2101_ZHZ12PTZ # Seagate Exos X14 12TB, 3rd bay
   - path: /mnt/disk3
