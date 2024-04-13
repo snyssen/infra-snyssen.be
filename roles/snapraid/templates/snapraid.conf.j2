@@ -4,7 +4,7 @@
 
 # Parity location(s)
 {% for disk in snapraid_parity_disks %}
-{{ loop.index}}-parity {{ disk.path }}/snapraid.parity
+{% if disk.number %}{{ disk.number }}{% else %}{{ loop.index}}{% endif %}-parity {{ disk.path }}/snapraid.parity
 {% endfor %}
 
 # Content file location(s)
@@ -24,7 +24,7 @@ content {{ disk.path }}/.snapraid.content
 
 # Data disks
 {% for disk in snapraid_data_disks %}
-data d{{ loop.index }} {{ disk.path }}{{ disk.data_path | default('') }}
+data d{% if disk.number %}{{ disk.number }}{% else %}{{ loop.index}}{% endif %} {{ disk.path }}{{ disk.data_path | default('') }}
 {% endfor %}
 
 # Excludes hidden files and directories (uncomment to enable).

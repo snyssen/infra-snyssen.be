@@ -5,7 +5,8 @@
         {% for disk in disks_mounts if disk.path.startswith('/mnt/disk') %}
         {
           "path": "{{ disk.path }}",
-          "content": true
+          "content": true,
+          "number": "{{ disk.path | regex_search('\d+') }}"
         },
         {% endfor %}
       ]
@@ -14,7 +15,8 @@
         {% for parity in disks_mounts if parity.path.startswith('/mnt/parity') %}
         {
           "path": "{{ parity.path }}",
-          "content": true
+          "content": true,
+          "number": "{{ parity.path | regex_search('\d+') }}"
         },
         {% endfor %}
       ]
