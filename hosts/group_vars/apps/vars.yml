@@ -171,7 +171,7 @@ minecraft__dynmap__resolution: "hires" # default: hires.
 
 dashboard__shortcuts:
   - name: Work & Tools
-    icon_classes: las la-laptop-code
+    icon_classes: las la-tools
     children:
       - name: GitHub
         url: https://github.com
