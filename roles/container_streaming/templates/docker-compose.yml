@@ -146,7 +146,7 @@ services:
     mem_limit: 256m
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:2.1.7
+    image: lscr.io/linuxserver/lidarr:8.1.2135
     container_name: lidarr
     environment:
       - PUID={{ ansible_user_uid}}
