@@ -188,7 +188,7 @@ services:
     mem_limit: 256m
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.13.3
+    image: lscr.io/linuxserver/prowlarr:1.15.0
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
