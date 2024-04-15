@@ -48,6 +48,7 @@
       - /nextcloud/core/
       - /nextcloud/3rdparty/
       - /nextcloud/lib/
+      - /nextcloud_logs/
       - /recipes/staticfiles/ # For some reason these static files sure do change a lot...
       - /photoprism/
       - /syncthing/config/*.db/
