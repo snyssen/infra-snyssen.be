@@ -1,16 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "config:recommended",
     ":semanticCommits",
     ":pinVersions"
-  ],
-  "packageRules": [
-    {
-      "matchPackagePrefixes": [
-        "grafana"
-      ],
-      "groupName": "grafana"
-    }
   ]
 }
