@@ -208,7 +208,7 @@ services:
     mem_limit: 256m
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.4.1
+    image: lscr.io/linuxserver/bazarr:1.4.2
     container_name: bazarr
     environment:
       - PUID={{ ansible_user_uid}}
