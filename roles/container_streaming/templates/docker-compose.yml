@@ -240,7 +240,7 @@ services:
     devices:
       - /dev/dri:/dev/dri
     volumes:
-      - {{ docker_mounts_directory }}/ytdl-sub/config:/config
+      - "{{ docker_mounts_directory }}/ytdl-sub/config:/config"
       - /mnt/storage/streaming/ytdl-sub/downloads:/downloads
       - /mnt/storage/streaming/media/tv:/tv
       - /mnt/storage/streaming/media/movies:/movies
