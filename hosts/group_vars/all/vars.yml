@@ -3,6 +3,13 @@
 # Please either use the main drive or an unmanaged drive (An SSD would be best)
 # Most of the files stored there will be databases__ As such they could significantly grow in size
 docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
+docker_daemon_common_options:
+  # logging options so container logs can be retrieved and parsed by promtail and loki
+  log-driver: json-file
+  log-opts:
+    labels-regex: ^.+
+    max-size: "100m"
+    max-file: "3"
 
 smtp__from: "{{ vault_smtp__from }}"
 smtp__to: "{{ vault_smtp__to }}"

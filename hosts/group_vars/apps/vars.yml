@@ -1,3 +1,7 @@
+docker_daemon_extra_options:
+  dns:
+    - "192.168.1.2"
+
 snapraid_runner_path: /opt/snapraid-runner/snapraid-runner
 snapraid_runner_conf: "{{ snapraid_runner_path }}.conf"
 snapraid_runner_bin: "{{ snapraid_runner_path }}.py"
