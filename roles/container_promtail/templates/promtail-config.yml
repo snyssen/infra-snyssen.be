@@ -16,7 +16,7 @@ scrape_configs:
         labels:
           job: varlogs
           host: "{{ ansible_fqdn }}"
-          __path__: /var/log/*log
+          __path__: /var/log/**/*log
 
   - job_name: containerlogs
     static_configs:
