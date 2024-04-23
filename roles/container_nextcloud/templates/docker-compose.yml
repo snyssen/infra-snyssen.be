@@ -46,7 +46,7 @@ services:
       - /mnt/storage/nextcloud_logs:/var/logs
       - /mnt/storage/pictures:/pictures
       - /mnt/storage/paperless:/paperless
-    mem_limit: 512m
+    mem_limit: 2g
 
   nextcloud_promtail:
     image: grafana/promtail:3.0.0
