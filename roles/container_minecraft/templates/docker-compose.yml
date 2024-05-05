@@ -2,7 +2,7 @@ services:
   # See documentation at:
   # https://docker-minecraft-server.readthedocs.io/en/latest/
   minecraft:
-    image: itzg/minecraft-server:2024.4.1
+    image: itzg/minecraft-server:2024.5.0
     container_name: minecraft
     networks:
       - internal
