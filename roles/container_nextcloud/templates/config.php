@@ -47,7 +47,7 @@ $CONFIG = array(
   ),
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'pgsql',
-  'version' => '28.0.4.1',
+  'version' => '29.0.0.19',
   'overwrite.cli.url' => 'https://cloud.{{ ansible_fqdn }}',
   'dbname' => 'nextcloud',
   'dbhost' => 'postgres',
