@@ -1,0 +1,12 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+  loop:
+    - path: "/mnt/storage/photos"
+    - path: "{{ docker_mounts_directory }}/immich/postgres"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: "immich"

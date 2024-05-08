@@ -26,6 +26,9 @@
     name: container_photoprism
   when: "stacks_deploy_list is not defined or 'photoprism' in stacks_deploy_list"
 - ansible.builtin.include_role:
+    name: container_immich
+  when: "stacks_deploy_list is not defined or 'immich' in stacks_deploy_list"
+- ansible.builtin.include_role:
     name: container_paperless
   when: "stacks_deploy_list is not defined or 'paperless' in stacks_deploy_list"
 - ansible.builtin.include_role:

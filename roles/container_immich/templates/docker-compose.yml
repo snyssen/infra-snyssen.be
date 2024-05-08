@@ -1,0 +1,93 @@
+#
+# WARNING: Make sure to use the docker-compose.yml of the current release:
+#
+# https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
+#
+# The compose file on main may not be compatible with the latest release.
+#
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:v1.103.1
+    command: ["start.sh", "immich"]
+    environment:
+      DB_USERNAME: immich
+      DB_PASSWORD: "{{ immich__db_password }}"
+      DB_DATABASE_NAME: immich
+    volumes:
+      - /mnt/storage/photos:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - web
+      - internal
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.immich.entryPoints=websecure
+      - traefik.http.routers.immich.rule=Host(`photos.{{ ansible_fqdn }}`)
+      - traefik.http.routers.immich.service=immich
+      - traefik.http.services.immich.loadBalancer.server.port=3001
+
+  immich-microservices:
+    container_name: immich_microservices
+    image: ghcr.io/immich-app/immich-server:v1.103.1
+    devices:
+      - /dev/dri:/dev/dri
+    command: ["start.sh", "microservices"]
+    environment:
+      DB_USERNAME: immich
+      DB_PASSWORD: "{{ immich__db_password }}"
+      DB_DATABASE_NAME: immich
+    volumes:
+      - /mnt/storage/photos:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - internal
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v1.103.1
+    volumes:
+      - model-cache:/cache
+    networks:
+      - internal
+    restart: unless-stopped
+
+  redis:
+    container_name: immich_redis
+    image: registry.hub.docker.com/library/redis:6.2-alpine@sha256:84882e87b54734154586e5f8abd4dce69fe7311315e2fc6d67c29614c8de2672
+    networks:
+      - internal
+    restart: unless-stopped
+
+  database:
+    container_name: immich_postgres
+    image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    environment:
+      POSTGRES_PASSWORD: "{{ immich__db_password }}"
+      POSTGRES_USER: immich
+      POSTGRES_DB: immich
+    volumes:
+      - "{{ docker_mounts_directory }}/immich/postgres:/var/lib/postgresql/data"
+    networks:
+      - internal
+    restart: unless-stopped
+
+  # TODO: add backups (DB and files)
+
+volumes:
+  model-cache:
+
+networks:
+  web:
+    external: true
+  internal:

@@ -117,6 +117,8 @@ photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
 photoprism___backup_healthcheck_id: "{{ vault_photoprism___backup_healthcheck_id }}"
 photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_id }}"
 
+immich__db_password: "{{ vault_immich__db_password }}"
+
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 
