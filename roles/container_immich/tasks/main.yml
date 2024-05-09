@@ -5,6 +5,7 @@
   loop:
     - path: "/mnt/storage/photos"
     - path: "{{ docker_mounts_directory }}/immich/postgres"
+    - path: /mnt/storage/backups/immich
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy

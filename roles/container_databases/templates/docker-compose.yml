@@ -60,7 +60,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "{{ db__pg_password }}"
       POSTGRES_EXTRA_OPTS: "--format c" # So we can use pg_restore to restore the database
-      TZ: "Europe/Brussels"
+      TZ: "{{ iana_timezone }}"
       HEALTHCHECK_ID: "{{ db__pg_dump_healthcheck_id }}"
     volumes:
       - /mnt/storage/backups/postgres:/backups

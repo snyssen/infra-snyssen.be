@@ -1,0 +1,43 @@
+- name: Querying available dumps
+  ansible.builtin.include_tasks: restore_individual_db.yml
+  vars:
+    dump_dir: "/mnt/storage/backups/immich"
+    dump_pattern: ".+\\.sql\\.gz$"
+
+- name: Shutdown Immich stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ docker_compose_directory }}/immich"
+    state: absent
+    remove_volumes: true
+
+- name: Remove previous database
+  become: true
+  ansible.builtin.file:
+    path: "{{ docker_mounts_directory }}/immich/postgres"
+    state: absent
+
+- name: Start database
+  community.docker.docker_compose_v2:
+    project_src: "{{ docker_compose_directory }}/immich"
+    state: present
+    services:
+      - database
+      - backup
+
+- name: Wait for Postgres to be ready
+  ansible.builtin.pause:
+    seconds: 10
+
+- name: Restore Immich database
+  community.docker.docker_container_exec:
+    container: "immich_db_dumper"
+    command: >-
+      bash -c
+      "gunzip < /backups/{{ selected_dump }}
+      | sed \"s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g\"
+      | PGPASSWORD={{ db.password }} psql -h immich_postgres -U {{ db.name }}"
+
+- name: Restart Immich stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ docker_compose_directory }}/immich"
+    state: present

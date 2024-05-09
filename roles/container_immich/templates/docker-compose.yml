@@ -82,7 +82,27 @@ services:
       - internal
     restart: unless-stopped
 
-  # TODO: add backups (DB and files)
+  backup:
+    container_name: immich_db_dumper
+    image: prodrigestivill/postgres-backup-local:14
+    user: "5050:{{ ansible_user_gid }}"
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_USER: immich
+      POSTGRES_PASSWORD: "{{ immich__db_password }}"
+      POSTGRES_DB: immich
+      POSTGRES_CLUSTER: "TRUE"
+      POSTGRES_EXTRA_OPTS: "--clean --if-exists"
+      TZ: "{{ iana_timezone }}"
+      HEALTHCHECK_ID: "{{ immich__db_dump_hc_id }}"
+    volumes:
+      - /mnt/storage/backups/immich:/backups
+      - ../databases/hooks:/hooks
+    depends_on:
+      - database
+    networks:
+      - internal
+    restart: unless-stopped
 
 volumes:
   model-cache:

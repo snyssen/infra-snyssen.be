@@ -118,6 +118,7 @@ photoprism___backup_healthcheck_id: "{{ vault_photoprism___backup_healthcheck_id
 photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_id }}"
 
 immich__db_password: "{{ vault_immich__db_password }}"
+immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
@@ -137,6 +138,7 @@ backups__volumes_common:
   # Folders to backup
   - /mnt/storage/nextcloud:/data/nextcloud
   - /mnt/storage/pictures:/data/pictures
+  - /mnt/storage/photos:/data/photos
   - /mnt/storage/recipes:/data/recipes
   - /mnt/storage/backups:/data/backups
   - "{{ docker_mounts_directory }}/jellyfin:/data/jellyfin"

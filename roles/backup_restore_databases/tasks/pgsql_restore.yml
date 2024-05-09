@@ -12,11 +12,3 @@
       "PGPASSWORD={{ db.password }}
       pg_restore --no-privileges --no-owner -h postgres -U {{ db.name }} -d {{ db.name }} --clean --if-exists
       /backups/{{ selected_dump }}"
-
-# - name: "[{{ db_restore_selected_individual.value.type }} - {{ db_restore_selected_individual.key }}] Restarting stack"
-#   ansible.builtin.include_role:
-#     name: stacks_set_state
-#   vars:
-#     stacks_state: restart
-#     stacks_include:
-#       - "{{ db_restore_selected_individual.key }}"
