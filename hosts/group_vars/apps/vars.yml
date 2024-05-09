@@ -53,6 +53,9 @@ backbone__authelia__oidc_pgadmin_clientsecret_hash: "{{ vault_backbone__authelia
 backbone__authelia__oidc_team_wiki_clientid: "{{ vault_backbone__authelia__oidc_team_wiki_clientid }}"
 backbone__authelia__oidc_team_wiki_clientsecret: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret }}"
 backbone__authelia__oidc_team_wiki_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret_hash }}"
+backbone__authelia__oidc_immich_clientid: "{{ vault_backbone__authelia__oidc_immich_clientid }}"
+backbone__authelia__oidc_immich_clientsecret: "{{ vault_backbone__authelia__oidc_immich_clientsecret }}"
+backbone__authelia__oidc_immich_clientsecret_hash: "{{ vault_backbone__authelia__oidc_immich_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
