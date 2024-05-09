@@ -84,7 +84,7 @@ services:
 
   backup:
     container_name: immich_db_dumper
-    image: prodrigestivill/postgres-backup-local:14
+    image: prodrigestivill/postgres-backup-local:16
     user: "5050:{{ ansible_user_gid }}"
     environment:
       POSTGRES_HOST: database
