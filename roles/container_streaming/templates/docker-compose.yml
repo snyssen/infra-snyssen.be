@@ -19,7 +19,7 @@ services:
     devices:
       - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
     group_add:
-      - "105" # Adds render group
+      - "109" # Adds render group
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
