@@ -194,6 +194,8 @@ dashboard__shortcuts:
         url: https://recipes.snyssen.be
       - name: Wallos
         url: https://wallos.snyssen.be
+      - name: Wger
+        url: https://wger.snyssen.be
   - name: Documents
     icon_classes: las la-folder-open
     children:
@@ -230,6 +232,8 @@ dashboard__shortcuts:
         url: https://audiobooks.snyssen.be
       - name: Pictures
         url: https://photo.snyssen.be
+      - name: Immich
+        url: https://photos.snyssen.be
       - name: Management
         children:
           - name: Prowlarr
