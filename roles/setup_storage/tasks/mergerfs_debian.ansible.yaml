@@ -6,4 +6,4 @@
     state: present
   vars:
     mergerfs_pkg_name: >-
-      mergerfs_{{ mergerfs_version }}.{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}_amd64.deb
+      mergerfs_{{ mergerfs_version }}.{{ ansible_distribution | lower }}-{{ mergerfs_debian_release | lower }}_amd64.deb

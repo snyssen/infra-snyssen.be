@@ -1,1 +1,2 @@
-mergerfs_version: "2.37.1"
+mergerfs_version: "2.40.2"
+mergerfs_debian_release: "{{ ansible_distribution_release }}"

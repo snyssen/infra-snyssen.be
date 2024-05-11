@@ -14,3 +14,6 @@ disks_mounts: # bays are numbered from bottom to top
     src: /dev/disk/by-id/ata-ST2000VN004-2E4164_Z524CF7S # Seagate IronWolf 2TB, 4rth bay
   - path: /mnt/disk4
     src: /dev/disk/by-id/ata-ST2000VN004-2E4164_Z524CEHK # Seagate IronWolf 2TB, 5th bay
+
+# TODO: temporary workaround to mergerfs not having a release targeting Ubuntu 24.04 (Noble)
+mergerfs_debian_release: mantic
