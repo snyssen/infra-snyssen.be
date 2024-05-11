@@ -27,6 +27,8 @@
     name: snapraid
   vars:
     snapraid_build_repos: https://github.com/snyssen/docker-snapraid.git
+    # I have no idea why the default path changed when upgradig to Ubuntu 24.04
+    snapraid_bin_path: /usr/bin/snapraid
 
     snapraid_content_files:
       - /var/snapraid.content
