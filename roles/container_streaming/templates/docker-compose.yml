@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.8.13
+    image: jellyfin/jellyfin:10.9.1
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.4.6
+    image: lscr.io/linuxserver/radarr:5.6.0
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.16.2
+    image: lscr.io/linuxserver/prowlarr:1.17.2
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
