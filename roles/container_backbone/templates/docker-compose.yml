@@ -140,7 +140,7 @@ services:
     image: lldap/lldap:2024-03-07
     container_name: lldap
     ports:
-      # For LDAP, only expose to localhost so ANsuble can connect to it
+      # For LDAP, only expose to localhost so Ansible can connect to it
       - "127.0.0.1:3890:3890"
     environment:
       TZ: {{ iana_timezone }}
@@ -163,7 +163,6 @@ services:
       - traefik.http.routers.lldap.rule=Host(`ldap.{{ ansible_fqdn }}`)
       - traefik.http.routers.lldap.service=lldap
       - traefik.http.services.lldap.loadBalancer.server.port=17170
-      - traefik.http.routers.lldap.middlewares=lan-whitelist
 
   authelia:
     container_name: 'authelia'
