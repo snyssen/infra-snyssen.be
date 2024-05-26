@@ -1,0 +1,48 @@
+services:
+  # otrecorder:
+  #   image: owntracks/recorder
+  #   container_name: otrecorder
+  #   ports:
+  #     # TODO: expose as HTTP service
+  #     - 8083:8083
+  #   volumes:
+  #     - "{{ docker_mounts_directory }}/owntracks/recorder/config:/config"
+  #     - "{{ docker_mounts_directory }}/owntracks/recorder/store:/store"
+  #   restart: unless-stopped
+  #   environment:
+  #     OTR_HOST: mqtt
+  #     OTR_USER: user
+  #     OTR_PASS: pass
+
+  mqtt:
+    image: emqx:5.6.1
+    container_name: mqtt
+    restart: unless-stopped
+    environment:
+      EMQX_NAME: mqtt
+      EMQX_HOST: "{{ ansible_fqdn }}"
+    ports:
+      # TODO: expose port 8883 (mqtt over TLS) on Traefik and do the termination there before forwarding to this port
+      - 1883:1883 # mqtt
+    volumes:
+      - "{{ docker_mounts_directory }}/owntracks/mqtt/data:/opt/emqx/data"
+      # - "{{ docker_mounts_directory }}/owntracks/mqtt/etc:/opt/emqx/etc"
+      - "{{ docker_mounts_directory }}/owntracks/mqtt/log:/opt/emqx/log"
+    networks:
+      - web
+      - ldap
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.mqtt.rule=Host(`mqtt.{{ ansible_fqdn }}`)
+      - traefik.http.routers.mqtt.entryPoints=websecure
+      - traefik.http.routers.mqtt.service=mqtt
+      - traefik.http.services.mqtt.loadBalancer.server.port=18083
+      # TODO: remove when ready
+      - traefik.http.routers.mqtt.middlewares=lan-whitelist
+
+networks:
+  web:
+    external: true
+  ldap:
+    external: true
