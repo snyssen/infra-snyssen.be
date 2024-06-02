@@ -126,6 +126,8 @@ immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 
+autorestic_config_yaml: "{{ vault_autorestic_config_yaml }}"
+
 backups__local_domain: "{{ vault_backups__local_domain }}"
 backups__local_destination: "rest:http://{{backups__local_domain}}:8000/"
 backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"

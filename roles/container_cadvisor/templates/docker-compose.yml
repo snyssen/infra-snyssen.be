@@ -10,4 +10,4 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    mem_limit: 364m
+    mem_limit: 512m

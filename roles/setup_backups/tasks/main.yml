@@ -1,0 +1,12 @@
+# Configuration is provided through the "autorestic_config_yaml" variable, found under hosts/group_vars/apps/vars.yml
+- name: Autorestic setup
+  ansible.builtin.include_role:
+    name: fuzzymistborn.autorestic
+
+- name: Add cron job for autorestic
+  ansible.builtin.cron:
+    name: Autorestic
+    minute: "*/5"
+    user: root
+    job: autorestic --ci cron
+    state: present
