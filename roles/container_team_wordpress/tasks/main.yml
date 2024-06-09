@@ -1,0 +1,23 @@
+- name: Create folders
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+  with_items:
+    - path: /mnt/storage/wordpress
+      mode: "740"
+      owner: "33"
+      group: "{{ ansible_user_gid }}"
+    - path: "{{ docker_mounts_directory }}/wordpress/mysql"
+      mode: "700"
+      # TODO: Change below according to actual users
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: team_wordpress

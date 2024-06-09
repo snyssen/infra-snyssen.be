@@ -343,3 +343,4 @@ quartz__vaults:
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Bahut
 
 team_wiki__db_pass: "{{ vault_team_wiki__db_pass }}"
+team_wordpress__db_pass: "{{ vault_team_wordpress__db_pass }}"

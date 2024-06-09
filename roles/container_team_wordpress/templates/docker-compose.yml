@@ -1,0 +1,41 @@
+services:
+  wordpress:
+    # WordPress itself is self-updating, so only the PHP version is fixed
+    image: wordpress:php8.3
+    restart: unless-stopped
+    networks:
+      - internal
+      - web
+    environment:
+      WORDPRESS_DB_HOST: wordpress-mysql
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: "{{ team_wordpress__db_pass }}"
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - /mnt/storage/wordpress:/var/www/html
+    labels:
+      # TODO: Open up to web, but restrict access to admin interface (using Authelia)
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.wordpress.entryPoints=websecure
+      - traefik.http.routers.wordpress.rule=Host(`wp.{{ team_domain }}`)
+      - traefik.http.routers.wordpress.middlewares=lan-whitelist
+
+  # TODO: backups
+  wordpress-mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    networks:
+      - internal
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: "{{ team_wordpress__db_pass }}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - "{{ docker_mounts_directory }}/wordpress/mysql:/var/lib/mysql"
+
+networks:
+  web:
+    external: true
+  internal:
