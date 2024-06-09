@@ -139,6 +139,7 @@ services:
   lldap:
     image: lldap/lldap:2024-03-07
     container_name: lldap
+    restart: unless-stopped
     ports:
       # For LDAP, only expose to localhost so Ansible can connect to it
       - "127.0.0.1:3890:3890"
