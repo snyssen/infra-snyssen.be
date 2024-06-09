@@ -3,11 +3,6 @@
     container: postgres_backups
     command: /backup.sh
 
-- name: Backing up photoprism database to disk
-  community.docker.docker_container_exec:
-    container: photoprism
-    command: photoprism backup -i -f
-
 - name: backing up immich database to disk
   community.docker.docker_container_exec:
     container: immich_db_dumper

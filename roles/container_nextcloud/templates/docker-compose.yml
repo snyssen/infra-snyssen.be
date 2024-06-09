@@ -44,7 +44,6 @@ services:
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/nextcloud_logs:/var/logs
-      - /mnt/storage/pictures:/pictures
       - /mnt/storage/paperless:/paperless
     mem_limit: 2g
 

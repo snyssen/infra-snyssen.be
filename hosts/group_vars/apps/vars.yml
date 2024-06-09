@@ -115,11 +115,6 @@ usenet__nzb_key: "{{ vault_usenet__nzb_key }}"
 
 ytdl_sub__healthcheck_id: "{{ vault_ytdl_sub__healthcheck_id }}"
 
-photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
-photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
-photoprism___backup_healthcheck_id: "{{ vault_photoprism___backup_healthcheck_id }}"
-photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_id }}"
-
 immich__db_password: "{{ vault_immich__db_password }}"
 immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 
@@ -230,8 +225,6 @@ dashboard__shortcuts:
         url: https://nebula.tv
       - name: Audiobooks
         url: https://audiobooks.snyssen.be
-      - name: Pictures
-        url: https://photo.snyssen.be
       - name: Immich
         url: https://photos.snyssen.be
       - name: Management
