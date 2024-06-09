@@ -14,12 +14,10 @@ services:
     volumes:
       - /mnt/storage/wordpress:/var/www/html
     labels:
-      # TODO: Open up to web, but restrict access to admin interface (using Authelia)
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.wordpress.entryPoints=websecure
       - traefik.http.routers.wordpress.rule=Host(`wp.{{ team_domain }}`)
-      - traefik.http.routers.wordpress.middlewares=lan-whitelist
 
   # TODO: backups
   wordpress-mysql:
