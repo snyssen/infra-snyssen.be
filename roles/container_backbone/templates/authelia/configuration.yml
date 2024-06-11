@@ -518,7 +518,7 @@ identity_providers:
         client_secret: '{{ backbone__authelia__oidc_team_wordpress_clientsecret_hash }}'
         authorization_policy: 'team_wiki_policy'
         redirect_uris:
-          - https://wp.{{ team_domain }}/wp-admin/admin-ajax.php?action=openid-connect-authorize
+          - https://shop.{{ team_domain }}/wp-admin/admin-ajax.php?action=openid-connect-authorize
         scopes:
           - 'openid'
           - 'profile'

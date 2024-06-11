@@ -17,7 +17,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.wordpress.entryPoints=websecure
-      - traefik.http.routers.wordpress.rule=Host(`wp.{{ team_domain }}`)
+      - traefik.http.routers.wordpress.rule=Host(`shop.{{ team_domain }}`)
 
   # TODO: backups
   wordpress-mysql:
