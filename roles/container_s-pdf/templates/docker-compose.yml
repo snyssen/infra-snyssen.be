@@ -1,6 +1,6 @@
 services:
   s-pdf:
-    image: frooodle/s-pdf:0.26.0
+    image: frooodle/s-pdf:0.25.3
     container_name: s-pdf
     networks:
       - web

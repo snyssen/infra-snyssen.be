@@ -1,6 +1,6 @@
 services:
   personal-website:
-    image: ghcr.io/snyssen/personal-website:2.6.3
+    image: ghcr.io/snyssen/personal-website:2.6.2
     restart: unless-stopped
     container_name: personal-website
     networks:
