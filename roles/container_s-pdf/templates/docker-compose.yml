@@ -2,6 +2,7 @@ services:
   s-pdf:
     image: frooodle/s-pdf:0.25.3
     container_name: s-pdf
+    restart: unless-stopped
     networks:
       - web
     labels:
