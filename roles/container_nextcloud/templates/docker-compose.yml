@@ -8,7 +8,7 @@ services:
     mem_limit: 32m
 
   nextcloud:
-    image: nextcloud:29.0.0
+    image: nextcloud:29.0.1
     container_name: nextcloud
     restart: unless-stopped
     networks:
@@ -44,7 +44,6 @@ services:
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/nextcloud_logs:/var/logs
-      - /mnt/storage/pictures:/pictures
       - /mnt/storage/paperless:/paperless
     mem_limit: 2g
 

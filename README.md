@@ -335,14 +335,13 @@ All times are on the Europe/Brussels timezone.
 
 ### Morning schedule
 
-| 00:00             | 01:00    | 02:00           | 03:00           | 04:00 | 05:00            | 06:00 |
-| ----------------- | -------- | --------------- | --------------- | ----- | ---------------- | ----- |
-| nextcloud db dump | snapraid | photoprism dump | restic to local |       | restic to remote |       |
-| gitea db dump     |          |                 |                 |       |                  |       |
-| recipes db dump   |          |                 |                 |       |                  |       |
+| 00:00             | 01:00    | 03:00           | 04:00 | 05:00            | 06:00 |
+| ----------------- | -------- | --------------- | ----- | ---------------- | ----- |
+| nextcloud db dump | snapraid | restic to local |       | restic to remote |       |
+| gitea db dump     |          |                 |       |                  |       |
+| recipes db dump   |          |                 |       |                  |       |
 
 ### Additional scheduled events
 
   - Packages upgrades at 08:00 on saturdays. **Warning: might incur a server reboot!**
   - Nextcloud background jobs every 5 minutes (on the clock).
-  - Photoprism indexing jobs every 3 hours (on the clock).

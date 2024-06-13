@@ -5,7 +5,6 @@
     stacks_state: present
     stacks_include:
       - databases
-      - photoprism
 
 - name: Selecting pgsql databases
   ansible.builtin.include_tasks: pgsql_restore.yml
@@ -30,15 +29,3 @@
   when:
     (db_restore_include is not defined and db_restore_exclude is not defined)
     or (db.name in db_restore_include | default([]) and db.name not in db_restore_exclude | default([]))
-
-- name: Selecting Photoprism
-  ansible.builtin.include_tasks: photoprism_restore.yml
-  loop:
-    - name: photoprism
-      password: "{{ photoprism__mariadb_password }}"
-  loop_control:
-    loop_var: db
-    label: "{'name': '{{ db.name }}', 'password': '***'}"
-  when:
-    (db_restore_include is not defined and db_restore_exclude is not defined)
-    or (db.name in db_restore_include and db.name not in db_restore_exclude)

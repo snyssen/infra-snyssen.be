@@ -50,12 +50,15 @@ backbone__authelia__oidc_audiobookshelf_clientsecret_hash: "{{ vault_backbone__a
 backbone__authelia__oidc_pgadmin_clientid: "{{ vault_backbone__authelia__oidc_pgadmin_clientid }}"
 backbone__authelia__oidc_pgadmin_clientsecret: "{{ vault_backbone__authelia__oidc_pgadmin_clientsecret }}"
 backbone__authelia__oidc_pgadmin_clientsecret_hash: "{{ vault_backbone__authelia__oidc_pgadmin_clientsecret_hash }}"
-backbone__authelia__oidc_team_wiki_clientid: "{{ vault_backbone__authelia__oidc_team_wiki_clientid }}"
-backbone__authelia__oidc_team_wiki_clientsecret: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret }}"
-backbone__authelia__oidc_team_wiki_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret_hash }}"
 backbone__authelia__oidc_immich_clientid: "{{ vault_backbone__authelia__oidc_immich_clientid }}"
 backbone__authelia__oidc_immich_clientsecret: "{{ vault_backbone__authelia__oidc_immich_clientsecret }}"
 backbone__authelia__oidc_immich_clientsecret_hash: "{{ vault_backbone__authelia__oidc_immich_clientsecret_hash }}"
+backbone__authelia__oidc_team_wiki_clientid: "{{ vault_backbone__authelia__oidc_team_wiki_clientid }}"
+backbone__authelia__oidc_team_wiki_clientsecret: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret }}"
+backbone__authelia__oidc_team_wiki_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret_hash }}"
+backbone__authelia__oidc_team_wordpress_clientid: "{{ vault_backbone__authelia__oidc_team_wordpress_clientid }}"
+backbone__authelia__oidc_team_wordpress_clientsecret: "{{ vault_backbone__authelia__oidc_team_wordpress_clientsecret }}"
+backbone__authelia__oidc_team_wordpress_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wordpress_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
@@ -115,11 +118,6 @@ usenet__nzb_key: "{{ vault_usenet__nzb_key }}"
 
 ytdl_sub__healthcheck_id: "{{ vault_ytdl_sub__healthcheck_id }}"
 
-photoprism__photoprism_password: "{{ vault_photoprism__photoprism_password }}"
-photoprism__mariadb_password: "{{ vault_photoprism__mariadb_password }}"
-photoprism___backup_healthcheck_id: "{{ vault_photoprism___backup_healthcheck_id }}"
-photoprism__indexing_healthcheck_id: "{{ vault_photoprism__indexing_healthcheck_id }}"
-
 immich__db_password: "{{ vault_immich__db_password }}"
 immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 
@@ -142,7 +140,6 @@ backups__volumes_common:
   - /etc/localtime:/etc/localtime:ro
   # Folders to backup
   - /mnt/storage/nextcloud:/data/nextcloud
-  - /mnt/storage/pictures:/data/pictures
   - /mnt/storage/photos:/data/photos
   - /mnt/storage/recipes:/data/recipes
   - /mnt/storage/backups:/data/backups
@@ -232,8 +229,6 @@ dashboard__shortcuts:
         url: https://nebula.tv
       - name: Audiobooks
         url: https://audiobooks.snyssen.be
-      - name: Pictures
-        url: https://photo.snyssen.be
       - name: Immich
         url: https://photos.snyssen.be
       - name: Management
@@ -352,3 +347,4 @@ quartz__vaults:
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Bahut
 
 team_wiki__db_pass: "{{ vault_team_wiki__db_pass }}"
+team_wordpress__db_pass: "{{ vault_team_wordpress__db_pass }}"
