@@ -8,5 +8,19 @@
     name: Autorestic
     minute: "*/5"
     user: root
-    job: autorestic --ci cron
+    job: autorestic --ci cron >> /var/log/autorestic.log
     state: present
+
+# This task assumes that logrotate is installed and running, which is not best practice...
+- name: Setup log rotation
+  ansible.builtin.blockinfile:
+    path: /etc/logrotate.d/autorestic
+    block: |
+      /var/log/ansible.log {
+          weekly
+          rotate 3
+          size 10M
+          compress
+          delaycompress
+      }
+    create: true
