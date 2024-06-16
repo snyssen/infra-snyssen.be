@@ -6,7 +6,7 @@
 - name: Add cron job for autorestic
   ansible.builtin.cron:
     name: Autorestic
-    minute: "*/5"
+    minute: "*/30"
     user: root
     job: autorestic --ci cron >> /var/log/autorestic.log
     state: present
