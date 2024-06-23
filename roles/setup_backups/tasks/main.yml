@@ -10,6 +10,11 @@
     user: root
     job: autorestic --ci cron >> /var/log/autorestic.log
     state: present
+- name: Add progress logging during backups
+  ansible.builtin.cron:
+    name: RESTIC_PROGRESS_FPS
+    env: yes
+    job: "0.5" # Every 30 seconds
 
 # This task assumes that logrotate is installed and running, which is not best practice...
 - name: Setup log rotation
