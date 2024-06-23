@@ -1,15 +1,19 @@
-- hosts: all
+- name: Setup common configs
+  hosts: all
   roles:
     - setup_common
-- hosts: dns
+- name: Setup DNS
+  hosts: dns
   roles:
     - name: dns_adguard
 
-- hosts: apps,backup
+- name: Setup storage configs
+  hosts: apps,backup
   roles:
     - setup_storage
 
-- hosts: monitored
+- name: Setup monitored clients
+  hosts: monitored
   roles:
     - name: undergreen.prometheus-node-exporter
       become: true
@@ -27,15 +31,8 @@
         firewall_port: 9100
         firewall_proto: tcp
 
-- hosts: apps
-  roles:
-    - role: setup_snapraid
-      become: true
-      when: skip_snapraid is not defined or not skip_snapraid
-    - role: stacks_deploy
-      when: skip_stacks is not defined or not skip_stacks
-
-- hosts: backup
+- name: Setup backup server
+  hosts: backup
   roles:
     - name: container_rest
     - name: container_scrutiny
@@ -64,3 +61,15 @@
         user: backup
         state: present
         key: "{{ lookup('file', 'backup_rsa.pub') }}"
+
+- name: Setup apps server
+  hosts: apps
+  roles:
+    - role: setup_snapraid
+      become: true
+      when: skip_snapraid is not defined or not skip_snapraid
+    - role: stacks_deploy
+      when: skip_stacks is not defined or not skip_stacks
+    - role: setup_backups
+      become: true
+      when: skip_backups is not defined or not skip_backups

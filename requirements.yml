@@ -22,3 +22,6 @@ roles:
   - name: geerlingguy.security
     src: geerlingguy.security
     version: "2.3.0"
+  - name: fuzzymistborn.autorestic
+    src: fuzzymistborn.autorestic
+    version: v0.2.2

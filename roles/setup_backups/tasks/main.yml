@@ -1,0 +1,31 @@
+# Configuration is provided through the "autorestic_config_yaml" variable, found under hosts/group_vars/apps/vars.yml
+- name: Autorestic setup
+  ansible.builtin.include_role:
+    name: fuzzymistborn.autorestic
+
+- name: Add cron job for autorestic
+  ansible.builtin.cron:
+    name: Autorestic
+    minute: "*/30"
+    user: root
+    job: autorestic --ci cron >> /var/log/autorestic.log
+    state: present
+- name: Add progress logging during backups
+  ansible.builtin.cron:
+    name: RESTIC_PROGRESS_FPS
+    env: yes
+    job: "0.5" # Every 30 seconds
+
+# This task assumes that logrotate is installed and running, which is not best practice...
+- name: Setup log rotation
+  ansible.builtin.blockinfile:
+    path: /etc/logrotate.d/autorestic
+    block: |
+      /var/log/ansible.log {
+          weekly
+          rotate 3
+          size 10M
+          compress
+          delaycompress
+      }
+    create: true

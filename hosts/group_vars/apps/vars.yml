@@ -124,6 +124,8 @@ immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 
+autorestic_config_yaml: "{{ vault_autorestic_config_yaml }}"
+
 backups__local_domain: "{{ vault_backups__local_domain }}"
 backups__local_destination: "rest:http://{{backups__local_domain}}:8000/"
 backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"
@@ -202,6 +204,8 @@ dashboard__shortcuts:
             url: https://snyssen.be
           - name: Bigdouf'site
             url: https://bigdouf.team
+          - name: Bigdouf'Shop
+            url: https://shop.bigdouf.team
       - name: Storage
         children:
           - name: Nextcloud
@@ -278,6 +282,8 @@ dashboard__shortcuts:
             url: https://pgadmin.snyssen.be
           - name: Plausible
             url: https://plausible.snyssen.be
+          - name: Backblaze
+            url: https://secure.backblaze.com/b2_buckets.htm
       - name: Monitoring
         children:
           - name: Grafana

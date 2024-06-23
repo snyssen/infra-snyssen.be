@@ -8,6 +8,7 @@ services:
     environment: &restic-env
       RESTIC_REPOSITORY: "{{ backups__local_destination }}"
       RESTIC_PASSWORD: "{{ backups__encryption_key }}"
+      RESTIC_PROGRESS_FPS: "1"
       BACKUP_CRON: 0 3 * * *
       HEALTHCHECK_ID: "{{ backups__local_healthcheck_id }}"
       RESTIC_FORGET_ARGS: --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3
