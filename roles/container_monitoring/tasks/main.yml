@@ -64,7 +64,7 @@
 - name: Deploying Clickhouse configuration (for Plausible)
   become: true
   ansible.builtin.copy:
-    src: clickhouse
+    src: clickhouse/
     dest: "{{ docker_mounts_directory }}/plausible/clickhouse"
     mode: "0644"
     owner: "101"
@@ -75,12 +75,3 @@
   vars:
     stack_name: monitoring
     docker_compose_state: "{{ 'restarted' if prom_config_status.changed or loki_config_status.changed else 'present' }}"
-
-- name: Wait for clickhouse to startup before ensuing commands
-  ansible.builtin.pause:
-    seconds: 10
-
-- name: Creating clickhouse database if needed
-  community.docker.docker_container_exec:
-    container: plausible_clickhouse
-    command: clickhouse-client --host plausible_clickhouse --query "CREATE DATABASE IF NOT EXISTS plausible_clickhouse"

@@ -160,18 +160,14 @@ services:
       - "{{ docker_mounts_directory }}/plausible/clickhouse/data:/var/lib/clickhouse"
       - "{{ docker_mounts_directory }}/plausible/clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro"
       - "{{ docker_mounts_directory }}/plausible/clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro"
-    ulimits:
-      nofile:
-        soft: 262144
-        hard: 262144
     # TODO: This is way too much mem, we should look into that
-    mem_limit: 712m
+    mem_limit: 1g
 
   plausible:
-    image: plausible/analytics:v2.0.0
+    image: ghcr.io/plausible/community-edition:v2.1.1
     container_name: plausible
     restart: unless-stopped
-    command: sh -c "sleep 45 && /entrypoint.sh db migrate && /entrypoint.sh run"
+    command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
     networks:
       - internal
       - web
@@ -188,6 +184,7 @@ services:
     environment:
       - DISABLE_REGISTRATION=true
       - SECRET_KEY_BASE={{ monitoring__plausible_secret }}
+      - TOTP_VAULT_KEY={{ monitoring__plausible_totp_key }}
       - BASE_URL=https://plausible.{{ ansible_fqdn }}
       - DATABASE_URL=postgres://plausible:{{ monitoring__plausible__postgress_pass }}@postgres:5432/plausible
       - CLICKHOUSE_DATABASE_URL=http://plausible_clickhouse:8123/plausible_clickhouse
