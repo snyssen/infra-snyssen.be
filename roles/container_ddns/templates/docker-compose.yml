@@ -1,7 +1,7 @@
 services:
   ddns:
     container_name: ddns
-    image: qmcgaw/ddns-updater:2.6.0
+    image: qmcgaw/ddns-updater:v2.7.0
     restart: unless-stopped
     mem_limit: 32m
     volumes:
