@@ -48,7 +48,7 @@ services:
     mem_limit: 8.2g
 
   mc-usw:
-    image: itzg/minecraft-server:2024.3.0
+    image: itzg/minecraft-server:2024.6.1
     container_name: mc-usw
     networks:
       - internal
