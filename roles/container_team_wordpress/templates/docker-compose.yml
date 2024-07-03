@@ -21,7 +21,7 @@ services:
 
   # TODO: backups
   wordpress-mysql:
-    image: mysql:8.4
+    image: mysql:9.0
     restart: unless-stopped
     networks:
       - internal
