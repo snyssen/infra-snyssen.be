@@ -22,6 +22,8 @@ playlist_full_archive:
   = Informational:
     "~Things You Might Not Know (Series) - Tom Scott":
       collection_season_1_url: "https://www.youtube.com/playlist?list=PL5ZXG50fTM7rvyAkvGUQpgXv3Doa_o8To"
+    "~Nix tutorials - Vimjoyer":
+      collection_season_1_url: "https://www.youtube.com/playlist?list=PLko9chwSoP-15ZtZxu64k_CuTzXrFpxPE"
 
 TV Show Only Recent:
   = Tech:
