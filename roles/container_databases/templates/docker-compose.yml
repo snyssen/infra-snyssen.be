@@ -15,7 +15,7 @@ services:
     mem_limit: 1g
 
   pgadmin:
-    image: dpage/pgadmin4:8.9
+    image: dpage/pgadmin4:8.10
     container_name: pgadmin
     restart: unless-stopped
     environment:
