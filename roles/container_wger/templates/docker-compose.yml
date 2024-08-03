@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
 
   cache:
-    image: redis:7.2.5
+    image: redis:7.4.0
     container_name: wger_cache
     expose:
       - 6379
