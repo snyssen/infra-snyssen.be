@@ -66,7 +66,8 @@ services:
       PAPERLESS_SOCIALACCOUNT_AUTO_SIGNUP: "true"
       PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS: "true"
       PAPERLESS_SOCIALACCOUNT_EMAIL_AUTHENTICATION: "true"
-    mem_limit: 1g
+    # Some heavy documents require more RAM for OCR
+    mem_limit: 2g
 
   paperless_gotenberg:
     image: docker.io/gotenberg/gotenberg:8.9
