@@ -426,7 +426,7 @@ identity_providers:
           - 'email'
           - 'groups'
         userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: client_secret_post
+        token_endpoint_auth_method: client_secret_basic
       - client_name: 'Recipes'
         client_id: "{{ backbone__authelia__oidc_recipes_clientid }}"
         client_secret: "{{ backbone__authelia__oidc_recipes_clientsecret_hash }}"
