@@ -402,6 +402,12 @@ identity_providers:
           - policy: 'one_factor'
             subject:
               - ["group:team_wiki_member"]
+      team_member_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject:
+              - ["group:team_member"]
       photos_policy:
         default_policy: 'deny'
         rules:
@@ -527,4 +533,14 @@ identity_providers:
           - 'offline_access'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: client_secret_post
+      - client_name: 'rallly'
+        client_id: '{{ backbone__authelia__oidc_rallly_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_rallly_clientsecret_hash }}'
+        authorization_policy: 'team_member_policy'
+        redirect_uris:
+          - https://{{ rallly__subdomain }}.{{ team_domain }}/api/auth/callback/oidc
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
 

@@ -59,6 +59,9 @@ backbone__authelia__oidc_team_wiki_clientsecret_hash: "{{ vault_backbone__authel
 backbone__authelia__oidc_team_wordpress_clientid: "{{ vault_backbone__authelia__oidc_team_wordpress_clientid }}"
 backbone__authelia__oidc_team_wordpress_clientsecret: "{{ vault_backbone__authelia__oidc_team_wordpress_clientsecret }}"
 backbone__authelia__oidc_team_wordpress_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wordpress_clientsecret_hash }}"
+backbone__authelia__oidc_rallly_clientid: "{{ vault_backbone__authelia__oidc_rallly_clientid }}"
+backbone__authelia__oidc_rallly_clientsecret: "{{ vault_backbone__authelia__oidc_rallly_clientsecret }}"
+backbone__authelia__oidc_rallly_clientsecret_hash: "{{ vault_backbone__authelia__oidc_rallly_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"

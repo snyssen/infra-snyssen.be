@@ -6,7 +6,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      - DATABASE_URL=postgres://rallly:{{ rallly__db_pass }}@postgres/db
+      - DATABASE_URL=postgres://rallly:{{ rallly__db_pass }}@postgres/rallly
       - SECRET_PASSWORD={{ rallly__secret }}
       - NEXT_PUBLIC_BASE_URL=https://{{ rallly__subdomain }}.{{ team_domain }}
       - NOREPLY_EMAIL=rally@{{ ansible_fqdn }}
@@ -16,6 +16,11 @@ services:
       - SMTP_SECURE={{ smtp__tls }}
       - SMTP_USER={{ smtp__user }}
       - SMTP_PWD={{ smtp__pass }}
+
+      - OIDC_NAME=Authelia SSO
+      - OIDC_DISCOVERY_URL=https://auth.{{ team_domain}}/.well-known/openid-configuration
+      - OIDC_CLIENT_ID={{ backbone__authelia__oidc_rallly_clientid }}
+      - OIDC_CLIENT_SECRET={{ backbone__authelia__oidc_rallly_clientsecret }}
     networks:
       - db
       - web
@@ -23,7 +28,8 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.rallly.entryPoints=websecure
-      - traefik.http.routers.rallly.rule=Host(`{{ rallly__subdomain }}.{{ team_domain }}`)
+      # Prevent registration by not routing on /register
+      - traefik.http.routers.rallly.rule=Host(`{{ rallly__subdomain }}.{{ team_domain }}`) && !PathPrefix(`/register`)
       - traefik.http.routers.rallly.service=rallly
       - traefik.http.services.rallly.loadBalancer.server.port=3000
 
