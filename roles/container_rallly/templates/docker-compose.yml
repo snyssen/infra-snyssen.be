@@ -3,8 +3,6 @@ services:
     image: lukevella/rallly:3.9.0
     container_name: rallly
     restart: always
-    ports:
-      - 3000:3000
     environment:
       - DATABASE_URL=postgres://rallly:{{ rallly__db_pass }}@postgres/rallly
       - SECRET_PASSWORD={{ rallly__secret }}
