@@ -1,0 +1,34 @@
+services:
+  rallly:
+    image: lukevella/rallly:3.9.0
+    container_name: rallly
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - DATABASE_URL=postgres://rallly:{{ rallly__db_pass }}@postgres/db
+      - SECRET_PASSWORD={{ rallly__secret }}
+      - NEXT_PUBLIC_BASE_URL=https://{{ rallly__subdomain }}.{{ team_domain }}
+      - NOREPLY_EMAIL=rally@{{ ansible_fqdn }}
+      - SUPPORT_EMAIL={{ smtp__to }}
+      - SMTP_HOST={{ smtp__host }}
+      - SMTP_PORT={{ smtp__port }}
+      - SMTP_SECURE={{ smtp__tls }}
+      - SMTP_USER={{ smtp__user }}
+      - SMTP_PWD={{ smtp__pass }}
+    networks:
+      - db
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.rallly.entryPoints=websecure
+      - traefik.http.routers.rallly.rule=Host(`{{ rallly__subdomain }}.{{ team_domain }}`)
+      - traefik.http.routers.rallly.service=rallly
+      - traefik.http.services.rallly.loadBalancer.server.port=3000
+
+networks:
+  web:
+    external: true
+  db:
+    external: true

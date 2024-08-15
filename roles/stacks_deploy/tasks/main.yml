@@ -76,6 +76,9 @@
 - ansible.builtin.include_role:
     name: container_team_wordpress
   when: "stacks_deploy_list is not defined or 'team_wordpress' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_rallly
+  when: "stacks_deploy_list is not defined or 'rallly' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic
