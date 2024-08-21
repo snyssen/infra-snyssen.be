@@ -91,7 +91,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.3.2
+    image: lscr.io/linuxserver/sabnzbd:4.3.3
     container_name: usenet
     network_mode: container:vpn
     environment:
@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.8.3
+    image: lscr.io/linuxserver/radarr:5.9.1
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
