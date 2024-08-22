@@ -200,6 +200,8 @@ dashboard__shortcuts:
         url: https://wallos.snyssen.be
       - name: Wger
         url: https://wger.snyssen.be
+      - name: Rallly
+        url: https://events.bigdouf.team
   - name: Documents
     icon_classes: las la-folder-open
     children:
@@ -322,6 +324,8 @@ dashboard__shortcuts:
             url: https://www.fantasynamegenerators.com
       - name: Minecraft live map
         url: https://mc.snyssen.be
+      - name: USW live map
+        url: https://mc-usw.snyssen.be
 dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
 
 foundryvtt__username: "{{ vault_foundryvtt__username }}"
