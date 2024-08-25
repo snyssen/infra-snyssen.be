@@ -30,6 +30,9 @@
       # - lm_sensors
     state: present
 
+- name: Install and setup sync-ssh-keys
+  ansible.builtin.include_tasks: sync_ssh_keys.yml
+
 - name: Installing OhMyZsh with PowerLevel10K theme
   ansible.builtin.include_role:
     name: tomereli.oh_my_zsh_p10k
