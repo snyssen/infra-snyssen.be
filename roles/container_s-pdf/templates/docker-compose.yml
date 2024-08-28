@@ -1,6 +1,6 @@
 services:
   s-pdf:
-    image: frooodle/s-pdf:0.28.2
+    image: frooodle/s-pdf:0.28.3
     container_name: s-pdf
     restart: unless-stopped
     networks:

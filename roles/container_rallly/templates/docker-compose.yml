@@ -1,6 +1,6 @@
 services:
   rallly:
-    image: lukevella/rallly:3.9.0
+    image: lukevella/rallly:3.9.1
     container_name: rallly
     restart: always
     environment:
