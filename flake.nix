@@ -9,8 +9,11 @@
     {
       devShell = pkgs.mkShell {
         buildInputs = with pkgs; [
-          pkgs.ansible
-          pkgs.glibcLocales # otherwise ansible cannot run
+          nixpkgs-fmt
+          just
+          pre-commit
+          ansible
+          glibcLocales # otherwise ansible cannot run
         ];
       };
     }
