@@ -499,7 +499,7 @@ identity_providers:
         client_secret: '{{ backbone__authelia__oidc_immich_clientsecret_hash }}'
         authorization_policy: 'photos_policy'
         redirect_uris:
-          - app.immich:/
+          - app.immich:///oauth-callback
           - https://photos.{{ ansible_fqdn }}/auth/login
           - https://photos.{{ ansible_fqdn }}/user-settings
         scopes:
