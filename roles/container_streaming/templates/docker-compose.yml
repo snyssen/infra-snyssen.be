@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.13.0
+    image: ghcr.io/advplyr/audiobookshelf:2.13.3
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.21.2
+    image: lscr.io/linuxserver/prowlarr:1.23.1
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
