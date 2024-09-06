@@ -219,6 +219,8 @@ dashboard__shortcuts:
             url: https://cloud.snyssen.be
           - name: Syncthing
             url: https://sync.snyssen.be
+          - name: Syncthing (localhost)
+            url: http://localhost:8384
           - name: Paperless
             url: https://paperless.snyssen.be
       - name: Notes
