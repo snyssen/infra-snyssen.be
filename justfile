@@ -3,7 +3,7 @@ setup: setup-precommit setup-vault setup-deps
 
 # Setup pre-commit hook
 setup-precommit:
-  pre-commit install
+  pre-commit install --install-hooks --overwrite
 
 # Save ansible-vault password in local hidden file
 setup-vault:
