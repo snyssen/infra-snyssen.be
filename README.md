@@ -286,7 +286,7 @@ ansible-playbook [-i hosts/prod.yml] backup-list-snapshots.ansible.yml [-e "rest
 
 Get logs of latest backup run
 
-```bash 
+```bash
 ansible-playbook [-i hosts/prod.yml] backup-get-logs.ansible.yml [-e "restic_server={local,remote}"]
 ```
 

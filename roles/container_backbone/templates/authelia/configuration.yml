@@ -543,4 +543,3 @@ identity_providers:
           - 'openid'
           - 'profile'
           - 'email'
-

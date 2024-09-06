@@ -68,7 +68,7 @@ services:
       # - 1900:1900/udp # DLNA (for Jellyfin)
       - 22000:22000/tcp # syncthing (TCP)
       - 22000:22000/udp # syncthing (UDP)
-      - 21027:21027/udp # syncthing discovery 
+      - 21027:21027/udp # syncthing discovery
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
