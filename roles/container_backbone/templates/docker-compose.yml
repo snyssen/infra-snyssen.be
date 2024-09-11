@@ -91,7 +91,7 @@ services:
       - traefik.http.middlewares.traefik-compress.compress=true
 
   vpn:
-    image: qmcgaw/gluetun:v3
+    image: qmcgaw/gluetun:1243
     container_name: vpn
     cap_add:
       - NET_ADMIN
