@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.9.10
+    image: ghcr.io/jellyfin/jellyfin:10.9.11
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.13.3
+    image: ghcr.io/advplyr/audiobookshelf:2.13.4
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
