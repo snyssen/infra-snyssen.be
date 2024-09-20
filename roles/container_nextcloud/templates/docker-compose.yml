@@ -8,7 +8,7 @@ services:
     mem_limit: 32m
 
   nextcloud:
-    image: nextcloud:29.0.6
+    image: nextcloud:29.0.7
     container_name: nextcloud
     restart: unless-stopped
     networks:
@@ -48,7 +48,7 @@ services:
     mem_limit: 2g
 
   nextcloud_promtail:
-    image: grafana/promtail:3.1.1
+    image: grafana/promtail:3.2.0
     container_name: nextcloud_promtail
     restart: unless-stopped
     volumes:

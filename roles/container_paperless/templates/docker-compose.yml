@@ -10,7 +10,7 @@ services:
     mem_limit: 12m
 
   paperless:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.12.0
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.12.1
     container_name: paperless
     restart: unless-stopped
     networks:
