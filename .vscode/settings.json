@@ -28,5 +28,5 @@
     "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.color": "#7364e1",
-  "ansible.python.interpreterPath": "/bin/python"
+  "ansible.python.interpreterPath": "/nix/store/pgb120fb7srbh418v4i2a70aq1w9dawd-python3-3.12.5/bin/python"
 }
