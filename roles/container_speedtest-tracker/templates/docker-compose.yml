@@ -21,7 +21,14 @@ services:
       - DISPLAY_TIMEZONE={{ iana_timezone }}
       - PRUNE_RESULTS_OLDER_THAN=0
       - PUBLIC_DASHBOARD=true
-      # TODO: setup smtp -> https://docs.speedtest-tracker.dev/settings/notifications/mail#setting-up-smtp
+      - MAIL_MAILER=smtp
+      - MAIL_HOST={{ smtp__host }}
+      - MAIL_PORT={{ smtp__port }}
+      - MAIL_USERNAME={{ smtp__user }}
+      - MAIL_PASSWORD={{ smtp__pass }}
+      - MAIL_ENCRYPTION=tls
+      - MAIL_FROM_ADDRESS="speedtest-tracker@{{ ansible_fqdn }}"
+      - MAIL_FROM_NAME="Speedtest Tracker"
     networks:
       - web
       - db
