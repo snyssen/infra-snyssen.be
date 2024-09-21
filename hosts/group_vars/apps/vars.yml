@@ -86,6 +86,8 @@ db__pg_databases:
     password: "{{ vault_team_wiki__db_pass }}"
   - name: rallly
     password: "{{ rallly__db_pass }}"
+  - name: speedtest_tracker
+    password: "{{ speedtest_tracker__db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -368,3 +370,6 @@ team_wordpress__db_pass: "{{ vault_team_wordpress__db_pass }}"
 rallly__db_pass: "{{ vault_rallly__db_pass }}"
 rallly__secret: "{{ vault_rallly__secret }}"
 rallly__subdomain: events
+
+speedtest_tracker__db_pass: "{{ vault_speedtest_tracker__db_pass }}"
+speedtest_tracker__app_key: "{{ vault_speedtest_tracker__app_key }}"

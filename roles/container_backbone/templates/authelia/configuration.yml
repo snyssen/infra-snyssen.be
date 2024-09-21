@@ -200,6 +200,7 @@ access_control:
         - "scrutiny.{{ ansible_fqdn }}"
         - "uptime.{{ ansible_fqdn }}"
         - "ddns.{{ ansible_fqdn }}"
+        - "speedtest-tracker.{{ ansible_fqdn }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]
