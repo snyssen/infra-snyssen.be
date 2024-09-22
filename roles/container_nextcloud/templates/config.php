@@ -47,6 +47,8 @@ $CONFIG = array(
   ),
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'pgsql',
+  # This might be a solution to this version setting, we should explore it:
+  # https://help.nextcloud.com/t/did-you-know-anysetting-config-php/141618
   'version' => '30.0.0.14',
   'overwrite.cli.url' => 'https://cloud.{{ ansible_fqdn }}',
   'dbname' => 'nextcloud',

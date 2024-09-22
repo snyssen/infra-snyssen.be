@@ -22,13 +22,13 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.nextcloud.entryPoints=websecure
-      - traefik.http.routers.nextcloud.middlewares=nextcloud,nextcloud_redirect
+      - traefik.http.routers.nextcloud.middlewares=nextcloud_headers,nextcloud_redirect
       - traefik.http.routers.nextcloud.rule=Host(`cloud.{{ ansible_fqdn }}`)
-      - traefik.http.middlewares.nextcloud.headers.customFrameOptionsValue=ALLOW-FROM https://cloud.{{ ansible_fqdn }}
-      - traefik.http.middlewares.nextcloud.headers.contentSecurityPolicy=frame-ancestors 'self' cloud.{{ ansible_fqdn }}
-      - traefik.http.middlewares.nextcloud.headers.stsSeconds=155520011
-      - traefik.http.middlewares.nextcloud.headers.stsIncludeSubdomains=true
-      - traefik.http.middlewares.nextcloud.headers.stsPreload=true
+      - traefik.http.middlewares.nextcloud_headers.headers.customFrameOptionsValue=SAMEORIGIN
+      - traefik.http.middlewares.nextcloud_headers.headers.contentSecurityPolicy=frame-ancestors 'self' cloud.{{ ansible_fqdn }}
+      - traefik.http.middlewares.nextcloud_headers.headers.stsSeconds=155520011
+      - traefik.http.middlewares.nextcloud_headers.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.nextcloud_headers.headers.stsPreload=true
       - traefik.http.middlewares.nextcloud_redirect.redirectregex.regex=/.well-known/(card|cal)dav
       - traefik.http.middlewares.nextcloud_redirect.redirectregex.replacement=/remote.php/dav/
     environment:
