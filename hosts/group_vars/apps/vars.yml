@@ -285,6 +285,8 @@ dashboard__shortcuts:
             url: https://speedtest.snyssen.be
           - name: Speedtest (outside)
             url: https://www.speedtest.net
+          - name: Speedtest tracker
+            url: https://speedtest-tracker.snyssen.be
       - name: Tools
         children:
           - name: LDAP
