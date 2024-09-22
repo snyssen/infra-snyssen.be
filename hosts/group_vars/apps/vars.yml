@@ -159,9 +159,9 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
   - "{{ docker_mounts_directory }}/bazarr/config:/data/bazarr/config"
   - /mnt/storage/minecraft/data:/data/minecraft
-  - /mnt/storage/mc-usw/data
+  - /mnt/storage/mc-usw/data:/data/mc-usw
   - "{{ docker_mounts_directory }}/foundryvtt:/data/foundryvtt"
-  - "{{ docker_mounts_directory }}/uptime"
+  - "{{ docker_mounts_directory }}/uptime:/data/uptime"
   - "{{ docker_mounts_directory }}/grafana:/data/grafana"
   - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
   - /mnt/storage/paperless/media:/data/paperless/media
