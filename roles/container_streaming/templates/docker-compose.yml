@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.9.1
+    image: lscr.io/linuxserver/radarr:5.11.0
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
