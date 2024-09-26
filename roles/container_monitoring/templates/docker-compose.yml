@@ -196,6 +196,30 @@ services:
       - SMTP_HOST_SSL_ENABLED={{ smtp__tls }}
     mem_limit: 256m
 
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-v2.13.2
+    container_name: umami
+    networks:
+      - web
+      - db
+    environment:
+      DATABASE_URL: postgresql://umami:{{ monitoring__umami_db_pass }}@postgres:5432/umami
+      DATABASE_TYPE: postgresql
+      APP_SECRET: "{{ monitoring__umami_app_secret }}"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.umami.entryPoints=websecure
+      - traefik.http.routers.umami.rule=Host(`umami.{{ ansible_fqdn }}`)
+      - traefik.http.routers.umami.service=umami
+      - traefik.http.services.umami.loadBalancer.server.port=3000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:3000/api/heartbeat"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   adguard_exporter:
     image: ebrianne/adguard-exporter:v1.14
     container_name: adguard_exporter

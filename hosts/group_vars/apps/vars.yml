@@ -88,6 +88,8 @@ db__pg_databases:
     password: "{{ rallly__db_pass }}"
   - name: speedtest_tracker
     password: "{{ speedtest_tracker__db_pass }}"
+  - name: umami
+    password: "{{ monitoring__umami_db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -343,6 +345,8 @@ monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
 monitoring__plausible_secret: "{{ vault_monitoring__plausible_secret }}"
 monitoring__plausible_totp_key: "{{ vault_monitoring__plausible_totp_key }}"
 monitoring__plausible__postgress_pass: "{{ vault_monitoring__plausible__postgress_pass }}"
+monitoring__umami_db_pass: "{{ vault_monitoring__umami_db_pass }}"
+monitoring__umami_app_secret: "{{ vault_monitoring__umami_app_secret }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"
 monitoring__adguard_exporter_password: "{{ vault_monitoring__adguard_exporter_password }}"
 monitoring__healthchecks_project_uuid: "{{ vault_monitoring__healthchecks_project_uuid }}"
