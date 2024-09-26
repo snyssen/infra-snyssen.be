@@ -5,5 +5,11 @@
     "group:allNonMajor",
     ":semanticCommits",
     ":pinVersions"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["ghcr.io/plausible/community-edition"],
+      "enabled": false
+    }
   ]
 }
