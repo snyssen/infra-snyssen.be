@@ -8,7 +8,10 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["ghcr.io/plausible/community-edition"],
+      "matchPackageNames": [
+        "ghcr.io/plausible/community-edition",
+        "clickhouse/clickhouse-server"
+      ],
       "enabled": false
     }
   ]
