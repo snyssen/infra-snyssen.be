@@ -6,6 +6,7 @@ services:
     networks:
       - web
       - ldap
+      - lan
     environment:
       - PUID={{ ansible_user_uid }}
       - PGID={{ ansible_user_gid }}
@@ -38,4 +39,6 @@ networks:
   web:
     external: true
   ldap:
+    external: true
+  lan:
     external: true
