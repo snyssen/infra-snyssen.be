@@ -17,7 +17,7 @@ services:
   recipes_nginx:
     image: nginx:mainline-alpine
     container_name: recipes_nginx
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     volumes:

@@ -1,7 +1,7 @@
 services:
   rest-server:
     image: restic/rest-server
-    restart: always
+    restart: unless-stopped
     container_name: rest-server
     ports:
       - "8000:8000"

@@ -290,6 +290,8 @@ session:
 
   ## Cookie Session Domain default 'remember_me' value.
   remember_me: "1M"
+  redis:
+    host: authelia_redis
 
 ##
 ## Storage Provider Configuration
