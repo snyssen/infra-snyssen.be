@@ -1,6 +1,6 @@
 services:
   nextcloud_redis:
-    image: redis:7.4.0
+    image: redis:7.4.1
     container_name: nextcloud_redis
     restart: unless-stopped
     networks:
