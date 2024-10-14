@@ -5,14 +5,5 @@
     "group:allNonMajor",
     ":semanticCommits",
     ":pinVersions"
-  ],
-  "packageRules": [
-    {
-      "matchPackageNames": [
-        "ghcr.io/plausible/community-edition",
-        "clickhouse/clickhouse-server"
-      ],
-      "enabled": false
-    }
   ]
 }

@@ -78,8 +78,6 @@ db__pg_databases:
     password: "{{ vault_recipes__db_password }}"
   - name: paperless
     password: "{{ vault_paperless__postgres_password }}"
-  - name: plausible
-    password: "{{ vault_monitoring__plausible__postgress_pass }}"
   - name: wger
     password: "{{ vault_wger__db_password }}"
   - name: team_wiki
@@ -295,8 +293,8 @@ dashboard__shortcuts:
             url: https://ldap.snyssen.be
           - name: pgadmin
             url: https://pgadmin.snyssen.be
-          - name: Plausible
-            url: https://plausible.snyssen.be
+          - name: Umami
+            url: https://umami.snyssen.be
           - name: Backblaze
             url: https://secure.backblaze.com/b2_buckets.htm
       - name: Monitoring
@@ -342,9 +340,6 @@ foundryvtt__admin_key: "{{ vault_foundryvtt__admin_key }}"
 
 monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
 monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
-monitoring__plausible_secret: "{{ vault_monitoring__plausible_secret }}"
-monitoring__plausible_totp_key: "{{ vault_monitoring__plausible_totp_key }}"
-monitoring__plausible__postgress_pass: "{{ vault_monitoring__plausible__postgress_pass }}"
 monitoring__umami_db_pass: "{{ vault_monitoring__umami_db_pass }}"
 monitoring__umami_app_secret: "{{ vault_monitoring__umami_app_secret }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"

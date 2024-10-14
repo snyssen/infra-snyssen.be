@@ -150,52 +150,6 @@ services:
       - traefik.http.routers.uptime.middlewares=authelia@docker
     mem_limit: 128m
 
-  plausible_clickhouse:
-    image: clickhouse/clickhouse-server:24.8-alpine
-    container_name: plausible_clickhouse
-    restart: unless-stopped
-    networks:
-      - internal
-    volumes:
-      - "{{ docker_mounts_directory }}/plausible/clickhouse/data:/var/lib/clickhouse"
-      - "{{ docker_mounts_directory }}/plausible/clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/logging.xml:ro"
-      - "{{ docker_mounts_directory }}/plausible/clickhouse/clickhouse-user-config.xml:/etc/clickhouse-server/users.d/logging.xml:ro"
-    # TODO: This is way too much mem, we should look into that
-    mem_limit: 1g
-
-  plausible:
-    image: ghcr.io/plausible/community-edition:v2.1.1
-    container_name: plausible
-    restart: unless-stopped
-    command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
-    networks:
-      - internal
-      - web
-      - db
-    depends_on:
-      - plausible_clickhouse
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=web
-      - traefik.http.routers.plausible.entryPoints=websecure
-      - traefik.http.routers.plausible.rule=Host(`plausible.{{ ansible_fqdn }}`)
-      - traefik.http.routers.plausible.service=plausible
-      - traefik.http.services.plausible.loadBalancer.server.port=8000
-    environment:
-      - DISABLE_REGISTRATION=true
-      - SECRET_KEY_BASE={{ monitoring__plausible_secret }}
-      - TOTP_VAULT_KEY={{ monitoring__plausible_totp_key }}
-      - BASE_URL=https://plausible.{{ ansible_fqdn }}
-      - DATABASE_URL=postgres://plausible:{{ monitoring__plausible__postgress_pass }}@postgres:5432/plausible
-      - CLICKHOUSE_DATABASE_URL=http://plausible_clickhouse:8123/plausible_clickhouse
-      - MAILER_EMAIL={{ smtp__from }}
-      - SMTP_HOST_ADDR={{ smtp__host }}
-      - SMTP_HOST_PORT={{ smtp__port }}
-      - SMTP_USER_NAME={{ smtp__user }}
-      - SMTP_USER_PWD={{ smtp__pass|replace('$','$$') }}
-      - SMTP_HOST_SSL_ENABLED={{ smtp__tls }}
-    mem_limit: 256m
-
   umami:
     image: ghcr.io/umami-software/umami:postgresql-v2.13.2
     container_name: umami

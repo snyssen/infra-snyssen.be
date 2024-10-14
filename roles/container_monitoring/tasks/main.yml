@@ -28,12 +28,6 @@
       # I don't like it, but apparently Uptime Kuma is always reverting to root permissions
       owner: "0"
       group: "0"
-    - src: "{{ docker_mounts_directory }}/plausible/postgres"
-      owner: "70"
-      group: "{{ ansible_user_gid }}"
-    - src: "{{ docker_mounts_directory }}/plausible/clickhouse/data"
-      owner: "101"
-      group: "101"
 
 - name: Deploying Scrutiny configuration
   ansible.builtin.template:
@@ -60,15 +54,6 @@
     group: 10001
     mode: "644"
   register: loki_config_status
-
-- name: Deploying Clickhouse configuration (for Plausible)
-  become: true
-  ansible.builtin.copy:
-    src: clickhouse/
-    dest: "{{ docker_mounts_directory }}/plausible/clickhouse"
-    mode: "0644"
-    owner: "101"
-    group: "101"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
