@@ -13,6 +13,8 @@ OAUTH2_CONFIG = [
         'OAUTH2_USERNAME_CLAIM': 'preferred_username',
         'OAUTH2_AUTO_CREATE_USER': "False",
         # 'OAUTH2_ADDITIONAL_CLAIMS':
+        "OAUTH2_BUTTON_COLOR": "None",
+        "OAUTH2_ICON": "None"
     }
 ]
 OAUTH2_AUTO_CREATE_USER = True
