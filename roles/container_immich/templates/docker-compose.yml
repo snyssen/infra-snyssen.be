@@ -30,7 +30,7 @@ services:
       - traefik.http.routers.immich.entryPoints=websecure
       - traefik.http.routers.immich.rule=Host(`photos.{{ ansible_fqdn }}`)
       - traefik.http.routers.immich.service=immich
-      - traefik.http.services.immich.loadBalancer.server.port=3001
+      - traefik.http.services.immich.loadBalancer.server.port=2283
 
   immich-machine-learning:
     container_name: immich_machine_learning
