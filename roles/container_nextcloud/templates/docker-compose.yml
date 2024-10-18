@@ -8,7 +8,7 @@ services:
     mem_limit: 32m
 
   nextcloud:
-    image: nextcloud:30.0.0
+    image: nextcloud:30.0.1
     container_name: nextcloud
     restart: unless-stopped
     networks:
