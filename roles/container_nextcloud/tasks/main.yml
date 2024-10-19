@@ -15,8 +15,8 @@
 - name: Deploying nextcloud config file
   become: true
   ansible.builtin.template:
-    src: config.php
-    dest: /mnt/storage/nextcloud/config/config.php
+    src: extra.config.php
+    dest: /mnt/storage/nextcloud/config/extra.config.php
     owner: 33
     group: 33
     mode: "770"

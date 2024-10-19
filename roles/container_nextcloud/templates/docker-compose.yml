@@ -41,6 +41,13 @@ services:
       - REDIS_HOST=nextcloud_redis
       - NEXTCLOUD_TRUSTED_DOMAINS=cloud.{{ ansible_fqdn }}
       - OVERWRITEPROTOCOL=https
+      - SMTP_HOST={{ smtp__host }}
+      - SMTP_PORT={{ smtp__port }}
+      - SMTP_SECURE={{ smtp__tls }}
+      - SMTP_NAME={{ smtp__user }}
+      - SMTP_PASSWORD={{ smtp__pass }}
+      - MAIL_DOMAIN={{ ansible_fqdn }}
+      - MAIL_FROM_ADDRESS=nextcloud
     volumes:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/nextcloud_logs:/var/logs
