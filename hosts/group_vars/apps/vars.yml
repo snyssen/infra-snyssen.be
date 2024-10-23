@@ -131,7 +131,36 @@ immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 
-autorestic_config_yaml: "{{ vault_autorestic_config_yaml }}"
+# formatted as
+# autorestic__backends:
+#   - name: backend-name
+#     type: b2
+#     path: bucket-name
+#     key: encryption-key
+#     # optional
+#     env:
+#       B2_ACCOUNT_ID: xxxx
+#       B2_ACCOUNT_KEY: xxxx
+#     # optional
+#     hooks:
+#       before:
+#         - some command
+#       after:
+#         - some other command
+autorestic__backends: "{{ vault_autorestic__backends }}"
+# formatted as
+# autorestic__locations:
+#   - name: location-name
+#     from:
+#       - /some/location
+#     to:
+#       - some-backend
+#     healthcheck_id: xxx-xxxx-xxx
+#     # optional
+#     hooks:
+#       before:
+#         - some command
+autorestic__locations: "{{ vault_autorestic__locations }}"
 
 backups__local_domain: "{{ vault_backups__local_domain }}"
 backups__local_destination: "rest:http://{{backups__local_domain}}:8000/"

@@ -1,0 +1,55 @@
+# {{ ansible_managed }}
+version: 2
+backends:
+  {%- for backend in autorestic__backends +%}
+  {{ backend.name }}:
+    type: {{ backend.type }}
+    path: {{ backend.path }}
+    key: {{ backend.key }}
+    {%- if backend.env is defined +%}
+    env:
+      {%- for key, val in backend.env.items() +%}
+      {{ key }}: {{ val }}
+      {%- endfor +%}
+    {%- endif +%}
+  {%- endfor +%}
+
+locations:
+  {%- for location in autorestic__locations +%}
+  {{ location.name }}:
+    from:
+      {%- for from in location.from +%}
+      - {{ from }}
+      {%- endfor +%}
+    to:
+      {%- for to in location.to +%}
+      - {{ to }}
+      {%- endfor +%}
+    forget: prune
+    options:
+      forget:
+        keep-daily: 14
+        keep-weekly: 4
+        keep-monthly: 6
+        keep-yearly: 1
+    cron: 30 0 * * *
+    hooks:
+      before:
+        - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/start
+
+        {%- if location.hooks is defined and location.hooks.before is defined +%}
+        {%- for hook in location.hooks.before +%}
+        - {{ hook }}
+        {%- endfor +%}
+        {%- endif +%}
+
+        {%- for backend in autorestic__backends if backend.name in location.to and backend.hooks is defined +%}
+        {%- for hook in backend.hooks.before +%}
+        - {{ hook }}
+        {%- endfor +%}
+        {%- endfor +%}
+      success:
+        - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}
+      failure:
+        - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/fail
+  {%- endfor +%}

@@ -62,6 +62,7 @@ services:
       POSTGRES_EXTRA_OPTS: "--format c" # So we can use pg_restore to restore the database
       TZ: "{{ iana_timezone }}"
       HEALTHCHECK_ID: "{{ db__pg_dump_healthcheck_id }}"
+      SCHEDULE: 30 */4 * * *
     volumes:
       - /mnt/storage/backups/postgres:/backups
       - ./hooks:/hooks
