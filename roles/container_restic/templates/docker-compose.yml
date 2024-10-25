@@ -10,6 +10,7 @@ services:
       RESTIC_PASSWORD: "{{ backups__encryption_key }}"
       RESTIC_PROGRESS_FPS: "1"
       BACKUP_CRON: 0 3 * * *
+      # BACKUP_CRON: 0 3 29 2 * # Essentially disable cron
       HEALTHCHECK_ID: "{{ backups__local_healthcheck_id }}"
       RESTIC_FORGET_ARGS: --prune --keep-daily 14 --keep-weekly 4 --keep-monthly 6 --keep-yearly 3
       BACKUP_SERVER_DOMAIN: "{{ backups__local_domain }}"

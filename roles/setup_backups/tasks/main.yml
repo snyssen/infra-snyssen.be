@@ -1,3 +1,31 @@
+- name: Install dependencies
+  become: true
+  ansible.builtin.package:
+    name: etherwake
+    state: present
+
+- name: Deploy SSH keypair for backup server shutdown
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/root/.ssh/"
+    owner: 0
+    group: 0
+    mode: "0600"
+  with_items:
+    - backup_rsa
+    - backup_rsa.pub
+
+- name: Deploy scripts
+  become: true
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: /root/scripts/
+    owner: 0
+    group: 0
+    mode: "500"
+  with_items:
+    - wol.sh
+
 - name: Autorestic setup
   ansible.builtin.include_role:
     name: fuzzymistborn.autorestic

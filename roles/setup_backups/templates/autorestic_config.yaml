@@ -44,7 +44,7 @@ locations:
         {%- endif +%}
 
         {%- for backend in autorestic__backends if backend.name in location.to and backend.hooks is defined +%}
-        {%- for hook in backend.hooks.before +%}
+        {%- for hook in backend.hooks.before if backend.hooks.before is defined +%}
         - {{ hook }}
         {%- endfor +%}
         {%- endfor +%}
@@ -52,4 +52,11 @@ locations:
         - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}
       failure:
         - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/fail
+      after:
+        {%- for backend in autorestic__backends if backend.name in location.to and backend.hooks is defined +%}
+        {%- for hook in backend.hooks.after if backend.hooks.after is defined +%}
+        - {{ hook }}
+        {%- endfor +%}
+        {%- endfor +%}
+        - echo "Backup fully done!"
   {%- endfor +%}
