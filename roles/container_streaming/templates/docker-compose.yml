@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.9.11
+    image: ghcr.io/jellyfin/jellyfin:10.10.0
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.15.1
+    image: ghcr.io/advplyr/audiobookshelf:2.16.2
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.13.1
+    image: lscr.io/linuxserver/radarr:5.14.0
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.1-develop
+    image: lscr.io/linuxserver/readarr:0.4.2-develop
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
