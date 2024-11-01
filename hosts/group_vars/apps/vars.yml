@@ -242,8 +242,6 @@ dashboard__shortcuts:
             url: https://snyssen.be
           - name: Bigdouf'site
             url: https://bigdouf.team
-          - name: Bigdouf'Shop
-            url: https://shop.bigdouf.team
       - name: Storage
         children:
           - name: Nextcloud
