@@ -9,7 +9,7 @@
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v1.119.1
+    image: ghcr.io/immich-app/immich-server:v1.120.0
     environment:
       DB_USERNAME: immich
       DB_PASSWORD: "{{ immich__db_password }}"
@@ -34,7 +34,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v1.119.1
+    image: ghcr.io/immich-app/immich-machine-learning:v1.120.0
     volumes:
       - model-cache:/cache
     networks:
