@@ -1,7 +1,7 @@
 services:
 {% for vault in quartz__vaults %}
   quartz-{{ vault.name }}:
-    image: ghcr.io/snyssen/quartz-docker-auto-publish:v4
+    image: ghcr.io/snyssen/quartz-docker-auto-publish:v4@sha256:e5bac2e807d24ef81f97cea48f0325dd2229ed5241f3837ea70f399d38aeb981
     container_name: quartz-{{ vault.name }}
     restart: unless-stopped
     volumes:

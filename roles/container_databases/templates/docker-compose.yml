@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16
+    image: postgres:16@sha256:91f464e7ba0ad91a106c94cff079fb4384139291b8c0502fd36989cf2c788bbb
     container_name: postgres
     restart: unless-stopped
     environment:
@@ -15,7 +15,7 @@ services:
     mem_limit: 1g
 
   pgadmin:
-    image: dpage/pgadmin4:8.12
+    image: dpage/pgadmin4:8.12@sha256:585350593e8b0483941fa9a2d5ebb04b88a66e83a7b5603c169f9446b271312f
     container_name: pgadmin
     restart: unless-stopped
     environment:
@@ -46,7 +46,7 @@ services:
     mem_limit: 1g
 
   postgres_backups:
-    image: prodrigestivill/postgres-backup-local:16-alpine
+    image: prodrigestivill/postgres-backup-local:16-alpine@sha256:113aa6553e22bd3591b509a5abc7166973a2a6b046f38cab1e6ba40029b64c86
     restart: unless-stopped
     container_name: postgres_backups
     networks:

@@ -9,7 +9,7 @@
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v1.120.0
+    image: ghcr.io/immich-app/immich-server:v1.120.0@sha256:ac215f5c1a52f7b25617924db61d54bb72b534d902ccb58eb595cdba98899aa3
     environment:
       DB_USERNAME: immich
       DB_PASSWORD: "{{ immich__db_password }}"
@@ -34,7 +34,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v1.120.0
+    image: ghcr.io/immich-app/immich-machine-learning:v1.120.0@sha256:a7c897a0b011b031c5f825e1667a6de4793c15adc53300f8ba4170d12a68d913
     volumes:
       - model-cache:/cache
     networks:
@@ -63,7 +63,7 @@ services:
 
   backup:
     container_name: immich_db_dumper
-    image: prodrigestivill/postgres-backup-local:14
+    image: prodrigestivill/postgres-backup-local:14@sha256:0df1ab0e185334b86ca313154409990596b8b754774f1b827392d62af6293f09
     user: "5050:{{ ansible_user_gid }}"
     environment:
       POSTGRES_HOST: database

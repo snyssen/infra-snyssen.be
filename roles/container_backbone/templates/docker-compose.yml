@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.2
+    image: traefik:v3.2@sha256:66e37237b371f2b25ce5f247cc371976929dcb18c041e05685f1de1df6422b72
     restart: unless-stopped
     container_name: traefik
     networks:
@@ -91,7 +91,7 @@ services:
       - traefik.http.middlewares.traefik-compress.compress=true
 
   vpn:
-    image: qmcgaw/gluetun:v3
+    image: qmcgaw/gluetun:v3@sha256:6a8058e626763cbf735ac2f78c774dbb24fec2490bd9d9f7d67e22592cb4a991
     container_name: vpn
     cap_add:
       - NET_ADMIN
@@ -137,7 +137,7 @@ services:
     mem_limit: 364m
 
   lldap:
-    image: lldap/lldap:2024-03-07
+    image: lldap/lldap:2024-03-07@sha256:2819a9d26d545c7640c9551d8ffe5e954eca81b34a62b87fad933dedd9339b1d
     container_name: lldap
     restart: unless-stopped
     ports:

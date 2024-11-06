@@ -1,6 +1,6 @@
 services:
   rest-server:
-    image: restic/rest-server
+    image: restic/rest-server@sha256:8668c235a932745585fef5cabbab9eccb501035f90138085a6e74963dcd1a71f
     restart: unless-stopped
     container_name: rest-server
     ports:

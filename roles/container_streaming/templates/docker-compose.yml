@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.10.1
+    image: ghcr.io/jellyfin/jellyfin:10.10.1@sha256:12b7aa2c8086e5566badc35370fab41b8cc8774dc3a80b07a1d6eb14f282b816
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.16.2
+    image: ghcr.io/advplyr/audiobookshelf:2.16.2@sha256:acfda2baa0dce0c7a31e1703b8cd694e59cd3f3de9cfabe5b7e9dd2029896169
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -77,7 +77,7 @@ services:
     mem_limit: 256m
 
   torrent:
-    image: lscr.io/linuxserver/transmission:4.0.6
+    image: lscr.io/linuxserver/transmission:4.0.6@sha256:7288e937376300ebc2d4b1abc83a09d6895093e50cb14a122c356ca6a5671ad7
     container_name: torrent
     network_mode: container:vpn
     environment:
@@ -91,7 +91,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.3.3
+    image: lscr.io/linuxserver/sabnzbd:4.3.3@sha256:5ae714b1a941a38471c2cc381ec407f93b3d7823c5a77a9a651502036b70ad69
     container_name: usenet
     network_mode: container:vpn
     environment:
@@ -105,7 +105,7 @@ services:
     mem_limit: 256m
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:4.0.10
+    image: lscr.io/linuxserver/sonarr:4.0.10@sha256:c0281bd62b9a75f088fa4a09e5f8776431921883766633cb5e5fbd5a74761155
     container_name: sonarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.14.0
+    image: lscr.io/linuxserver/radarr:5.14.0@sha256:a5a1fdf02aa14abc33a507eafa125ff57cb83f251a519536bce331ce9e008ef7
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -146,7 +146,7 @@ services:
     mem_limit: 1g
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:8.1.2135
+    image: lscr.io/linuxserver/lidarr:8.1.2135@sha256:8455e2c2f3a7e0fb56ab4de6be924d81aa441bfe9a740cf110d46b25a39b42ba
     container_name: lidarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.3-develop
+    image: lscr.io/linuxserver/readarr:0.4.3-develop@sha256:8cc3a892935076c45c829755ae9858b52d4cf5c648d046bb0a537d36dbb07cec
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.25.4
+    image: lscr.io/linuxserver/prowlarr:1.25.4@sha256:1e2fffd859ecd260e4aae4798cf5be75938cd602161d21b1d58122afb397c864
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -208,7 +208,7 @@ services:
     mem_limit: 1g
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:1.4.5
+    image: lscr.io/linuxserver/bazarr:1.4.5@sha256:88684337f4e3ea6c47623e47c5c27f798ed0d24fbca3e08c8d04be7a2b8a5668
     container_name: bazarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:ubuntu-2023.11.25
+    image: ghcr.io/jmbannon/ytdl-sub:ubuntu-2023.11.25@sha256:5571a2db1b596f4a18d03281e483614ac336b012bff427e84e1fe6b91b19ac15
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.1.14
+    image: thewicklowwolf/lidatube:0.1.14@sha256:be1bc358ba6778187cd54e234a7aeda70eec3c1b58216cf2f0559bd3064b6530
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
@@ -266,7 +266,7 @@ services:
     restart: unless-stopped
 
   lidify:
-    image: thewicklowwolf/lidify:0.1.3
+    image: thewicklowwolf/lidify:0.1.3@sha256:52bec382cde3cf227fa17fd14a5dcb980b70d7d36e2d5165de4e4a2272750c08
     container_name: lidify
     volumes:
       - "{{ docker_mounts_directory }}/lidify/config:/lidify/config"

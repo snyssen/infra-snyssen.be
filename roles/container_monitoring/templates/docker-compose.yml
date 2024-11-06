@@ -1,6 +1,6 @@
 services:
   influxdb:
-    image: influxdb:2.7
+    image: influxdb:2.7@sha256:32418efff9e2e2efb99f0c93c78f2a2cd4f5316ec8c2983a64c9a53925f96fcc
     container_name: influxdb
     restart: unless-stopped
     networks:
@@ -15,7 +15,7 @@ services:
     mem_limit: 100m
 
   scrutiny-web:
-    image: ghcr.io/analogj/scrutiny:v0.8.1-web
+    image: ghcr.io/analogj/scrutiny:v0.8.1-web@sha256:dbb6b56e5d3dfa9256fea8ef9b9fd8fb302c555ddd0554b8ad958ec050a14994
     container_name: scrutiny-web
     restart: unless-stopped
     networks:
@@ -48,7 +48,7 @@ services:
     mem_limit: 32m
 
   prometheus:
-    image: quay.io/prometheus/prometheus
+    image: quay.io/prometheus/prometheus@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3
     container_name: prometheus
     restart: unless-stopped
     networks:
@@ -72,7 +72,7 @@ services:
     mem_limit: 2g
 
   grafana:
-    image: grafana/grafana-oss:11.3.0
+    image: grafana/grafana-oss:11.3.0@sha256:a0f881232a6fb71a0554a47d0fe2203b6888fe77f4cefb7ea62bed7eb54e13c3
     container_name: grafana
     restart: unless-stopped
     networks:
@@ -114,7 +114,7 @@ services:
     mem_limit: 256m
 
   loki:
-    image: grafana/loki:3.2.1
+    image: grafana/loki:3.2.1@sha256:09a53b4a4ff81ffcd8f13886df19d33fac7a8d3aaf952e3c7e66cbade5b2fc31
     container_name: loki
     restart: unless-stopped
     volumes:
@@ -134,7 +134,7 @@ services:
     mem_limit: 2g
 
   uptime:
-    image: louislam/uptime-kuma:1
+    image: louislam/uptime-kuma:1@sha256:d8b1b2151256bda3a99e822902fcbeb27b3eca6ef6d93fad25d2062b9fb61ad2
     container_name: uptime
     restart: unless-stopped
     networks:
@@ -151,7 +151,7 @@ services:
     mem_limit: 128m
 
   umami:
-    image: ghcr.io/umami-software/umami:postgresql-v2.13.2
+    image: ghcr.io/umami-software/umami:postgresql-v2.13.2@sha256:611cacc80f53fe289f7e7bfe301032a117fb57e790c37272ee05f3b0eba690a3
     container_name: umami
     networks:
       - web
@@ -175,7 +175,7 @@ services:
       retries: 5
 
   adguard_exporter:
-    image: ebrianne/adguard-exporter:v1.14
+    image: ebrianne/adguard-exporter:v1.14@sha256:44bb9e0e98f490e7e40c84461a38a59a41e03a21837b70105e048121e7962cb6
     container_name: adguard_exporter
     restart: unless-stopped
     networks:
