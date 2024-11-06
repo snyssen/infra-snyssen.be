@@ -289,6 +289,10 @@ dashboard__shortcuts:
             url: https://torrent.snyssen.be
           - name: Usenet
             url: https://usenet.snyssen.be
+          - name: LidaTube
+            url: https://lidatube.snyssen.be/
+          - name: Lidify
+            url: https://lidify.snyssen.be/
   - name: Infrastructure
     icon_classes: las la-server
     children:
