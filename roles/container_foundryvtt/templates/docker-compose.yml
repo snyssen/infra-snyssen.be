@@ -1,6 +1,6 @@
 services:
   foundryvtt:
-    image: felddy/foundryvtt:12
+    image: felddy/foundryvtt:12@sha256:306930efe642caa5541add4e269127a3a9122e007496bb22b524f7d9bcc755fc
     container_name: foundryvtt
     restart: unless-stopped
     hostname: dnd.{{ ansible_fqdn }}

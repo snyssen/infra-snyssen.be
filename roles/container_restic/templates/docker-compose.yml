@@ -1,6 +1,6 @@
 services:
   restic_local: &restic-config
-    image: ghcr.io/snyssen/restic-backup-docker-wol:1.3.2
+    image: ghcr.io/snyssen/restic-backup-docker-wol:1.3.2@sha256:956bfbe5e7a4a94dde8963b37730b881333eed18f9adfd277cd470d669cc5883
     restart: unless-stopped
     container_name: restic_local
     hostname: "{{ ansible_fqdn }}"
