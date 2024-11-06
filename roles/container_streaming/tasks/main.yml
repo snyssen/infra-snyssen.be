@@ -41,6 +41,10 @@
     # ytdl-sub
     - "{{ docker_mounts_directory }}/ytdl-sub/config/crontabs"
     - /mnt/storage/streaming/ytdl-sub/downloads
+    # lidatube
+    - "{{ docker_mounts_directory }}/lidatube/config"
+    # lidify
+    - "{{ docker_mounts_directory }}/lidify/config"
 
 - name: Deploying Sabnzbd config
   ansible.builtin.template:

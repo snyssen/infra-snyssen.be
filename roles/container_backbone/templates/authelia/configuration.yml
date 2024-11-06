@@ -230,13 +230,19 @@ access_control:
         - "paperless.{{ ansible_fqdn }}"
         - "recipes.{{ ansible_fqdn }}"
       policy: "bypass"
-    # allow direct connection to download clients when called locally so *arr apps can connect
+    # allow some direct connection on internal network for m2m calls
     - domain:
+        # Download clients, contacted by *arr stack
         - "torrent.{{ ansible_fqdn }}"
         - "usenet.{{ ansible_fqdn }}"
+        # Lidarr, contacted by lidatube
+        - "lidarr.{{ ansible_fqdn }}"
       policy: bypass
       networks:
         - internal
+    #
+    ## media management systems
+    #
     - domain:
         - "torrent.{{ ansible_fqdn }}"
         - "usenet.{{ ansible_fqdn }}"
@@ -246,6 +252,8 @@ access_control:
         - "readarr.{{ ansible_fqdn }}"
         - "prowlarr.{{ ansible_fqdn }}"
         - "bazarr.{{ ansible_fqdn }}"
+        - "lidatube.{{ ansible_fqdn }}"
+        - "lidify.{{ ansible_fqdn }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]

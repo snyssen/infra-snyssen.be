@@ -248,6 +248,39 @@ services:
     restart: unless-stopped
     mem_limit: 1g
 
+  lidatube:
+    image: thewicklowwolf/lidatube:0.1.14
+    container_name: lidatube
+    volumes:
+      - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
+      - /mnt/storage/streaming/media/music:/lidatube/downloads
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidatube.entryPoints=websecure
+      - traefik.http.routers.lidatube.rule=Host(`lidatube.{{ ansible_fqdn }}`)
+      - traefik.http.services.lidatube.loadBalancer.server.port=5000
+      - traefik.http.routers.lidatube.middlewares=authelia@docker
+    restart: unless-stopped
+
+  lidify:
+    image: thewicklowwolf/lidify:0.1.3
+    container_name: lidify
+    volumes:
+      - "{{ docker_mounts_directory }}/lidify/config:/lidify/config"
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidify.entryPoints=websecure
+      - traefik.http.routers.lidify.rule=Host(`lidify.{{ ansible_fqdn }}`)
+      - traefik.http.services.lidify.loadBalancer.server.port=5000
+      - traefik.http.routers.lidify.middlewares=authelia@docker
+    restart: unless-stopped
+
 networks:
   web:
     external: true
