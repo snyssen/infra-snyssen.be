@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.1.14@sha256:be1bc358ba6778187cd54e234a7aeda70eec3c1b58216cf2f0559bd3064b6530
+    image: thewicklowwolf/lidatube:0.2.6@sha256:bed7584cecad0a08120a55a45f23163624ad23393e0e83b9028fb855e11cefff
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
@@ -266,7 +266,7 @@ services:
     restart: unless-stopped
 
   lidify:
-    image: thewicklowwolf/lidify:0.1.3@sha256:52bec382cde3cf227fa17fd14a5dcb980b70d7d36e2d5165de4e4a2272750c08
+    image: thewicklowwolf/lidify:0.2.1@sha256:f40e6b6cea9e3cd47c454eaa7a060c479fb853c164115fb9b8a75b655987b7a0
     container_name: lidify
     volumes:
       - "{{ docker_mounts_directory }}/lidify/config:/lidify/config"
