@@ -78,8 +78,6 @@ db__pg_databases:
     password: "{{ vault_recipes__db_password }}"
   - name: paperless
     password: "{{ vault_paperless__postgres_password }}"
-  - name: wger
-    password: "{{ vault_wger__db_password }}"
   - name: team_wiki
     password: "{{ vault_team_wiki__db_pass }}"
   - name: rallly
@@ -229,8 +227,6 @@ dashboard__shortcuts:
         url: https://recipes.snyssen.be
       - name: Wallos
         url: https://wallos.snyssen.be
-      - name: Wger
-        url: https://wger.snyssen.be
       - name: Rallly
         url: https://events.bigdouf.team
   - name: Documents
@@ -381,11 +377,6 @@ monitoring__healthchecks_api_key: "{{ vault_monitoring__healthchecks_api_key }}"
 paperless__postgres_password: "{{ vault_paperless__postgres_password }}"
 paperless__postgres_backups_healthcheck_id: "{{ vault_paperless__postgres_backups_healthcheck_id }}"
 paperless__secret_key: "{{ vault_paperless__secret_key }}"
-
-wger__db_password: "{{ vault_wger__db_password }}"
-wger__secret_key: "{{ vault_wger__secret_key }}"
-wger__signing_key: "{{ vault_wger__signing_key }}"
-wger__celery_password: "{{ vault_wger__celery_password }}"
 
 # Obsidian vaults that should be published through quartz
 quartz__vaults:
