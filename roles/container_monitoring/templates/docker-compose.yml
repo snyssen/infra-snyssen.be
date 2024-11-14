@@ -1,6 +1,6 @@
 services:
   influxdb:
-    image: influxdb:2.7@sha256:32418efff9e2e2efb99f0c93c78f2a2cd4f5316ec8c2983a64c9a53925f96fcc
+    image: influxdb:2.7.10@sha256:b4cd4b71bc8528c5cb6b9dede79091a234f9f565a3177b8fc4c2cc835bf5c142
     container_name: influxdb
     restart: unless-stopped
     networks:
