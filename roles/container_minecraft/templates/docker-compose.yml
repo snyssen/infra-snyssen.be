@@ -90,7 +90,7 @@ services:
     mem_limit: 8.2g
 
   mc-router:
-    image: itzg/mc-router:1.24.0
+    image: itzg/mc-router:1.24.0@sha256:e2359f288d53cb6bd46fedd775bb8d36fce4c77f086c81944d32f36b93ce5657
     container_name: mc-router
     depends_on:
       - minecraft
