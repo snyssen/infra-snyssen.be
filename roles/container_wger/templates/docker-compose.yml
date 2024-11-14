@@ -1,6 +1,6 @@
 services:
   web:
-    image: wger/server:2.3-dev@sha256:7180f8188cb7603f0267ac6a1f181c6c45bf8221fb6157fe433880da0266bf0b
+    image: wger/server:2.3-dev@sha256:7dd0f44f6fb9fb10575e7c1e567733698cdbc40aafa6e321848371b860697f0c
     container_name: wger_server
     depends_on:
       cache:
@@ -63,7 +63,7 @@ services:
     restart: unless-stopped
 
   celery_worker:
-    image: wger/server:2.3-dev@sha256:7180f8188cb7603f0267ac6a1f181c6c45bf8221fb6157fe433880da0266bf0b
+    image: wger/server:2.3-dev@sha256:7dd0f44f6fb9fb10575e7c1e567733698cdbc40aafa6e321848371b860697f0c
     container_name: wger_celery_worker
     command: /start-worker
     env_file:
@@ -83,7 +83,7 @@ services:
       retries: 5
 
   celery_beat:
-    image: wger/server:2.3-dev@sha256:7180f8188cb7603f0267ac6a1f181c6c45bf8221fb6157fe433880da0266bf0b
+    image: wger/server:2.3-dev@sha256:7dd0f44f6fb9fb10575e7c1e567733698cdbc40aafa6e321848371b860697f0c
     container_name: wger_celery_beat
     command: /start-beat
     volumes:
