@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "740"
+    mode: "755"
     owner: "82"
     group: "82"
   with_items:
