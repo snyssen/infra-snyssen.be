@@ -1,6 +1,6 @@
 services:
   speedtest-tracker:
-    image: lscr.io/linuxserver/speedtest-tracker:0.21.5@sha256:3ff224f2551caee072fc06334121f8067b556503e0ba42c5aea3b5e80930e827
+    image: lscr.io/linuxserver/speedtest-tracker:0.21.6@sha256:c58a188d07535f817884b0a37dcc967a8711c874f5c2607beb7a2e3e16f2a4e0
     container_name: speedtest-tracker
     restart: unless-stopped
     environment:
