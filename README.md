@@ -11,8 +11,6 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
   - [Table of Contents](#table-of-contents)
   - [Important notice](#important-notice)
   - [Objectives](#objectives)
-  - [Hardware](#hardware)
-  - [Requirements](#requirements)
   - [Getting started](#getting-started)
   - [Playbooks descriptions](#playbooks-descriptions)
     - [Setup playbooks](#setup-playbooks)
@@ -27,7 +25,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [Stacks playbooks](#stacks-playbooks)
       - [Stacks - deploy](#stacks---deploy)
       - [Stacks - manage](#stacks---manage)
-    - [Backup playbooks](#backup-playbooks)
+    - [(old) Backup playbooks](#old-backup-playbooks)
       - [Backup - run](#backup---run)
       - [Backup - restore](#backup---restore)
       - [Backup - check](#backup---check)
@@ -39,9 +37,6 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [Stacks specific playbooks](#stacks-specific-playbooks)
       - [Nextcloud occ](#nextcloud-occ)
       - [Minecraft execute](#minecraft-execute)
-  - [Server schedule](#server-schedule)
-    - [Morning schedule](#morning-schedule)
-    - [Additional scheduled events](#additional-scheduled-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -65,33 +60,6 @@ As an avid [self-hoster](https://www.reddit.com/r/selfhosted/), I depend on my s
 - Play some games with friends
 - Etc.
 
-The list of services used and how to deploy them can be found under [The stacks](#the-stacks)
-
-## Hardware
-
-Here is the hardware currently used by the machine that runs everything listed in here. Please note that this does not serve as a required or min specs list but is rather provided as additional information.
-
-- <u>CPU</u>: 8x Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz
-- <u>RAM</u>: 4x 4GB Corsair(R) Vengeance Pro Series DDR3 memory
-- <u>Motherboard</u>: MSI(R) Z97S SLI Krait edition
-- <u>Cooling</u>: Stock Intel(R) cooling
-- <u>Case</u>: Antec(R) P101 Silent
-- <u>Storage</u>:
-  - <u>System drive</u>: Western Digital(R) Blue 3D NAND SATA SSD M.2 2280 - 500GB
-  - <u>Parity disk</u>: Seagate(R) Exos X14 - 12TB
-  - <u>Storage disks</u>:
-    - Seagate(R) IronWolf SATA3 5900RPM 64MB cache - 4TB
-    - 3x Seagate(R) IronWolf SATA3 5900RPM 64MB cache - 2TB
-
-Most of the hardware was actually scavenged from a previous gaming PC build. Recycling yay!
-
-## Requirements
-
-- A server with at least 1 system drive, 1 parity drive and 1 data drive. The server should be running Fedora server (it may work with other RedHat based distro but I haven't tested it. **Non RedHat based distro are not supported at the moment** as the playbooks depend on dnf)
-- A computer with ansible, VirtualBox and vagrant (for testing) installed, as well as npm (for installing doctoc)
-- The ability to connect from the client machine to the server using SSH with key-based authentication. You can learn how to manage SSH keys [here](https://wiki.snyssen.be/en/sys-admin/linux/ssh-keys).
-- Some free time and lots of coffee
-
 ## Getting started
 
 Clone the repos on the client machine (the one with Ansible installed) and cd into it:
@@ -103,7 +71,7 @@ git clone https://github.com/snyssen/infra-snyssen.be.git && cd infra-snyssen.be
 Run the setup script:
 
 ```bash
-./setup.sh
+just setup
 ```
 
 This script will do the following:
@@ -112,24 +80,12 @@ This script will do the following:
 2. Install the Ansible, Vagrant and other requirements.
 3. Create the ansible password file for encrypting and decrypting the vaults. You will be asked for the encryption key. **The generated file (`.vault_pass`) should of course never be committed.**
 
-To build the test virtual machine, run:
-
-```bash
-vagrant up
-```
-
-This should create a virtual machine and provision it with Ansible. If you are satisfied with the results, change the `hosts/prod.yml` Ansible inventory file so it points to your own server, then rename the `host_vars/snyssen.be` folder to your server hostname or ip address (whatever you put in the inventory file) and change the variables files found in this folder for your use. Finally, apply the changes to your server by running:
-
-```bash
-ansible-playbook setup-deploy.yml -i=hosts/prod.yml
-```
-
 ## Playbooks descriptions
 
-Playbooks follow the `context-action.yml` filename scheme. As such, they are ordered by context. For each demonstrated command, parts in `[]` are optional, additional variables, and comma separated list in `{}` indicate possible values for such variables (where applicable).
+Playbooks follow the `<context>-<action>.yml` filename scheme. As such, they are ordered by context. For each demonstrated command, parts in `[]` are optional, additional variables, and comma separated list in `{}` indicate possible values for such variables (where applicable).
 
-For each playbook, multiple environments are available and should be configured for your use case. ENvironments are defined as inventory files in `/hosts`. There are currently 3 environments:
-- dev: Should be used with vagrant for development. See [getting started](#getting-started) for more information
+For each playbook, multiple environments are available and should be configured for your use case. Environments are defined as inventory files in `/hosts`. There are currently 3 environments:
+- dev: Should be used with vagrant for development.
 - staging: Should be used with an expandable server, for final testing before actual deployment
 - prod: Should be used for actual production deployment
 
@@ -237,14 +193,14 @@ ansible-playbook stacks-manage.yml [-e "stacks_state={present,absent,restarted} 
 - `stacks_include_str`: Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'stacks_exclude' one; if both are set, only this one will be used.
 - `stacks_exclude_str`: Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
 
-### Backup playbooks
+### (old) Backup playbooks
 
 #### Backup - run
 
 Backs up the server.
 
 ```bash
-ansible-playbook backup-run.yml [-e "backup_skip_databases={true,false} backup_skip_files={true,false} backup_files_skip_local={true,false} backup_files_skip_remote={true,false}"]
+ansible-playbook backup-old-run.yml [-e "backup_skip_databases={true,false} backup_skip_files={true,false} backup_files_skip_local={true,false} backup_files_skip_remote={true,false}"]
 ```
 
 - `backup_skip_databases` (default = false): Whether to skip the databases backups or not. If set to true, no database backup will be made.
@@ -257,7 +213,7 @@ ansible-playbook backup-run.yml [-e "backup_skip_databases={true,false} backup_s
 Restores a server backup.
 
 ```bash
-ansible-playbook backup-restore.yml [-e "backup_skip_files={true,false} backup_skip_databases={true,false} restic_server={local,remote} db_restore_include=['nextcloud', 'photoprism'] db_restore_exclude=['recipes']"]
+ansible-playbook backup-old-restore.yml [-e "backup_skip_files={true,false} backup_skip_databases={true,false} restic_server={local,remote} db_restore_include=['nextcloud', 'photoprism'] db_restore_exclude=['recipes']"]
 ```
 
 - `backup_skip_databases` (default = false): Whether to skip the databases restore or not. If set to true, no database will be restored.
@@ -271,7 +227,7 @@ ansible-playbook backup-restore.yml [-e "backup_skip_files={true,false} backup_s
 Checks all snapshots.
 
 ```bash
-ansible-playbook [-i hosts/prod.yml] backup-check.ansible.yml [-e "restic_server={local,remote}"]
+ansible-playbook [-i hosts/prod.yml] backup-old-check.ansible.yml [-e "restic_server={local,remote}"]
 ```
 
 #### Backup - list snapshots
@@ -279,7 +235,7 @@ ansible-playbook [-i hosts/prod.yml] backup-check.ansible.yml [-e "restic_server
 List all available snapshots.
 
 ```bash
-ansible-playbook [-i hosts/prod.yml] backup-list-snapshots.ansible.yml [-e "restic_server={local,remote}"]
+ansible-playbook [-i hosts/prod.yml] backup-old-list-snapshots.ansible.yml [-e "restic_server={local,remote}"]
 ```
 
 #### Backup - get logs
@@ -287,7 +243,7 @@ ansible-playbook [-i hosts/prod.yml] backup-list-snapshots.ansible.yml [-e "rest
 Get logs of latest backup run
 
 ```bash
-ansible-playbook [-i hosts/prod.yml] backup-get-logs.ansible.yml [-e "restic_server={local,remote}"]
+ansible-playbook [-i hosts/prod.yml] backup-old-get-logs.ansible.yml [-e "restic_server={local,remote}"]
 ```
 
 ### Snapraid playbooks
@@ -328,20 +284,3 @@ Runs a command inside the Minecraft console. The command is prompted before exec
 ```bash
 ansible-playbook [-i hosts/prod.yml] minecraft-execute.ansible.yml
 ```
-
-## Server schedule
-
-All times are on the Europe/Brussels timezone.
-
-### Morning schedule
-
-| 00:00             | 01:00    | 03:00           | 04:00 | 05:00            | 06:00 |
-| ----------------- | -------- | --------------- | ----- | ---------------- | ----- |
-| nextcloud db dump | snapraid | restic to local |       | restic to remote |       |
-| gitea db dump     |          |                 |       |                  |       |
-| recipes db dump   |          |                 |       |                  |       |
-
-### Additional scheduled events
-
-  - Packages upgrades at 08:00 on saturdays. **Warning: might incur a server reboot!**
-  - Nextcloud background jobs every 5 minutes (on the clock).

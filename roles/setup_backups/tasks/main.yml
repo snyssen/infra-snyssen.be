@@ -37,7 +37,7 @@
     name: Autorestic
     minute: "*/30"
     user: root
-    job: autorestic --ci cron >> /var/log/autorestic.log
+    job: autorestic --ci cron --lean >> /var/log/autorestic.log
     state: present
 - name: Add progress logging during backups
   ansible.builtin.cron:
