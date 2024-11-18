@@ -28,6 +28,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [Backup playbooks](#backup-playbooks)
       - [Backup - run](#backup---run)
       - [Backup - list](#backup---list)
+      - [Backup - integrity check](#backup---integrity-check)
     - [(old) Backup playbooks](#old-backup-playbooks)
       - [(old) Backup - run](#old-backup---run)
       - [(old) Backup - restore](#old-backup---restore)
@@ -217,6 +218,16 @@ ansible-playbook playbooks/backup-list.ansible.yml -e '{"backup_backend":"backup
 
 - `backup_backend` Specify the [backend](https://autorestic.vercel.app/backend) to query.
 - `backup_locations` (optional) Filter snapshots per [location](https://autorestic.vercel.app/location)
+
+#### Backup - integrity check
+
+Checks the integrity of the backups, using `restic check`.
+
+```bash
+ansible-playbook playbooks/backup-integrity.ansible.yml -e backup_backend=backup-snyssen-be|snyssen-be-autorestic
+```
+
+- `backup_backend` Specify the [backend](https://autorestic.vercel.app/backend) to query.
 
 ### (old) Backup playbooks
 
