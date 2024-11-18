@@ -25,12 +25,14 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
     - [Stacks playbooks](#stacks-playbooks)
       - [Stacks - deploy](#stacks---deploy)
       - [Stacks - manage](#stacks---manage)
-    - [(old) Backup playbooks](#old-backup-playbooks)
+    - [Backup playbooks](#backup-playbooks)
       - [Backup - run](#backup---run)
-      - [Backup - restore](#backup---restore)
-      - [Backup - check](#backup---check)
-      - [Backup - list snapshots](#backup---list-snapshots)
-      - [Backup - get logs](#backup---get-logs)
+    - [(old) Backup playbooks](#old-backup-playbooks)
+      - [(old) Backup - run](#old-backup---run)
+      - [(old) Backup - restore](#old-backup---restore)
+      - [(old) Backup - check](#old-backup---check)
+      - [(old) Backup - list snapshots](#old-backup---list-snapshots)
+      - [(old) Backup - get logs](#old-backup---get-logs)
     - [Snapraid playbooks](#snapraid-playbooks)
       - [Snapraid - runner execute](#snapraid---runner-execute)
       - [Snapraid - get logs](#snapraid---get-logs)
@@ -82,7 +84,7 @@ This script will do the following:
 
 ## Playbooks descriptions
 
-Playbooks follow the `<context>-<action>.yml` filename scheme. As such, they are ordered by context. For each demonstrated command, parts in `[]` are optional, additional variables, and comma separated list in `{}` indicate possible values for such variables (where applicable).
+Playbooks follow the `<context>-<action>.yml` filename scheme. As such, they are ordered by context. For each demonstrated command, additional variables are added in json format, with `|` for separating possible values (when applicable).
 
 For each playbook, multiple environments are available and should be configured for your use case. Environments are defined as inventory files in `/hosts`. There are currently 3 environments:
 - dev: Should be used with vagrant for development.
@@ -102,22 +104,22 @@ ansible-playbook <playbook_file.yml> -i hosts/<inventory_file.yml>
 Use this playbook to deploy a fresh instance of the server. For example, to have a fresh instance on staging use:
 
 ```bash
-ansible-playbook setup-deploy.yml [-e "docker_compose_state={present,absent,restarted} stacks_deploy_list=['backbone','nextcloud']"]
+ansible-playbook setup-deploy.yml -e '{"docker_compose_state":"present|absent|restarted","stacks_deploy_list":["backbone","nextcloud"]}'
 ```
 
-- `docker_compose_state` (default = present): The state of the stacks after they are deployed
-- `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
+- `docker_compose_state` (optional, default = present): The state of the stacks after they are deployed
+- `stacks_deploy_list`: (optional) Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 #### Setup - restore
 
 Restore a previous server backup from scratch. This is useful for disaster recovery.
 
 ```bash
-ansible-playbook setup-restore.yml [-e "restic_server={local,remote} stacks_deploy_list=['backbone','nextcloud']"]
+ansible-playbook setup-restore.yml -e '{"restic_server":"local|remote","stacks_deploy_list":["backbone","nextcloud"]}'
 ```
 
-- `restic_server` (default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
-- `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
+- `restic_server` (optional, default = local): The backup server to use. `local` refers to a LAN accessible restic rest server that is deployed along the main server; `remote` refers to a WAN accessible s3 bucket.
+- `stacks_deploy_list`: (optional) Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 The playbook requires user input during execution to choose the file backup and then database backups to restore.
 
@@ -144,10 +146,10 @@ ansible-playbook server-wipe.ansible.yml
 Reboots the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to reboot all your servers but only one at a time.
 
 ```bash
-ansible-playbook server-reboot.yml [--limit={apps,backup}] [-e "reboot_delay=300 prevent_apps_restart={true,false}"]
+ansible-playbook server-reboot.yml --limit=apps|backup|dns -e '{"reboot_delay":300,"prevent_apps_restart":true|false}'
 ```
 
-- `reboot_delay`: The delay (in seconds) the server should wait before rebooting. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
+- `reboot_delay`: (optional, default = immediately) The delay (in seconds) the server should wait before rebooting. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
 - `prevent_apps_restart` (default = false): Whether all apps should be restarted or not after reboot. If set to true, apps won't be restarted.
 
 #### Server - shutdown
@@ -155,17 +157,17 @@ ansible-playbook server-reboot.yml [--limit={apps,backup}] [-e "reboot_delay=300
 Shutdowns the server(s). It is recommended to use the `--limit` flag to only apply this to a single group, as you usually don't want to shutdown all your servers but only one at a time.
 
 ```bash
-ansible-playbook server-shutdown.yml [--limit={apps,backup}] [-e "shutdown_delay=300"]
+ansible-playbook server-shutdown.yml --limit=apps|backup|dns -e '{"shutdown_delay": 300}'
 ```
 
-- `shutdown_delay`: The delay (in seconds) the server should wait before shutting down. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
+- `shutdown_delay`: (optional, default = immediately) The delay (in seconds) the server should wait before shutting down. Values below 60 are ignored. If not explicitly set, will be asked to user on playbook execution.
 
 #### Server - gather facts
 
 Gather all facts about all servers and output them to console.
 
 ```bash
-ansible-playbook -i hosts/prod.yml server-gather-facts.ansible.yml [--limit={apps,backup,dns}]
+ansible-playbook -i hosts/prod.yml server-gather-facts.ansible.yml --limit=apps|backup|dns
 ```
 
 ### Stacks playbooks
@@ -175,27 +177,38 @@ ansible-playbook -i hosts/prod.yml server-gather-facts.ansible.yml [--limit={app
 Deploys all stacks to the app server.
 
 ```bash
-ansible-playbook stacks-deploy.yml [-e "docker_compose_state={present,absent,restarted} stacks_deploy_list=['backbone','nextcloud']"]
+ansible-playbook stacks-deploy.yml -e '{"docker_compose_state":"present|absent|restarted","stacks_deploy_list":["backbone","nextcloud"]}'
 ```
 
-- `docker_compose_state` (default = present): The state of the stacks after they are deployed
-- `stacks_deploy_list`: Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
+- `docker_compose_state` (optional, default = present): The state of the stacks after they are deployed
+- `stacks_deploy_list`: (optional) Explicitly defines the list of stacks that should be deployed. If undefined, all stacks are deployed; otherwise only specified stacks are.
 
 #### Stacks - manage
 
 Changes the state of specific stacks.
 
 ```bash
-ansible-playbook stacks-manage.yml [-e "stacks_state={present,absent,restarted} stacks_include_str='nextcloud restic' stacks_exclude_str='speedtest photoprism'"]
+ansible-playbook stacks-manage.yml -e '{"stacks_state":"present|absent|restarted","stacks_include_str"="nextcloud restic","stacks_exclude_str"="speedtest photoprism"}'
 ```
 
-- `stacks_state`: Sets the stack state. If not explicitly set, will be asked to user on playbook execution.
-- `stacks_include_str`: Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'stacks_exclude' one; if both are set, only this one will be used.
-- `stacks_exclude_str`: Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
+- `stacks_state`: (optional, asked on start) Sets the stack state. If not explicitly set, will be asked to user on playbook execution.
+- `stacks_include_str`: (optional, asked on start) Space separated list of stacks names which state should be changed. Leave empty to include all apps. Note that this setting is mutually exclusive with the 'stacks_exclude' one; if both are set, only this one will be used.
+- `stacks_exclude_str`: (optional, asked on start) Space separated list of stacks names which state should **not** be changed. Leave empty to not exclude any app.
+
+### Backup playbooks
+
+#### Backup - run
+
+Runs a backup through autorestic.
+
+```bash
+ansible-playbook playbooks/backup-run.ansible.yml [-e '{"backup_locations":["nextcloud","postgres"]}']
+```
+- `backup_locations` (optional) Specify which [autorestic location(s)](https://autorestic.vercel.app/location) to backup. If left unset, it runs through all of the locations set for autorestic; otherwise, it only runs for the locations provided. Specific [backends](https://autorestic.vercel.app/backend) can also be chosen by appending a location with `@backend`, e.g. `nextcloud@backup-snyssen-be`; see [Autorestic documentation](https://autorestic.vercel.app/cli/backup).
 
 ### (old) Backup playbooks
 
-#### Backup - run
+#### (old) Backup - run
 
 Backs up the server.
 
@@ -208,7 +221,7 @@ ansible-playbook backup-old-run.yml [-e "backup_skip_databases={true,false} back
 - `backup_files_skip_local` (default = false): Whether to skip the local backup or not. If set to true, files won't be saved to the local backup server.
 - `backup_files_skip_remote` (default = false): Whether to skip the remote backup or not. If set to true, files won't be saved to the remote backup server.
 
-#### Backup - restore
+#### (old) Backup - restore
 
 Restores a server backup.
 
@@ -222,7 +235,7 @@ ansible-playbook backup-old-restore.yml [-e "backup_skip_files={true,false} back
 - `db_restore_include` (default = all): databases to restore. If left empty, all dbs are included. Note that this setting is mutually exclusive with 'db_restore_exclude'; if both are set, only this one will be used
 - `db_restore_exclude` (default = none): databases that should not be restored
 
-#### Backup - check
+#### (old) Backup - check
 
 Checks all snapshots.
 
@@ -230,7 +243,7 @@ Checks all snapshots.
 ansible-playbook [-i hosts/prod.yml] backup-old-check.ansible.yml [-e "restic_server={local,remote}"]
 ```
 
-#### Backup - list snapshots
+#### (old) Backup - list snapshots
 
 List all available snapshots.
 
@@ -238,7 +251,7 @@ List all available snapshots.
 ansible-playbook [-i hosts/prod.yml] backup-old-list-snapshots.ansible.yml [-e "restic_server={local,remote}"]
 ```
 
-#### Backup - get logs
+#### (old) Backup - get logs
 
 Get logs of latest backup run
 

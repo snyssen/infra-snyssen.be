@@ -1,0 +1,16 @@
+- hosts: apps
+  tasks:
+    - name: Parse expected autorestic arguments
+      ansible.builtin.set_fact:
+        backup_locations_args: "-l {{ backup_locations | join(' -l ') }}"
+      when:
+        - backup_locations is defined
+        - backup_locations | length > 0
+    - name: run autorestic backup
+      become: true
+      ansible.builtin.shell: |-
+        autorestic --ci backup {{ backup_locations_args if backup_locations_args is defined else '-a' }} 2>&1 | tee -a /var/log/autorestic.log
+      register: returned_value
+    - name: Showing stdoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines

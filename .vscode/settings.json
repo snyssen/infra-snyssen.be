@@ -1,10 +1,13 @@
 {
   "cSpell.words": [
     "gitea",
+    "healthcheck",
     "jellyfin",
     "minecraft",
     "minio",
+    "nextcloud",
     "restic",
+    "Snapraid",
     "traefik"
   ],
   "workbench.colorCustomizations": {

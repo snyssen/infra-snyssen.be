@@ -9,10 +9,3 @@
     - ansible.builtin.reboot:
         pre_reboot_delay: "{{ reboot_delay | default(0, true) }}"
       become: yes
-
-    - name: Restarting apps (if needed)
-      ansible.builtin.include_role:
-        name: stacks_set_state
-      vars:
-        stacks_state: present
-      when: not prevent_apps_restart | default(false)
