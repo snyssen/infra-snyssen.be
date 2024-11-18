@@ -27,6 +27,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
       - [Stacks - manage](#stacks---manage)
     - [Backup playbooks](#backup-playbooks)
       - [Backup - run](#backup---run)
+      - [Backup - list](#backup---list)
     - [(old) Backup playbooks](#old-backup-playbooks)
       - [(old) Backup - run](#old-backup---run)
       - [(old) Backup - restore](#old-backup---restore)
@@ -205,6 +206,17 @@ Runs a backup through autorestic.
 ansible-playbook playbooks/backup-run.ansible.yml [-e '{"backup_locations":["nextcloud","postgres"]}']
 ```
 - `backup_locations` (optional) Specify which [autorestic location(s)](https://autorestic.vercel.app/location) to backup. If left unset, it runs through all of the locations set for autorestic; otherwise, it only runs for the locations provided. Specific [backends](https://autorestic.vercel.app/backend) can also be chosen by appending a location with `@backend`, e.g. `nextcloud@backup-snyssen-be`; see [Autorestic documentation](https://autorestic.vercel.app/cli/backup).
+
+#### Backup - list
+
+Lists backups snapshots through autorestic.
+
+```bash
+ansible-playbook playbooks/backup-list.ansible.yml -e '{"backup_backend":"backup-snyssen-be|snyssen-be-autorestic","backup_locations":["postgres","nextcloud"]}'
+```
+
+- `backup_backend` Specify the [backend](https://autorestic.vercel.app/backend) to query.
+- `backup_locations` (optional) Filter snapshots per [location](https://autorestic.vercel.app/location)
 
 ### (old) Backup playbooks
 

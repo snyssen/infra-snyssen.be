@@ -1,0 +1,19 @@
+- hosts: apps
+  vars_prompt:
+    - name: backup_backend
+      private: false
+  tasks:
+    - name: Parse expected autorestic arguments
+      ansible.builtin.set_fact:
+        backup_locations_args: "--tag ar:location:{{ backup_locations | join(' --tag ar:location:') }}"
+      when:
+        - backup_locations is defined
+        - backup_locations | length > 0
+    - name: run snapshots command
+      become: true
+      ansible.builtin.shell: |-
+        autorestic --ci exec -b {{ backup_backend }} -- snapshots {{ backup_locations_args if backup_locations_args is defined }}
+      register: returned_value
+    - name: Showing stdoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines
