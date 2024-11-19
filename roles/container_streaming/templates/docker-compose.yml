@@ -77,7 +77,7 @@ services:
     mem_limit: 256m
 
   torrent:
-    image: lscr.io/linuxserver/transmission:4.0.6@sha256:7288e937376300ebc2d4b1abc83a09d6895093e50cb14a122c356ca6a5671ad7
+    image: lscr.io/linuxserver/transmission:4.0.6@sha256:7f483b8c12ca6f2e05cd5854f0140d513292e256cd0b784cd8d53a7823905ebb
     container_name: torrent
     network_mode: container:vpn
     environment:
