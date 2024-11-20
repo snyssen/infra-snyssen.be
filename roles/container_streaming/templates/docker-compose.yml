@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.10.1@sha256:12b7aa2c8086e5566badc35370fab41b8cc8774dc3a80b07a1d6eb14f282b816
+    image: ghcr.io/jellyfin/jellyfin:10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.16.2@sha256:acfda2baa0dce0c7a31e1703b8cd694e59cd3f3de9cfabe5b7e9dd2029896169
+    image: ghcr.io/advplyr/audiobookshelf:2.17.1@sha256:c16dc18875c0796b2a3094a008fd170c5c55bd430a8657a10d6d500f2e06d89b
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.14.0@sha256:a5a1fdf02aa14abc33a507eafa125ff57cb83f251a519536bce331ce9e008ef7
+    image: lscr.io/linuxserver/radarr:5.15.1@sha256:c60610599d681dc7ea0aa1a5edfc1637ff4b5fb062872aea1539d291c835c4b3
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.25.4@sha256:1e2fffd859ecd260e4aae4798cf5be75938cd602161d21b1d58122afb397c864
+    image: lscr.io/linuxserver/prowlarr:1.26.1@sha256:c492863c8e1da876a6be3d0d5836f25b3547c0a3293f0e9f09cd198ebf47ea37
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.6@sha256:bed7584cecad0a08120a55a45f23163624ad23393e0e83b9028fb855e11cefff
+    image: thewicklowwolf/lidatube:0.2.7@sha256:ae2bb3c63f9ad29fcfed5fabce827c6cbdf9c9770c43726d2d508c9b76783331
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
