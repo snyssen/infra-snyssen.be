@@ -289,6 +289,10 @@ dashboard__shortcuts:
             url: https://lidatube.snyssen.be/
           - name: Lidify
             url: https://lidify.snyssen.be/
+      - name: Acquisition
+        children:
+          - name: Libro.fm
+            url: https://libro.fm/
   - name: Infrastructure
     icon_classes: las la-server
     children:
