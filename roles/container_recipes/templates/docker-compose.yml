@@ -1,6 +1,6 @@
 services:
   web_recipes:
-    image: vabene1111/recipes:1.5.22@sha256:c6c6740db20a0f2401c025a942b5570b773c0d9fd02a9d3738a745535bbd1e97
+    image: vabene1111/recipes:1.5.23@sha256:be2e5c805f0c722664757203fbfd9ac0f7efb26f96706dd7fc6d90f9594589d4
     container_name: web_recipes
     restart: unless-stopped
     env_file:
