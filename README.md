@@ -29,6 +29,7 @@ All the necessary instructions, docker files, scripts, etc. necessary for buildi
       - [Backup - run](#backup---run)
       - [Backup - list](#backup---list)
       - [Backup - integrity check](#backup---integrity-check)
+      - [Backup - restore](#backup---restore)
     - [(old) Backup playbooks](#old-backup-playbooks)
       - [(old) Backup - run](#old-backup---run)
       - [(old) Backup - restore](#old-backup---restore)
@@ -228,6 +229,19 @@ ansible-playbook playbooks/backup-integrity.ansible.yml -e backup_backend=backup
 ```
 
 - `backup_backend` Specify the [backend](https://autorestic.vercel.app/backend) to query.
+
+#### Backup - restore
+
+Restores a backup using autorestic.
+
+```bash
+ansible-playbook playbooks/backup-restore.ansible.yml -e '{"backup_backend":"backup-snyssen-be|snyssen-be-autorestic","backup_location":"postgres","backup_replace":true|false,"backup_snapshot":"22ae11c4","backup_restore_directory":"/mnt/tmp"}'
+```
+
+- `backup_backend` Specify the [backend](https://autorestic.vercel.app/backend) from which snapshot will be loaded.
+- `backup_location` Specify the [location](https://autorestic.vercel.app/location) to restore.
+- `backup_snapshot` (optional) Specify the snapshot ID to restore. Snapshot IDs can be found using the [Backup - list](#backup---list) command. If left unset, restores the latest.
+- `backup_restore_directory` (optional) Specify another root directory in which to restore the backup. if left unset, will restore using `/` as root, i.e. it will restore the files in their original location. When unset, it might be useful to enable `backup_replace` to ensure a proper restore.
 
 ### (old) Backup playbooks
 

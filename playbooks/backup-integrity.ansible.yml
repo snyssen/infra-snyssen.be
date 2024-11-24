@@ -6,7 +6,7 @@
     - name: run integrity check command
       become: true
       ansible.builtin.shell: |-
-        autorestic --ci exec -b {{ backup_backend }} -- check
+        autorestic --ci exec -b {{ backup_backend }} -- check 2>&1 | tee -a /var/log/autorestic.log
       register: returned_value
     - name: Showing stdoud
       ansible.builtin.debug:

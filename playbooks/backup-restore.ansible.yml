@@ -1,0 +1,24 @@
+- hosts: apps
+  vars_prompt:
+    - name: backup_location
+      private: false
+    - name: backup_backend
+      private: false
+  tasks:
+    - name: Parse '--to' arg
+      ansible.builtin.set_fact:
+        backup_to_arg: "--to {{ backup_restore_directory if backup_restore_directory is defined and backup_restore_directory is ansible.builtin.abs else '/' }}"
+    - name: run restore command
+      become: true
+      ansible.builtin.shell: >-
+        autorestic --ci restore
+        -l {{ backup_location }}
+        --from {{ backup_backend }}
+        --force
+        {{ backup_to_arg if backup_to_arg is defined }}
+        {{ backup_snapshot if backup_snapshot is defined and backup_snapshot | length > 0 }}
+        2>&1 | tee -a /var/log/autorestic.log
+      register: returned_value
+    - name: Showing stdoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines
