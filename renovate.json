@@ -4,6 +4,7 @@
     "config:best-practices",
     "group:allNonMajor",
     ":semanticCommits",
-    ":pinVersions"
+    ":pinVersions",
+    ":automergeDigest"
   ]
 }
