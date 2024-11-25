@@ -1,8 +1,9 @@
-- hosts: apps
+- name: Backup List
+  hosts: apps
   vars_prompt:
     - name: restic_server
       prompt: restic server ('remote' or 'local')
-      private: no
+      private: false
   tasks:
     - ansible.builtin.assert:
         that: restic_server == 'remote' or restic_server == 'local'

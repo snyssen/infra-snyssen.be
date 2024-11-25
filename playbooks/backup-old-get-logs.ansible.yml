@@ -1,8 +1,9 @@
-- hosts: apps
+- name: Backup get logs
+  hosts: apps
   vars_prompt:
     - name: backup_origin
       prompt: Retrieve logs for backup ('remote' or 'local')
-      private: no
+      private: false
   tasks:
     - ansible.builtin.assert:
         that: backup_origin == 'remote' or backup_origin == 'local'

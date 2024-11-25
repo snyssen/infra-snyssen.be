@@ -14,6 +14,7 @@
           just
           pre-commit
           ansible
+          ansible-lint
           glibcLocales # otherwise ansible cannot run
         ];
       };

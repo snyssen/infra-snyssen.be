@@ -1,6 +1,8 @@
-- hosts: apps
+- name: Backup List
+  hosts: apps
   vars_prompt:
     - name: backup_backend
+      prompt: Backup backend
       private: false
   tasks:
     - name: Parse expected autorestic arguments
@@ -9,9 +11,9 @@
       when:
         - backup_locations is defined
         - backup_locations | length > 0
-    - name: run snapshots command
+    - name: Run snapshots command
       become: true
-      ansible.builtin.shell: |-
+      ansible.builtin.command: |-
         autorestic --ci exec -b {{ backup_backend }} -- snapshots {{ backup_locations_args if backup_locations_args is defined }}
       register: returned_value
     - name: Showing stdoud
