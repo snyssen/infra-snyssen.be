@@ -12,3 +12,5 @@ jobs:
         uses: ansible/ansible-lint@v24.10.0
         with:
           requirements_file: "requirements.yml"
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{secrets.VAULT_PASSWORD}}
