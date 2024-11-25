@@ -8,6 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
+      - name: Prepare vault pass file
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{secrets.VAULT_PASSWORD}}
+        shell: bash
+        run: echo "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v24.10.0
         with:

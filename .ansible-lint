@@ -1,5 +1,8 @@
+profile: min
+
 exclude_paths:
   - hosts
+  - roles/*.* # Skip roles that are imported through requirements
 
 skip_list:  # or 'skip_list' to silence them completely
   - unnamed-task  # All tasks should be named

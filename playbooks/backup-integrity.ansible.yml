@@ -1,13 +1,17 @@
-- hosts: apps
+- name: Backup Integrity Check
+  hosts: apps
   vars_prompt:
     - name: backup_backend
+      prompt: Backup Backend
       private: false
   tasks:
-    - name: run integrity check command
+    - name: Run integrity check command
       become: true
       ansible.builtin.shell: |-
         autorestic --ci exec -b {{ backup_backend }} -- check 2>&1 | tee -a /var/log/autorestic.log
       register: returned_value
+      when: true
+      changed_when: true
     - name: Showing stdoud
       ansible.builtin.debug:
         var: returned_value.stdout_lines
