@@ -105,7 +105,7 @@ services:
     mem_limit: 256m
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:4.0.10@sha256:a30d870ae503e617e84909367c8f19096567ef60834fa8d81d86d17a13e50d1a
+    image: lscr.io/linuxserver/sonarr:4.0.11@sha256:f1b771bf5f911ddb11aa86170ae27fab5ccde7d4671edcde6a3b264af8662945
     container_name: sonarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.26.1@sha256:c492863c8e1da876a6be3d0d5836f25b3547c0a3293f0e9f09cd198ebf47ea37
+    image: lscr.io/linuxserver/prowlarr:1.27.0@sha256:2ae64259bfca88972deec4cffa3750a454224283515854408e35af480f167cd7
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
