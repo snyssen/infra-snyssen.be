@@ -364,6 +364,7 @@ dashboard__shortcuts:
       - name: USW live map
         url: https://mc-usw.snyssen.be
 dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
+dashboard__search_url_base: "https://search.rhscz.eu/search?q="
 
 foundryvtt__username: "{{ vault_foundryvtt__username }}"
 foundryvtt__password: "{{ vault_foundryvtt__password }}"
