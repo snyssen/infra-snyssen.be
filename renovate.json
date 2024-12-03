@@ -5,6 +5,7 @@
     "group:allNonMajor",
     ":semanticCommits",
     ":pinVersions",
-    ":automergeDigest"
+    ":automergeDigest",
+    ":automergeBranch"
   ]
 }
