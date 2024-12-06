@@ -72,7 +72,7 @@ services:
     mem_limit: 2g
 
   grafana:
-    image: grafana/grafana-oss:11.3.1@sha256:147620479985b5780600dea24223c71eb8525e01727cce7fcd4bba8896d66d60
+    image: grafana/grafana-oss:11.4.0@sha256:d8ea37798ccc41061a62ab080f2676dda6bf7815558499f901bdb0f533a456fb
     container_name: grafana
     restart: unless-stopped
     networks:
@@ -114,7 +114,7 @@ services:
     mem_limit: 256m
 
   loki:
-    image: grafana/loki:3.3.0@sha256:58b60b901255c209d3455d8a1979a3f73d1d09686a0a858c2c93025a969eb550
+    image: grafana/loki:3.3.1@sha256:7e30f1aa1b17970a29739432b5f3df30bf2b3e4bdfc22e896452c18bcfe017be
     container_name: loki
     restart: unless-stopped
     volumes:
