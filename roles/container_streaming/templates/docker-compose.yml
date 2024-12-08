@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.17.4@sha256:b4720362610ff25ae445c792d304be99a4a4584225dbaea03ff4a44aee4f22c3
+    image: ghcr.io/advplyr/audiobookshelf:2.17.5@sha256:aa88c9f4652872a2a72043511a87d17ec743b60f53e8024e9868ebec5aae59bd
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.4-develop@sha256:0db344553dfa103d6a55acc3533185df9fede1e2ef579700c8cb7cc1745cad38
+    image: lscr.io/linuxserver/readarr:0.4.5-develop@sha256:2f751d1d9dfdb3b4eaee8a57f4186fe384fa466475e122830a90ca4759df4265
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.8@sha256:181a0b4ffbc6a1feb14bf443822187a48b2c9e0663f7724e4dfcc773a312518c
+    image: thewicklowwolf/lidatube:0.2.9@sha256:f33d59266bcf30be46c8f925d8f1e25f983fc46dbadd770a94c6fae8ffd171cf
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
