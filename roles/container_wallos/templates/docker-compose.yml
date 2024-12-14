@@ -1,7 +1,7 @@
 services:
   wallos:
     container_name: wallos
-    image: bellamy/wallos:2.39.1@sha256:7680d8ffe7d058f37b276a03cfbc06dd1ea3ae02548b8632cfd59fc311ca7ed0
+    image: bellamy/wallos:2.41.0@sha256:252346d4cae539fa67d959b6b4265cd5e1b77752fb87e1e53f50709f5deaf6ea
     environment:
       TZ: "{{ iana_timezone }}"
     # Volumes store your data between container upgrades
