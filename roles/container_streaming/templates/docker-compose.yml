@@ -91,7 +91,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.3.3@sha256:ff682bedd109c45dbad25ab8edcc4f3b837b9ac48c39751fbbb33a858eab97d0
+    image: lscr.io/linuxserver/sabnzbd:4.4.0@sha256:d0e307ed7ddbda9c93872f02fed402d538aab52b2605e71a2f80c26f5ba8d3c7
     container_name: usenet
     network_mode: container:vpn
     environment:
@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.9@sha256:f33d59266bcf30be46c8f925d8f1e25f983fc46dbadd770a94c6fae8ffd171cf
+    image: thewicklowwolf/lidatube:0.2.10@sha256:8b4de05c5bc3cd5cfba495e5fbcaee235d7f0cf1a0a50b508fc80c8623ac5613
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
