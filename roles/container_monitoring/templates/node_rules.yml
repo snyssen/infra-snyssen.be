@@ -56,3 +56,10 @@
         rate(node_network_transmit_drop_total{job="node", device!="lo"}[1m])
       )
     "record": "instance:node_network_transmit_drop_excluding_lo:rate1m"
+  - record: instance:node_hwmon_temp_named_celsius:multiplication
+    expr: |
+      label_replace(label_replace(node_hwmon_temp_celsius
+      * ignoring(chip_name, sensor) group_left(chip_name) node_hwmon_chip_names, "chip_name",
+      "unknown-chip-name", "chip_name", "") * ignoring(label,
+      chip_name) group_left(label) node_hwmon_sensor_label, "label", "unknown-temp-sensor-name",
+      "label", "")

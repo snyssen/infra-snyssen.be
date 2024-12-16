@@ -1,5 +1,6 @@
 global:
   scrape_interval: 15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 30s
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
@@ -13,6 +14,9 @@ scrape_configs:
       - targets:
 {% for host in groups['monitored'] %}
         - "{{ host }}:9100"
+{% endfor %}
+{% for host in monitoring__extra_monitored_hosts %}
+        - "{{ host }}"
 {% endfor %}
   - job_name: cadvisor
     static_configs:
