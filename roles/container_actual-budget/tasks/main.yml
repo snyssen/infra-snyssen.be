@@ -1,0 +1,12 @@
+- name: Create data folder
+  ansible.builtin.file:
+    path: "{{ docker_mounts_directory }}/actual-budget"
+    state: directory
+    owner: "{{ ansible_user_uid }}"
+    group: "{{ ansible_user_gid }}"
+    mode: "700"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: "actual-budget"

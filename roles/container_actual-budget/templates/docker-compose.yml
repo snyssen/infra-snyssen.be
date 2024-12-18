@@ -1,0 +1,22 @@
+services:
+  actual-budget:
+    container_name: actual-budget
+    image: docker.io/actualbudget/actual-server:24.12.0@sha256:0cf0300ed4905045ed87e8892c26fbd83cd08e8499bb81dc28deef6afeb162fb
+    # environment:
+    #   ACTUAL_LOGIN_METHOD: header
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.actual.entryPoints=websecure
+      - traefik.http.routers.actual.rule=Host(`actual.{{ ansible_fqdn }}`)
+      # - traefik.http.routers.actual.middlewares=authelia@docker
+      - traefik.http.routers.actual.service=actual
+      - traefik.http.services.actual.loadBalancer.server.port=5006
+    volumes:
+      - "{{ docker_mounts_directory }}/actual-budget:/data"
+    restart: unless-stopped
+networks:
+  web:
+    external: true

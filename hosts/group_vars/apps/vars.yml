@@ -229,6 +229,8 @@ dashboard__shortcuts:
         url: https://wallos.snyssen.be
       - name: Rallly
         url: https://events.bigdouf.team
+      - name: Actual
+        url: https://actual.snyssen.be
   - name: Documents
     icon_classes: las la-folder-open
     children:
