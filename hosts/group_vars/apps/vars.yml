@@ -375,6 +375,8 @@ foundryvtt__admin_key: "{{ vault_foundryvtt__admin_key }}"
 monitoring__extra_monitored_hosts:
   - xps.lan:9100
   - vi-s-tower.lan:9100
+  - gaming.lan:9100
+  - snyssen-windows.lan:9182
 monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
 monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
 monitoring__umami_db_pass: "{{ vault_monitoring__umami_db_pass }}"
