@@ -81,7 +81,8 @@ services:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
       - "--chromium-allow-list=file:///tmp/.*"
-    mem_limit: 8m
+      - "--api-timeout=300s"
+    mem_limit: 1g
 
   paperless_tika:
     image: ghcr.io/paperless-ngx/tika:2.9.1-full@sha256:d59c38244949a418ef16be676eeea770e1616b45986661847d373f4de048a37e
@@ -89,7 +90,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
-    mem_limit: 128m
+    mem_limit: 1g
 
 networks:
   web:
