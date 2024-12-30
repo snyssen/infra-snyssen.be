@@ -45,6 +45,16 @@
     env: yes
     job: "0.5" # Every 30 seconds
 
+- name: Add cron job for checking
+  ansible.builtin.cron:
+    name: Autorestic check
+    minute: "10"
+    hour: "16"
+    weekday: "1" # On mondays
+    user: root
+    job: autorestic --ci check >> /var/log/autorestic.log
+    state: present
+
 # This task assumes that logrotate is installed and running, which is not best practice...
 - name: Setup log rotation
   ansible.builtin.blockinfile:
