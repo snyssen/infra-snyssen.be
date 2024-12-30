@@ -365,6 +365,8 @@ dashboard__shortcuts:
         url: https://mc.snyssen.be
       - name: USW live map
         url: https://mc-usw.snyssen.be
+      - name: Icarus Terminal
+        url: http://snyssen-windows.lan:3300
 dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
 dashboard__search_url_base: "https://search.rhscz.eu/search?q="
 
