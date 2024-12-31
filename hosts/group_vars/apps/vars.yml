@@ -258,6 +258,8 @@ dashboard__shortcuts:
             url: https://dnd-bahut.notes.snyssen.be
           - name: DnD - Yanwning Portal
             url: https://dnd-yp.notes.snyssen.be
+          - name: ME - En Eaux Troubles
+            url: https://me-eet.notes.snyssen.be
   - name: Media
     icon_classes: las la-photo-video
     children:
@@ -396,10 +398,46 @@ paperless__secret_key: "{{ vault_paperless__secret_key }}"
 quartz__vaults:
   - name: dnd-saltmarsh
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Saltmarsh
+    # https://www.authelia.com/configuration/security/access-control/
+    # but domain is automatically filled as "{{ vault.name }}.notes.{{ ansible_fqdn }}"
+    permissions:
+      - policy: one_factor
+        resources:
+          - "^*"
+        subject:
+          - ["group:dnd-saltmarsh"]
   - name: dnd-yp
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Yawning Portal
+    permissions:
+      - policy: one_factor
+        resources:
+          - "^*"
+        subject:
+          - ["group:dnd-yp"]
   - name: dnd-bahut
     path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Bahut
+    permissions:
+      - policy: one_factor
+        resources:
+          - "^*"
+        subject:
+          - ["group:dnd-bahut"]
+  - name: me-eet
+    path: /mnt/storage/syncthing/config/Notes/TTRPG/Mass Effect - En eaux troubles
+    permissions:
+      - policy: one_factor
+        resources:
+          - "^/$"
+          - "^/(?:index\\.css|prescript\\.js|postscript\\.js)$"
+          - "^/static/.*$"
+          - "^/Resources/.*$"
+        subject:
+          - ["group:me-eet_player"]
+      - policy: one_factor
+        resources:
+          - "^*"
+        subject:
+          - ["group:me-eet_gm"]
 
 team_wiki__db_pass: "{{ vault_team_wiki__db_pass }}"
 team_wordpress__db_pass: "{{ vault_team_wordpress__db_pass }}"

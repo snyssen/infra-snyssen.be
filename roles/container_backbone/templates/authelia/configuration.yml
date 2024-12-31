@@ -182,10 +182,15 @@ access_control:
     ## DnD stuff
     #
     {% for vault in quartz__vaults -%}
+    {% for permission in vault.permissions -%}
     - domain: "{{ vault.name }}.notes.{{ ansible_fqdn }}"
-      policy: one_factor
-      subject:
-        - ["group:{{ vault.name }}"]
+      policy: "{{ permission.policy }}"
+      resources:
+      {% for resource in permission.resources -%}
+        - '{{ resource }}'
+      {% endfor -%}
+      subject: {{ permission.subject | to_json }}
+    {% endfor -%}
     {% endfor -%}
     - domain: "dnd.{{ ansible_fqdn }}"
       policy: one_factor
