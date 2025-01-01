@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:ubuntu-2023.11.25@sha256:5571a2db1b596f4a18d03281e483614ac336b012bff427e84e1fe6b91b19ac15
+    image: ghcr.io/jmbannon/ytdl-sub:2024.12.27@sha256:2196778353bcee81a364f2dc0fea0d20d39bfba77c9edc7b0e4ebdfe783ce567
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
