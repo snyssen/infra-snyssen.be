@@ -91,7 +91,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.4.1@sha256:37cfb25fdeaca82e1ad89a1bf664efe41ad481ed56aa069f710ac975cc5c6ecf
+    image: lscr.io/linuxserver/sabnzbd:4.4.1@sha256:80242140e786c1c73d867e8c84bba16c0ebd20cd27a5c6cf69196168b3fe5e35
     container_name: usenet
     network_mode: container:vpn
     environment:
