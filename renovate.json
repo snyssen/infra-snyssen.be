@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "prConcurrentLimit": 0,
   "extends": [
     "config:best-practices",
     "group:allNonMajor",
