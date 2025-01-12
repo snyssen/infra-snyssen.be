@@ -9,7 +9,7 @@
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v1.123.0@sha256:666ce77995230ff7327da5d285c861895576977237de08564e3c3ddf842877eb
+    image: ghcr.io/immich-app/immich-server:v1.124.2@sha256:c14dccad0611635668abf98f17ce87c3badcc17bb979c53ef96dc49e934ebbc8
     environment:
       DB_USERNAME: immich
       DB_PASSWORD: "{{ immich__db_password }}"
@@ -34,7 +34,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v1.123.0@sha256:fca90362ff3081fc7762d731eb24de262181eaec28afc51eff1d3ca5348663cd
+    image: ghcr.io/immich-app/immich-machine-learning:v1.124.2@sha256:a134652b47278edfdac3187d61558e78679be39c810536193a41e9e0d894c5f4
     volumes:
       - model-cache:/cache
     networks:
@@ -43,7 +43,7 @@ services:
 
   redis:
     container_name: immich_redis
-    image: redis:7.4.1@sha256:ea96c435dc17b011f54c6a883c3c45e7726242b075de61c6fe40a10ae6ae0f83
+    image: redis:7.4.2@sha256:cd13b924409d740ea8abe6677a7d1accf696898408d330a3d7c8234fa7545775
     networks:
       - internal
     restart: unless-stopped
