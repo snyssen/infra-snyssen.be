@@ -31,6 +31,7 @@
     name: fuzzymistborn.autorestic
   vars:
     autorestic_config_yaml: "{{ lookup('template', 'autorestic_config.yaml') | from_yaml }}"
+    autorestic_config_path: /root/.autorestic.yml
 
 - name: Add cron job for autorestic
   ansible.builtin.cron:
