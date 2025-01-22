@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.10.3@sha256:17c3a8d9dddb97789b5f37112840ebf96566442c14d4754193a6c2eb154bc221
+    image: ghcr.io/jellyfin/jellyfin:10.10.4@sha256:ea8f8bb0151dcdf6f1aa3669f457a463c68cc13f3e55bb2a2f16be55e86550e7
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.17.7@sha256:7fa2fe64529955b20d916d62d96919d73b08fe8e3473c220d439da367117d171
+    image: ghcr.io/advplyr/audiobookshelf:2.18.1@sha256:528010122756f2a83855e4f82fd7d0dc5763d60aaf3e7aea180a3d2b1894357f
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.8-develop@sha256:23ae9624d05b38a1e43e74747b00e34abde1c00e328267c783d59cfb64c36625
+    image: lscr.io/linuxserver/readarr:0.4.9-develop@sha256:7be72ec620e4932837aa05d5b5c2d1fe3c0d069a23930ec929dba21fad006d1a
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
