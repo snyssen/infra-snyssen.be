@@ -4,7 +4,7 @@
     state: directory
     owner: "{{ item.owner }}"
     group: "{{ item.group }}"
-    mode: "750"
+    mode: "755"
   with_items:
     - src: "{{ docker_mounts_directory }}/s-pdf/ocr"
       owner: "{{ ansible_user_uid }}"
