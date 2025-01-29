@@ -16,4 +16,5 @@ jobs:
       - name: Run ansible-lint
         uses: ansible/ansible-lint@e918e02374cc9148abfe6d0fa04417ee89f0def9 # v25.1.0
         with:
+          args: "-c .ansible-lint"
           requirements_file: "requirements.yml"
