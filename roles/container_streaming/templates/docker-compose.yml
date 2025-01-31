@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.10.4@sha256:ea8f8bb0151dcdf6f1aa3669f457a463c68cc13f3e55bb2a2f16be55e86550e7
+    image: ghcr.io/jellyfin/jellyfin:10.10.5@sha256:54340f53459858156896d5758a6eaa2cea9c95ff95c3c966f2fff1307e31660c
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.9-develop@sha256:d967e910b2f9a86ee98b38d2445e9de3b000c797f7b75685cbc564162e694de5
+    image: lscr.io/linuxserver/readarr:0.4.10-develop@sha256:dd19bfe30010be03cd6dcd42a479e7c6a4ece945e6b6fc31b8f1d9306a50a304
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.01.17@sha256:76ed5198d58b549fa589ed48bdf813ce6281c1f57af5bb83a1cda2547fc2dde1
+    image: ghcr.io/jmbannon/ytdl-sub:2025.01.28@sha256:803a15d77d040fa306faa713782bd8672815280036a0d8baeaca2deec51ea131
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.14@sha256:0afa24f2d91b2e96a3e9d9352d7a01f104a6720c59d6a77f48f96a34f2c1b267
+    image: thewicklowwolf/lidatube:0.2.15@sha256:8a365fab81e4001b0ec024438e67340f771f1aa9374c46d845b02e4dccbdfe54
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
