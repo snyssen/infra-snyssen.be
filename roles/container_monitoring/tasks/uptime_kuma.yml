@@ -1,0 +1,35 @@
+- name: Install dependency
+  ansible.builtin.pip:
+    name: uptime-kuma-api
+    break_system_packages: true # Tired of having to deal with pip tbh...
+
+- name: Specify the initial username and password
+  lucasheld.uptime_kuma.setup:
+    api_username: "{{ monitoring__uptime_user }}"
+    api_password: "{{ monitoring__uptime_pass }}"
+
+- name: Set settings
+  lucasheld.uptime_kuma.settings:
+    api_username: "{{ monitoring__uptime_user }}"
+    api_password: "{{ monitoring__uptime_pass }}"
+    checkBeta: false
+    checkUpdate: false
+    password: "{{ monitoring__uptime_pass }}"
+    disableAuth: true # because we are putting SSO in front of the instance
+    trustProxy: true
+    searchEngineIndex: false
+    primaryBaseURL: "https://uptime.{{ ansible_fqdn }}"
+    keepDataPeriodDays: 90
+    dnsCache: false # marked as deprecated, so set to false
+    nscd: true
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: "{{ item.type | default('http') }}"
+    url: "{{ item.url }}"
+    interval: "{{ item.interval | default(60) }}"
+    keyword: "{{ item.keyword | default('') }}"
+    jsonPath: "{{ item.jsonPath | default('') }}"
+    expectedValue: "{{ item.expectedValue | default('') }}"
+  loop: "{{ monitoring__uptime_monitors }}"

@@ -383,6 +383,53 @@ monitoring__extra_monitored_hosts:
   - snyssen-windows.lan:9182
 monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
 monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
+monitoring__uptime_monitors:
+  - name: authelia (test)
+    type: http
+    url: https://auth.snyssen.be
+  - name: bigdouf.team
+    url: https://bigdouf.team
+  - name: dashboard
+    url: https://dash.snyssen.be
+  - name: immich
+    url: https://photos.snyssen.be
+  - name: grafana
+    url: https://monitor.snyssen.be
+  - name: loki
+    url: http://loki:3100/ready
+    type: keyword
+    keyword: ready
+  - name: speedtest
+    url: https://speedtest.snyssen.be
+  - name: umami
+    url: https://umami.snyssen.be/login
+  - name: nextcloud
+    url: https://cloud.snyssen.be/status.php
+    type: json-query
+    jsonPath: installed
+    expectedValue: "true"
+  - name: paperless
+    url: https://paperless.snyssen.be
+  - name: personal website
+    url: https://snyssen.be
+  - name: rally
+    url: https://events.bigdouf.team
+  - name: recipes
+    url: https://recipes.snyssen.be
+  - name: jellyfin
+    url: https://streaming.snyssen.be/health
+    type: keyword
+    keyword: Healthy
+  - name: bazarr
+    url: https://bazarr.snyssen.be
+  - name: lidarr
+    url: https://lidarr.snyssen.be
+  - name: prowlarr
+    url: https://prowlarr.snyssen.be
+  - name: radarr
+    url: https://radarr.snyssen.be
+  - name: sonarr
+    url: https://sonarr.snyssen.be
 monitoring__umami_db_pass: "{{ vault_monitoring__umami_db_pass }}"
 monitoring__umami_app_secret: "{{ vault_monitoring__umami_app_secret }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"

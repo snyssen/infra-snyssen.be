@@ -140,6 +140,9 @@ services:
     networks:
       - monitoring
       - web
+    # Expose port directly on host so ansible can manage instance
+    ports:
+      - "127.0.0.1:3001:3001"
     volumes:
       - "{{ docker_mounts_directory }}/uptime:/app/data"
     labels:

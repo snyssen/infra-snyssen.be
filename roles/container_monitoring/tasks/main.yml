@@ -60,3 +60,6 @@
   vars:
     stack_name: monitoring
     docker_compose_state: "{{ 'restarted' if prom_config_status.changed or loki_config_status.changed else 'present' }}"
+
+- name: Configure Uptime Kuma
+  ansible.builtin.include_tasks: uptime_kuma.yml
