@@ -1,3 +1,5 @@
+# See https://github.com/lucasheld/ansible-uptime-kuma for documentation
+
 - name: Install dependency
   ansible.builtin.pip:
     name: uptime-kuma-api
