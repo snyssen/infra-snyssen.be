@@ -384,9 +384,6 @@ monitoring__extra_monitored_hosts:
 monitoring__uptime_user: "{{ vault_monitoring__uptime_user }}"
 monitoring__uptime_pass: "{{ vault_monitoring__uptime_pass }}"
 monitoring__uptime_monitors:
-  - name: authelia (test)
-    type: http
-    url: https://auth.snyssen.be
   - name: bigdouf.team
     url: https://bigdouf.team
   - name: dashboard

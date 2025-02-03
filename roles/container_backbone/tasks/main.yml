@@ -44,3 +44,14 @@
 #     dn: "uid={{ item.name }},ou=groups,{{ ldap_base_dn }}"
 #     objectClass: groupOfUniqueNames
 #   loop: "{{ backbone__lldapt__groups }}"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: authelia
+      url: "https://auth.{{ ansible_fqdn }}"
+    - name: ldap
+      url: "https://ldap.{{ ansible_fqdn }}"

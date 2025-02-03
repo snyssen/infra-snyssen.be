@@ -22,6 +22,9 @@
     name: container_databases
   when: "stacks_deploy_list is not defined or 'databases' in stacks_deploy_list"
 - ansible.builtin.include_role:
+    name: container_monitoring
+  when: "stacks_deploy_list is not defined or 'monitoring' in stacks_deploy_list"
+- ansible.builtin.include_role:
     name: container_backbone
   when: "stacks_deploy_list is not defined or 'backbone' in stacks_deploy_list"
 - ansible.builtin.include_role:
@@ -72,9 +75,6 @@
 - ansible.builtin.include_role:
     name: container_minecraft
   when: "stacks_deploy_list is not defined or 'minecraft' in stacks_deploy_list"
-- ansible.builtin.include_role:
-    name: container_monitoring
-  when: "stacks_deploy_list is not defined or 'monitoring' in stacks_deploy_list"
 - ansible.builtin.include_role:
     name: container_scrutiny
   when: "stacks_deploy_list is not defined or 'scrutiny' in stacks_deploy_list"
