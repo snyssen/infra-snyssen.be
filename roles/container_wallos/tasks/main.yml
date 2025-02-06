@@ -14,3 +14,12 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: "wallos"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: wallos
+      url: "https://wallos.{{ ansible_fqdn }}"

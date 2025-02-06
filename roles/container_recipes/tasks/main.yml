@@ -16,3 +16,12 @@
   vars:
     stack_name: "recipes"
     deploy_env_template: yes
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: recipes
+      url: "https://recipes.{{ ansible_fqdn }}"

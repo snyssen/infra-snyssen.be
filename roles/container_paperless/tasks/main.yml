@@ -27,3 +27,12 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: "paperless"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: paperless
+      url: "https://paperless.{{ ansible_fqdn }}"

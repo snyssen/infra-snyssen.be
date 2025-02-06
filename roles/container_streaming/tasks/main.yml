@@ -83,3 +83,25 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: "streaming"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: "{{ item.type | default('http') }}"
+    url: "{{ item.url }}"
+    keyword: "{{ item.keyword | default('') }}"
+  loop:
+    - name: jellyfin
+      url: https://streaming.snyssen.be/health
+      type: keyword
+      keyword: Healthy
+    - name: bazarr
+      url: https://bazarr.snyssen.be
+    - name: lidarr
+      url: https://lidarr.snyssen.be
+    - name: prowlarr
+      url: https://prowlarr.snyssen.be
+    - name: radarr
+      url: https://radarr.snyssen.be
+    - name: sonarr
+      url: https://sonarr.snyssen.be

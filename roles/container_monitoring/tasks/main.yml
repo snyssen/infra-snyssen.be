@@ -63,3 +63,23 @@
 
 - name: Configure Uptime Kuma
   ansible.builtin.include_tasks: uptime_kuma.yml
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: "{{ item.type | default('http') }}"
+    url: "{{ item.url }}"
+    keyword: "{{ item.keyword | default('') }}"
+  loop:
+    - name: scrutiny
+      url: "https://scrutiny.{{ ansible_fqdn }}"
+    - name: prometheus
+      url: "https://prometheus.{{ ansible_fqdn }}"
+    - name: grafana
+      url: "https://monitor.{{ ansible_fqdn }}"
+    - name: loki
+      url: "https://loki.{{ ansible_fqdn }}/ready"
+      type: keyword
+      keyword: ready
+    - name: umami
+      url: "https://umami.{{ ansible_fqdn }}/api/heartbeat"

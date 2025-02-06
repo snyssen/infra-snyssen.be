@@ -3,3 +3,12 @@
   vars:
     stack_name: dashboard
     deploy_env_template: yes
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: dashboard
+      url: "https://dash.{{ ansible_fqdn }}"

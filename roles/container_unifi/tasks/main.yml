@@ -27,3 +27,11 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: unifi
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: unifi
+    type: json-query
+    url: "https://unifi.{{ ansible_fqdn }}/status"
+    jsonPath: meta.up
+    expectedValue: "true"

@@ -45,3 +45,11 @@
     user: root
     job: "docker exec -u www-data nextcloud php cron.php && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ nextcloud__healthcheck_id }}"
     state: present
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: netxcloud
+    type: json-query
+    url: "https://cloud.{{ ansible_fqdn }}/status.php"
+    jsonPath: installed = true and maintenance = false and needsDbUpgrade = false
+    expectedValue: "true"

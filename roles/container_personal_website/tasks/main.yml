@@ -2,3 +2,12 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: personal_website
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: personal website
+      url: "https://{{ ansible_fqdn }}"

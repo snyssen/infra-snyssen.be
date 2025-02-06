@@ -2,3 +2,12 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: team_wiki
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: team wiki
+      url: "https://{{ team_domain }}"

@@ -2,3 +2,10 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: quartz
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "notes - {{ item.name }}"
+    type: http
+    url: "https://{{ item.name }}.notes.{{ ansible_fqdn }}"
+  loop: "{{ quartz__vaults }}"

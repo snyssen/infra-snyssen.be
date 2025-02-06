@@ -42,3 +42,14 @@
   vars:
     stack_name: minecraft
     docker_compose_state: "{{  'restarted' if mc_plugins.changed or mc_dynmap_config.changed or mc_prometheus_config.changed else 'present' }}"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: minecraft
+      url: "https://mc.{{ ansible_fqdn }}"
+    - name: minecraft USW
+      url: "https://mc-usw.{{ ansible_fqdn }}"

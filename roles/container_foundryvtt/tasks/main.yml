@@ -9,3 +9,13 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: foundryvtt
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+    state: paused
+  loop:
+    - name: foundryvtt
+      url: "https://dnd.{{ ansible_fqdn }}"

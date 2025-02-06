@@ -10,3 +10,12 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: "actual-budget"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: "actual-budget"
+      url: "https://actual.{{ ansible_fqdn }}"
