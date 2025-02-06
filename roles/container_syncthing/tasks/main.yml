@@ -20,7 +20,6 @@
     name: "{{ item.name }}"
     type: http
     url: "{{ item.url }}"
-    state: paused
   loop:
     - name: syncthing
       url: "https://sync.{{ ansible_fqdn }}"

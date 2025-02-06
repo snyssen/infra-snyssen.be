@@ -3,8 +3,6 @@ services:
     image: felddy/foundryvtt:12@sha256:306930efe642caa5541add4e269127a3a9122e007496bb22b524f7d9bcc755fc
     container_name: foundryvtt
     restart: unless-stopped
-    hostname: dnd.{{ ansible_fqdn }}
-    init: true
     volumes:
       - "{{ docker_mounts_directory }}/foundryvtt:/data:rw"
     environment:
