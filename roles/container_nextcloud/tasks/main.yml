@@ -37,19 +37,37 @@
     stack_name: "nextcloud"
     docker_compose_state: "{{ 'restarted' if nextcloud_config.changed else 'present' }}"
 
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: "{{ item.type }}"
+    url: "{{ item.url | default('') }}"
+    jsonPath: "{{ item.jsonPath | default('') }}"
+    expectedValue: "{{ item.expectedValue | default('') }}"
+    interval: "{{ item.interval | default(60) }}"
+  loop:
+    - name: nextcloud
+      type: json-query
+      url: "https://cloud.{{ ansible_fqdn }}/status.php"
+      jsonPath: installed = true and maintenance = false and needsDbUpgrade = false
+      expectedValue: "true"
+    - name: nextcloud background job
+      type: push
+      interval: 300
+
+- name: Retrieve push monitor info
+  lucasheld.uptime_kuma.monitor_info:
+    name: nextcloud background job
+  register: nextcloud_push_monitor
+
 - name: Adds cron job for Nextcloud
   become: true
   ansible.builtin.cron:
     name: Nextcloud
     minute: "*/5"
     user: root
-    job: "docker exec -u www-data nextcloud php cron.php && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ nextcloud__healthcheck_id }}"
+    job: >-
+      docker exec -u www-data nextcloud php cron.php
+      && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ nextcloud__healthcheck_id }}
+      && curl -fsS -m 10 --retry 5 -o /dev/null "http://localhost:3001/api/push/{{ nextcloud_push_monitor.monitors[0].pushToken }}?status=up&msg=OK&ping="
     state: present
-
-- name: Create monitors
-  lucasheld.uptime_kuma.monitor:
-    name: netxcloud
-    type: json-query
-    url: "https://cloud.{{ ansible_fqdn }}/status.php"
-    jsonPath: installed = true and maintenance = false and needsDbUpgrade = false
-    expectedValue: "true"
