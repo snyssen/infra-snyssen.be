@@ -1,0 +1,6 @@
+source: loki
+url: http://loki:3100
+query: |
+  {job="varlogs",compose_service="authelia"}
+labels:
+  type: authelia

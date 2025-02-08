@@ -20,7 +20,8 @@ services:
       - traefik.http.routers.crowdsec.service=crowdsec
       - traefik.http.services.crowdsec.loadBalancer.server.port=8080
     environment:
-      - BOUNCER_KEY_firewall={{ crowdsec__firewall_bouncer__api_key }}
+      BOUNCER_KEY_firewall: "{{ crowdsec__firewall_bouncer__api_key }}"
+      COLLECTIONS: "LePresidente/authelia crowdsecurity/traefik"
 networks:
   monitoring:
     external: true
