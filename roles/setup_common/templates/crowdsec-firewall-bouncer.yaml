@@ -1,0 +1,4 @@
+
+# TODO: variabelize
+api_url: https://crowdsec.snyssen.be
+api_key: {{ crowdsec__firewall_bouncer__api_key }}

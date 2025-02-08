@@ -1,0 +1,5 @@
+api:
+  server:
+    use_forwarded_for_headers: true
+    trusted_proxies:
+      - "172.18.0.0/24"

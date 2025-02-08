@@ -30,3 +30,5 @@ backup_server_mac_address: "{{ vault_backup_server_mac_address }}"
 internal_networks_cidr:
   - 192.168.1.0/24
   - 172.18.0.0/24
+
+crowdsec__firewall_bouncer__api_key: "{{ vault_crowdsec__firewall_bouncer__api_key }}"

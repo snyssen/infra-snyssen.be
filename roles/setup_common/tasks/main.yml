@@ -12,6 +12,9 @@
     - name: Harden SSH
       ansible.builtin.include_role:
         name: geerlingguy.security
+      vars:
+        security_autoupdate_mail_to: "{{ smtp__to }}"
+        security_fail2ban_enabled: false
 
 - name: Installing other packages
   become: true
@@ -28,7 +31,31 @@
       - htop
       - screen
       # - lm_sensors
+      - crowdsec-firewall-bouncer
     state: present
+
+- name: Deploy crowdsec firewall bouncer configuration
+  become: true
+  ansible.builtin.template:
+    src: crowdsec-firewall-bouncer.yaml
+    dest: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local
+    mode: "600"
+    owner: root
+    group: root
+
+- name: Ensure crowdsec firewall bouncer is running
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    daemon_reload: true
+    enabled: "{{ item.state == 'started' }}"
+  loop:
+    - name: crowdsec-firewall-bouncer
+      state: started
+    # We don't want crowdsec itself to be running since we have a central instance in a container
+    - name: crowdsec
+      state: stopped
 
 - name: Install and setup sync-ssh-keys
   ansible.builtin.include_tasks: sync_ssh_keys.yml

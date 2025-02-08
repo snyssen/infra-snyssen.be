@@ -54,6 +54,9 @@ scrape_configs:
   - job_name: 'rest_server'
     static_configs:
       - targets: ['backup.snyssen.be:8000']
+  - job_name: crowdsec
+    static_configs:
+      - targets: ['crowdsec:6060']
 
 rule_files:
   - node_rules.yml

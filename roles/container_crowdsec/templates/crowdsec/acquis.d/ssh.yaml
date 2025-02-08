@@ -1,0 +1,7 @@
+source: loki
+url: http://loki:3100
+limit: 1000
+query: |
+  {job="varlogs",filename=~"/var/log/syslog|/var/log/auth\\.log"}
+labels:
+  type: syslog
