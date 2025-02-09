@@ -1,6 +1,6 @@
 source: loki
 url: http://loki:3100
 query: |
-  {job="varlogs",compose_service="traefik"}
+  {job="containerlogs",compose_service="traefik"}
 labels:
   type: traefik

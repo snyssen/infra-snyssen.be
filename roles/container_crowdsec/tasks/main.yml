@@ -23,6 +23,8 @@
     mode: "600"
   loop:
     - acquis.d/ssh.yaml
+    - acquis.d/authelia.yaml
+    - acquis.d/traefik.yaml
     - config.yaml.local
 
 - ansible.builtin.include_role:
