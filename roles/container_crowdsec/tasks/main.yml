@@ -31,3 +31,12 @@
     name: snyssen.compose_deploy
   vars:
     stack_name: crowdsec
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: crowdsec
+      url: "http://crowdsec:6060/metrics"
