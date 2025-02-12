@@ -78,7 +78,7 @@ presets:
       - "sponsorblock_wait"
       - "no_shorts"
       - "jellyfin_tv_show_collection"
-      - "season_by_collection__episode_by_year_month_day"
+      - "season_by_collection__episode_by_playlist_index"
       - "collection_season_1"
     overrides:
       collection_season_1_name: Season 01
