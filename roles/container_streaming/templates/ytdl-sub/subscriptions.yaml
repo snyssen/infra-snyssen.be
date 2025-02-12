@@ -4,6 +4,9 @@ TV Show Channel Full Archive:
     "Raycevick": "https://www.youtube.com/@Raycevick"
     "Ralfidude": "https://www.youtube.com/@ralfidude"
     "Max0r": "https://www.youtube.com/@Max0r"
+    "Manulization (Pallas's Cats)": "https://www.youtube.com/c/Manulization"
+  = Tech:
+    "Micode": "https://www.youtube.com/@Micode"
   = Fiction:
     "Nassault": "https://www.youtube.com/@Nassault"
     "TheParryGod": "https://www.youtube.com/@TheParryGod"
@@ -21,6 +24,8 @@ playlist_full_archive:
   = Comedy:
     "~Le Coeur A Ses Raisons":
       collection_season_1_url: "https://www.youtube.com/playlist?list=PLMT-vcJdQyq3-CDHIQMvnZBReptv-4fRD"
+    "~Bref. (2011)":
+      collection_season_1_url: "https://www.youtube.com/playlist?list=PLlFikkv2B2ffwYiFQJmcao3RKtw1DFMz5"
   = Informational:
     "~Things You Might Not Know (Series) - Tom Scott":
       collection_season_1_url: "https://www.youtube.com/playlist?list=PL5ZXG50fTM7rvyAkvGUQpgXv3Doa_o8To"
@@ -41,7 +46,7 @@ TV Show Only Recent:
     "LEMMiNO": "https://www.youtube.com/@LEMMiNO/videos"
     "melodysheep": "https://www.youtube.com/@melodysheep"
     # "Not Just Bikes": "https://www.youtube.com/@NotJustBikes" # Is on Nebula
-    "Practical Engineering": "https://www.youtube.com/@PracticalEngineeringChannel"
+    # "Practical Engineering": "https://www.youtube.com/@PracticalEngineeringChannel" # Is on Nebula
     "Scilabus": "https://www.youtube.com/@scilabus"
     "Tom Scott": "https://www.youtube.com/@TomScottGo"
   = Entertainment:
