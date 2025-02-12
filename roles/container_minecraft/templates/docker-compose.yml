@@ -38,13 +38,18 @@ services:
       ONLINE_MODE: "{{ minecraft__forbid_cracked | to_json }}"
       SERVER_NAME: "mc.{{ ansible_fqdn }}"
       SPAWN_PROTECTION: "0"
+      ###
+      # DATAPACKS: |
+      #   https://cdn.modrinth.com/data/VHSdL301/versions/eaYoRkOM/KeepSomeInventory-v1.4.2.zip
+      PLUGINS: |
+        https://cdn.modrinth.com/data/fRQREgAc/versions/QtTWJjW6/Dynmap-3.7-beta-6-spigot.jar
+        https://github.com/sladkoff/minecraft-prometheus-exporter/releases/download/v2.5.0/minecraft-prometheus-exporter-2.5.0.jar
 
     tty: true
     stdin_open: true
     restart: unless-stopped
     volumes:
       - /mnt/storage/minecraft/data:/data
-      - /mnt/storage/minecraft/plugins:/plugins
     mem_limit: 8.2g
 
   mc-usw:
