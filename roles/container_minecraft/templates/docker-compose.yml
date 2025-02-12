@@ -44,6 +44,7 @@ services:
       PLUGINS: |
         https://cdn.modrinth.com/data/fRQREgAc/versions/QtTWJjW6/Dynmap-3.7-beta-6-spigot.jar
         https://github.com/sladkoff/minecraft-prometheus-exporter/releases/download/v2.5.0/minecraft-prometheus-exporter-2.5.0.jar
+        https://cdn.modrinth.com/data/E1Bps82F/versions/oMB4fXsl/TimeManager-1.8.2.jar
 
     tty: true
     stdin_open: true
