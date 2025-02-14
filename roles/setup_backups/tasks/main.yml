@@ -5,6 +5,7 @@
     state: present
 
 - name: Deploy SSH keypair for backup server shutdown
+  become: true
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/root/.ssh/"
@@ -26,14 +27,32 @@
   with_items:
     - wol.sh
 
-- name: Autorestic setup
-  ansible.builtin.include_role:
-    name: fuzzymistborn.autorestic
-  vars:
-    autorestic_config_yaml: "{{ lookup('template', 'autorestic_config.yaml') | from_yaml }}"
-    autorestic_config_path: /root/.autorestic.yml
+- name: Create push monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "autorestic - {{ item.name }}"
+    type: push
+    interval: 86400 # 24h
+    retryInterval: 21600 # 6h
+  loop: "{{ autorestic__locations }}"
+- name: Retrieve push monitors info
+  lucasheld.uptime_kuma.monitor_info:
+    name: "autorestic - {{ item.name }}"
+  loop: "{{ autorestic__locations }}"
+  register: autorestic__push_monitors
+- ansible.builtin.debug:
+    var: autorestic__push_monitors
+
+- become: true
+  block:
+    - name: Autorestic setup
+      ansible.builtin.include_role:
+        name: fuzzymistborn.autorestic
+      vars:
+        autorestic_config_yaml: "{{ lookup('template', 'autorestic_config.yaml') | from_yaml }}"
+        autorestic_config_path: /root/.autorestic.yml
 
 - name: Add cron job for autorestic
+  become: true
   ansible.builtin.cron:
     name: Autorestic
     minute: "*/30"
@@ -41,12 +60,14 @@
     job: autorestic --ci cron --lean >> /var/log/autorestic.log
     state: present
 - name: Add progress logging during backups
+  become: true
   ansible.builtin.cron:
     name: RESTIC_PROGRESS_FPS
     env: yes
     job: "0.5" # Every 30 seconds
 
 - name: Add cron job for checking
+  become: true
   ansible.builtin.cron:
     name: Autorestic check
     minute: "10"
@@ -58,10 +79,11 @@
 
 # This task assumes that logrotate is installed and running, which is not best practice...
 - name: Setup log rotation
+  become: true
   ansible.builtin.blockinfile:
     path: /etc/logrotate.d/autorestic
     block: |
-      /var/log/ansible.log {
+      /var/log/autorestic.log {
           weekly
           rotate 3
           size 10M

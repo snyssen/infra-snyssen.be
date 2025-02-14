@@ -71,5 +71,4 @@
     - role: stacks_deploy
       when: skip_stacks is not defined or not skip_stacks
     - role: setup_backups
-      become: true
       when: skip_backups is not defined or not skip_backups

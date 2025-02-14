@@ -35,7 +35,8 @@ locations:
     cron: 30 0 * * *
     hooks:
       before:
-        - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/start
+        # - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/start
+        - echo "Starting backup"
 
         {%- if location.hooks is defined and location.hooks.before is defined +%}
         {%- for hook in location.hooks.before +%}
@@ -49,9 +50,9 @@ locations:
         {%- endfor +%}
         {%- endfor +%}
       success:
-        - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}
+        - curl --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ autorestic__push_monitors.results | selectattr('item.name', '==', location.name) | map(attribute='monitors') | first | map(attribute='pushToken') | first }}?status=up&msg=OK&ping="
       failure:
-        - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/fail
+        - curl --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ autorestic__push_monitors.results | selectattr('item.name', '==', location.name) | map(attribute='monitors') | first | map(attribute='pushToken') | first }}?status=down&msg=OK&ping="
       after:
         {%- for backend in autorestic__backends if backend.name in location.to and backend.hooks is defined +%}
         {%- for hook in backend.hooks.after if backend.hooks.after is defined +%}
