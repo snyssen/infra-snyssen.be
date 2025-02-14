@@ -148,9 +148,14 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
-      - traefik.http.routers.uptime.entryPoints=websecure
-      - traefik.http.routers.uptime.rule=Host(`uptime.{{ ansible_fqdn }}`)
-      - traefik.http.routers.uptime.middlewares=authelia@docker
+      # API traffic
+      - traefik.http.routers.uptime-api.entryPoints=websecure
+      - traefik.http.routers.uptime-api.rule=Host(`uptime.{{ ansible_fqdn }}`) && PathPrefix(`/api`)
+      - traefik.http.routers.uptime-api.middlewares=lan-whitelist
+      # Web traffic
+      - traefik.http.routers.uptime-web.entryPoints=websecure
+      - traefik.http.routers.uptime-web.rule=Host(`uptime.{{ ansible_fqdn }}`)
+      - traefik.http.routers.uptime-web.middlewares=authelia@docker
     mem_limit: 128m
 
   umami:

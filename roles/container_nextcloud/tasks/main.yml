@@ -69,5 +69,5 @@
     job: >-
       docker exec -u www-data nextcloud php cron.php
       && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ nextcloud__healthcheck_id }}
-      && curl -fsS -m 10 --retry 5 -o /dev/null "http://localhost:3001/api/push/{{ nextcloud_push_monitor.monitors[0].pushToken }}?status=up&msg=OK&ping="
+      && curl -fsS -m 10 --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ nextcloud_push_monitor.monitors[0].pushToken }}?status=up&msg=OK&ping="
     state: present
