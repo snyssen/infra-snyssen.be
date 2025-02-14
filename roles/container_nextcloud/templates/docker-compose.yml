@@ -8,7 +8,7 @@ services:
     mem_limit: 32m
 
   nextcloud:
-    image: nextcloud:30.0.5@sha256:02441f524c6fab3aadbf7157f6e0484927e231d685b248dc0734fa2941b4445e
+    image: nextcloud:30.0.6@sha256:ebc730a6d863d17478cafeccae293efa8f7ed9dee77c4d014ebf07a952b23b78
     container_name: nextcloud
     restart: unless-stopped
     networks:
@@ -48,7 +48,7 @@ services:
     mem_limit: 2g
 
   nextcloud_promtail:
-    image: grafana/promtail:3.3.2@sha256:cb4990801ec58975c5e231057c2bcf204c85fac428eec65ad66e0016c64b9608
+    image: grafana/promtail:3.4.1@sha256:8b2aa61745bc4a9343cc47bd391fb935a80e7da0793c7566d5985c75858ba3f8
     container_name: nextcloud_promtail
     restart: unless-stopped
     volumes:
