@@ -266,7 +266,7 @@ services:
     restart: unless-stopped
 
   lidify:
-    image: thewicklowwolf/lidify:0.2.2@sha256:08a78799958e41a5ffcc1272ff28f9c148b8e08a623c8f84171e83894807e5f0
+    image: thewicklowwolf/lidify:0.2.3@sha256:958eaddeef8195470b974ee03512d9a5c31ad2af3167f7824448fb026fa9c94a
     container_name: lidify
     volumes:
       - "{{ docker_mounts_directory }}/lidify/config:/lidify/config"
