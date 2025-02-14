@@ -52,6 +52,17 @@
     dest: /mnt/storage/usenet/sabnzbd.ini
     mode: "600"
 
+- name: Create push monitor for ytdl-sub
+  lucasheld.uptime_kuma.monitor:
+    name: ytdl-sub
+    type: push
+    interval: 21600 # 6 hours
+    retryInterval: 10800 # 3 hours
+- name: Retrieve push monitor info
+  lucasheld.uptime_kuma.monitor_info:
+    name: ytdl-sub
+  register: ytdlsub_push_monitor
+
 - name: Deploy ytdl-sub configuration and scripts
   ansible.builtin.template:
     src: "{{ item.src }}"

@@ -45,6 +45,7 @@
     jsonPath: "{{ item.jsonPath | default('') }}"
     expectedValue: "{{ item.expectedValue | default('') }}"
     interval: "{{ item.interval | default(60) }}"
+    maxretries: "{{ item.maxretries | default(1) }}"
   loop:
     - name: nextcloud
       type: json-query
@@ -54,6 +55,7 @@
     - name: nextcloud background job
       type: push
       interval: 300
+      maxretries: 3
 
 - name: Retrieve push monitor info
   lucasheld.uptime_kuma.monitor_info:
@@ -68,6 +70,5 @@
     user: root
     job: >-
       docker exec -u www-data nextcloud php cron.php
-      && curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/{{ nextcloud__healthcheck_id }}
       && curl -fsS -m 10 --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ nextcloud_push_monitor.monitors[0].pushToken }}?status=up&msg=OK&ping="
     state: present
