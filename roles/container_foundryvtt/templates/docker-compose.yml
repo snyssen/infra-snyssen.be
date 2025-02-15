@@ -1,6 +1,6 @@
 services:
   foundryvtt:
-    image: felddy/foundryvtt:12@sha256:306930efe642caa5541add4e269127a3a9122e007496bb22b524f7d9bcc755fc
+    image: felddy/foundryvtt:13@sha256:9a63d6b926c0ff24151676e316accfe3ed551384de0cfbe98978a8277f9b9c18
     container_name: foundryvtt
     restart: unless-stopped
     volumes:
