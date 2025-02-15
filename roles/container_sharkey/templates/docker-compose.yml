@@ -1,6 +1,6 @@
 services:
   sharkey:
-    image: registry.activitypub.software/transfem-org/sharkey:2025.1.0-dev
+    image: registry.activitypub.software/transfem-org/sharkey:2025.1.0-dev@sha256:d30ace32765e8d7ed44d55d38fe0c6e10e21f5b28f7d09ce75ba5d7b708bb9e6
     restart: unless-stopped
     container_name: sharkey
     volumes:
@@ -19,7 +19,7 @@ services:
       - traefik.http.services.sharkey.loadBalancer.server.port=3000
 
   sharkey_redis:
-    image: redis:7-alpine
+    image: redis:7-alpine@sha256:070d47a7fc389d7cf74257f76bfb57591f470f685eb4637c85f0a587534a4f26
     restart: unless-stopped
     container_name: sharkey_redis
     networks:
