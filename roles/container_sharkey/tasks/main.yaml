@@ -1,0 +1,50 @@
+- name: Creating folders
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+    state: directory
+  loop:
+    - path: "/mnt/storage/sharkey/files"
+      owner: "991"
+      group: "991"
+      mode: "740"
+    - path: "{{ docker_mounts_directory }}/sharkey/config"
+      owner: "991"
+      group: "991"
+      mode: "740"
+    - path: "{{ docker_mounts_directory }}/sharkey/redis"
+      owner: "999"
+      group: "{{ ansible_user_gid }}"
+      mode: "740"
+    # - path: "{{ docker_mounts_directory }}/sharkey/meili"
+    #   owner: "{{ ansible_user_uid }}"
+    #   group: "{{ ansible_user_gid }}"
+    #   mode: "740"
+
+- name: Deploy config files
+  become: true
+  ansible.builtin.template:
+    src: "config/{{ item }}"
+    dest: "{{ docker_mounts_directory }}/sharkey/config/{{ item }}"
+    owner: "991"
+    group: "991"
+    mode: "600"
+  loop:
+    - default.yml
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: "sharkey"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: sharkey
+      url: "https://social.{{ ansible_fqdn }}"

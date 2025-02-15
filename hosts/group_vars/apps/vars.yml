@@ -86,6 +86,8 @@ db__pg_databases:
     password: "{{ speedtest_tracker__db_pass }}"
   - name: umami
     password: "{{ monitoring__umami_db_pass }}"
+  - name: sharkey
+    password: "{{ sharkey__db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -453,3 +455,6 @@ rallly__subdomain: events
 
 speedtest_tracker__db_pass: "{{ vault_speedtest_tracker__db_pass }}"
 speedtest_tracker__app_key: "{{ vault_speedtest_tracker__app_key }}"
+
+sharkey__db_pass: "{{ vault_sharkey__db_pass}}"
+sharkey__meili_master_key: "{{ vault_sharkey__meili_master_key }}"

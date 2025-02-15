@@ -1,0 +1,84 @@
+services:
+  sharkey:
+    image: registry.activitypub.software/transfem-org/sharkey:2025.1.0-dev
+    restart: unless-stopped
+    container_name: sharkey
+    volumes:
+      - /mnt/storage/sharkey/files:/sharkey/files
+      - "{{ docker_mounts_directory }}/sharkey/config:/sharkey/.config:ro"
+    networks:
+      - internal
+      - web
+      - db
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.sharkey.entryPoints=websecure
+      - traefik.http.routers.sharkey.rule=Host(`social.{{ ansible_fqdn }}`)
+      - traefik.http.routers.sharkey.service=sharkey
+      - traefik.http.services.sharkey.loadBalancer.server.port=3000
+
+  sharkey_redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    container_name: sharkey_redis
+    networks:
+      - internal
+    volumes:
+      - "{{ docker_mounts_directory }}/sharkey/redis:/data"
+    healthcheck:
+      test: "redis-cli ping"
+      interval: 5s
+      retries: 20
+
+#  mcaptcha:
+#    restart: always
+#    image: mcaptcha/mcaptcha:latest
+#    networks:
+#      shonk:
+#        aliases:
+#          - localhost
+#    ports:
+#      - 7493:7493
+#    env_file:
+#      - .config/docker.env
+#    environment:
+#      PORT: 7493
+#      MCAPTCHA_redis_URL: "redis://mcaptcha_redis/"
+#      MCAPTCHA_allow_registration: true
+#      MCAPTCHA_server_DOMAIN: "example.tld"
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#      mcaptcha_redis:
+#        condition: service_healthy
+#
+#  mcaptcha_redis:
+#    image: mcaptcha/cache:latest
+#    networks:
+#      - shonk
+#    healthcheck:
+#      test: "redis-cli ping"
+#      interval: 5s
+#      retries: 20
+
+  # sharkey_meilisearch:
+  #   image: getmeili/meilisearch:v1.3.4
+  #   restart: unless-stopped
+  #   container_name: sharkey_meilisearch
+  #   environment:
+  #     - MEILI_NO_ANALYTICS=true
+  #     - MEILI_ENV=production
+  #     - MEILI_MASTER_KEY={{ sharkey__meili_master_key }}
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - "{{ docker_mounts_directory }}/sharkey/meili:/meili_data"
+
+
+networks:
+  internal:
+  web:
+    external: true
+  db:
+    external: true
