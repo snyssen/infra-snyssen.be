@@ -39,8 +39,6 @@
     name: "autorestic - {{ item.name }}"
   loop: "{{ autorestic__locations }}"
   register: autorestic__push_monitors
-- ansible.builtin.debug:
-    var: autorestic__push_monitors
 
 - become: true
   block:
