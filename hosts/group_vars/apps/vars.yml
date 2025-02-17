@@ -273,6 +273,8 @@ dashboard__shortcuts:
         url: https://audiobooks.snyssen.be
       - name: Immich
         url: https://photos.snyssen.be
+      - name: Sharkey
+        url: https://social.snyssen.be/
       - name: Management
         children:
           - name: Prowlarr
