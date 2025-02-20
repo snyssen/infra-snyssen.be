@@ -48,7 +48,7 @@ services:
     mem_limit: 32m
 
   prometheus:
-    image: quay.io/prometheus/prometheus:v3.1.0@sha256:6559acbd5d770b15bb3c954629ce190ac3cbbdb2b7f1c30f0385c4e05104e218
+    image: quay.io/prometheus/prometheus:v3.2.0@sha256:5888c188cf09e3f7eebc97369c3b2ce713e844cdbd88ccf36f5047c958aea120
     container_name: prometheus
     restart: unless-stopped
     networks:
@@ -72,7 +72,7 @@ services:
     mem_limit: 2g
 
   grafana:
-    image: grafana/grafana-oss:11.5.1@sha256:5781759b3d27734d4d548fcbaf60b1180dbf4290e708f01f292faa6ae764c5e6
+    image: grafana/grafana-oss:11.5.2@sha256:163be84f32fdf9d204c6b8b2f2cccb04628baa365cf973eb1c32d1faaa8fbfc3
     container_name: grafana
     restart: unless-stopped
     networks:

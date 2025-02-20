@@ -1,6 +1,6 @@
 services:
   sharkey:
-    image: registry.activitypub.software/transfem-org/sharkey:2025.1.0-dev@sha256:d30ace32765e8d7ed44d55d38fe0c6e10e21f5b28f7d09ce75ba5d7b708bb9e6
+    image: registry.activitypub.software/transfem-org/sharkey:2025.2.0-dev@sha256:7f46ba787c56ace8710a4fc2abc2ec8757deb18ba41d39fe6ae0085451151efe
     restart: unless-stopped
     container_name: sharkey
     volumes:
