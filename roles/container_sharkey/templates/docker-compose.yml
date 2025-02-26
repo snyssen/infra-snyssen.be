@@ -32,7 +32,7 @@ services:
       retries: 20
 
   sharkey_deeplx:
-    image: ghcr.io/owo-network/deeplx:v1.0.4@sha256:90b313f4ebe9481e0f2191c29774773c01ed65cc1063fffaad56a8242d7908b9
+    image: ghcr.io/owo-network/deeplx:v1.0.5@sha256:125fc04dc183d9901bb1a6376f001caba7255dd9d97efa1e37859f47f3c33f38
     restart: unless-stopped
     container_name: sharkey_deeplx
     # port is 1188 by default -> https://deeplx.owo.network/install/variables.html
