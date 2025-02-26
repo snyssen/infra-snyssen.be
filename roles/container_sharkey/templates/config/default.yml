@@ -304,9 +304,7 @@ checkActivityPubGetSignature: false
 # For security reasons, uploading attachments from the intranet is prohibited,
 # but exceptions can be made from the following settings. Default value is "undefined".
 # Read changelog to learn more (Improvements of 12.90.0 (2021/09/04)).
-allowedPrivateNetworks: [
- '192.168.1.0/24'
-]
+allowedPrivateNetworks: {{ internal_networks_cidr | to_json }}
 
 #customMOTD: ['Hello World', 'The sharks rule all', 'Shonks']
 

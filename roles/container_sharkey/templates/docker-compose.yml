@@ -31,6 +31,14 @@ services:
       interval: 5s
       retries: 20
 
+  sharkey_deeplx:
+    image: ghcr.io/owo-network/deeplx:v1.0.4
+    restart: unless-stopped
+    container_name: sharkey_deeplx
+    # port is 1188 by default -> https://deeplx.owo.network/install/variables.html
+    networks:
+      - internal
+
 #  mcaptcha:
 #    restart: always
 #    image: mcaptcha/mcaptcha:latest
