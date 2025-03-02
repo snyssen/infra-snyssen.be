@@ -167,7 +167,7 @@ services:
 
   authelia:
     container_name: authelia
-    image: ghcr.io/authelia/authelia:4.38.4
+    image: ghcr.io/authelia/authelia:4.38.19@sha256:46021dc20efdcc5cdc38a29e3050b8835429a155ae6215388ed3b793a02eb0ab
     restart: 'unless-stopped'
     networks:
       - web
