@@ -166,8 +166,8 @@ services:
       - traefik.http.services.lldap.loadBalancer.server.port=17170
 
   authelia:
-    container_name: 'authelia'
-    image: 'docker.io/authelia/authelia:4.38.4'
+    container_name: authelia
+    image: ghcr.io/authelia/authelia:4.38.4
     restart: 'unless-stopped'
     networks:
       - web
