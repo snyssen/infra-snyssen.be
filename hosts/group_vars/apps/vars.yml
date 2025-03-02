@@ -7,6 +7,29 @@ snapraid_runner_conf: "{{ snapraid_runner_path }}.conf"
 snapraid_runner_bin: "{{ snapraid_runner_path }}.py"
 snapraid_healthcheck_io_host: https://hc-ping.com
 snapraid_runner_healthcheck_io_uuid: "{{ vault_snapraid_runner_healthcheck_io_uuid }}"
+snapraid_config_excludes:
+  - "*.unrecoverable"
+  - /lost+found/
+  - "*.!sync"
+  - /tmp/
+  # Folders with files that changes often
+  - /torrent/
+  - /streaming/torrent/
+  - /usenet/
+  - /streaming/usenet/
+  - /minecraft/data/
+  - /mc-usw/data/
+  - uploads/ # For Nextcloud upload folders, files are transactional and thus temporary
+  - /nextcloud/data/nextcloud.log
+  - /nextcloud/custom_apps/
+  - /nextcloud/apps/
+  - /nextcloud/core/
+  - /nextcloud/3rdparty/
+  - /nextcloud/lib/
+  - /nextcloud_logs/
+  - /recipes/staticfiles/ # For some reason these static files sure do change a lot...
+  - /syncthing/config/*.db/
+  - /sharkey/files/
 
 backbone__acme_ca_server: "{{ vault_backbone__acme_ca_server }}"
 backbone__acme_dns_challenge__enabled: "{{ vault_backbone__acme_dns_challenge__enabled }}"

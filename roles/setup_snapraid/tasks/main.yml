@@ -32,28 +32,6 @@
 
     snapraid_content_files:
       - /var/snapraid.content
-    snapraid_config_excludes:
-      - "*.unrecoverable"
-      - /lost+found/
-      - "*.!sync"
-      - /tmp/
-      # Folders with files that changes often
-      - /torrent/
-      - /streaming/torrent/
-      - /usenet/
-      - /streaming/usenet/
-      - /minecraft/data/
-      - /mc-usw/data/
-      - uploads/ # For Nextcloud upload folders, files are transactional and thus temporary
-      - /nextcloud/data/nextcloud.log
-      - /nextcloud/custom_apps/
-      - /nextcloud/apps/
-      - /nextcloud/core/
-      - /nextcloud/3rdparty/
-      - /nextcloud/lib/
-      - /nextcloud_logs/
-      - /recipes/staticfiles/ # For some reason these static files sure do change a lot...
-      - /syncthing/config/*.db/
 
     snapraid_runner_email_address: "{{ smtp__to }}"
     snapraid_runner_email_pass: "{{ smtp__pass }}"
