@@ -16,6 +16,7 @@
           ansible
           ansible-lint
           glibcLocales # otherwise ansible cannot run
+          d2
         ];
       };
     }

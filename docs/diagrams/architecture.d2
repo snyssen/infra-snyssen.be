@@ -1,0 +1,489 @@
+direction: down
+
+classes: {
+  computer: {
+    icon: https://icons.terrastruct.com/tech%2Flaptop.svg
+    shape: image
+  }
+  router: {
+    icon: https://icons.terrastruct.com/tech%2Frouter.svg
+    shape: image
+  }
+  server: {
+    icon: https://icons.terrastruct.com/tech%2Fservers.svg
+    icon.near: top-left
+    label.near: top-right
+    grid-rows: 2
+  }
+  docker: {
+    icon: https://icons.terrastruct.com/dev%2Fdocker.svg
+    icon.near: top-left
+    label: ""
+    style.stroke-width: 0
+    grid-columns: 7
+  }
+  baremetal : {
+    style.stroke-width: 0
+    # label.near: top-right
+  }
+  invisible: {
+    style.opacity: 0
+  }
+  dep_on: {
+    style.stroke: darkorange
+  }
+  dep_on_ext: {
+    style.stroke: indianred
+  }
+  conn_to: {
+    style.stroke: skyblue
+  }
+}
+
+description: |md
+    Hello
+  | {
+  near: top-right
+  style.stroke-width: 0
+}
+
+legend: "Legend" {
+  near: center-right
+  style.stroke-width: 0
+  label.near: top-center
+  src.class: invisible
+  tgt.class: invisible
+  direction: right
+
+  src -> tgt: depends on (internal) { class: dep_on }
+  src -> tgt: depends on (external) { class: dep_on_ext }
+  src -> tgt: connect to { class: conn_to }
+}
+
+lan: "LAN" {
+  router: "192.168.1.1 (router)" {
+    class: router
+  }
+  # switch_1: "switch"
+  # switch_2: "switch"
+  # switch_3: "switch"
+
+  dns: "192.168.1.2 (dns)" {
+    class: server
+    baremetal: {
+      class: baremetal
+      node_exporter: |md
+        ### Node Exporter
+        Sends metrics to Prometheus
+      |
+      crowdsec_firewall_bouncer: |md
+        ### Crowdsec Firewall Bouncer
+        Gets decisions from local API
+      |
+    }
+    docker: {
+      class: docker
+      adguard: {
+        adguard: |md
+          ### Adguard Home
+          Provides DNS and DHCP to entire LAN
+        |
+      }
+      promtail: {
+        promtail: |md
+          ### Promtail
+          Sends logs to Loki
+        |
+      }
+      cadvisor: {
+        cadvisor: |md
+          ### CAdvisor
+          Sends metrics to Prometheus
+        |
+      }
+    }
+  }
+  backups: "backup.snyssen.be (backups)" {
+    class: server
+    docker: {
+      class: docker
+      rest: {
+        rest: |md
+          ### REST
+          Restic server
+        |
+      }
+      promtail: {
+        promtail: |md
+          ### Promtail
+          Sends logs to Loki
+        |
+      }
+      cadvisor: {
+        cadvisor: |md
+          ### CAdvisor
+          Sends metrics to Prometheus
+        |
+      }
+      scrutiny: {
+        scrutiny: |md
+          ### Scrutiny
+          Collector
+        |
+      }
+    }
+    baremetal: {
+      class: baremetal
+      node_exporter: |md
+        ### Node Exporter
+        Sends metrics to Prometheus
+      |
+      crowdsec_firewall_bouncer: |md
+        ### Crowdsec Firewall Bouncer
+        Gets decisions from local API
+      |
+    }
+  }
+  apps: "snyssen.be (apps)" {
+    class: server
+
+    baremetal: {
+      class: baremetal
+      node_exporter: |md
+        ### Node Exporter
+        Sends metrics to Prometheus
+      |
+      crowdsec_firewall_bouncer: |md
+        ### Crowdsec Firewall Bouncer
+        Gets decisions from local API
+      |
+      autorestic: |md
+        ### Autorestic
+        Backups files
+      |
+    }
+
+    docker: {
+      class: docker
+
+      databases: {
+        postgres: |md
+          ### Postgres
+        |
+        pgadmin: |md
+          ### PgAdmin
+          Provides admin access to database\
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        postgres_backups: |md
+          ### Backups
+          Run scheduled dumps of all databases
+        |
+
+        pgadmin -> postgres: { class: dep_on }
+        postgres_backups -> postgres: { class: dep_on }
+      }
+      monitoring: {
+        influxdb: |md
+          ### InfluxDB
+        |
+        scrutiny_web: |md
+          ### Scrutiny
+          Web component only\
+          **Exposed by traefik**\
+          **Protected by authelia**
+        |
+        prometheus: |md
+          ### Prometheus
+          **Exposed by traefik**\
+          **Protected by authelia**
+        |
+        grafana: |md
+          ### Grafana
+          **Exposed by traefik**\
+          **Protected by authelia (OIDC)**
+        |
+        loki: |md
+          ### Loki
+          Receives logs from Promtail instances\
+          **Exposed by traefik**\
+          **Protected by LAN whitelist**
+        |
+        uptime: |md
+          ### Uptime Kuma
+          **Exposed by traefik**\
+          **Protected by authelia**
+        |
+        umami: |md
+          ### Umami
+          Analytics\
+          **Exposed by traefik**
+        |
+        adguard_exporter: |md
+          ### Adguard Exporter
+          for Prometheus
+        |
+
+        scrutiny_web -> influxdb: { class: dep_on }
+        grafana -> prometheus: { class: dep_on }
+        grafana -> loki: { class: dep_on }
+        prometheus -> uptime: { class: conn_to }
+        prometheus -> adguard_exporter: { class: conn_to }
+      }
+      backbone: {
+        traefik: |md
+          ### traefik
+          Reverse proxy for all apps
+        |
+        vpn: |md
+          ### VPN
+        |
+        lldap: |md
+          ### LLDAP
+          **Exposed by traefik**\
+        |
+        authelia: |md
+          ### Authelia
+          **Exposed by traefik**\
+        |
+        authelia_redis: |md
+          ### Redis
+          For Authelia
+        |
+
+        authelia -> authelia_redis: { class: dep_on }
+        authelia -> lldap: { class: dep_on }
+
+        databases: "databases -> postgres" { class: dep_on_ext }
+        databases <- lldap: { class: dep_on_ext }
+        databases <- authelia: { class: dep_on_ext }
+      }
+      unifi:{
+        unifi: |md
+          ### Unifi
+          **Exposed by traefik**\
+          **Protected by LAN whitelist**\
+        |
+        mongo: |md
+          ### Mongo DB
+        |
+        mongo <- unifi: { class: dep_on }
+      }
+      ddns: {
+        ddns: |md
+          ### DDNS Updater
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+      }
+      crowdsec: {
+        crowdsec: |md
+          ### Crowdsec
+          Local API
+          **Exposed by traefik**\
+          **Protected by LAN whitelist**\
+        |
+      }
+      streaming: {
+        jellyfin: |md
+          ### Jellyfin
+          **Exposed by traefik**\
+          **Users from LLDAP**\
+        |
+        audiobookshelf: |md
+          ### Audiobookshelf
+          **Exposed by traefik**\
+          **Protected by authelia (OIDC)**\
+        |
+        torrent: |md
+          ### Transmission
+          **Exposed by traefik (on VPN container)**\
+          **Protected by authelia**\
+        |
+        usenet: |md
+          ### SABnzbd
+          **Exposed by traefik (on VPN container)**\
+          **Protected by authelia**\
+        |
+        sonarr: |md
+          ### Sonarr
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        radarr: |md
+          ### Radarr
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        lidarr: |md
+          ### Lidarr
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        readarr: |md
+          ### Readarr
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        prowlarr: |md
+          ### Prowlarr
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        bazarr: |md
+          ### Bazarr
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        ytdl_sub: |md
+          ### Ytld Sub
+        |
+        lidatube: |md
+          ### Lidatube
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+        lidify: |md
+          ### Lidify
+          **Exposed by traefik**\
+          **Protected by authelia**\
+        |
+
+        prowlarr -> sonarr: { class: conn_to }
+        prowlarr -> radarr: { class: conn_to }
+        prowlarr -> lidarr: { class: conn_to }
+        prowlarr -> readarr: { class: conn_to }
+        torrent <- sonarr: { class: conn_to }
+        torrent <- radarr: { class: conn_to }
+        torrent <- lidarr: { class: conn_to }
+        torrent <- readarr: { class: conn_to }
+        usenet <- sonarr: { class: conn_to }
+        usenet <- radarr: { class: conn_to }
+        usenet <- lidarr: { class: conn_to }
+        usenet <- readarr: { class: conn_to }
+        lidarr <- lidatube: { class: conn_to }
+        lidarr <- lidify: { class: conn_to }
+        bazarr -> sonarr: { class: conn_to }
+        bazarr -> radarr: { class: conn_to }
+
+        lldap: "backbone -> lldap" { class: dep_on_ext}
+        lldap <- jellyfin: { class: dep_on_ext }
+        vpn: "backbone -> vpn" { class: dep_on_ext }
+        vpn <- torrent: { class: dep_on_ext }
+        vpn <- usenet: { class: dep_on_ext }
+      }
+      immich: {
+        immich_server: |md
+          ### Immich (web)
+          **Exposed by traefik**\
+          **Protected by authelia (OIDC)**
+        |
+        immich_machine_learning: |md
+          ### Immich (ML)
+        |
+        redis: |md
+          ### Redis
+        |
+        database: |md
+          ### Postgres (vectors)
+        |
+        backup: |md
+          ### Postgres backups
+          Scheduled dumps for pgvecto-rs
+        |
+
+        immich_server -> immich_machine_learning: { class: conn_to }
+        immich_server -> redis: { class: dep_on }
+        immich_server -> database: { class: dep_on }
+      }
+      paperless: {
+        redis: |md
+          ### Redis
+        |
+        paperless: |md
+          ### Paperless
+          **Exposed by traefik**\
+          **Protected by authelia (OIDC)**
+        |
+        gotenberg: |md
+          ### Gotenberg
+        |
+        tika: |md
+          ### Tika
+        |
+
+        paperless -> redis: { class: dep_on }
+        paperless -> gotenberg: { class: dep_on }
+        paperless -> tika: { class: dep_on }
+
+        databases: "databases -> postgres" { class: dep_on_ext }
+        databases <- paperless: { class: dep_on_ext }
+      }
+      nextcloud: {
+        redis: |md
+          ### Redis
+        |
+        nextcloud: |md
+          ### Netxcloud
+          **Exposed by traefik**\
+          **Users from LLDAP**\
+          **Protected by authelia (OIDC)**
+        |
+        promtail: |md
+          ### Promtail
+          For Nextcloud logs only
+        |
+
+        nextcloud -> redis: { class: dep_on }
+        databases: "databases -> postgres" { class: dep_on_ext }
+        nextcloud -> databases: { class: dep_on_ext }
+      }
+
+      promtail: {
+        promtail: |md
+          ### Promtail
+          Sends logs to Loki
+        |
+      }
+      cadvisor: {
+        cadvisor: |md
+          ### CAdvisor
+          Sends metrics to Prometheus
+        |
+      }
+      scrutiny: {
+        scrutiny: |md
+          ### Scrutiny
+          Collector
+        |
+      }
+
+      # databases.postgres <- backbone.lldap: { class: dep_on }
+      # databases.postgres <- backbone.authelia: { class: dep_on }
+
+      # backbone.traefik <- databases.pgadmin
+    }
+  }
+
+  computer: "computers & phones" {
+    class: computer
+  }
+
+  router <-> dns
+  router <-> apps
+  router <-> backups
+  router <-> computer
+
+  apps.baremetal.autorestic -> backups.docker.rest: { class: conn_to }
+
+  # dns.docker.adguard <-> computer: DNS
+  # dns.docker.adguard <-> apps: DNS
+  # dns.docker.adguard <-> backups: DNS
+}
+
+internet: "Internet" {
+  shape: cloud
+}
+
+internet <-> lan.router

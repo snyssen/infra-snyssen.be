@@ -8,6 +8,7 @@
     "nextcloud",
     "restic",
     "Snapraid",
+    "snyssen",
     "traefik"
   ],
   "workbench.colorCustomizations": {
