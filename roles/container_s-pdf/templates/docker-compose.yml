@@ -1,6 +1,6 @@
 services:
   s-pdf:
-    image: stirlingtools/stirling-pdf:0.43.2@sha256:aed747ddf5302584c43db94a08a2c28054797b6815d9f32ddb4aafaa1dff3bd4
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:0.43.2@sha256:aed747ddf5302584c43db94a08a2c28054797b6815d9f32ddb4aafaa1dff3bd4
     container_name: s-pdf
     restart: unless-stopped
     networks:
