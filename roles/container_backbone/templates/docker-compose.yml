@@ -137,7 +137,7 @@ services:
     mem_limit: 364m
 
   lldap:
-    image: lldap/lldap:2024-03-07@sha256:2819a9d26d545c7640c9551d8ffe5e954eca81b34a62b87fad933dedd9339b1d
+    image: lldap/lldap:v0.6.1@sha256:4931eeeb841b1bbf5774161b5fd9dab88f41ffeb4b08ca656f0b7595cd7cb52a
     container_name: lldap
     restart: unless-stopped
     ports:
