@@ -21,6 +21,8 @@
         prometheus_node_exporter_config_flags:
           "web.listen-address": "0.0.0.0:9100"
           "log.level": "info"
+        prometheus_node_exporter_enabled_collectors:
+          - systemd
     - name: container_promtail
     - name: container_cadvisor
   tasks:
