@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.31.2@sha256:2100d2cee89da16e7ce4a1169406c7718e6508c86ddc497dfbfdb7d6be2ea0c2
+    image: lscr.io/linuxserver/prowlarr:1.32.2@sha256:18e9801e4509e45873c1adb03adf0bf718743ff5147e19b4cdf7626f8bd2f752
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.02.21@sha256:23485a9d0f91c0965e7cddd8c03cb83a4083d24db3feb68b5d128ed91ffd7054
+    image: ghcr.io/jmbannon/ytdl-sub:2025.03.16@sha256:61cc770248af30dcb227d36216d481632ea54086acd9abf4c8677890a175a3ab
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
