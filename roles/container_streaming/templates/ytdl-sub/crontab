@@ -1,2 +1,0 @@
-# min   hour    day     month   weekday command
-  0     */6     *       *       *       /config/cron_cmd.sh > /config/ytdl-sub.log 2>&1

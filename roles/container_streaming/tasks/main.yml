@@ -76,9 +76,7 @@
     - src: ytdl-sub/subscriptions.yaml
       filename: "config/"
     - src: ytdl-sub/cron_cmd.sh
-      filename: "config/"
-    - src: ytdl-sub/crontab
-      filename: "config/crontabs/abc"
+      filename: "config/cron"
 
 - name: Create ytdl-sub log file
   ansible.builtin.file:

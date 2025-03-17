@@ -235,8 +235,9 @@ services:
       - PUID={{ ansible_user_uid}}
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
-      - DOCKER_MODS=linuxserver/mods:universal-cron|linuxserver/mods:universal-stdout-logs
       - LOGS_TO_STDOUT=/config/ytdl-sub.log
+      - CRON_SCHEDULE="0 */6 * * *"
+      - CRON_RUN_ON_START=true
     devices:
       - /dev/dri:/dev/dri
     volumes:
