@@ -38,10 +38,19 @@
   become: true
   ansible.builtin.template:
     src: crowdsec-firewall-bouncer.yaml
-    dest: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml.local
+    dest: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
     mode: "600"
     owner: root
     group: root
+
+- name: Configure crowdsec on metal so it does nothing
+  become: true
+  ansible.builtin.template:
+    src: crowdsec/config.yaml
+    dest: /etc/crowdsec/config.yaml
+    mode: "600"
+    group: root
+    owner: root
 
 - name: Ensure crowdsec firewall bouncer is running
   become: true
@@ -54,8 +63,9 @@
     - name: crowdsec-firewall-bouncer
       state: started
     # We don't want crowdsec itself to be running since we have a central instance in a container
+    # ... But it seems the bouncer depends on the main crowdsec service running -_-
     - name: crowdsec
-      state: stopped
+      state: started
 
 - name: Install and setup sync-ssh-keys
   ansible.builtin.include_tasks: sync_ssh_keys.yml
