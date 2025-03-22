@@ -1,6 +1,6 @@
 services:
   crowdsec:
-    image: crowdsecurity/crowdsec:v1.6.5@sha256:fdb487e130095709c1b1c5ba2bd2b461e6715676076e5f774230dcf47d366f76
+    image: crowdsecurity/crowdsec:v1.6.6@sha256:d5049e83daf5399a83bf521389c7c5a0aa345e3ffcbfc0341ea51347a202f188
     container_name: crowdsec
     restart: unless-stopped
     networks:
