@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.20.2@sha256:de82a83c39316ef10024a17e6d0f5238bc27347b39ce4508a633604b4f48302d
+    image: lscr.io/linuxserver/radarr:5.21.1@sha256:eccd80c53e55572b91ae205eb572e16b3e012631892e74be7ccedb6d5fafb630
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -249,7 +249,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.16@sha256:104314735b0589d543c1664a9a981ccc7e536c5add8805c8bb683f6ae8ccc89f
+    image: thewicklowwolf/lidatube:0.2.17@sha256:94008bb877fbca05c721649710cbcfb68e6055b2b6405a5879aabda003c16cb6
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
