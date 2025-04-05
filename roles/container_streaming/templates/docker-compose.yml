@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.10.6@sha256:2aa67ae3eff5384ade5a5675a61ca487e9e1a510312289ac80076837ebeda8c8
+    image: ghcr.io/jellyfin/jellyfin:10.10.7@sha256:e4d1dc5374344446a3a78e43dd211247f22afba84ea2e5a13cbe1a94e1ff2141
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.04.02@sha256:ddb60c28eb3954b1fadbe00181245beef6a714f93e17a999cc3cc26345ea1cac
+    image: ghcr.io/jmbannon/ytdl-sub:2025.04.03@sha256:74c40c33881a1b0d4675263fef1581d3645ae576e6300f87e00ac03c76fa1918
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
