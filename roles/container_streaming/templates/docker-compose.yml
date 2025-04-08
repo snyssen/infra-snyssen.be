@@ -229,13 +229,12 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.04.03@sha256:74c40c33881a1b0d4675263fef1581d3645ae576e6300f87e00ac03c76fa1918
+    image: ghcr.io/jmbannon/ytdl-sub:2025.03.16@sha256:61cc770248af30dcb227d36216d481632ea54086acd9abf4c8677890a175a3ab
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
-      - LOGS_TO_STDOUT=/config/ytdl-sub.log
       - CRON_SCHEDULE="0 */6 * * *"
       - CRON_RUN_ON_START=true
     devices:
