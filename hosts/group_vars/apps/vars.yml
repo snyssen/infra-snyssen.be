@@ -397,7 +397,8 @@ dashboard__shortcuts:
       - name: Icarus Terminal
         url: http://snyssen-windows.lan:3300
 dashboard__open_weather_key: "{{ vault_dashboard__open_weather_key }}"
-dashboard__search_url_base: https://duckduckgo.com/?q=
+dashboard__search_url_base: https://kagi.com/search?q=
+# dashboard__search_url_base: https://duckduckgo.com/?q=
 
 foundryvtt__username: "{{ vault_foundryvtt__username }}"
 foundryvtt__password: "{{ vault_foundryvtt__password }}"
