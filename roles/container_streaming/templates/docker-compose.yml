@@ -91,7 +91,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.5.0@sha256:00cccf686c33762e388d88b56431fba70ca81ca531029411ef6c1c1f66d3f71e
+    image: lscr.io/linuxserver/sabnzbd:4.5.1@sha256:4087a051fa3aec7c320db624f572eba71513bcb34b146fbd036b8c7c92b78bfa
     container_name: usenet
     network_mode: container:vpn
     environment:
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.13-develop@sha256:b1b0b6386c325690afe7a587030d6185419c608e4e00fa5397fc30226e65c28f
+    image: lscr.io/linuxserver/readarr:0.4.14-develop@sha256:6c8128b2dddab7bd180897ea4f1517e3ef23dff290e87c7b5e3b981e1800d009
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.32.2@sha256:d8abff6588666b96672eaf812cc3eae1fe59e28de806bb88162433eba339d42c
+    image: lscr.io/linuxserver/prowlarr:1.33.3@sha256:e3242cf552ed1818f9e8208c7826e6b3a28b9203c9732fb0dae176b0323954f2
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.03.16@sha256:61cc770248af30dcb227d36216d481632ea54086acd9abf4c8677890a175a3ab
+    image: ghcr.io/jmbannon/ytdl-sub:2025.04.18@sha256:7fb30256183d2240d0050651916add9b71431dc6688eafb87df3afb2d0aeed61
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
