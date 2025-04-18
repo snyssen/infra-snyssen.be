@@ -10,7 +10,7 @@ services:
     mem_limit: 12m
 
   paperless:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.14.7@sha256:2a6d9f6461ad7e8335f5b2123a173b9e6002fda209af8a66483b0c00629569ab
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.15.2@sha256:80d1a7fe4f638cb00c1dcf5ff4ce2c15d92f13a6287db1e1b94f58c35a689e47
     container_name: paperless
     restart: unless-stopped
     networks:
@@ -70,7 +70,7 @@ services:
     mem_limit: 2g
 
   paperless_gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.19@sha256:a55777dad95294ba2c1bfd1760c9eea4e573755589cf192d0ec6107ae08fc7e3
+    image: docker.io/gotenberg/gotenberg:8.20@sha256:cda4386c7ed38f18bc6897828be01ba7361c99929a5c84ec5e293d7916e29bac
     container_name: paperless_gotenberg
     restart: unless-stopped
     networks:
