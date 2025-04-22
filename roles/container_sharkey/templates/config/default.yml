@@ -299,7 +299,7 @@ signToActivityPubGet: true
 # This setting allows admins to disable LD signatures for increased privacy, at the expense of fewer relayed activities and additional inbound fetch (GET) requests.
 attachLdSignatureForRelays: true
 # check that inbound ActivityPub GET requests are signed ("authorized fetch")
-checkActivityPubGetSignature: false
+checkActivityPubGetSignature: true
 
 # For security reasons, uploading attachments from the intranet is prohibited,
 # but exceptions can be made from the following settings. Default value is "undefined".
