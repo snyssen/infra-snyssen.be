@@ -41,7 +41,7 @@ services:
   # TODO: add postgres backups
 
   dawarich_app:
-    image: freikin/dawarich:0.25.8@sha256:b1f71cb2303e317c7fdeea73778b7773da94ab7f12acf327ff8d7e2f8e19aaf6
+    image: freikin/dawarich:0.25.8@sha256:a7a568b7a524fcfa54c0f50db83690356f24f5e9f64aecd6952214f61d6a1b5c
     container_name: dawarich_app
     volumes:
       - /mnt/storage/dawarich/public:/var/app/public
@@ -100,7 +100,7 @@ services:
         condition: service_healthy
         restart: true
   dawarich_sidekiq:
-    image: freikin/dawarich:0.25.8@sha256:b1f71cb2303e317c7fdeea73778b7773da94ab7f12acf327ff8d7e2f8e19aaf6
+    image: freikin/dawarich:0.25.8@sha256:a7a568b7a524fcfa54c0f50db83690356f24f5e9f64aecd6952214f61d6a1b5c
     container_name: dawarich_sidekiq
     volumes:
       - /mnt/storage/dawarich/public:/var/app/public
