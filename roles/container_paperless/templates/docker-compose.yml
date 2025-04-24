@@ -1,6 +1,6 @@
 services:
   paperless_redis:
-    image: redis:7.4.2@sha256:ca65ea36ae16e709b0f1c7534bc7e5b5ac2e5bb3c97236e4fec00e3625eb678d
+    image: redis:7.4.3@sha256:8bc666424ef252009ed34b0432564cabbd4094cd2ce7829306cb1f5ee69170be
     container_name: paperless_redis
     networks:
       - internal
@@ -10,7 +10,7 @@ services:
     mem_limit: 12m
 
   paperless:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.15.2@sha256:80d1a7fe4f638cb00c1dcf5ff4ce2c15d92f13a6287db1e1b94f58c35a689e47
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.15.3@sha256:39b337e73c978238f0b529baf42f1b59b65d17eed35cd61bc1ccbbf779b5d58b
     container_name: paperless
     restart: unless-stopped
     networks:
