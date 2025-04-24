@@ -1,0 +1,153 @@
+# Derived from: https://github.com/Freika/dawarich/blob/master/docker/docker-compose.yml
+services:
+  dawarich_redis:
+    image: redis:7.4.2@sha256:ca65ea36ae16e709b0f1c7534bc7e5b5ac2e5bb3c97236e4fec00e3625eb678d
+    container_name: dawarich_redis
+    command: redis-server
+    networks:
+      - internal
+    volumes:
+      - "{{ docker_mounts_directory }}/dawarich/shared:/data"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  dawarich_db:
+    image: postgis/postgis:14-3.5-alpine
+    # shm_size: 1G
+    container_name: dawarich_db
+    volumes:
+      - "{{ docker_mounts_directory }}/dawarich/postgres:/var/lib/postgresql/data"
+      - "{{ docker_mounts_directory }}/dawarich/shared:/var/shared"
+      # - ./postgresql.conf:/etc/postgresql/postgresql.conf # Optional, uncomment if you want to use a custom config
+    networks:
+      - internal
+    environment:
+      POSTGRES_USER: dawarich
+      POSTGRES_PASSWORD: "{{ dawarich__db_pass }}"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dawarich -d dawarich"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    # command: postgres -c config_file=/etc/postgresql/postgresql.conf # Use custom config, uncomment if you want to use a custom config
+
+  # TODO: add postgres backups
+
+  dawarich_app:
+    image: freikin/dawarich:0.25.8@sha256:b1f71cb2303e317c7fdeea73778b7773da94ab7f12acf327ff8d7e2f8e19aaf6
+    container_name: dawarich_app
+    volumes:
+      - /mnt/storage/dawarich/public:/var/app/public
+      - /mnt/storage/dawarich/watched:/var/app/tmp/imports/watched
+      - /mnt/storage/dawarich/storage:/var/app/storage
+    networks:
+      - internal
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.dawarich.entryPoints=websecure
+      - traefik.http.routers.dawarich.rule=Host(`location.{{ ansible_fqdn }}`)
+      - traefik.http.routers.dawarich.service=dawarich
+      - traefik.http.services.dawarich.loadBalancer.server.port=3000
+    # TODO: expose prometheus (port 9394)
+    # ports:
+    #   - 3000:3000
+    #   - 9394:9394 # Prometheus exporter, uncomment if needed
+    stdin_open: true
+    tty: true
+    entrypoint: web-entrypoint.sh
+    command: ["bin/rails", "server", "-p", "3000", "-b", "::"]
+    restart: unless-stopped
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://dawarich_redis:6379/0
+      DATABASE_HOST: dawarich_db
+      DATABASE_USERNAME: dawarich
+      DATABASE_PASSWORD: "{{ dawarich__db_pass }}"
+      DATABASE_NAME: dawarich
+      MIN_MINUTES_SPENT_IN_CITY: 60
+      APPLICATION_HOSTS: "location.{{ ansible_fqdn }}"
+      TIME_ZONE: "{{ iana_timezone }}"
+      APPLICATION_PROTOCOL: http
+      DISTANCE_UNIT: km
+      PROMETHEUS_EXPORTER_ENABLED: false
+      PROMETHEUS_EXPORTER_HOST: 0.0.0.0
+      PROMETHEUS_EXPORTER_PORT: 9394
+      SELF_HOSTED: "true"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -qO - http://127.0.0.1:3000/api/v1/health | grep -q '\"status\"\\s*:\\s*\"ok\"'",
+        ]
+      interval: 10s
+      retries: 30
+      start_period: 30s
+      timeout: 10s
+    depends_on:
+      dawarich_db:
+        condition: service_healthy
+        restart: true
+      dawarich_redis:
+        condition: service_healthy
+        restart: true
+  dawarich_sidekiq:
+    image: freikin/dawarich:0.25.8@sha256:b1f71cb2303e317c7fdeea73778b7773da94ab7f12acf327ff8d7e2f8e19aaf6
+    container_name: dawarich_sidekiq
+    volumes:
+      - /mnt/storage/dawarich/public:/var/app/public
+      - /mnt/storage/dawarich/watched:/var/app/tmp/imports/watched
+      - /mnt/storage/dawarich/storage:/var/app/storage
+    networks:
+      - internal
+    stdin_open: true
+    tty: true
+    entrypoint: sidekiq-entrypoint.sh
+    command: ["sidekiq"]
+    restart: unless-stopped
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://dawarich_redis:6379/0
+      DATABASE_HOST: dawarich_db
+      DATABASE_USERNAME: dawarich
+      DATABASE_PASSWORD: "{{ dawarich__db_pass }}"
+      DATABASE_NAME: dawarich
+      MIN_MINUTES_SPENT_IN_CITY: 60
+      APPLICATION_HOSTS: "location.{{ ansible_fqdn }}"
+      TIME_ZONE: "{{ iana_timezone }}"
+      APPLICATION_PROTOCOL: http
+      DISTANCE_UNIT: km
+      PROMETHEUS_EXPORTER_ENABLED: false
+      PROMETHEUS_EXPORTER_HOST: 0.0.0.0
+      PROMETHEUS_EXPORTER_PORT: 9394
+      SELF_HOSTED: "true"
+    healthcheck:
+      test:
+        ["CMD-SHELL", "bundle exec sidekiqmon processes | grep $${HOSTNAME}"]
+      interval: 10s
+      retries: 30
+      start_period: 30s
+      timeout: 10s
+    depends_on:
+      dawarich_db:
+        condition: service_healthy
+        restart: true
+      dawarich_redis:
+        condition: service_healthy
+        restart: true
+      dawarich_app:
+        condition: service_healthy
+        restart: true
+
+networks:
+  web:
+    external: true
+  internal:

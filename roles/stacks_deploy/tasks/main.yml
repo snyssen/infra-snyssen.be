@@ -96,6 +96,9 @@
 - ansible.builtin.include_role:
     name: container_sharkey
   when: "stacks_deploy_list is not defined or 'sharkey' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_dawarich
+  when: "stacks_deploy_list is not defined or 'dawarich' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic
