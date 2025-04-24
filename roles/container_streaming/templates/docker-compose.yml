@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.21.1@sha256:9a4a7ed79dee5fcc9940b57ddfddfe7c87dea2d13a221ca2fdd2c1c8d9e75c2e
+    image: lscr.io/linuxserver/radarr:5.22.4@sha256:7e9dbd55e29496f66fd8f3e210e5c202c1437ba8f4a748013c6da8ac268a0de1
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.14-develop@sha256:6c8128b2dddab7bd180897ea4f1517e3ef23dff290e87c7b5e3b981e1800d009
+    image: lscr.io/linuxserver/readarr:0.4.15-develop@sha256:0cd1d5073121cc9c3edd208e705b70b438f423f012645dc8b2a7fc9d066f4700
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.33.3@sha256:e3242cf552ed1818f9e8208c7826e6b3a28b9203c9732fb0dae176b0323954f2
+    image: lscr.io/linuxserver/prowlarr:1.34.1@sha256:cc04fd226d3418e493c015eb9ad66857066a4ddf024d7214ab2b39712e19e74c
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.03.16@sha256:61cc770248af30dcb227d36216d481632ea54086acd9abf4c8677890a175a3ab
+    image: ghcr.io/jmbannon/ytdl-sub:2025.04.18@sha256:7fb30256183d2240d0050651916add9b71431dc6688eafb87df3afb2d0aeed61
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
