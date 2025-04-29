@@ -167,7 +167,7 @@ services:
     mem_limit: 1g
 
   readarr:
-    image: lscr.io/linuxserver/readarr:0.4.15-develop@sha256:0cd1d5073121cc9c3edd208e705b70b438f423f012645dc8b2a7fc9d066f4700
+    image: lscr.io/linuxserver/readarr:0.4.15-develop@sha256:dddf53728feff451dd96a52b6b7987561453e5fb5a4436512582b74480555c9b
     container_name: readarr
     environment:
       - PUID={{ ansible_user_uid}}
