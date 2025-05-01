@@ -17,7 +17,7 @@ services:
       timeout: 10s
 
   dawarich_db:
-    image: postgis/postgis:14-3.5-alpine@sha256:ecce0ff37a15524c7ad9fb954c6e488eafb82a859ba60b6b8738ec5b1c72299e
+    image: postgis/postgis:14-3.5-alpine@sha256:4923e270bed9dcaa8faa736df7cdaa2de6e30f4f4c1cafd2816e9e29413fcf75
     # shm_size: 1G
     container_name: dawarich_db
     volumes:
