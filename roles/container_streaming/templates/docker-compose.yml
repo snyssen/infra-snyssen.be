@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.20.0@sha256:106531342a5f150e0e3dcbb348f126a5c452ecc4274f162d31545194dbe4352a
+    image: ghcr.io/advplyr/audiobookshelf:2.21.0@sha256:e9b8f06b77e2fd5b5e5e94b872c16a965923cef8e7441b5bc0abca5c29c0a035
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.34.1@sha256:6c9f08dafe16eb5025040ce3add6fd688746755f8e4f802da3238415d119d14b
+    image: lscr.io/linuxserver/prowlarr:1.35.1@sha256:126ead562b0fb1716e5c07db1df81f96351ae4de07b0101423cbc9317ccf012d
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.04.18@sha256:7fb30256183d2240d0050651916add9b71431dc6688eafb87df3afb2d0aeed61
+    image: ghcr.io/jmbannon/ytdl-sub:2025.05.01@sha256:e5810cb81ca7487345da4d3e1ebc718f588f0677c02563da1d5fae6126891c56
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
@@ -248,7 +248,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.21@sha256:a066cb4dab045c3d3294d4885783e47517e18c34b8507309e0868783f8967265
+    image: thewicklowwolf/lidatube:0.2.22@sha256:d85f6eefbf91bb2162d7ff9f239778e54258d2c3f2bf2adad6b4d9ed5b680b0c
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
