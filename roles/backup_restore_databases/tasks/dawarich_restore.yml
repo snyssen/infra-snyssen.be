@@ -1,43 +1,43 @@
 - name: Querying available dumps
   ansible.builtin.include_tasks: select_db_dump.yml
   vars:
-    dump_dir: "/mnt/storage/backups/immich"
+    dump_dir: "/mnt/storage/backups/dawarich"
     dump_pattern: ".+\\.sql\\.gz$"
 
-- name: Shutdown Immich stack
+- name: Shutdown Dawarich stack
   community.docker.docker_compose_v2:
-    project_src: "{{ docker_compose_directory }}/immich"
+    project_src: "{{ docker_compose_directory }}/dawarich"
     state: absent
     remove_volumes: true
 
 - name: Remove previous database
   become: true
   ansible.builtin.file:
-    path: "{{ docker_mounts_directory }}/immich/postgres"
+    path: "{{ docker_mounts_directory }}/dawarich/postgres"
     state: absent
 
 - name: Start database
   community.docker.docker_compose_v2:
-    project_src: "{{ docker_compose_directory }}/immich"
+    project_src: "{{ docker_compose_directory }}/dawarich"
     state: present
     services:
-      - database
-      - backup
+      - dawarich_db
+      - dawarich_backups
 
 - name: Wait for Postgres to be ready
   ansible.builtin.pause:
     seconds: 10
 
-- name: Restore Immich database
+- name: Restore Dawarich database
   community.docker.docker_container_exec:
-    container: "immich_db_dumper"
+    container: "dawarich_db_dumper"
     command: >-
       bash -c
       "gunzip < /backups/{{ selected_dump }}
       | sed \"s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g\"
-      | PGPASSWORD={{ db.password }} psql -h immich_postgres -U {{ db.name }}"
+      | PGPASSWORD={{ db.password }} psql -h dawarich_db -U {{ db.name }}"
 
-- name: Restart Immich stack
+- name: Restart Dawarich stack
   community.docker.docker_compose_v2:
-    project_src: "{{ docker_compose_directory }}/immich"
+    project_src: "{{ docker_compose_directory }}/dawarich"
     state: present

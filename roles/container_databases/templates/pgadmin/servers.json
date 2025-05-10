@@ -8,6 +8,24 @@
       "Host": "postgres",
       "SSLMode": "prefer",
       "MaintenanceDB": "postgres"
+    },
+    "2": {
+      "Name": "immich_postgres",
+      "Group": "Servers",
+      "Port": 5432,
+      "Username": "immich",
+      "Host": "immich_postgres",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    },
+    "3": {
+      "Name": "dawarich_db",
+      "Group": "Servers",
+      "Port": 5432,
+      "Username": "dawarich",
+      "Host": "dawarich_db",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
     }
   }
 }

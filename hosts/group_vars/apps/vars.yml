@@ -486,3 +486,4 @@ sharkey__db_pass: "{{ vault_sharkey__db_pass}}"
 sharkey__meili_master_key: "{{ vault_sharkey__meili_master_key }}"
 
 dawarich__db_pass: "{{ vault_dawarich__db_pass }}"
+dawarich__db_dump_hc_id: "{{ vault_dawarich__db_dump_hc_id }}"

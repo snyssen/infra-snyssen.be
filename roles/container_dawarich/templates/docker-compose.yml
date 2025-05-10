@@ -18,14 +18,13 @@ services:
 
   dawarich_db:
     image: postgis/postgis:14-3.5-alpine@sha256:4923e270bed9dcaa8faa736df7cdaa2de6e30f4f4c1cafd2816e9e29413fcf75
-    # shm_size: 1G
     container_name: dawarich_db
     volumes:
       - "{{ docker_mounts_directory }}/dawarich/postgres:/var/lib/postgresql/data"
       - "{{ docker_mounts_directory }}/dawarich/shared:/var/shared"
-      # - ./postgresql.conf:/etc/postgresql/postgresql.conf # Optional, uncomment if you want to use a custom config
     networks:
       - internal
+      - db # So it can be accessed by pgadmin
     environment:
       POSTGRES_USER: dawarich
       POSTGRES_PASSWORD: "{{ dawarich__db_pass }}"
@@ -36,9 +35,28 @@ services:
       retries: 5
       start_period: 30s
       timeout: 10s
-    # command: postgres -c config_file=/etc/postgresql/postgresql.conf # Use custom config, uncomment if you want to use a custom config
 
-  # TODO: add postgres backups
+  dawarich_backups:
+    container_name: dawarich_db_dumper
+    image: prodrigestivill/postgres-backup-local:14@sha256:26571019a8c3461604673fca0409aadc02129bff6f0c12ec9ba508aacb2e203c
+    user: "5050:{{ ansible_user_gid }}"
+    environment:
+      POSTGRES_HOST: dawarich_db
+      POSTGRES_USER: dawarich
+      POSTGRES_PASSWORD: "{{ dawarich__db_pass }}"
+      POSTGRES_DB: dawarich
+      POSTGRES_CLUSTER: "TRUE"
+      POSTGRES_EXTRA_OPTS: "--clean --if-exists"
+      TZ: "{{ iana_timezone }}"
+      HEALTHCHECK_ID: "{{ dawarich__db_dump_hc_id }}"
+    volumes:
+      - /mnt/storage/backups/dawarich:/backups
+      - ../databases/hooks:/hooks
+    depends_on:
+      - dawarich_db
+    networks:
+      - internal
+    restart: unless-stopped
 
   dawarich_app:
     image: freikin/dawarich:0.25.9@sha256:487dfe589330ed4688c1c94b95f29a0e00272954d902c520ecf8a05a3cad7cc2
@@ -149,5 +167,7 @@ services:
 
 networks:
   web:
+    external: true
+  db:
     external: true
   internal:

@@ -1,5 +1,5 @@
 - name: Querying available dumps
-  ansible.builtin.include_tasks: restore_individual_db.yml
+  ansible.builtin.include_tasks: select_db_dump.yml
   vars:
     dump_dir: "/mnt/storage/backups/postgres"
     dump_pattern: "{{ db.name }}-.+\\.sql\\.gz$"

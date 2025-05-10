@@ -18,11 +18,21 @@
 
 - name: Restore Immich database
   ansible.builtin.include_tasks: immich_restore.yml
-  vars:
-    pg_backup_container: immich_db_dumper
   loop:
     - name: immich
       password: "{{ immich__db_password }}"
+  loop_control:
+    loop_var: db
+    label: "{'name': '{{ db.name }}', 'password': '***'}"
+  when:
+    (db_restore_include is not defined and db_restore_exclude is not defined)
+    or (db.name in db_restore_include | default([]) and db.name not in db_restore_exclude | default([]))
+
+- name: Restore Dawarich database
+  ansible.builtin.include_tasks: dawarich_restore.yml
+  loop:
+    - name: dawarich
+      password: "{{ dawarich__db_pass }}"
   loop_control:
     loop_var: db
     label: "{'name': '{{ db.name }}', 'password': '***'}"

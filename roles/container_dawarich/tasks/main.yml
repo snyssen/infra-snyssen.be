@@ -8,18 +8,18 @@
     - path: /mnt/storage/dawarich/public
     - path: /mnt/storage/dawarich/watched
     - path: /mnt/storage/dawarich/storage
-    # - path: /mnt/storage/backups/immich
+    - path: /mnt/storage/backups/dawarich
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     stack_name: "dawarich"
-# TODO: setup monitors
-# - name: Create monitors
-#   lucasheld.uptime_kuma.monitor:
-#     name: "{{ item.name }}"
-#     type: http
-#     url: "{{ item.url }}"
-#   loop:
-#     - name: immich
-#       url: "https://photos.{{ ansible_fqdn }}"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: dawarich
+      url: "https://location.{{ ansible_fqdn }}"
