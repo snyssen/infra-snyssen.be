@@ -212,11 +212,11 @@ access_control:
     #
     ## Misc
     #
-    - domain:
-        - "wallos.{{ ansible_fqdn }}"
-      policy: two_factor
-      subject:
-        - ["group:sysadmin"]
+    # - domain:
+    #     - "wallos.{{ ansible_fqdn }}"
+    #   policy: two_factor
+    #   subject:
+    #     - ["group:sysadmin"]
     #
     ## Exceptions
     #

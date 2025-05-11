@@ -218,7 +218,6 @@ backups__volumes_common:
   - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
   - /mnt/storage/paperless/media:/data/paperless/media
   - /mnt/storage/syncthing/config:/data/syncthing/config
-  - "{{ docker_mounts_directory }}/wallos:/data/wallos"
   - "{{ docker_mounts_directory }}/s-pdf:/data/s-pdf"
   - "{{ docker_mounts_directory }}/unifi:/data/unifi"
 backups__volumes_local_only:
@@ -250,8 +249,6 @@ dashboard__shortcuts:
         url: https://pdf.snyssen.be
       - name: Recipes
         url: https://recipes.snyssen.be
-      - name: Wallos
-        url: https://wallos.snyssen.be
       - name: Rallly
         url: https://events.bigdouf.team
       - name: Actual
