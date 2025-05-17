@@ -17,7 +17,7 @@ services:
       timeout: 10s
 
   dawarich_db:
-    image: postgis/postgis:17-3.5-alpine
+    image: postgis/postgis:17-3.5-alpine@sha256:8762d7fe2bd852eaea3cbcf080f0db36f72e87d47cbc877d97722cc55d3c781f
     container_name: dawarich_db
     volumes:
       - "{{ docker_mounts_directory }}/dawarich/postgres:/var/lib/postgresql/data"
@@ -38,7 +38,7 @@ services:
 
   dawarich_backups:
     container_name: dawarich_db_dumper
-    image: prodrigestivill/postgres-backup-local:17
+    image: prodrigestivill/postgres-backup-local:17@sha256:483fa15ecd998302bd312fc380cb1b3683a940881d9099d6dfe65bcc1e2714e8
     user: "5050:{{ ansible_user_gid }}"
     environment:
       POSTGRES_HOST: dawarich_db
