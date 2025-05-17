@@ -71,10 +71,10 @@ services:
       POSTGRES_USER: immich
       POSTGRES_PASSWORD: "{{ immich__db_password }}"
       POSTGRES_DB: immich
-      POSTGRES_CLUSTER: "TRUE"
-      POSTGRES_EXTRA_OPTS: "--clean --if-exists"
+      POSTGRES_EXTRA_OPTS: "--format c" # So we can use pg_restore to restore the database
       TZ: "{{ iana_timezone }}"
       HEALTHCHECK_ID: "{{ immich__db_dump_hc_id }}"
+      SCHEDULE: 30 */4 * * *
     volumes:
       - /mnt/storage/backups/immich:/backups
       - ../databases/hooks:/hooks
