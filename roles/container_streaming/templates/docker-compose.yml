@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.05.05@sha256:623c47a0fc8121b6bac5baea6de779aa7dfa797707a339ad9f4aab2f9b2201f2
+    image: ghcr.io/jmbannon/ytdl-sub:2025.05.23@sha256:a16f21b48219e07e9c8217165768a1e4ec6454d2cc27c9c8ecfa469eab1dd776
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
@@ -248,7 +248,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.22@sha256:d85f6eefbf91bb2162d7ff9f239778e54258d2c3f2bf2adad6b4d9ed5b680b0c
+    image: thewicklowwolf/lidatube:0.2.23@sha256:b06252eb11469dd00cdc64d6c6ea38c087a618453b6afd787cbee14e176218ab
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
