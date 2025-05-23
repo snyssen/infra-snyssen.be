@@ -9,7 +9,7 @@
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v1.132.3@sha256:6680d88486251b0264a78a1934fe82eef875555aa6d84d703a0980328a5d5c31
+    image: ghcr.io/immich-app/immich-server:v1.133.0@sha256:4d667c5fd6ffac0395c429fc8a335c607272587643f29fb2ddd9bfe16f1f874e
     environment:
       DB_USERNAME: immich
       DB_PASSWORD: "{{ immich__db_password }}"
@@ -50,7 +50,7 @@ services:
 
   database:
     container_name: immich_postgres
-    image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0
     environment:
       POSTGRES_PASSWORD: "{{ immich__db_password }}"
       POSTGRES_USER: immich
