@@ -72,7 +72,7 @@ services:
     mem_limit: 2g
 
   grafana:
-    image: grafana/grafana-oss:11.6.2@sha256:a3464c5dadc2e16aaeb813aead8c852e81cc7bbfa851c66d96f016d5257b9848
+    image: grafana/grafana-oss:12.0.1@sha256:06dc8d60e184705e5dc00e051a6d92342a44010d7d5e538d0a36339e85abb9b7
     container_name: grafana
     restart: unless-stopped
     networks:
