@@ -50,7 +50,7 @@ services:
 
   database:
     container_name: immich_postgres
-    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0@sha256:34da466322609f184a4f870f704317f1fc1eb71be1f119437f02e5d29d47f346
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.2.0@sha256:32b87264132dd69f8d8ca0cc3479c4bb52109f33684c877c67437b9c63e49bc6
     environment:
       POSTGRES_PASSWORD: "{{ immich__db_password }}"
       POSTGRES_USER: immich
