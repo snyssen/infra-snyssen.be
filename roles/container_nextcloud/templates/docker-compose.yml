@@ -1,6 +1,6 @@
 services:
   nextcloud_redis:
-    image: redis:7.4.3@sha256:8bc666424ef252009ed34b0432564cabbd4094cd2ce7829306cb1f5ee69170be
+    image: redis:7.4.3@sha256:236e397c1d5ab7a94adaf1a51eec3ca8333b05fafcd6d423c6c7cc5987e519a0
     container_name: nextcloud_redis
     restart: unless-stopped
     networks:
