@@ -9,9 +9,9 @@ collections:
     source: https://galaxy.ansible.com
 
 roles:
-  - name: tomereli.oh_my_zsh_p10k
-    src: tomereli.oh_my_zsh_p10k
-    version: master
+  - name: snyssen.oh-my-zsh-p10k
+    src: snyssen.oh-my-zsh-p10k
+    version: v1.0.1
   - name: snyssen.compose_deploy
     src: snyssen.compose_deploy
     version: v2.0.3
