@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.23.3@sha256:532749cc71739130720c9d1cd8b8fbec204f6c8bd94fd633fccb4b566a672a55
+    image: lscr.io/linuxserver/radarr:5.24.1@sha256:d51c77a4e8fb4af0776ec032d103a84f816e65d09010fc72025ddd309d4c2424
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
@@ -188,7 +188,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:1.35.1@sha256:c63b71155541de52a9e60ba13fd10824a59f649812ca18701509b7b804a5253a
+    image: lscr.io/linuxserver/prowlarr:1.36.3@sha256:1a6cdd0cc2350f8527dab39bc8467c9a2553bbbcf75a2c66f882fc53d73d5deb
     container_name: prowlarr
     environment:
       - PUID={{ ansible_user_uid}}
