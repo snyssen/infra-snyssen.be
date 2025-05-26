@@ -72,7 +72,7 @@
 
 - name: Installing OhMyZsh with PowerLevel10K theme
   ansible.builtin.include_role:
-    name: tomereli.oh_my_zsh_p10k
+    name: snyssen.oh_my_zsh_p10k
   vars:
     users:
       - "{{ ansible_user_id }}"
