@@ -393,6 +393,15 @@ identity_providers:
       # Required Private Key in PEM DER form.
       - key: |
           {{ backbone__authelia__oidc_jwks_key | indent(10, false) }}
+    claims_policies:
+      semaphore_claims_policy:
+        id_token:
+          - groups
+          - email
+          - email_verified
+          - alt_emails
+          - preferred_username
+          - name
     authorization_policies:
       recipes_policy:
         default_policy: 'deny'
@@ -430,6 +439,12 @@ identity_providers:
           - policy: 'one_factor'
             subject:
               - ["group:photos_user"]
+      sysadmin_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'two_factor'
+            subject:
+              - ["group:sysadmin"]
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
@@ -560,3 +575,16 @@ identity_providers:
           - 'openid'
           - 'profile'
           - 'email'
+      - client_name: Semaphore
+        client_id: '{{ backbone__authelia__oidc_semaphore_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_semaphore_clientsecret_hash }}'
+        claims_policy: semaphore_claims_policy
+        public: false
+        authorization_policy: sysadmin_policy
+        redirect_uris:
+          - https://semaphore.{{ ansible_fqdn }}/api/auth/oidc/authelia/redirect
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none

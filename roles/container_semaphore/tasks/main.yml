@@ -1,0 +1,38 @@
+- name: Creating folders
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+    state: directory
+  loop:
+    - path: "/mnt/storage/semaphore/config"
+      owner: "1001"
+      group: "{{ ansible_user_gid }}"
+      mode: "700"
+
+- name: Deploy config files
+  become: true
+  ansible.builtin.template:
+    src: "config/{{ item }}"
+    dest: "/mnt/storage/semaphore/config/{{ item }}"
+    owner: "1001"
+    group: "{{ ansible_user_gid }}"
+    mode: "600"
+  loop:
+    - config.json
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: semaphore
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: Semaphore UI
+      url: "https://semaphore.{{ ansible_fqdn }}"

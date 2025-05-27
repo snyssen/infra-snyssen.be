@@ -1,0 +1,24 @@
+{
+    "postgres": {
+        "host": "postgres:5432",
+        "user": "semaphore",
+        "pass": "{{ semaphore__db_pass }}",
+        "name": "semaphore",
+        "options": {
+            "sslmode": "disable"
+        }
+    },
+    "dialect": "postgres",
+    "cookie_hash": "{{ semaphore__cookie_hash }}",
+    "cookie_encryption": "{{ semaphore__cookie_encryption }}",
+    "tmp_path": "/tmp/semaphore",
+    "oidc_providers": {
+        "authelia": {
+            "display_name": "Authelia",
+            "provider_url": "https://auth.{{ ansible_fqdn }}",
+            "client_id": "{{ backbone__authelia__oidc_semaphore_clientid }}",
+            "client_secret": "{{ backbone__authelia__oidc_semaphore_clientsecret }}",
+            "redirect_url": "https://semaphore.{{ ansible_fqdn }}/api/auth/oidc/authelia/redirect"
+        }
+    }
+}
