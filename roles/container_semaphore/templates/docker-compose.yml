@@ -14,6 +14,7 @@ services:
       SEMAPHORE_ADMIN: admin
       SEMAPHORE_ACCESS_KEY_ENCRYPTION: "{{ semaphore__encryption_key }}"
       TZ: "{{ iana_timezone }}"
+      SEMAPHORE_WEB_ROOT: "https://semaphore.{{ ansible_fqdn }}"
     volumes:
       - /mnt/storage/semaphore/config:/etc/semaphore
     networks:

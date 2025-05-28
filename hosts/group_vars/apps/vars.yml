@@ -353,6 +353,8 @@ dashboard__shortcuts:
             url: https://speedtest-tracker.snyssen.be
       - name: Tools
         children:
+          - name: Semaphore
+            url: https://semaphore.snyssen.be
           - name: LDAP
             url: https://ldap.snyssen.be
           - name: pgadmin
