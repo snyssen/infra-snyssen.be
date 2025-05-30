@@ -16,6 +16,7 @@ services:
       - SMTP_PWD={{ smtp__pass }}
 
       - OIDC_NAME=Authelia SSO
+      - OIDC_ISSUER_URL=https://auth.{{ team_domain}}
       - OIDC_DISCOVERY_URL=https://auth.{{ team_domain}}/.well-known/openid-configuration
       - OIDC_CLIENT_ID={{ backbone__authelia__oidc_rallly_clientid }}
       - OIDC_CLIENT_SECRET={{ backbone__authelia__oidc_rallly_clientsecret }}
