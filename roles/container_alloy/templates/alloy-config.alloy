@@ -1,0 +1,81 @@
+local.file_match "varlogs" {
+	path_targets = [{
+		__address__ = "localhost",
+		__path__    = "/var/log/**/*log",
+		host        = "{{ ansible_fqdn }}",
+		job         = "varlogs",
+	}]
+}
+
+loki.source.file "varlogs" {
+	targets               = local.file_match.varlogs.targets
+	forward_to            = [loki.write.default.receiver]
+	legacy_positions_file = "/tmp/positions.yaml"
+}
+
+local.file_match "containerlogs" {
+	path_targets = [{
+		__address__ = "localhost",
+		__path__    = "/var/lib/docker/containers/*/*log",
+		host        = "{{ ansible_fqdn }}",
+		job         = "containerlogs",
+	}]
+}
+
+loki.process "containerlogs" {
+	forward_to = [loki.write.default.receiver]
+
+	stage.json {
+		expressions = {
+			compose_project    = "attrs.\"com.docker.compose.project\"",
+			compose_service    = "attrs.\"com.docker.compose.service\"",
+			log                = "log",
+			stack_name         = "attrs.\"com.docker.stack.namespace\"",
+			stream             = "stream",
+			swarm_service_name = "attrs.\"com.docker.swarm.service.name\"",
+			swarm_task_name    = "attrs.\"com.docker.swarm.task.name\"",
+			tag                = "attrs.tag",
+			time               = "time",
+		}
+	}
+
+	stage.regex {
+		expression = "^/var/lib/docker/containers/(?P<container_id>.{12}).+/.+-json.log$"
+		source     = "filename"
+	}
+
+	stage.timestamp {
+		source = "time"
+		format = "RFC3339Nano"
+	}
+
+	stage.labels {
+		values = {
+			compose_project    = null,
+			compose_service    = null,
+			container_id       = null,
+			stack_name         = null,
+			stream             = null,
+			swarm_service_name = null,
+			swarm_task_name    = null,
+			tag                = null,
+		}
+	}
+
+	stage.output {
+		source = "log"
+	}
+}
+
+loki.source.file "containerlogs" {
+	targets               = local.file_match.containerlogs.targets
+	forward_to            = [loki.process.containerlogs.receiver]
+	legacy_positions_file = "/tmp/positions.yaml"
+}
+
+loki.write "default" {
+	endpoint {
+		url = "https://loki.snyssen.be/loki/api/v1/push"
+	}
+	external_labels = {}
+}

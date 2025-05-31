@@ -47,6 +47,7 @@ services:
       - /mnt/storage/paperless:/paperless
     mem_limit: 2g
 
+  # TODO merge with alloy
   nextcloud_promtail:
     image: grafana/promtail:3.5.1@sha256:65bfae480b572854180c78f7dc567a4ad2ba548b0c410e696baa1e0fa6381299
     container_name: nextcloud_promtail

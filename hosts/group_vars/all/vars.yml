@@ -4,7 +4,7 @@
 # Most of the files stored there will be databases__ As such they could significantly grow in size
 docker_mounts_directory: "{{ vault_docker_mounts_directory }}"
 docker_daemon_common_options:
-  # logging options so container logs can be retrieved and parsed by promtail and loki
+  # logging options so container logs can be retrieved and parsed by alloy and loki
   log-driver: json-file
   log-opts:
     labels-regex: ^.+

@@ -23,7 +23,7 @@
           "log.level": "info"
         prometheus_node_exporter_enabled_collectors:
           - systemd
-    - name: container_promtail
+    - name: container_alloy
     - name: container_cadvisor
   tasks:
     - name: Permitting traffic for Prometheus Node exporter
