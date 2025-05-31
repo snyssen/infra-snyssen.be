@@ -1,5 +1,10 @@
 # {{ ansible_managed }}
 version: 2
+
+global:
+  all:
+    json: true # Adds '--json' flag to all restic commands, so logs are in json format
+
 backends:
   {%- for backend in autorestic__backends +%}
   {{ backend.name }}:
@@ -35,7 +40,6 @@ locations:
     cron: 30 0 * * *
     hooks:
       before:
-        # - curl --retry 3 https://hc-ping.com/{{ location.healthcheck_id }}/start
         - echo "Starting backup"
 
         {%- if location.hooks is defined and location.hooks.before is defined +%}
