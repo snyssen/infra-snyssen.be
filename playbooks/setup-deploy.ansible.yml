@@ -37,7 +37,6 @@
   hosts: backup
   roles:
     - name: container_rest
-    - name: container_scrutiny
     - name: setup_wol
       become: true
   tasks:

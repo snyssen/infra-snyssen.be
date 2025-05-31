@@ -369,8 +369,6 @@ dashboard__shortcuts:
             url: https://monitor.snyssen.be
           - name: Uptime Kuma
             url: https://uptime.snyssen.be
-          - name: Scrutiny
-            url: https://scrutiny.snyssen.be
           - name: Prometheus
             url: https://prometheus.snyssen.be
           - name: Traefik
