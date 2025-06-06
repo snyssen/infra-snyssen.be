@@ -9,7 +9,7 @@
       become: true
       ansible.builtin.command: |-
         autorestic --ci exec
-        {% if backup_backend is defined %}-b {{ backup_backend }}{% else %}-a{% endif %}
+        {% if backup_backend %}-b {{ backup_backend }} {% else %}-a {% endif %}
         -- unlock
       register: returned_value
     - name: Showing stdoud
