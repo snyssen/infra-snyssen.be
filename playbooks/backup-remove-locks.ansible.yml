@@ -2,14 +2,14 @@
   hosts: apps
   vars_prompt:
     - name: backup_backend
-      prompt: Backup backend (leave empty for --all)
+      prompt: Backup backend (specify "all" for --all)
       private: false
   tasks:
     - name: Run snapshots command
       become: true
       ansible.builtin.command: |-
         autorestic --ci exec
-        {% if backup_backend %}-b {{ backup_backend }} {% else %}-a {% endif %}
+        {% if backup_backend != 'all' %}-b {{ backup_backend }} {% else %}-a {% endif %}
         -- unlock
       register: returned_value
     - name: Showing stdoud
