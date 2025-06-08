@@ -9,7 +9,7 @@
     - name: run autorestic backup
       become: true
       ansible.builtin.shell: |-
-        autorestic --ci backup {{ backup_locations_args if backup_locations_args is defined else '-a' }} 2>&1 | tee -a /var/log/autorestic.log
+        /root/scripts/autorestic_log_wrapper.sh autorestic --ci backup {{ backup_locations_args if backup_locations_args is defined else '-a' }}
       register: returned_value
     - name: Showing stdoud
       ansible.builtin.debug:

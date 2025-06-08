@@ -8,7 +8,7 @@
     - name: Run snapshots command
       become: true
       ansible.builtin.command: |-
-        autorestic --ci exec
+        /root/scripts/autorestic_log_wrapper.sh autorestic --ci exec
         {% if backup_backend != 'all' %}-b {{ backup_backend }} {% else %}-a {% endif %}
         -- unlock
       register: returned_value

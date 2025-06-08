@@ -26,6 +26,10 @@
     mode: "500"
   with_items:
     - wol.sh
+    - autorestic_log_wrapper.sh
+  vars:
+    autorestic_log_dir: /var/log/autorestic
+    autorestic_default_log_file: /var/log/autorestic.log
 
 - name: Create push monitors
   lucasheld.uptime_kuma.monitor:
@@ -55,7 +59,7 @@
     name: Autorestic
     minute: "*/30"
     user: root
-    job: autorestic --ci cron --lean >> /var/log/autorestic.log
+    job: /root/scripts/autorestic_log_wrapper.sh autorestic --ci cron --lean
     state: present
 - name: Add progress logging during backups
   become: true
@@ -72,7 +76,7 @@
     hour: "16"
     weekday: "1" # On mondays
     user: root
-    job: autorestic --ci check >> /var/log/autorestic.log
+    job: /root/scripts/autorestic_log_wrapper.sh autorestic --ci check
     state: present
 
 # This task assumes that logrotate is installed and running, which is not best practice...
@@ -81,7 +85,7 @@
   ansible.builtin.blockinfile:
     path: /etc/logrotate.d/autorestic
     block: |
-      /var/log/autorestic.log {
+      /var/log/autorestic.log /var/log/autorestic/*.log {
           weekly
           rotate 3
           size 10M
