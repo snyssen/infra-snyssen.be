@@ -96,6 +96,9 @@
 - ansible.builtin.include_role:
     name: container_semaphore
   when: "stacks_deploy_list is not defined or 'semaphore' in stacks_deploy_list"
+- ansible.builtin.include_role:
+    name: container_skyrim_together
+  when: "stacks_deploy_list is not defined or 'skyrim_together' in stacks_deploy_list"
 
 - ansible.builtin.include_role:
     name: container_restic

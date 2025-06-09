@@ -495,3 +495,6 @@ semaphore__admin_pass: "{{ vault_semaphore__admin_pass }}"
 semaphore__encryption_key: "{{ vault_semaphore__encryption_key }}"
 semaphore__cookie_hash: "{{ vault_semaphore__cookie_hash }}"
 semaphore__cookie_encryption: "{{ vault_semaphore__cookie_encryption }}"
+
+skyrim_together__password: "{{ vault_skyrim_together__password }}"
+skyrim_together__admin_password: "{{ vault_skyrim_together__admin_password }}"

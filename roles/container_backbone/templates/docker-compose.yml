@@ -39,6 +39,7 @@ services:
       - "--entryPoints.syncthing.address=:22000"
       - "--entryPoints.syncthing-udp.address=:22000/udp"
       - "--entryPoints.syncthing-discovery.address=:21027/udp"
+      - "--entryPoints.skyrim_together.address=:10578/udp"
 
       - "--certificatesResolvers.le.acme.email={{ smtp__to }}"
       - "--certificatesResolvers.le.acme.storage=/certs/acme.json"
@@ -69,6 +70,7 @@ services:
       - 22000:22000/tcp # syncthing (TCP)
       - 22000:22000/udp # syncthing (UDP)
       - 21027:21027/udp # syncthing discovery
+      - 10578:10578/udp # Skyrim Together Reborn server
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock

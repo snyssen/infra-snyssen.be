@@ -1,0 +1,19 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+  loop:
+    - path: /mnt/storage/skyrim_together/config
+    - path: /mnt/storage/skyrim_together/logs
+    - path: /mnt/storage/skyrim_together/Data
+
+- name: Deploy Skyrim Together server config
+  ansible.builtin.template:
+    src: STServer.ini
+    dest: /mnt/storage/skyrim_together/config/STServer.ini
+    mode: "600"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: "skyrim_together"
