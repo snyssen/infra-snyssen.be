@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.24.0@sha256:4e3ea23c551706c6d7934e2b48e9c4015a60ef5d70f965d3f4e5b68d59ef6c95
+    image: ghcr.io/advplyr/audiobookshelf:2.25.1@sha256:5154518d8215f8e795fde1c1561080b450af8a6bc0c0bd60c2a920084bf930d6
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -125,7 +125,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.25.0@sha256:36e43720c130ec2d3ed80726d2134af3c6644729f4750abc830fdda7fa71d1e1
+    image: lscr.io/linuxserver/radarr:5.26.2@sha256:07a474b61394553e047ad43a1a78c1047fc99be0144c509dd91e3877f402ebcb
     container_name: radarr
     environment:
       - PUID={{ ansible_user_uid }}
