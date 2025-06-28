@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "prConcurrentLimit": 0,
+  "extends": [
+    "config:best-practices",
+    "group:allNonMajor",
+    ":semanticCommits",
+    ":pinVersions",
+    ":automergeDigest",
+    ":automergeBranch"
+  ],
+  "packageRules": [
+    // Ignore CalVer
+    {
+      "matchPackageNames": "lscr.io/linuxserver/transmission",
+      "allowedVersions": "!/^\\d{4}\\.\\d{2}\\.\\d{2}/"
+    },
+    // Ignore test versioning I guess?
+    {
+      "matchPackageNames": "qmcgaw/gluetun",
+      "allowedVersions": "!/1234/"
+    }
+  ]
+}
