@@ -18,7 +18,7 @@
     // Ignore test versioning I guess?
     {
       "matchPackageNames": "qmcgaw/gluetun",
-      "allowedVersions": "!/v1234/"
+      "allowedVersions": "!/^v?1234/"
     }
   ]
 }
