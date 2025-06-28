@@ -32,8 +32,6 @@
     - "{{ docker_mounts_directory }}/radarr/config"
     # lidarr
     - "{{ docker_mounts_directory }}/lidarr/config"
-    # readarr
-    - "{{ docker_mounts_directory }}/readarr/config"
     # prowlarr
     - "{{ docker_mounts_directory }}/prowlarr/config"
     # bazarr

@@ -253,7 +253,6 @@ access_control:
         - "sonarr.{{ ansible_fqdn }}"
         - "radarr.{{ ansible_fqdn }}"
         - "lidarr.{{ ansible_fqdn }}"
-        - "readarr.{{ ansible_fqdn }}"
         - "prowlarr.{{ ansible_fqdn }}"
         - "bazarr.{{ ansible_fqdn }}"
         - "lidatube.{{ ansible_fqdn }}"

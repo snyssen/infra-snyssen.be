@@ -321,11 +321,6 @@ lan: "LAN" {
           **Exposed by traefik**\
           **Protected by authelia**\
         |
-        readarr: |md
-          ### Readarr
-          **Exposed by traefik**\
-          **Protected by authelia**\
-        |
         prowlarr: |md
           ### Prowlarr
           **Exposed by traefik**\
@@ -353,15 +348,12 @@ lan: "LAN" {
         prowlarr -> sonarr: { class: conn_to }
         prowlarr -> radarr: { class: conn_to }
         prowlarr -> lidarr: { class: conn_to }
-        prowlarr -> readarr: { class: conn_to }
         torrent <- sonarr: { class: conn_to }
         torrent <- radarr: { class: conn_to }
         torrent <- lidarr: { class: conn_to }
-        torrent <- readarr: { class: conn_to }
         usenet <- sonarr: { class: conn_to }
         usenet <- radarr: { class: conn_to }
         usenet <- lidarr: { class: conn_to }
-        usenet <- readarr: { class: conn_to }
         lidarr <- lidatube: { class: conn_to }
         lidarr <- lidify: { class: conn_to }
         bazarr -> sonarr: { class: conn_to }
