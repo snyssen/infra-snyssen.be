@@ -9,7 +9,7 @@
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:v1.134.0@sha256:073fc04c7e3d18ace466c20763809cf17aa55765ed610f12971b392a6a80b50c
+    image: ghcr.io/immich-app/immich-server:v1.135.3@sha256:df5bbf4e29eff4688063a005708f8b96f13073200b4a7378f7661568459b31e9
     environment:
       DB_USERNAME: immich
       DB_PASSWORD: "{{ immich__db_password }}"
@@ -34,7 +34,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v1.134.0@sha256:e157e0fa0d4363b0b6bab1923adab5951bbcdb71cd9016470bc6810dae21d115
+    image: ghcr.io/immich-app/immich-machine-learning:v1.135.3@sha256:9f2f61d86af82d04926f9b896c995c502303052905517c5485dd26bf1e42a44e
     volumes:
       - model-cache:/cache
     networks:
@@ -50,7 +50,7 @@ services:
 
   database:
     container_name: immich_postgres
-    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.2.0@sha256:047b75f66d38085b1d784798d80fa3f1c4d4048e53e3c30506c080bd12f82bb3
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0@sha256:ea033f9d15afb2e85450d81f73ba7cdcb7b3f60a32c4ed561ef1e161fe4a99de
     environment:
       POSTGRES_PASSWORD: "{{ immich__db_password }}"
       POSTGRES_USER: immich
