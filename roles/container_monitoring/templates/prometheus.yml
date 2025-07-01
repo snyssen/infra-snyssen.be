@@ -57,6 +57,13 @@ scrape_configs:
   - job_name: crowdsec
     static_configs:
       - targets: ['crowdsec:6060']
+  - job_name: "hass"
+    metrics_path: /api/prometheus
+    authorization:
+      credentials: "{{ hass__prometheus_token }}"
+    scheme: http
+    static_configs:
+      - targets: ['homeassistant.lan:8123']
 
 rule_files:
   - node_rules.yml
