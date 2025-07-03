@@ -2,7 +2,7 @@ services:
   # See documentation at:
   # https://docker-minecraft-server.readthedocs.io/en/latest/
   minecraft:
-    image: itzg/minecraft-server:2025.6.1@sha256:554788c8d3599727c717e62d0a10532354132f99ad8c6af7e98451ceba3ff2f9
+    image: itzg/minecraft-server:2025.6.2@sha256:262e2309f7cc6b2ff0ac1458ac52c91e9bc778989543feec6588501f6dad31ef
     container_name: minecraft
     networks:
       - internal
@@ -54,7 +54,7 @@ services:
     mem_limit: 8.2g
 
   mc-usw:
-    image: itzg/minecraft-server:2025.6.1@sha256:554788c8d3599727c717e62d0a10532354132f99ad8c6af7e98451ceba3ff2f9
+    image: itzg/minecraft-server:2025.6.2@sha256:262e2309f7cc6b2ff0ac1458ac52c91e9bc778989543feec6588501f6dad31ef
     container_name: mc-usw
     networks:
       - internal
@@ -96,7 +96,7 @@ services:
     mem_limit: 8.2g
 
   mc-router:
-    image: itzg/mc-router:1.32.0@sha256:907de8ad0b36e3eb4293aea918c518617e286028162adde100132d222968c723
+    image: itzg/mc-router:1.32.1@sha256:a8ecab0da82c2410cc3f5321092ce8f8b2e617a3059d1a505247ef4fc39b36a4
     container_name: mc-router
     depends_on:
       - minecraft
