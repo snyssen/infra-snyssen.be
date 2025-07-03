@@ -96,7 +96,7 @@ services:
       TIME_ZONE: "{{ iana_timezone }}"
       APPLICATION_PROTOCOL: http
       DISTANCE_UNIT: km
-      PROMETHEUS_EXPORTER_ENABLED: false
+      PROMETHEUS_EXPORTER_ENABLED: "false"
       PROMETHEUS_EXPORTER_HOST: 0.0.0.0
       PROMETHEUS_EXPORTER_PORT: 9394
       SELF_HOSTED: "true"
