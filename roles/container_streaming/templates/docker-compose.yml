@@ -91,7 +91,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.5.1@sha256:ff713ec0a51f8831f3d95c4e2298763a699e26dc3b4806876d886969f08a46a8
+    image: lscr.io/linuxserver/sabnzbd:4.5.2@sha256:88d9dcb1eb1615b3980d37824b5e40a7df60af49a268d97aeccbe5f7107edf92
     container_name: usenet
     network_mode: container:vpn
     environment:
@@ -208,7 +208,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.07.02@sha256:9d9c50f5f7f37f072806724b22494b91f516bedab0dbc654706f0b4eda9ab81e
+    image: ghcr.io/jmbannon/ytdl-sub:2025.07.04@sha256:ea5e348416fad9a3340a5dd1eab559bf3653d913eb0016d1782a05b9730c7c1e
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}
