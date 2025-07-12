@@ -88,6 +88,9 @@ backbone__authelia__oidc_rallly_clientsecret_hash: "{{ vault_backbone__authelia_
 backbone__authelia__oidc_semaphore_clientid: "{{ vault_backbone__authelia__oidc_semaphore_clientid }}"
 backbone__authelia__oidc_semaphore_clientsecret: "{{ vault_backbone__authelia__oidc_semaphore_clientsecret }}"
 backbone__authelia__oidc_semaphore_clientsecret_hash: "{{ vault_backbone__authelia__oidc_semaphore_clientsecret_hash }}"
+backbone__authelia__oidc_tailscale_clientid: "{{ vault_backbone__authelia__oidc_tailscale_clientid }}"
+backbone__authelia__oidc_tailscale_clientsecret: "{{ vault_backbone__authelia__oidc_tailscale_clientsecret }}"
+backbone__authelia__oidc_tailscale_clientsecret_hash: "{{ vault_backbone__authelia__oidc_tailscale_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
