@@ -8,7 +8,7 @@ services:
     mem_limit: 32m
 
   nextcloud:
-    image: nextcloud:31.0.6@sha256:0b133af69ef9fae8946205bfea06fb5cd5279f025c4d03d11f954db386b50bf9
+    image: nextcloud:31.0.7@sha256:40d3c4f6eea3b1e0bfdfd1c4f3cf9bbe2e29fcf87cf9c61fc198eb68a6ac8952
     container_name: nextcloud
     restart: unless-stopped
     networks:
@@ -49,7 +49,7 @@ services:
 
   # TODO merge with alloy
   nextcloud_promtail:
-    image: grafana/promtail:3.5.1@sha256:65bfae480b572854180c78f7dc567a4ad2ba548b0c410e696baa1e0fa6381299
+    image: grafana/promtail:3.5.2@sha256:15dcebad41596201c6e6df8cbf9d48daa1d2e9f2752ecde5d6a53cab32c982bf
     container_name: nextcloud_promtail
     restart: unless-stopped
     volumes:
