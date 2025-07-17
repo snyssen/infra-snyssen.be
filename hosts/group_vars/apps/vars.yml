@@ -329,6 +329,8 @@ dashboard__shortcuts:
   - name: Infrastructure
     icon_classes: las la-server
     children:
+      - name: Home Assistant
+        url: https://hass.snyssen.be
       - name: DNS management
         children:
           - name: DDNS updater
