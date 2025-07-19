@@ -177,7 +177,7 @@ services:
       - UPDATE_INTERVAL=720h
     volumes:
       # WARNING: Volume below requires large storage, around 200GB and growing 10-20GB/year
-      - /mnt/storage/dawarich/photon:/photon/photon_data
+      - "{{ docker_mounts_directory }}/dawarich/photon:/photon/photon_data"
     restart: unless-stopped
     networks:
       - internal

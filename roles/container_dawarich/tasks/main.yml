@@ -9,7 +9,7 @@
     - path: /mnt/storage/dawarich/watched
     - path: /mnt/storage/dawarich/storage
     - path: /mnt/storage/backups/dawarich
-    - path: /mnt/storage/dawarich/photon
+    - path: "{{ docker_mounts_directory }}/dawarich/photon"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
