@@ -100,6 +100,8 @@ services:
       PROMETHEUS_EXPORTER_HOST: 0.0.0.0
       PROMETHEUS_EXPORTER_PORT: 9394
       SELF_HOSTED: "true"
+      PHOTON_API_HOST: "photon:2322"
+      PHOTON_API_USE_HTTPS: "false"
     healthcheck:
       test:
         [
@@ -147,6 +149,8 @@ services:
       PROMETHEUS_EXPORTER_HOST: 0.0.0.0
       PROMETHEUS_EXPORTER_PORT: 9394
       SELF_HOSTED: "true"
+      PHOTON_API_HOST: "photon:2322"
+      PHOTON_API_USE_HTTPS: "false"
     healthcheck:
       test:
         ["CMD-SHELL", "bundle exec sidekiqmon processes | grep $${HOSTNAME}"]
@@ -164,6 +168,19 @@ services:
       dawarich_app:
         condition: service_healthy
         restart: true
+
+  photon:
+    image: rtuszik/photon-docker:0.7.2
+    container_name: photon
+    environment:
+      - UPDATE_STRATEGY=PARALLEL
+      - UPDATE_INTERVAL=720h
+    volumes:
+      # WARNING: Volume below requires large storage, around 200GB and growing 10-20GB/year
+      - /mnt/storage/dawarich/photon:/photon/photon_data
+    restart: unless-stopped
+    networks:
+      - internal
 
 networks:
   web:
