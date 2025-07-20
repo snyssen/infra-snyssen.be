@@ -84,7 +84,7 @@ services:
     entrypoint: web-entrypoint.sh
     command: ["bin/rails", "server", "-p", "3000", "-b", "::"]
     restart: unless-stopped
-    environment:
+    environment: &dawarich_app_env
       RAILS_ENV: development
       REDIS_URL: redis://dawarich_redis:6379
       DATABASE_HOST: dawarich_db
@@ -102,6 +102,7 @@ services:
       SELF_HOSTED: "true"
       PHOTON_API_HOST: "photon:2322"
       PHOTON_API_USE_HTTPS: "false"
+      STORE_GEODATA: "true"
     healthcheck:
       test:
         [
@@ -133,24 +134,7 @@ services:
     entrypoint: sidekiq-entrypoint.sh
     command: ["sidekiq"]
     restart: unless-stopped
-    environment:
-      RAILS_ENV: development
-      REDIS_URL: redis://dawarich_redis:6379
-      DATABASE_HOST: dawarich_db
-      DATABASE_USERNAME: dawarich
-      DATABASE_PASSWORD: "{{ dawarich__db_pass }}"
-      DATABASE_NAME: dawarich
-      MIN_MINUTES_SPENT_IN_CITY: 60
-      APPLICATION_HOSTS: "location.{{ ansible_fqdn }}"
-      TIME_ZONE: "{{ iana_timezone }}"
-      APPLICATION_PROTOCOL: http
-      DISTANCE_UNIT: km
-      PROMETHEUS_EXPORTER_ENABLED: false
-      PROMETHEUS_EXPORTER_HOST: 0.0.0.0
-      PROMETHEUS_EXPORTER_PORT: 9394
-      SELF_HOSTED: "true"
-      PHOTON_API_HOST: "photon:2322"
-      PHOTON_API_USE_HTTPS: "false"
+    environment: *dawarich_app_env
     healthcheck:
       test:
         ["CMD-SHELL", "bundle exec sidekiqmon processes | grep $${HOSTNAME}"]
