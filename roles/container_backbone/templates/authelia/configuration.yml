@@ -555,20 +555,6 @@ identity_providers:
           - 'email'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: client_secret_post
-      - client_name: 'team_wordpress'
-        client_id: '{{ backbone__authelia__oidc_team_wordpress_clientid }}'
-        client_secret: '{{ backbone__authelia__oidc_team_wordpress_clientsecret_hash }}'
-        authorization_policy: 'team_wiki_policy'
-        redirect_uris:
-          - https://shop.{{ team_domain }}/wp-admin/admin-ajax.php?action=openid-connect-authorize
-        scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-          - 'email'
-          - 'offline_access'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: client_secret_post
       - client_name: 'rallly'
         client_id: '{{ backbone__authelia__oidc_rallly_clientid }}'
         client_secret: '{{ backbone__authelia__oidc_rallly_clientsecret_hash }}'

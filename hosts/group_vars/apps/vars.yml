@@ -79,9 +79,6 @@ backbone__authelia__oidc_immich_clientsecret_hash: "{{ vault_backbone__authelia_
 backbone__authelia__oidc_team_wiki_clientid: "{{ vault_backbone__authelia__oidc_team_wiki_clientid }}"
 backbone__authelia__oidc_team_wiki_clientsecret: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret }}"
 backbone__authelia__oidc_team_wiki_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wiki_clientsecret_hash }}"
-backbone__authelia__oidc_team_wordpress_clientid: "{{ vault_backbone__authelia__oidc_team_wordpress_clientid }}"
-backbone__authelia__oidc_team_wordpress_clientsecret: "{{ vault_backbone__authelia__oidc_team_wordpress_clientsecret }}"
-backbone__authelia__oidc_team_wordpress_clientsecret_hash: "{{ vault_backbone__authelia__oidc_team_wordpress_clientsecret_hash }}"
 backbone__authelia__oidc_rallly_clientid: "{{ vault_backbone__authelia__oidc_rallly_clientid }}"
 backbone__authelia__oidc_rallly_clientsecret: "{{ vault_backbone__authelia__oidc_rallly_clientsecret }}"
 backbone__authelia__oidc_rallly_clientsecret_hash: "{{ vault_backbone__authelia__oidc_rallly_clientsecret_hash }}"
@@ -478,7 +475,6 @@ quartz__vaults:
           - ["group:me-eet_gm"]
 
 team_wiki__db_pass: "{{ vault_team_wiki__db_pass }}"
-team_wordpress__db_pass: "{{ vault_team_wordpress__db_pass }}"
 
 rallly__db_pass: "{{ vault_rallly__db_pass }}"
 rallly__secret: "{{ vault_rallly__secret }}"
