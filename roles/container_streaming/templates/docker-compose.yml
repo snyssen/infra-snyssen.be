@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.26.1@sha256:5901162ccdf4b44f563ff2012484d5e315d9a1ecd6af86f7fe605ec96bbc5039
+    image: ghcr.io/advplyr/audiobookshelf:2.26.2@sha256:80f0005eeecb952605aa9674bc39a77849614b5ca461d06229ceec7642f96cdb
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -227,7 +227,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.29@sha256:823d30a0866cd1c173c787cbde895d1253d90708abf4a39dcfc4a956ea2e4c51
+    image: thewicklowwolf/lidatube:0.2.30@sha256:ecb0e953b9ba4259793d441b18fd0278aa82d14e65d58ab28fa5eeeef9668fdf
     container_name: lidatube
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
