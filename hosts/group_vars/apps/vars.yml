@@ -89,6 +89,8 @@ backbone__authelia__oidc_tailscale_clientid: "{{ vault_backbone__authelia__oidc_
 backbone__authelia__oidc_tailscale_clientsecret: "{{ vault_backbone__authelia__oidc_tailscale_clientsecret }}"
 backbone__authelia__oidc_tailscale_clientsecret_hash: "{{ vault_backbone__authelia__oidc_tailscale_clientsecret_hash }}"
 backbone__authelia__oidc_hass_clientid: "{{ vault_backbone__authelia__oidc_hass_clientid }}"
+backbone__authelia__oidc_hass_clientsecret: "{{ vault_backbone__authelia__oidc_hass_clientsecret }}"
+backbone__authelia__oidc_hass_clientsecret_hash: "{{ vault_backbone__authelia__oidc_hass_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
@@ -328,7 +330,7 @@ dashboard__shortcuts:
     icon_classes: las la-server
     children:
       - name: Home Assistant
-        url: https://hass.snyssen.be
+        url: https://hass.snyssen.be/auth/oidc/welcome
       - name: DNS management
         children:
           - name: DDNS updater

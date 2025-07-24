@@ -600,7 +600,8 @@ identity_providers:
         token_endpoint_auth_method: 'client_secret_basic'
       - client_name: 'Home Assistant'
         client_id: '{{ backbone__authelia__oidc_hass_clientid }}'
-        public: true
+        client_secret: '{{ backbone__authelia__oidc_hass_clientsecret_hash }}'
+        public: false
         require_pkce: true
         pkce_challenge_method: 'S256'
         authorization_policy: 'hass_policy'
@@ -610,4 +611,10 @@ identity_providers:
           - 'openid'
           - 'profile'
           - 'groups'
-        userinfo_signed_response_alg: 'RS256'
+        response_types:
+          - 'code'
+        grant_types:
+          - 'authorization_code'
+        access_token_signed_response_alg: 'none'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
