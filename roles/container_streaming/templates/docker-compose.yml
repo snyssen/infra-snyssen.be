@@ -58,7 +58,7 @@ services:
     mem_limit: 2.5g
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.26.2@sha256:80f0005eeecb952605aa9674bc39a77849614b5ca461d06229ceec7642f96cdb
+    image: ghcr.io/advplyr/audiobookshelf:2.26.3@sha256:fe2ec344b4881ee0fad5c1605e7069c993c218c103e8a57e467e381ee9eebcfb
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
@@ -208,7 +208,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.07.04@sha256:ea5e348416fad9a3340a5dd1eab559bf3653d913eb0016d1782a05b9730c7c1e
+    image: ghcr.io/jmbannon/ytdl-sub:2025.07.24@sha256:4a318c08cb98e8bc1e9a1e9890674d12b0e88fefa9435108bb634d19d9014219
     container_name: ytdl-sub
     environment:
       - PUID={{ ansible_user_uid}}

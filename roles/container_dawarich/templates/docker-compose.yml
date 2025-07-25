@@ -59,7 +59,7 @@ services:
     restart: unless-stopped
 
   dawarich_app:
-    image: freikin/dawarich:0.30.2@sha256:2a01027d27e944918a3dcc3fda195deaa6b90293b18b82af28bbb30f7e3bc35d
+    image: freikin/dawarich:0.30.3@sha256:80cc95f09e1ee323d848be159f82b8ad083228dd4224b18be883e0f5093c4122
     container_name: dawarich_app
     volumes:
       - /mnt/storage/dawarich/public:/var/app/public
@@ -121,7 +121,7 @@ services:
         condition: service_healthy
         restart: true
   dawarich_sidekiq:
-    image: freikin/dawarich:0.30.2@sha256:2a01027d27e944918a3dcc3fda195deaa6b90293b18b82af28bbb30f7e3bc35d
+    image: freikin/dawarich:0.30.3@sha256:80cc95f09e1ee323d848be159f82b8ad083228dd4224b18be883e0f5093c4122
     container_name: dawarich_sidekiq
     volumes:
       - /mnt/storage/dawarich/public:/var/app/public
