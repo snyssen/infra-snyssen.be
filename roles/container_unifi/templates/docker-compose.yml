@@ -1,6 +1,6 @@
 services:
   unifi-network-application:
-    image: lscr.io/linuxserver/unifi-network-application:9.2.87@sha256:75b952fe876559592be4c1de1a733397cb57208ec26ba617fe9bf89849d61ea0
+    image: lscr.io/linuxserver/unifi-network-application:9.2.87@sha256:0a757b41978541ff9274a311b71437b9c65009f1887d53608011dd3f9a60f02a
     container_name: unifi-network-application
     environment:
       - PUID=1000
