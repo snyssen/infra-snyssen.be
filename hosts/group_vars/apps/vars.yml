@@ -420,6 +420,8 @@ monitoring__uptime_monitors:
     url: http://backup.snyssen.be:8000/metrics
   - name: local DNS
     url: http://192.168.1.2/
+  - name: home assisstant
+    url: https://hass.snyssen.be
 monitoring__umami_db_pass: "{{ vault_monitoring__umami_db_pass }}"
 monitoring__umami_app_secret: "{{ vault_monitoring__umami_app_secret }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"
