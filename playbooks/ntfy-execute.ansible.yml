@@ -1,0 +1,16 @@
+- hosts: apps
+  vars_prompt:
+    - name: cmd
+      prompt: |-
+        Command to execute through ntfy
+      private: no
+  tasks:
+    - name: "Executing: ntfy {{ cmd }}"
+      community.docker.docker_container_exec:
+        container: ntfy
+        command: "ntfy {{ cmd }}"
+      register: returned_value
+
+    - name: Showing stdoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines

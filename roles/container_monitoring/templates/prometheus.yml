@@ -57,6 +57,9 @@ scrape_configs:
   - job_name: crowdsec
     static_configs:
       - targets: ['crowdsec:6060']
+  - job_name: ntfy
+    static_configs:
+      - targets: ['ntfy:9090']
   - job_name: "hass"
     metrics_path: /api/prometheus
     authorization:

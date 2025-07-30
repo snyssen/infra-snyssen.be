@@ -1,0 +1,21 @@
+- name: Creating folders
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+  loop:
+    - path: "{{ docker_mounts_directory }}/ntfy/cache"
+    - path: "{{ docker_mounts_directory }}/ntfy/auth"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: "ntfy"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: ntfy
+      url: "https://ntfy.{{ ansible_fqdn }}"
