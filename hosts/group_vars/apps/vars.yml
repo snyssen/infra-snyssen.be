@@ -31,6 +31,22 @@ snapraid_config_excludes:
   - /syncthing/config/*.db/
   - /sharkey/files/
 
+ntfy__users:
+  - name: admin
+    password: "{{ vault_ntfy__users__admin_password }}"
+    password_hash: "{{ vault_ntfy__users__admin_password_hash }}"
+    role: admin
+  - name: test
+    passord: test
+    password_hash: $2a$12$kvpVsHCNeq7y5lqiknHlsO7bpmQEFFhupcdCm27eIbCKpmJF3bgU.
+    role: user
+    topics:
+      - pattern: test
+        permission: rw
+      - pattern: up*
+        permission: ro
+    token: tk_3gd7d2yftt4b8ixyfe9mnmro88o76
+
 backbone__acme_ca_server: "{{ vault_backbone__acme_ca_server }}"
 backbone__acme_dns_challenge__enabled: "{{ vault_backbone__acme_dns_challenge__enabled }}"
 backbone__acme_dns_challenge__provider: "{{ vault_backbone__acme_dns_challenge__provider }}"

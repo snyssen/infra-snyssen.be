@@ -6,6 +6,32 @@
     - path: "{{ docker_mounts_directory }}/ntfy/cache"
     - path: "{{ docker_mounts_directory }}/ntfy/auth"
 
+- ansible.builtin.set_fact:
+    ntfy__users_entries: |-
+      [
+        {% for usr in ntfy__users %}
+        "{{ usr.name }}:{{ usr.password_hash }}:{{ usr.role | default('user') }}",
+        {% endfor %}
+      ]
+    ntfy__topics_entries: |-
+      [
+        {% for usr in ntfy__users %}
+        {% if usr.topics is defined %}
+        {% for topic in usr.topics %}
+        "{{ usr.name  }}:{{ topic.pattern }}:{{ topic.permission }}",
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+      ]
+    ntfy__tokens_entries: |-
+      [
+        {% for usr in ntfy__users %}
+        {% if usr.token is defined and usr.token.startswith('tk_') %}
+        "{{ usr.name }}:{{ usr.token }}",
+        {% endif %}
+        {% endfor %}
+      ]
+
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:

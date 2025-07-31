@@ -15,6 +15,9 @@ services:
       NTFY_AUTH_FILE: /ntfy/auth/auth.db
       NTFY_ENABLE_LOGIN: true
       NTFY_AUTH_DEFAULT_ACCESS: deny-all
+      NTFY_AUTH_USERS: "{{ ntfy__users_entries | join(',') | replace('$', '$$') }}"
+      NTFY_AUTH_ACCESS: "{{ ntfy__topics_entries | join(',') | replace('$', '$$') }}"
+      NTFY_AUTH_TOKENS: "{{ ntfy__tokens_entries | join(',') | replace('$', '$$') }}"
       NTFY_METRICS_LISTEN_HTTP: ":9090"
     volumes:
       - "{{ docker_mounts_directory }}/ntfy/cache:/var/cache/ntfy"
