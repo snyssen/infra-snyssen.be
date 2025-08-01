@@ -13,8 +13,10 @@
         "{{ usr.name }}:{{ usr.password_hash }}:{{ usr.role | default('user') }}",
         {% endfor %}
       ]
+    # First topic permission is hardcoded to allow unified push
     ntfy__topics_entries: |-
       [
+        "*:up*:wo",
         {% for usr in ntfy__users %}
         {% if usr.topics is defined %}
         {% for topic in usr.topics %}
