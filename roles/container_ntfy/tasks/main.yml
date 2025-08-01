@@ -5,6 +5,7 @@
   loop:
     - path: "{{ docker_mounts_directory }}/ntfy/cache"
     - path: "{{ docker_mounts_directory }}/ntfy/auth"
+    - path: "{{ docker_mounts_directory }}/ntfy/mollysocket"
 
 - ansible.builtin.set_fact:
     ntfy__users_entries: |-
