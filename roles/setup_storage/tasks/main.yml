@@ -1,4 +1,5 @@
-- ansible.builtin.include_tasks: "mergerfs_{{ ansible_distribution_file_variety | lower }}.ansible.yaml"
+- name: Setup mergerfs
+  ansible.builtin.include_tasks: "mergerfs_{{ ansible_distribution_file_variety | lower }}.ansible.yaml"
 
 - name: Creating ext4 filesystem on drives
   become: true
