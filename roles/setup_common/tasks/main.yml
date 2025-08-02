@@ -67,6 +67,18 @@
     - name: crowdsec
       state: started
 
+- name: Install and setup tailscale
+  ansible.builtin.include_role:
+    name: artis3n.tailscale.machine
+  vars:
+    verbose: true
+    tailscale_authkey: "{{ tailscale__auth_key }}"
+    tailscale_tags:
+      - server
+    tailscale_oauth_ephemeral: false
+    tailscale_oauth_preauthorized: false
+    tailscale_args: "--ssh"
+
 - name: Install and setup sync-ssh-keys
   ansible.builtin.include_tasks: sync_ssh_keys.yml
 

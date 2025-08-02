@@ -7,6 +7,8 @@ collections:
     source: https://galaxy.ansible.com
   - name: lucasheld.uptime_kuma
     source: https://galaxy.ansible.com
+  - name: artis3n.tailscale
+    source: https://galaxy.ansible.com
 
 roles:
   - name: snyssen.oh-my-zsh-p10k
