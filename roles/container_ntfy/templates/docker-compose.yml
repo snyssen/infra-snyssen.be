@@ -1,6 +1,6 @@
 services:
   ntfy:
-    image: binwiederhier/ntfy:v2.13.0@sha256:7b6d19000f112300f33a56c77e22735452d9ed2f3faa4fbb8e3d0a9a639fa5e6
+    image: binwiederhier/ntfy:v2.13.0@sha256:cd107fa9ecca863b99e5cdd335bf27b0584cc54d170f1d0939253f314e0fdd4d
     container_name: ntfy
     restart: unless-stopped
     command:
