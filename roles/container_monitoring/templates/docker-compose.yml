@@ -67,7 +67,7 @@ services:
 
   grafana-to-ntfy:
     container_name: grafana-to-ntfy
-    image: kittyandrew/grafana-to-ntfy
+    image: kittyandrew/grafana-to-ntfy@sha256:de3b1b462015ab8bb9d2632531506a702eac7628bd02b167f0ba8b0c4a426080
     restart: unless-stopped
     environment:
       - NTFY_URL=https://ntfy.{{ ansible_fqdn }}/{{ ntfy__topics__monitoring }}
