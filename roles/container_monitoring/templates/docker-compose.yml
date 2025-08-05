@@ -65,6 +65,20 @@ services:
       - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT=true
     mem_limit: 256m
 
+  grafana-to-ntfy:
+    container_name: grafana-to-ntfy
+    image: kittyandrew/grafana-to-ntfy
+    restart: unless-stopped
+    environment:
+      - NTFY_URL=https://ntfy.{{ ansible_fqdn }}/{{ ntfy__topics__monitoring }}
+      - NTFY_BAUTH_USER=monitoring
+      - NTFY_BAUTH_PASS={{ vault_ntfy__users__monitoring_password | replace('$', '$$') }}
+      - BAUTH_USER=monitoring
+      - BAUTH_PASS={{ vault_ntfy__users__monitoring_password | replace('$', '$$') }}
+      - MARKDOWN=true               # optional, boolean (enable Markdown formatting)
+    networks:
+      - monitoring
+
   loki:
     image: grafana/loki:3.5.3@sha256:3165cecce301ce5b9b6e3530284b080934a05cd5cafac3d3d82edcb887b45ecd
     container_name: loki
@@ -150,7 +164,6 @@ services:
     mem_limit: 52m
 
 networks:
-  internal:
   monitoring:
     external: true
   web:

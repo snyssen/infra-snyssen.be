@@ -31,24 +31,27 @@ snapraid_config_excludes:
   - /syncthing/config/*.db/
   - /sharkey/files/
 
+ntfy__anonymous_topics:
+  # Necessary for UnifiedPush
+  - pattern: up*
+    permission: wo
 ntfy__users:
-  - name: snyssen-up
-    password: "{{ vault_ntfy__users__snyssen_up_password }}"
-    password_hash: "{{ vault_ntfy__users__snyssen_up_password_hash }}"
+  - name: snyssen
+    password: "{{ vault_ntfy__users__snyssen_password }}"
+    password_hash: "{{ vault_ntfy__users__snyssen_password_hash }}"
     role: user
     topics:
-      - pattern: up*
+      - pattern: "*"
         permission: ro
-  # - name: test
-  #   passord: test
-  #   password_hash: $2a$12$kvpVsHCNeq7y5lqiknHlsO7bpmQEFFhupcdCm27eIbCKpmJF3bgU.
-  #   role: user
-  #   topics:
-  #     - pattern: test
-  #       permission: rw
-  #     - pattern: up*
-  #       permission: ro
-  #   token: tk_3gd7d2yftt4b8ixyfe9mnmro88o76
+  - name: monitoring
+    passord: "{{ vault_ntfy__users__monitoring_password }}"
+    password_hash: "{{ vault_ntfy__users__monitoring_password_hash }}"
+    role: user
+    topics:
+      - pattern: "{{ vault_ntfy__topics__monitoring }}"
+        permission: rw
+    # token: tk_3gd7d2yftt4b8ixyfe9mnmro88o76
+ntfy__topics__monitoring: "{{ vault_ntfy__topics__monitoring }}"
 ntfy__mollysocket_vapid_key: "{{ vault_ntfy__mollysocket_vapid_key }}"
 
 backbone__acme_ca_server: "{{ vault_backbone__acme_ca_server }}"

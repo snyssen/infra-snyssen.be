@@ -14,14 +14,16 @@
         "{{ usr.name }}:{{ usr.password_hash }}:{{ usr.role | default('user') }}",
         {% endfor %}
       ]
-    # First topic permission is hardcoded to allow unified push
+    # First topic permission is hardcoded to al0low unified push
     ntfy__topics_entries: |-
       [
-        "*:up*:wo",
+        {% for topic in ntfy__anonymous_topics %}
+        "*:{{ topic.pattern }}:{{ topic.permission }}",
+        {% endfor %}
         {% for usr in ntfy__users %}
         {% if usr.topics is defined %}
         {% for topic in usr.topics %}
-        "{{ usr.name  }}:{{ topic.pattern }}:{{ topic.permission }}",
+        "{{ usr.name }}:{{ topic.pattern }}:{{ topic.permission }}",
         {% endfor %}
         {% endif %}
         {% endfor %}
