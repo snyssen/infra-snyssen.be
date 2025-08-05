@@ -51,6 +51,13 @@ ntfy__users:
       - pattern: "{{ vault_ntfy__topics__monitoring }}"
         permission: rw
     # token: tk_3gd7d2yftt4b8ixyfe9mnmro88o76
+  - name: hass
+    passord: "{{ vault_ntfy__users__hass_password }}"
+    password_hash: "{{ vault_ntfy__users__hass_password_hash }}"
+    role: user
+    topics:
+      - pattern: "{{ vault_ntfy__topics__hass }}"
+        permission: rw
 ntfy__topics__monitoring: "{{ vault_ntfy__topics__monitoring }}"
 ntfy__mollysocket_vapid_key: "{{ vault_ntfy__mollysocket_vapid_key }}"
 
