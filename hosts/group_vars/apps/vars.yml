@@ -58,6 +58,14 @@ ntfy__users:
     topics:
       - pattern: "{{ vault_ntfy__topics__hass }}"
         permission: rw
+  - name: jellyfin
+    passord: "{{ vault_ntfy__users__jellyfin_password }}"
+    password_hash: "{{ vault_ntfy__users__jellyfin_password_hash }}"
+    role: user
+    topics:
+      - pattern: "jellyfin"
+        permission: rw
+    token: "{{ vault_ntfy__users__jellyfin_token }}"
 ntfy__topics__monitoring: "{{ vault_ntfy__topics__monitoring }}"
 ntfy__mollysocket_vapid_key: "{{ vault_ntfy__mollysocket_vapid_key }}"
 
