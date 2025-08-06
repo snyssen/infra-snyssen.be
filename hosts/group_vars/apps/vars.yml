@@ -58,14 +58,14 @@ ntfy__users:
     topics:
       - pattern: "{{ vault_ntfy__topics__hass }}"
         permission: rw
-  - name: jellyfin
-    passord: "{{ vault_ntfy__users__jellyfin_password }}"
-    password_hash: "{{ vault_ntfy__users__jellyfin_password_hash }}"
+  - name: streaming
+    passord: "{{ vault_ntfy__users__streaming_password }}"
+    password_hash: "{{ vault_ntfy__users__streaming_password_hash }}"
     role: user
     topics:
-      - pattern: "jellyfin"
+      - pattern: "streaming"
         permission: rw
-    token: "{{ vault_ntfy__users__jellyfin_token }}"
+    token: "{{ vault_ntfy__users__streaming_token }}"
 ntfy__topics__monitoring: "{{ vault_ntfy__topics__monitoring }}"
 ntfy__mollysocket_vapid_key: "{{ vault_ntfy__mollysocket_vapid_key }}"
 
