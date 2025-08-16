@@ -1,7 +1,7 @@
 services:
   semaphore:
     container_name: semaphore
-    image: semaphoreui/semaphore:v2.16.10@sha256:d353b5b88a17783ab65dd6173b1fa2716455ac0d4caa70eb79fddbc2b7dc41c8
+    image: semaphoreui/semaphore:v2.16.16@sha256:37d863baae878e9bd6b6a56bdfabed127294840e8ca7a343797d984a43252ff2
     restart: unless-stopped
     environment:
       SEMAPHORE_PASSWORD_LOGIN_DISABLED: "True"
