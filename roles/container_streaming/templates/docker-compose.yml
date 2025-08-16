@@ -71,7 +71,9 @@ services:
       - traefik.http.routers.audiobookshelf.rule=Host(`audiobooks.{{ ansible_fqdn }}`)
     volumes:
       - /mnt/storage/streaming/media/audiobooks:/audiobooks
+      - /mnt/storage/streaming/media/audiobooks_vi:/audiobooks_vi
       - /mnt/storage/streaming/media/podcasts:/podcasts
+      - /mnt/storage/streaming/media/podcasts_vi:/podcasts_vi
       - "{{ docker_mounts_directory }}/audiobookshelf/config:/config"
       - "{{ docker_mounts_directory }}/audiobookshelf/metadata:/metadata"
     mem_limit: 256m

@@ -20,8 +20,11 @@
     - src: "/mnt/storage/streaming/media/movies"
     - src: "/mnt/storage/streaming/media/tv"
     - src: "/mnt/storage/streaming/media/music"
+    - src: "/mnt/storage/streaming/media/music_vi"
     - src: "/mnt/storage/streaming/media/audiobooks"
+    - src: "/mnt/storage/streaming/media/audiobooks_vi"
     - src: "/mnt/storage/streaming/media/podcasts"
+    - src: "/mnt/storage/streaming/media/podcasts_vi"
     - src: "/mnt/storage/streaming/media/books"
     # audiobookshelf
     - src: "{{ docker_mounts_directory }}/audiobookshelf/config"
