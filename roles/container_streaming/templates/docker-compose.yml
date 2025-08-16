@@ -7,7 +7,7 @@ services:
       - web
       - monitoring
       - ldap
-    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
+    user: "33:{{ ansible_user_gid }}"
     environment:
       - JELLYFIN_DATA_DIR=/data
       - JELLYFIN_CONFIG_DIR=/config
@@ -63,7 +63,7 @@ services:
     container_name: audiobookshelf
     networks:
       - web
-    user: "{{ ansible_user_uid}}:{{ ansible_user_gid }}"
+    user: "33:{{ ansible_user_gid }}"
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
@@ -81,7 +81,7 @@ services:
     container_name: torrent
     network_mode: container:vpn
     environment:
-      - PUID={{ ansible_user_uid }}
+      - PUID=33
       - PGID={{ ansible_user_gid }}
       - TZ={{ iana_timezone }}
     volumes:
@@ -95,7 +95,7 @@ services:
     container_name: usenet
     network_mode: container:vpn
     environment:
-      - PUID={{ ansible_user_uid }}
+      - PUID=33
       - PGID={{ ansible_user_gid }}
       - TZ={{ iana_timezone }}
     volumes:
@@ -108,7 +108,7 @@ services:
     image: lscr.io/linuxserver/sonarr:4.0.15@sha256:c0836f49c20000e603170dc95d74c2527e690d50309977d94fc171eaa49351a4
     container_name: sonarr
     environment:
-      - PUID={{ ansible_user_uid}}
+      - PUID=33
       - PGID={{ ansible_user_gid}}
     networks:
       - web
@@ -128,7 +128,7 @@ services:
     image: lscr.io/linuxserver/radarr:5.26.2@sha256:c2adf66bafefa781401d07d358e399c476bdffb9a179a2780bb465bda8a55a51
     container_name: radarr
     environment:
-      - PUID={{ ansible_user_uid }}
+      - PUID=33
       - PGID={{ ansible_user_gid }}
       - TZ=Europe/Brussels
     networks:
@@ -149,7 +149,7 @@ services:
     image: lscr.io/linuxserver/lidarr:8.1.2135@sha256:8455e2c2f3a7e0fb56ab4de6be924d81aa441bfe9a740cf110d46b25a39b42ba
     container_name: lidarr
     environment:
-      - PUID={{ ansible_user_uid}}
+      - PUID=33
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
@@ -170,7 +170,7 @@ services:
     image: lscr.io/linuxserver/prowlarr:1.37.0@sha256:25d21c04c7cc39a706217abb77bb60b283d9eaaf16acf539c930e3c797e21f25
     container_name: prowlarr
     environment:
-      - PUID={{ ansible_user_uid}}
+      - PUID=33
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
@@ -190,7 +190,7 @@ services:
     image: lscr.io/linuxserver/bazarr:1.5.2@sha256:9530eb044660a1847e68ba9f39f90499dae0db83c3bed088973771c5f3f30007
     container_name: bazarr
     environment:
-      - PUID={{ ansible_user_uid}}
+      - PUID=33
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
     networks:
@@ -211,7 +211,7 @@ services:
     image: ghcr.io/jmbannon/ytdl-sub:2025.08.15@sha256:b51b0f9f23c9de909b9af4d680c210911d587f0098ae349552a3710001233dec
     container_name: ytdl-sub
     environment:
-      - PUID={{ ansible_user_uid}}
+      - PUID=33
       - PGID={{ ansible_user_gid}}
       - TZ=Europe/Brussels
       - CRON_SCHEDULE="0 */6 * * *"
@@ -229,6 +229,9 @@ services:
   lidatube:
     image: thewicklowwolf/lidatube:0.2.31@sha256:0663821daa6b77d332232600455eaa1b840144a859ebef7ea36179e7085fdba1
     container_name: lidatube
+    environment:
+      - PUID=33
+      - PGID={{ ansible_user_gid}}
     volumes:
       - "{{ docker_mounts_directory }}/lidatube/config:/lidatube/config"
       - /mnt/storage/streaming/media/music:/lidatube/downloads
@@ -246,6 +249,9 @@ services:
   lidify:
     image: thewicklowwolf/lidify:0.2.3@sha256:958eaddeef8195470b974ee03512d9a5c31ad2af3167f7824448fb026fa9c94a
     container_name: lidify
+    environment:
+      - PUID=33
+      - PGID={{ ansible_user_gid}}
     volumes:
       - "{{ docker_mounts_directory }}/lidify/config:/lidify/config"
       - /etc/localtime:/etc/localtime:ro

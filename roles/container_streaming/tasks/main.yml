@@ -1,53 +1,76 @@
 - name: Creating folders
+  become: true
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.src }}"
     state: directory
-    mode: "744"
-    owner: "{{ ansible_user_uid }}"
+    owner: "{{ item.owner | default('33') }}" # 33 as in www-data, i.e. the default PHP, and most importantly Nextcloud, user
+    group: "{{ item.group | default(ansible_user_gid) }}"
+    mode: "{{ item.mode | default('774') }}"
   with_items:
     # jellyfin
-    - "{{ docker_mounts_directory }}/jellyfin/data"
-    - "{{ docker_mounts_directory }}/jellyfin/config"
-    - "{{ docker_mounts_directory }}/jellyfin/cache"
-    - "{{ docker_mounts_directory }}/jellyfin/logs"
-    - "/mnt/storage/streaming/media/movies"
-    - "/mnt/storage/streaming/media/tv"
-    - "/mnt/storage/streaming/media/music"
+    - src: "{{ docker_mounts_directory }}/jellyfin/data"
+      mode: "750"
+    - src: "{{ docker_mounts_directory }}/jellyfin/config"
+      mode: "750"
+    - src: "{{ docker_mounts_directory }}/jellyfin/cache"
+      mode: "750"
+    - src: "{{ docker_mounts_directory }}/jellyfin/logs"
+      mode: "750"
+    # media
+    - src: "/mnt/storage/streaming/media/movies"
+    - src: "/mnt/storage/streaming/media/tv"
+    - src: "/mnt/storage/streaming/media/music"
+    - src: "/mnt/storage/streaming/media/audiobooks"
+    - src: "/mnt/storage/streaming/media/podcasts"
+    - src: "/mnt/storage/streaming/media/books"
     # audiobookshelf
-    - /mnt/storage/streaming/media/audiobooks
-    - /mnt/storage/streaming/media/podcasts
-    - "{{ docker_mounts_directory }}/audiobookshelf/config"
-    - "{{ docker_mounts_directory }}/audiobookshelf/metadata"
-    # WIP
-    - /mnt/storage/streaming/media/books
+    - src: "{{ docker_mounts_directory }}/audiobookshelf/config"
+      mode: "750"
+    - src: "{{ docker_mounts_directory }}/audiobookshelf/metadata"
+      mode: "750"
     # torrents
-    - "/mnt/storage/torrent"
-    - /mnt/storage/streaming/torrent
+    - src: "/mnt/storage/torrent" # config
+      mode: "750"
+    - src: "/mnt/storage/streaming/torrent" # downloads
+      mode: "750"
     # usenet
-    - "/mnt/storage/usenet"
-    - "/mnt/storage/streaming/usenet"
+    - src: "/mnt/storage/usenet" # config
+      mode: "750"
+    - src: "/mnt/storage/streaming/usenet" # downloads
+      mode: "750"
     # sonarr
-    - "{{ docker_mounts_directory }}/sonarr/config"
+    - src: "{{ docker_mounts_directory }}/sonarr/config"
+      mode: "750"
     # radarr
-    - "{{ docker_mounts_directory }}/radarr/config"
+    - src: "{{ docker_mounts_directory }}/radarr/config"
+      mode: "750"
     # lidarr
-    - "{{ docker_mounts_directory }}/lidarr/config"
+    - src: "{{ docker_mounts_directory }}/lidarr/config"
+      mode: "750"
     # prowlarr
-    - "{{ docker_mounts_directory }}/prowlarr/config"
+    - src: "{{ docker_mounts_directory }}/prowlarr/config"
+      mode: "750"
     # bazarr
-    - "{{ docker_mounts_directory }}/bazarr/config"
+    - src: "{{ docker_mounts_directory }}/bazarr/config"
+      mode: "750"
     # ytdl-sub
-    - "{{ docker_mounts_directory }}/ytdl-sub/config/crontabs"
+    - src: "{{ docker_mounts_directory }}/ytdl-sub/config/crontabs"
+      mode: "750"
     # lidatube
-    - "{{ docker_mounts_directory }}/lidatube/config"
+    - src: "{{ docker_mounts_directory }}/lidatube/config"
+      mode: "750"
     # lidify
-    - "{{ docker_mounts_directory }}/lidify/config"
+    - src: "{{ docker_mounts_directory }}/lidify/config"
+      mode: "750"
 
 - name: Deploying Sabnzbd config
+  become: true
   ansible.builtin.template:
     src: sabnzbd.ini
     dest: /mnt/storage/usenet/sabnzbd.ini
     mode: "600"
+    owner: "33"
+    group: "{{ ansible_user_gid }}"
 
 - name: Create push monitor for ytdl-sub
   lucasheld.uptime_kuma.monitor:
@@ -61,12 +84,13 @@
   register: ytdlsub_push_monitor
 
 - name: Deploy ytdl-sub configuration and scripts
+  become: true
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ docker_mounts_directory }}/ytdl-sub/{{ item.filename }}"
-    owner: "{{ ansible_user_uid }}"
+    owner: "33"
     group: "{{ ansible_user_gid }}"
-    mode: "740"
+    mode: "750"
   loop:
     - src: ytdl-sub/config.yaml
       filename: "config/"
@@ -76,11 +100,12 @@
       filename: "config/cron"
 
 - name: Create ytdl-sub log file
+  become: true
   ansible.builtin.file:
     path: "{{ docker_mounts_directory }}/ytdl-sub/config/ytdl-sub.log"
     state: touch
-    mode: "740"
-    owner: "{{ ansible_user_uid }}"
+    mode: "750"
+    owner: "33"
     group: "{{ ansible_user_gid }}"
     modification_time: preserve
     access_time: preserve

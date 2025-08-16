@@ -45,6 +45,7 @@ services:
       - /mnt/storage/nextcloud:/var/www/html
       - /mnt/storage/nextcloud_logs:/var/logs
       - /mnt/storage/paperless:/paperless
+      - /mnt/storage/streaming/media:/media
     mem_limit: 2g
 
   # TODO merge with alloy
