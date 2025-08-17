@@ -19,7 +19,7 @@ services:
       - traefik.http.services.sharkey.loadBalancer.server.port=3000
 
   sharkey_redis:
-    image: redis:7-alpine@sha256:bb186d083732f669da90be8b0f975a37812b15e913465bb14d845db72a4e3e08
+    image: redis:7.4.5@sha256:49061c0de5717822cf6702ef3197f6817f26b98d46765c308c1e23e6b261997b
     restart: unless-stopped
     container_name: sharkey_redis
     networks:
