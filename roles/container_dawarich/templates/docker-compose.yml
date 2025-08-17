@@ -1,7 +1,7 @@
 # Derived from: https://github.com/Freika/dawarich/blob/master/docker/docker-compose.yml
 services:
   dawarich_redis:
-    image: redis:7.4.5@sha256:49061c0de5717822cf6702ef3197f6817f26b98d46765c308c1e23e6b261997b
+    image: redis:8.2.0@sha256:e7d6b261beaa22b1dc001f438b677f1c691ac7805607d8979bae65fe0615c2e6
     container_name: dawarich_redis
     command: redis-server
     networks:
