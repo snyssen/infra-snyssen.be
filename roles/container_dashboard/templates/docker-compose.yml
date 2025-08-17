@@ -1,6 +1,6 @@
 services:
   dashboard:
-    image: ghcr.io/snyssen/webb-launcher:2.6.9@sha256:5f4f4685efa1f32528bec3be1925ca917e906598ef91a7da55e0a61fe71dc288
+    image: ghcr.io/snyssen/webb-launcher:2.6.10@sha256:6ab70ef29f1208fcda2237a9499a8060f027ed34e377ca0a76b1be4424c589c3
     restart: unless-stopped
     container_name: dashboard
     networks:
