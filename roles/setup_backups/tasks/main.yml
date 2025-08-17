@@ -35,7 +35,7 @@
   lucasheld.uptime_kuma.monitor:
     name: "autorestic - {{ item.name }}"
     type: push
-    interval: 86400 # 24h
+    interval: 93600 # 24h + 2h of leeway
     retryInterval: 21600 # 6h
   loop: "{{ autorestic__locations }}"
 - name: Retrieve push monitors info
