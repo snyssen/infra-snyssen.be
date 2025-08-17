@@ -459,6 +459,8 @@ monitoring__uptime_monitors:
     url: http://192.168.1.2/
   - name: home assisstant
     url: https://hass.snyssen.be
+  - name: router
+    url: http://192.168.1.1
 monitoring__umami_db_pass: "{{ vault_monitoring__umami_db_pass }}"
 monitoring__umami_app_secret: "{{ vault_monitoring__umami_app_secret }}"
 monitoring__adguard_exporter_username: "{{ vault_monitoring__adguard_exporter_username }}"
