@@ -24,7 +24,7 @@ services:
     mem_limit: 2g
 
   grafana:
-    image: grafana/grafana-oss:12.1.1@sha256:5749a0e982878aedaa2d320ed14d3bdce7a040a938f482258670009d419a597f
+    image: grafana/grafana-oss:12.1.1@sha256:a1701c2180249361737a99a01bc770db39381640e4d631825d38ff4535efa47d
     container_name: grafana
     restart: unless-stopped
     networks:
