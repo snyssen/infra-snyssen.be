@@ -14,7 +14,7 @@ jobs:
         shell: bash
         run: echo "$ANSIBLE_VAULT_PASSWORD" > .vault_pass
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@1080d91d521d909ad79b868131e7ed7c6c708c77 # v25.8.1
+        uses: ansible/ansible-lint@50373efb440dd3b524956c075af715cd00eaf20b # v25.8.2
         with:
           args: "-c .ansible-lint"
           requirements_file: "requirements.yml"
