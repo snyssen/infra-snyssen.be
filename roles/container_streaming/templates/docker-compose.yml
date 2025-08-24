@@ -210,7 +210,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.08.15@sha256:b51b0f9f23c9de909b9af4d680c210911d587f0098ae349552a3710001233dec
+    image: ghcr.io/jmbannon/ytdl-sub:2025.08.21@sha256:35f06d73e6e7f88a9620c8b808293a7030403484dcab1afec6ad271f959065f0
     container_name: ytdl-sub
     environment:
       - PUID=33
@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.31@sha256:0663821daa6b77d332232600455eaa1b840144a859ebef7ea36179e7085fdba1
+    image: thewicklowwolf/lidatube:0.2.33@sha256:aaa96e96dd8aedb65432eefa10f9956b24142d2fc5f0c5db3ef6da6b8556ee32
     container_name: lidatube
     environment:
       - PUID=33
