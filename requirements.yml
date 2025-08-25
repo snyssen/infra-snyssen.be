@@ -22,7 +22,7 @@ roles:
     version: v1.5.1
   - name: geerlingguy.docker
     src: geerlingguy.docker
-    version: "7.5.0"
+    version: "7.5.1"
   - name: geerlingguy.security
     src: geerlingguy.security
     version: "3.0.0"
