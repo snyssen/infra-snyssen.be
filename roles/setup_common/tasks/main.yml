@@ -8,7 +8,6 @@
         docker_users:
           - "{{ ansible_user_id }}"
         docker_daemon_options: "{{ docker_daemon_common_options | combine(docker_daemon_extra_options | default({})) }}"
-    # TODO: disable fail2ban once crowdsec is in place
     - name: Harden SSH
       ansible.builtin.include_role:
         name: geerlingguy.security

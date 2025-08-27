@@ -1,5 +1,5 @@
 - name: Setup common configs
-  hosts: all
+  hosts: all,!livecams
   roles:
     - setup_common
 - name: Setup DNS

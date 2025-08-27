@@ -1,0 +1,25 @@
+- name: Setup livecams
+  hosts: livecams
+  strategy: free
+  roles:
+    - name: geerlingguy.security
+      become: true
+  tasks:
+    - name: Install requirements
+      become: true
+      ansible.builtin.package:
+        name:
+          - git
+          - python3-dev
+          - libcurl4-openssl-dev
+          - libssl-dev
+          - libjpeg-dev
+          - zlib1g-dev
+          - python3-pip
+          - libcamera-v4l2
+    - name: Install MotionEye
+      ansible.builtin.pip:
+        name: https://github.com/motioneye-project/motioneye/archive/main.tar.gz
+        break_system_packages: true
+    - name: Initialize MotionEye
+      ansible.builtin.command: motioneye_init
