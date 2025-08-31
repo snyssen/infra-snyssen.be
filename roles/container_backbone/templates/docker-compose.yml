@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.5.0@sha256:4e7175cfe19be83c6b928cae49dde2f2788fb307189a4dc9550b67acf30c11a5
+    image: traefik:v3.5.1@sha256:664bb8415fddadb71c2682b329c427d12c7d53593171665f2b7b6ff924509bc1
     restart: unless-stopped
     container_name: traefik
     networks:
@@ -169,7 +169,7 @@ services:
 
   authelia:
     container_name: authelia
-    image: ghcr.io/authelia/authelia:4.39.6@sha256:08776367d54d4482c54ac8ca75b18f7db3287b751106e19736780c5f6811374d
+    image: ghcr.io/authelia/authelia:4.39.7@sha256:00fdbe0f4fe6120b1ba00bd3d618a8cbfc1a59aba68fb6b411ee3efb796cc054
     restart: 'unless-stopped'
     networks:
       - web
