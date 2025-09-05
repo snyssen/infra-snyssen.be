@@ -5,7 +5,15 @@
       prompt: Backup backend (specify "all" for --all)
       private: false
   tasks:
-    - name: Run snapshots command
+    - name: Unlock autorestic
+      become: true
+      ansible.builtin.command: |-
+        /root/scripts/autorestic_log_wrapper.sh autorestic --ci unlock --force
+      register: returned_value
+    - name: Showing stdoud
+      ansible.builtin.debug:
+        var: returned_value.stdout_lines
+    - name: Run restic
       become: true
       ansible.builtin.command: |-
         /root/scripts/autorestic_log_wrapper.sh autorestic --ci exec
