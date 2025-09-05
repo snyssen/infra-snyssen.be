@@ -7,7 +7,7 @@
         state: absent
     - name: Stop autorestic if running
       become: true
-      ansible.builtin.command: pkill -SIGUSR1 autorestic
+      ansible.builtin.command: pkill -SIGINT autorestic
     - name: Display message
       ansible.builtin.debug:
         msg: Do not forget to redeploy config when you are done so the cronjob gets recreated!
