@@ -154,7 +154,7 @@ services:
         restart: true
 
   photon:
-    image: rtuszik/photon-docker:0.7.2@sha256:e2f60e41f1c769cb1d8a5d64e8e221f2f0c721888b9ed33a7155c5c33165fc74
+    image: rtuszik/photon-docker:1.0.0@sha256:bd3f0201373f05cafda246bec98023f67b4dabbf4dc73c261c83fdffbd176f93
     container_name: photon
     environment:
       - UPDATE_STRATEGY=PARALLEL
