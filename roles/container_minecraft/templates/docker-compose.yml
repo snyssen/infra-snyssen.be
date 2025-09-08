@@ -2,7 +2,7 @@ services:
   # See documentation at:
   # https://docker-minecraft-server.readthedocs.io/en/latest/
   minecraft:
-    image: itzg/minecraft-server:2025.9.0@sha256:030b2a0e3028ef0ec08884ced75b28f1f225b85bf058dcaffb8f9ffb0b9d246d
+    image: itzg/minecraft-server:2025.9.2@sha256:1de76802ab088730e40c9d1866b8b7d2b4d341b946342892a1dbb6f7f4feeb18
     container_name: minecraft
     networks:
       - internal
@@ -54,7 +54,7 @@ services:
     mem_limit: 8.2g
 
   mc-usw:
-    image: itzg/minecraft-server:2025.9.0@sha256:030b2a0e3028ef0ec08884ced75b28f1f225b85bf058dcaffb8f9ffb0b9d246d
+    image: itzg/minecraft-server:2025.9.2@sha256:1de76802ab088730e40c9d1866b8b7d2b4d341b946342892a1dbb6f7f4feeb18
     container_name: mc-usw
     networks:
       - internal

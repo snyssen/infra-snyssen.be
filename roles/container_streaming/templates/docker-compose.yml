@@ -229,7 +229,7 @@ services:
     mem_limit: 1g
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.34@sha256:9d2a8d7df1acf645ead9b10ce437d09664b68674beb6c57a8f00d2fc8a1df24a
+    image: thewicklowwolf/lidatube:0.2.35@sha256:de6f39dece4b292275e464dedb3e65cb9d26bbc20fb5ad95bf967c05cab93aef
     container_name: lidatube
     environment:
       - PUID=33
