@@ -1,6 +1,6 @@
 services:
   syncthing:
-    image: lscr.io/linuxserver/syncthing:1.30.0@sha256:a2787b40b89a04b33cea95e7304bb2efc0a126c2676d9e6291b59cfb9ced4b88
+    image: lscr.io/linuxserver/syncthing:2.0.9@sha256:cec9b511a473cf622ce30c50646365df3277798b12f59829e1713ba6c263074d
     container_name: syncthing
     networks:
       - web
