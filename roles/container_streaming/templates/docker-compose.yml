@@ -210,7 +210,7 @@ services:
     mem_limit: 1g
 
   ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.09.01@sha256:3402de7f692ef2da82b78798cc74853a02c32f7decbcc2e17ef6a8d04dde373c
+    image: ghcr.io/jmbannon/ytdl-sub:2025.09.09@sha256:f20679cd1a697552dcca446954cd1bb5beb92a34f9d68efc11a410866eb10152
     container_name: ytdl-sub
     environment:
       - PUID=33
