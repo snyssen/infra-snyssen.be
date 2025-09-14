@@ -209,6 +209,24 @@ access_control:
       subject:
         - ["group:sysadmin"]
     #
+    ## media management systems
+    #
+    - domain:
+        - "torrent.{{ ansible_fqdn }}"
+        - "usenet.{{ ansible_fqdn }}"
+        - "sonarr.{{ ansible_fqdn }}"
+        - "radarr.{{ ansible_fqdn }}"
+        - "lidarr.{{ ansible_fqdn }}"
+        - "prowlarr.{{ ansible_fqdn }}"
+        - "bazarr.{{ ansible_fqdn }}"
+        - "lidatube.{{ ansible_fqdn }}"
+        - "lidify.{{ ansible_fqdn }}"
+        - "yt.{{ ansible_fqdn }}"
+      policy: two_factor
+      subject:
+        - ["group:sysadmin"]
+        - ["group:media_manager"]
+    #
     ## Misc
     #
     # - domain:
@@ -244,23 +262,6 @@ access_control:
       policy: bypass
       networks:
         - internal
-    #
-    ## media management systems
-    #
-    - domain:
-        - "torrent.{{ ansible_fqdn }}"
-        - "usenet.{{ ansible_fqdn }}"
-        - "sonarr.{{ ansible_fqdn }}"
-        - "radarr.{{ ansible_fqdn }}"
-        - "lidarr.{{ ansible_fqdn }}"
-        - "prowlarr.{{ ansible_fqdn }}"
-        - "bazarr.{{ ansible_fqdn }}"
-        - "lidatube.{{ ansible_fqdn }}"
-        - "lidify.{{ ansible_fqdn }}"
-      policy: two_factor
-      subject:
-        - ["group:sysadmin"]
-        - ["group:media_manager"]
 
 ##
 ## Session Provider Configuration

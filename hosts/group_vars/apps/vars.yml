@@ -339,7 +339,7 @@ dashboard__shortcuts:
       - name: Immich
         url: https://photos.snyssen.be
       - name: Sharkey
-        url: https://social.snyssen.be/
+        url: https://social.snyssen.be
       - name: Management
         children:
           - name: Prowlarr
@@ -357,13 +357,15 @@ dashboard__shortcuts:
           - name: Usenet
             url: https://usenet.snyssen.be
           - name: LidaTube
-            url: https://lidatube.snyssen.be/
+            url: https://lidatube.snyssen.be
           - name: Lidify
-            url: https://lidify.snyssen.be/
+            url: https://lidify.snyssen.be
       - name: Acquisition
         children:
           - name: Libro.fm
             url: https://libro.fm/
+          - name: Pinchflat
+            url: https://yt.snyssen.be
   - name: Infrastructure
     icon_classes: las la-server
     children:

@@ -59,6 +59,9 @@
     # ytdl-sub
     - src: "{{ docker_mounts_directory }}/ytdl-sub/config/crontabs"
       mode: "750"
+    # pinchflat
+    - src: "{{ docker_mounts_directory }}/pinchflat/config"
+      mode: "750"
     # lidatube
     - src: "{{ docker_mounts_directory }}/lidatube/config"
       mode: "750"

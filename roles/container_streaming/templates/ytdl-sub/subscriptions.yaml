@@ -33,7 +33,7 @@ playlist_full_archive:
 TV Show Only Recent:
   = Tech:
     "Linus Tech Tips": "https://www.youtube.com/@LinusTechTips"
-    "Sebastian Lague": "https://www.youtube.com/@SebastianLague"
+    # "Sebastian Lague": "https://www.youtube.com/@SebastianLague" # Is on Nebula
     "Fireship": "https://www.youtube.com/@Fireship"
     # "Nick Chapsas": "https://www.youtube.com/@nickchapsas"
     "The Linux Experiment": "https://www.youtube.com/@TheLinuxEXP"

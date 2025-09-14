@@ -209,24 +209,23 @@ services:
     restart: unless-stopped
     mem_limit: 1g
 
-  ytdl-sub:
-    image: ghcr.io/jmbannon/ytdl-sub:2025.09.01@sha256:3402de7f692ef2da82b78798cc74853a02c32f7decbcc2e17ef6a8d04dde373c
-    container_name: ytdl-sub
+  pinchflat:
+    image: ghcr.io/kieraneglin/pinchflat:v2025.6.6@sha256:4e975edf58f0861a5cbfe8fc6aac4851ff5a02dfc3f05ffeea4982e3084a5a4a
+    user: "33:{{ ansible_user_gid }}"
     environment:
-      - PUID=33
-      - PGID={{ ansible_user_gid}}
-      - TZ=Europe/Brussels
-      - CRON_SCHEDULE="0 */6 * * *"
-      - CRON_RUN_ON_START=true
-    devices:
-      - /dev/dri:/dev/dri
+      # Set the timezone to your local timezone
+      - TZ={{ iana_timezone }}
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pinchflat.entryPoints=websecure
+      - traefik.http.routers.pinchflat.rule=Host(`yt.{{ ansible_fqdn }}`)
+      - traefik.http.services.pinchflat.loadBalancer.server.port=8945
+      - traefik.http.routers.pinchflat.middlewares=authelia@docker
     volumes:
-      - "{{ docker_mounts_directory }}/ytdl-sub/config:/config"
-      - /mnt/storage/streaming/media/tv:/tv
-      - /mnt/storage/streaming/media/movies:/movies
-      - /mnt/storage/streaming/media/music:/music
-    restart: unless-stopped
-    mem_limit: 1g
+      - "{{ docker_mounts_directory }}/pinchflat/config:/config"
+      - /mnt/storage/streaming/media/tv:/downloads
 
   lidatube:
     image: thewicklowwolf/lidatube:0.2.35@sha256:de6f39dece4b292275e464dedb3e65cb9d26bbc20fb5ad95bf967c05cab93aef
