@@ -11,7 +11,7 @@ services:
       - SUPPORT_EMAIL={{ smtp__to }}
       - SMTP_HOST={{ smtp__host }}
       - SMTP_PORT={{ smtp__port }}
-      - SMTP_SECURE={{ smtp__tls }}
+      - SMTP_SECURE={{ smtp__tls | lower }}
       - SMTP_USER={{ smtp__user }}
       - SMTP_PWD={{ smtp__pass }}
 
@@ -20,6 +20,9 @@ services:
       - OIDC_DISCOVERY_URL=https://auth.{{ team_domain}}/.well-known/openid-configuration
       - OIDC_CLIENT_ID={{ backbone__authelia__oidc_rallly_clientid }}
       - OIDC_CLIENT_SECRET={{ backbone__authelia__oidc_rallly_clientsecret }}
+
+      - EMAIL_LOGIN_ENABLED=false
+      - REGISTRATION_ENABLED=false
     networks:
       - db
       - web
