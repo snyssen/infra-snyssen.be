@@ -211,6 +211,16 @@ access_control:
     #
     ## media management systems
     #
+    # allow some direct connection on internal network for m2m calls
+    - domain:
+        # Download clients, contacted by *arr stack
+        - "torrent.{{ ansible_fqdn }}"
+        - "usenet.{{ ansible_fqdn }}"
+        # Lidarr, contacted by lidatube
+        - "lidarr.{{ ansible_fqdn }}"
+      policy: bypass
+      networks:
+        - internal
     - domain:
         - "torrent.{{ ansible_fqdn }}"
         - "usenet.{{ ansible_fqdn }}"
@@ -252,16 +262,6 @@ access_control:
         - "paperless.{{ ansible_fqdn }}"
         - "recipes.{{ ansible_fqdn }}"
       policy: "bypass"
-    # allow some direct connection on internal network for m2m calls
-    - domain:
-        # Download clients, contacted by *arr stack
-        - "torrent.{{ ansible_fqdn }}"
-        - "usenet.{{ ansible_fqdn }}"
-        # Lidarr, contacted by lidatube
-        - "lidarr.{{ ansible_fqdn }}"
-      policy: bypass
-      networks:
-        - internal
 
 ##
 ## Session Provider Configuration
