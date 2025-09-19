@@ -31,7 +31,8 @@ services:
       - traefik.udp.routers.syncthing-discovery.service=syncthing-discovery
       - traefik.udp.services.syncthing-discovery.loadBalancer.server.port=21027
     volumes:
-      - /mnt/storage/syncthing/config:/config
+      - "{{ docker_mounts_directory }}/syncthing/config:/config"
+      - /mnt/storage/syncthing/data:/data
     restart: unless-stopped
     mem_limit: 256m
 networks:

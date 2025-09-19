@@ -6,7 +6,10 @@
     group: "{{ item.group }}"
     mode: "750"
   with_items:
-    - src: "/mnt/storage/syncthing/config"
+    - src: "{{ docker_mounts_directory }}/syncthing/config"
+      owner: "{{ ansible_user_uid }}"
+      group: "{{ ansible_user_gid }}"
+    - src: "/mnt/storage/syncthing/data"
       owner: "{{ ansible_user_uid }}"
       group: "{{ ansible_user_gid }}"
 
