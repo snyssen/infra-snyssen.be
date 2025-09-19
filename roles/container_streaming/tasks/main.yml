@@ -56,8 +56,6 @@
     # bazarr
     - src: "{{ docker_mounts_directory }}/bazarr/config"
       mode: "750"
-    # ytdl-sub
-    - src: "{{ docker_mounts_directory }}/ytdl-sub/config/crontabs"
       mode: "750"
     # pinchflat
     - src: "{{ docker_mounts_directory }}/pinchflat/config"
@@ -77,44 +75,6 @@
     mode: "600"
     owner: "33"
     group: "{{ ansible_user_gid }}"
-
-- name: Create push monitor for ytdl-sub
-  lucasheld.uptime_kuma.monitor:
-    name: ytdl-sub
-    type: push
-    interval: 21600 # 6 hours
-    retryInterval: 10800 # 3 hours
-- name: Retrieve push monitor info
-  lucasheld.uptime_kuma.monitor_info:
-    name: ytdl-sub
-  register: ytdlsub_push_monitor
-
-- name: Deploy ytdl-sub configuration and scripts
-  become: true
-  ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: "{{ docker_mounts_directory }}/ytdl-sub/{{ item.filename }}"
-    owner: "33"
-    group: "{{ ansible_user_gid }}"
-    mode: "750"
-  loop:
-    - src: ytdl-sub/config.yaml
-      filename: "config/"
-    - src: ytdl-sub/subscriptions.yaml
-      filename: "config/"
-    - src: ytdl-sub/cron_cmd.sh
-      filename: "config/cron"
-
-- name: Create ytdl-sub log file
-  become: true
-  ansible.builtin.file:
-    path: "{{ docker_mounts_directory }}/ytdl-sub/config/ytdl-sub.log"
-    state: touch
-    mode: "750"
-    owner: "33"
-    group: "{{ ansible_user_gid }}"
-    modification_time: preserve
-    access_time: preserve
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
@@ -142,3 +102,5 @@
       url: https://radarr.snyssen.be
     - name: sonarr
       url: https://sonarr.snyssen.be
+    - name: pinchflat
+      url: https://yt.snyssen.be
