@@ -19,7 +19,7 @@ services:
       - traefik.http.services.sharkey.loadBalancer.server.port=3000
 
   sharkey_redis:
-    image: redis:8.2.1@sha256:cc2dfb8f5151da2684b4a09bd04b567f92d07591d91980eb3eca21df07e12760
+    image: redis:8.2.2@sha256:f0957bcaa75fd58a9a1847c1f07caf370579196259d69ac07f2e27b5b389b021
     restart: unless-stopped
     container_name: sharkey_redis
     networks:
@@ -32,7 +32,7 @@ services:
       retries: 20
 
   sharkey_deeplx:
-    image: ghcr.io/owo-network/deeplx:v1.0.8@sha256:966a83aeb9298ae636e96f8a2fc47a7289d60ff01de7ccc83b6971519ea86ea5
+    image: ghcr.io/owo-network/deeplx:v1.0.9@sha256:251df4c3bb8fbd2861f3a7432c4a20599732ada5eb1e976453a0773e983d862c
     restart: unless-stopped
     container_name: sharkey_deeplx
     # port is 1188 by default -> https://deeplx.owo.network/install/variables.html
