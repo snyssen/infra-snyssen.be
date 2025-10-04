@@ -200,6 +200,7 @@ immich__db_dump_hc_id: "{{ vault_immich__db_dump_hc_id }}"
 recipes__secret_key: "{{ vault_recipes__secret_key }}"
 recipes__db_password: "{{ vault_recipes__db_password }}"
 
+backups__local_domain: "{{ vault_backups__local_domain }}"
 # formatted as
 # autorestic__backends:
 #   - name: backend-name
@@ -230,48 +231,6 @@ autorestic__backends: "{{ vault_autorestic__backends }}"
 #       before:
 #         - some command
 autorestic__locations: "{{ vault_autorestic__locations }}"
-
-backups__local_domain: "{{ vault_backups__local_domain }}"
-backups__local_destination: "rest:http://{{backups__local_domain}}:8000/"
-backups__local_healthcheck_id: "{{ vault_backups__local_healthcheck_id }}"
-backups__remote_destination: "{{ vault_backups__remote_destination }}"
-backups__access_id_remote: "{{ vault_backups__access_id_remote }}"
-backups__access_secret_remote: "{{ vault_backups__access_secret_remote }}"
-backups__remote_healthcheck_id: "{{ vault_backups__remote_healthcheck_id }}"
-backups__encryption_key: "{{ vault_backups__encryption_key }}"
-backups__volumes_common:
-  # For correct time
-  - /etc/timezone:/etc/timezone:ro
-  - /etc/localtime:/etc/localtime:ro
-  # Folders to backup
-  - /mnt/storage/nextcloud:/data/nextcloud
-  - /mnt/storage/photos:/data/photos
-  - /mnt/storage/recipes:/data/recipes
-  - /mnt/storage/backups:/data/backups
-  - "{{ docker_mounts_directory }}/jellyfin:/data/jellyfin"
-  - "{{ docker_mounts_directory }}/audiobookshelf:/data/audiobookshelf"
-  - "{{ docker_mounts_directory }}/sonarr/config:/data/sonarr/config"
-  - "{{ docker_mounts_directory }}/radarr/config:/data/radarr/config"
-  - "{{ docker_mounts_directory }}/lidarr/config:/data/lidarr/config"
-  - "{{ docker_mounts_directory }}/prowlarr/config:/data/prowlarr/config"
-  - "{{ docker_mounts_directory }}/bazarr/config:/data/bazarr/config"
-  - /mnt/storage/minecraft/data:/data/minecraft
-  - /mnt/storage/mc-usw/data:/data/mc-usw
-  - "{{ docker_mounts_directory }}/foundryvtt:/data/foundryvtt"
-  - "{{ docker_mounts_directory }}/uptime:/data/uptime"
-  - "{{ docker_mounts_directory }}/grafana:/data/grafana"
-  - "{{ docker_mounts_directory }}/paperless/data:/data/paperless/data"
-  - /mnt/storage/paperless/media:/data/paperless/media
-  - /mnt/storage/syncthing/config:/data/syncthing/config
-  - "{{ docker_mounts_directory }}/s-pdf:/data/s-pdf"
-  - "{{ docker_mounts_directory }}/unifi:/data/unifi"
-backups__volumes_local_only:
-  - ./hooks/local:/hooks
-  - "{{ docker_compose_directory }}/restic/.ssh:/home/backup/.ssh"
-  - /mnt/storage/streaming/media:/data/streaming/media
-backups__volumes_remote_only:
-  - ./hooks/remote:/hooks
-  - /mnt/storage/streaming/media/music:/data/streaming/media/music
 
 minecraft__forbid_cracked: true
 minecraft__view_distance: 16
