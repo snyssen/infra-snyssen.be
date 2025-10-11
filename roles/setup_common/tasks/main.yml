@@ -15,6 +15,28 @@
         security_autoupdate_mail_to: "{{ smtp__to }}"
         security_fail2ban_enabled: false
 
+- name: Remove old packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - crowdsec-firewall-bouncer
+    state: absent
+
+- name: Add crowdsec apt-key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://packagecloud.io/crowdsec/crowdsec/gpgkey
+    state: present
+
+# https://packagecloud.io/crowdsec/crowdsec/install#manual-deb
+- name: Add crowdsec apt repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb https://packagecloud.io/crowdsec/crowdsec/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} main
+    state: present
+    filename: crowdsec
+    update_cache: true
+
 - name: Installing other packages
   become: true
   ansible.builtin.package:
@@ -30,7 +52,7 @@
       - htop
       - screen
       # - lm_sensors
-      - crowdsec-firewall-bouncer
+      - crowdsec-firewall-bouncer-nftables
     state: present
 
 - name: Deploy crowdsec firewall bouncer configuration
@@ -63,8 +85,9 @@
       state: started
     # We don't want crowdsec itself to be running since we have a central instance in a container
     # ... But it seems the bouncer depends on the main crowdsec service running -_-
+    # UPDATE: seems like it's no longer the case when using official package!
     - name: crowdsec
-      state: started
+      state: stopped
 
 - name: Install and setup tailscale
   ansible.builtin.include_role:
