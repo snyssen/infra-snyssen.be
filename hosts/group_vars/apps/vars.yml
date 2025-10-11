@@ -356,6 +356,8 @@ dashboard__shortcuts:
         children:
           - name: Semaphore
             url: https://semaphore.snyssen.be
+          - name: backrest
+            url: https://backrest.snyssen.be
           - name: LDAP
             url: https://ldap.snyssen.be
           - name: pgadmin
