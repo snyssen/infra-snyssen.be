@@ -1,6 +1,6 @@
 services:
   web_recipes:
-    image: vabene1111/recipes:2.2.7@sha256:bbafaa18a39292e3e2cf032e090d17d0fcc1deb71a2b98425fec99cb05e8532d
+    image: vabene1111/recipes:2.3.2@sha256:650983bb4fb9f6941ad53c83b4cc94e4236d803c187034429c2eafe5e5ac098e
     container_name: web_recipes
     restart: unless-stopped
     env_file:
@@ -15,7 +15,7 @@ services:
     mem_limit: 1g
 
   recipes_nginx:
-    image: nginx:1.29.1-alpine@sha256:42a516af16b852e33b7682d5ef8acbd5d13fe08fecadc7ed98605ba5e3b26ab8
+    image: nginx:1.29.2-alpine@sha256:7c1b9a91514d1eb5288d7cd6e91d9f451707911bfaea9307a3acbc811d4aa82e
     container_name: recipes_nginx
     restart: unless-stopped
     env_file:
