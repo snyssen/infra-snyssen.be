@@ -1,48 +1,37 @@
 services:
-  web_recipes:
+  recipes:
     image: vabene1111/recipes:2.3.2@sha256:650983bb4fb9f6941ad53c83b4cc94e4236d803c187034429c2eafe5e5ac098e
-    container_name: web_recipes
-    restart: unless-stopped
-    env_file:
-      - ./.env
+    container_name: recipes
     volumes:
-      - nginx_config:/opt/recipes/nginx/conf.d
       - /mnt/storage/recipes/staticfiles:/opt/recipes/staticfiles
       - /mnt/storage/recipes/mediafiles:/opt/recipes/mediafiles
     networks:
-      - internal
       - db
-    mem_limit: 1g
-
-  recipes_nginx:
-    image: nginx:1.29.2-alpine@sha256:7c1b9a91514d1eb5288d7cd6e91d9f451707911bfaea9307a3acbc811d4aa82e
-    container_name: recipes_nginx
-    restart: unless-stopped
-    env_file:
-      - ./.env
-    volumes:
-      - nginx_config:/etc/nginx/conf.d:ro
-      - /mnt/storage/recipes/staticfiles:/static
-      - /mnt/storage/recipes/mediafiles:/media
+      - web
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.recipes.entryPoints=websecure
       - traefik.http.routers.recipes.rule=Host(`recipes.{{ ansible_fqdn }}`)
       - traefik.http.routers.recipes.middlewares=authelia@docker
-    depends_on:
-      - web_recipes
-    networks:
-      - internal
-      - web
-    mem_limit: 16m
+    environment:
+      SECRET_KEY: "{{ recipes__secret_key }}"
+      # your default timezone See https://timezonedb.com/time-zones for a list of timezones
+      TZ: "{{ iana_timezone }}"
+
+      # allowed hosts (see documentation), should be set to your hostname(s) but might be * (default) for some proxies/providers
+      ALLOWED_HOSTS: "recipes.{{ ansible_fqdn }}"
+
+      # add only a database password if you want to run with the default postgres, otherwise change settings accordingly
+      DB_ENGINE: django.db.backends.postgresql
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: recipes
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: recipes
+      POSTGRES_PASSWORD: "{{ recipes__db_password }}"
 
 networks:
-  internal: null
   web:
     external: true
   db:
     external: true
-
-volumes:
-  nginx_config:

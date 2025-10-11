@@ -3,19 +3,13 @@
     path: "{{ item }}"
     state: directory
   with_items:
-    # postgres
-    - "{{ docker_mounts_directory }}/recipes/postgresql"
-    # recipes
     - /mnt/storage/recipes/staticfiles
     - /mnt/storage/recipes/mediafiles
-    # backups
-    - /mnt/storage/backups/recipes
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
     stack_name: "recipes"
-    deploy_env_template: yes
 
 - name: Create monitors
   lucasheld.uptime_kuma.monitor:
