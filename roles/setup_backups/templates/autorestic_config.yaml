@@ -54,9 +54,9 @@ locations:
         {%- endfor +%}
         {%- endfor +%}
       success:
-        - curl --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ autorestic__push_monitors.results | selectattr('item.name', '==', location.name) | map(attribute='monitors') | first | map(attribute='pushToken') | first }}?status=up&msg=OK&ping="
+        - curl --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ autorestic__push_monitors.results | selectattr('item.name', '==', location.name) | map(attribute='monitors') | first | map(attribute='pushToken') | first }}?status=up&msg=backup%20done%20in%20${AUTORESTIC_PROCESSED_DURATION}s&ping="
       failure:
-        - curl --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ autorestic__push_monitors.results | selectattr('item.name', '==', location.name) | map(attribute='monitors') | first | map(attribute='pushToken') | first }}?status=down&msg=OK&ping="
+        - curl --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ autorestic__push_monitors.results | selectattr('item.name', '==', location.name) | map(attribute='monitors') | first | map(attribute='pushToken') | first }}?status=down&msg=backup%20failed&ping="
       after:
         {%- for backend in autorestic__backends if backend.name in location.to and backend.hooks is defined +%}
         {%- for hook in backend.hooks.after if backend.hooks.after is defined +%}
