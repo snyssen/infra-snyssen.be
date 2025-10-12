@@ -50,10 +50,10 @@
   vars:
     stack_name: databases
 
-- name: Installing psycopg2 for connecting to Postgres
+- name: Installing psycopg for connecting to Postgres
   become: true
   ansible.builtin.package:
-    name: python3-psycopg2
+    name: python3-psycopg
     state: present
 
 - name: "Creating databases users"
@@ -74,6 +74,34 @@
     login_host: "localhost"
     login_password: "{{ db__pg_password }}"
     state: present
+  loop: "{{ db__pg_databases }}"
+  loop_control:
+    label: "{'name': '{{ item.name }}', 'password': '***'}"
+- name: Revoke all public permissions on databases
+  # i.e. -> REVOKE ALL ON DATABASE <database> FROM PUBLIC;
+  community.postgresql.postgresql_privs:
+    login_host: "localhost"
+    login_password: "{{ db__pg_password }}"
+    login_db: "{{ item.name }}"
+    state: absent
+    privs: ALL
+    type: database
+    objs: "{{ item.name }}"
+    role: public
+  loop: "{{ db__pg_databases }}"
+  loop_control:
+    label: "{'name': '{{ item.name }}', 'password': '***'}"
+- name: Revoke all public permissions on public schema
+  # i.e. -> REVOKE ALL ON SCHEMA public FROM PUBLIC;
+  community.postgresql.postgresql_privs:
+    login_host: "localhost"
+    login_password: "{{ db__pg_password }}"
+    login_db: "{{ item.name }}"
+    state: absent
+    privs: ALL
+    type: schema
+    objs: public
+    role: public
   loop: "{{ db__pg_databases }}"
   loop_control:
     label: "{'name': '{{ item.name }}', 'password': '***'}"
