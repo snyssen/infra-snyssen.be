@@ -86,8 +86,8 @@
     # We don't want crowdsec itself to be running since we have a central instance in a container
     # ... But it seems the bouncer depends on the main crowdsec service running -_-
     # UPDATE: seems like it's no longer the case when using official package!
-    - name: crowdsec
-      state: stopped
+    # - name: crowdsec
+    #   state: stopped
 
 - name: Install and setup tailscale
   ansible.builtin.include_role:
