@@ -17,7 +17,7 @@ services:
       timeout: 10s
 
   dawarich_db:
-    image: postgis/postgis:17-3.5-alpine@sha256:6ebb2b32a6d5315c8fc2b00427356eebd4778bfaf7211d4b28eac481f3d194ec
+    image: postgis/postgis:17-3.5-alpine@sha256:55a855e12c5682a23f795e5ac8d625bfa283838a584be07be3a19fb215386c20
     container_name: dawarich_db
     volumes:
       - "{{ docker_mounts_directory }}/dawarich/postgres:/var/lib/postgresql/data"
