@@ -438,7 +438,7 @@ paperless__secret_key: "{{ vault_paperless__secret_key }}"
 # Obsidian vaults that should be published through quartz
 quartz__vaults:
   - name: dnd-saltmarsh
-    path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Saltmarsh
+    path: /mnt/storage/syncthing/data/Notes/TTRPG/DnD - Saltmarsh
     # https://www.authelia.com/configuration/security/access-control/
     # but domain is automatically filled as "{{ vault.name }}.notes.{{ ansible_fqdn }}"
     permissions:
@@ -448,7 +448,7 @@ quartz__vaults:
         subject:
           - ["group:dnd-saltmarsh"]
   - name: dnd-yp
-    path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Yawning Portal
+    path: /mnt/storage/syncthing/data/Notes/TTRPG/DnD - Yawning Portal
     permissions:
       - policy: one_factor
         resources:
@@ -456,7 +456,7 @@ quartz__vaults:
         subject:
           - ["group:dnd-yp"]
   - name: dnd-bahut
-    path: /mnt/storage/syncthing/config/Notes/TTRPG/DnD - Bahut
+    path: /mnt/storage/syncthing/data/Notes/TTRPG/DnD - Bahut
     permissions:
       - policy: one_factor
         resources:
@@ -464,7 +464,7 @@ quartz__vaults:
         subject:
           - ["group:dnd-bahut"]
   - name: me-eet
-    path: /mnt/storage/syncthing/config/Notes/TTRPG/Mass Effect - En eaux troubles
+    path: /mnt/storage/syncthing/data/Notes/TTRPG/Mass Effect - En eaux troubles
     permissions:
       - policy: one_factor
         resources:
