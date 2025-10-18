@@ -1,6 +1,6 @@
 services:
   prometheus:
-    image: quay.io/prometheus/prometheus:v3.6.0@sha256:76947e7ef22f8a698fc638f706685909be425dbe09bd7a2cd7aca849f79b5f64
+    image: quay.io/prometheus/prometheus:v3.7.1@sha256:ff7e389acbe064a4823212a500393d40a28a8f362e4b05cbf6742a9a3ef736b2
     container_name: prometheus
     restart: unless-stopped
     networks:
@@ -80,7 +80,7 @@ services:
       - monitoring
 
   loki:
-    image: grafana/loki:3.5.6@sha256:2b10e3c0ba66ee115c018736b351c435006c809d32ea2c14be62be88d80f8372
+    image: grafana/loki:3.5.7@sha256:0eaee7bf39cc83aaef46914fb58f287d4f4c4be6ec96b86c2ed55719a75e49c8
     container_name: loki
     restart: unless-stopped
     volumes:
