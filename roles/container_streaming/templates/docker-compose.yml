@@ -127,7 +127,7 @@ services:
     mem_limit: 1g
 
   radarr:
-    image: lscr.io/linuxserver/radarr:5.27.5@sha256:af03fa6a993ee7efb65f6121ebd8c89de4a47aa1181cec03832e292a1446111f
+    image: lscr.io/linuxserver/radarr:5.28.0@sha256:fae2aafa6ecace3524fc79d102f5bfd25fb151caed6a454cee46479236ac33bf
     container_name: radarr
     environment:
       - PUID=33
@@ -228,7 +228,7 @@ services:
       - /mnt/storage/streaming/media/tv:/downloads
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.38@sha256:7766465cb97f4e236505eaebce06ec6d4b2b3a0fde1fd789926e001a80b761d4
+    image: thewicklowwolf/lidatube:0.2.39@sha256:d41bdbc44f50eb68734057a28fdbff61a0d056471f535747ee24da443fdcecc1
     container_name: lidatube
     environment:
       - PUID=33
