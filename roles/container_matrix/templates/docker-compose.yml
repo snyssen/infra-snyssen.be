@@ -1,0 +1,42 @@
+services:
+
+  synapse:
+    container_name: synapse
+    image: docker.io/matrixdotorg/synapse:latest
+    restart: unless-stopped
+    environment:
+      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
+    volumes:
+      - /mnt/storage/matrix/synapse:/data
+    networks:
+      - web
+      - db
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.synapse.entryPoints=websecure
+      - traefik.http.routers.synapse.rule=Host(`matrix.{{ ansible_fqdn }}`) && (PathPrefix(`/.well-known/matrix/server`) || PathPrefix(`/.well-known/matrix/client`) || PathPrefix(`/_matrix`)|| PathPrefix(`/_synapse/client`))
+      - traefik.http.routers.synapse.service=synapse
+      - traefik.http.services.synapse.loadBalancer.server.port=8008
+
+  element:
+    container_name: element
+    image: vectorim/element-web:latest
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/matrix/element/config.json:/app/config.json:ro
+    networks:
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.element.entryPoints=websecure
+      - traefik.http.routers.element.rule=Host(`matrix.{{ ansible_fqdn }}`)
+      - traefik.http.routers.element.service=element
+      - traefik.http.services.element.loadBalancer.server.port=80
+
+networks:
+  web:
+    external: true
+  db:
+    external: true

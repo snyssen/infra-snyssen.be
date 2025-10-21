@@ -129,6 +129,9 @@ backbone__authelia__oidc_tailscale_clientsecret_hash: "{{ vault_backbone__authel
 backbone__authelia__oidc_hass_clientid: "{{ vault_backbone__authelia__oidc_hass_clientid }}"
 backbone__authelia__oidc_hass_clientsecret: "{{ vault_backbone__authelia__oidc_hass_clientsecret }}"
 backbone__authelia__oidc_hass_clientsecret_hash: "{{ vault_backbone__authelia__oidc_hass_clientsecret_hash }}"
+backbone__authelia__oidc_matrix_clientid: "{{ vault_backbone__authelia__oidc_matrix_clientid }}"
+backbone__authelia__oidc_matrix_clientsecret: "{{ vault_backbone__authelia__oidc_matrix_clientsecret }}"
+backbone__authelia__oidc_matrix_clientsecret_hash: "{{ vault_backbone__authelia__oidc_matrix_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
@@ -157,6 +160,8 @@ db__pg_databases:
     password: "{{ sharkey__db_pass }}"
   - name: semaphore
     password: "{{ semaphore__db_pass }}"
+  - name: matrix
+    password: "{{ matrix__db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -257,6 +262,8 @@ dashboard__shortcuts:
         url: https://events.bigdouf.team
       - name: Actual
         url: https://actual.snyssen.be
+      - name: Matrix
+        url: https://matrix.snyssen.be
   - name: Documents
     icon_classes: las la-folder-open
     children:
@@ -505,3 +512,8 @@ skyrim_together__password: "{{ vault_skyrim_together__password }}"
 skyrim_together__admin_password: "{{ vault_skyrim_together__admin_password }}"
 
 hass__prometheus_token: "{{ vault_hass__prometheus_token }}"
+
+matrix__db_pass: "{{ vault_matrix__db_pass }}"
+matrix__registration_shared_secret: "{{ vault_matrix__registration_shared_secret }}"
+matrix__macaroon_secret_key: "{{ vault_matrix__macaroon_secret_key }}"
+matrix__form_secret: "{{ vault_matrix__form_secret }}"

@@ -1,0 +1,17 @@
+{
+    "default_server_config": {
+        "m.homeserver": {
+            "base_url": "https://matrix.{{ ansible_fqdn }}",
+            "server_name": "matrix.{{ ansible_fqdn }}"
+        }
+    },
+    "disable_custom_urls": true,
+    "disable_guests": true,
+    "brand": "matrix.{{ ansible_fqdn }}",
+    "default_theme": "light",
+    "roomDirectory": {
+        "servers": [
+            "matrix.{{ ansible_fqdn }}"
+        ]
+    }
+}

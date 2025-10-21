@@ -1,0 +1,65 @@
+- name: Creating folders
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+    state: directory
+  loop:
+    # synapse
+    - path: "/mnt/storage/matrix/synapse"
+      owner: "991"
+      group: "991"
+      mode: "750"
+    # element
+    - path: "/mnt/storage/matrix/element"
+      owner: "101"
+      group: "101"
+      mode: "750"
+
+- name: Deploy config files
+  become: true
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    # synapse
+    - src: synapse/homeserver.yaml
+      dst: /mnt/storage/matrix/synapse/
+      owner: "991"
+      group: "991"
+      mode: "600"
+    - src: synapse/log.config
+      dst: /mnt/storage/matrix/synapse/
+      owner: "991"
+      group: "991"
+      mode: "600"
+    - src: synapse/signing.key
+      dst: /mnt/storage/matrix/synapse/
+      owner: "991"
+      group: "991"
+      mode: "600"
+    # element
+    - src: element/config.json
+      dst: /mnt/storage/matrix/element/config.json
+      owner: "101"
+      group: "101"
+      mode: "600"
+
+- ansible.builtin.include_role:
+    name: snyssen.compose_deploy
+  vars:
+    stack_name: "matrix"
+
+- name: Create monitors
+  lucasheld.uptime_kuma.monitor:
+    name: "{{ item.name }}"
+    type: http
+    url: "{{ item.url }}"
+  loop:
+    - name: matrix
+      url: "https://matrix.{{ ansible_fqdn }}"
