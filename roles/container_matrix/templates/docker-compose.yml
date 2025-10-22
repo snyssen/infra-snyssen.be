@@ -2,7 +2,7 @@ services:
 
   synapse:
     container_name: synapse
-    image: docker.io/matrixdotorg/synapse:latest
+    image: matrixdotorg/synapse:v1.140.0@sha256:2af5409da4e155123ef1f8ab30914fb14ba36b8b909197073498db733298fcd7
     restart: unless-stopped
     environment:
       SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
@@ -21,7 +21,7 @@ services:
 
   element:
     container_name: element
-    image: vectorim/element-web:latest
+    image: vectorim/element-web:v1.12.2@sha256:6e91e641abe70dd02f1461b4f1ebf8f6807bfa381ec7f2c13e9e286c4e2b2918
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/element/config.json:/app/config.json:ro
