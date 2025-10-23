@@ -359,6 +359,8 @@ dashboard__shortcuts:
             url: https://www.speedtest.net
           - name: Speedtest tracker
             url: https://speedtest-tracker.snyssen.be
+          - name: Tailscale
+            url: https://login.tailscale.com/admin/machines
       - name: Tools
         children:
           - name: Semaphore
