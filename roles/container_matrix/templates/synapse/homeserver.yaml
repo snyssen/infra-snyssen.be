@@ -42,4 +42,10 @@ form_secret: "{{ matrix__form_secret }}"
 signing_key_path: "/data/signing.key"
 trusted_key_servers:
   - server_name: "matrix.org"
-# vim:ft=yaml
+ip_range_whitelist:
+{% for ip in internal_networks_cidr %}
+  - "{{ ip }}"
+{% endfor %}
+app_service_config_files:
+  - /data/app_services/doublepuppet.yaml
+  - /data/app_services/matrix_discord.yaml

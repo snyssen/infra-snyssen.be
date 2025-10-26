@@ -11,6 +11,7 @@ services:
     networks:
       - web
       - db
+      - bridges
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
@@ -53,8 +54,22 @@ services:
       - traefik.http.routers.element.service=element
       - traefik.http.services.element.loadBalancer.server.port=80
 
+###########
+# Bridges #
+###########
+  matrix-discord:
+    container_name: matrix-discord
+    image: dock.mau.dev/mautrix/discord:v0.7.5@sha256:c447c097124d47824bc446f859ba1aa6ab8fda4b4d0477d1ca28db4a4cbb059b
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/matrix/matrix_discord:/data
+    networks:
+      - bridges
+      - db
+
 networks:
   web:
     external: true
   db:
     external: true
+  bridges:

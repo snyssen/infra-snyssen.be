@@ -1,0 +1,14 @@
+id: discord
+url: http://matrix-discord:29334
+as_token: "{{ matrix__discord__as_token }}"
+hs_token: "{{ matrix__discord__hs_token }}"
+sender_localpart: "{{ matrix__discord__sender_localpart }}"
+rate_limited: false
+namespaces:
+  users:
+    - regex: ^@discordbot:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+      exclusive: true
+    - regex: ^@discord_.*:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+      exclusive: true
+de.sorunome.msc2409.push_ephemeral: true
+push_ephemeral: true
