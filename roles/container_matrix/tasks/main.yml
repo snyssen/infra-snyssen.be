@@ -12,6 +12,15 @@
       owner: "991"
       group: "991"
       mode: "750"
+    # Matrix Authentication Service (MAS)
+    - path: "/mnt/storage/matrix/mas"
+      owner: "65532"
+      group: "65532"
+      mode: "750"
+    - path: "/mnt/storage/matrix/mas/keys"
+      owner: "65532"
+      group: "65532"
+      mode: "750"
     # element
     - path: "/mnt/storage/matrix/element"
       owner: "101"
@@ -42,6 +51,32 @@
       dst: /mnt/storage/matrix/synapse/
       owner: "991"
       group: "991"
+      mode: "600"
+    # Matrix Authentication Service (MAS)
+    - src: mas/mas_config.yaml
+      dst: /mnt/storage/matrix/mas/
+      owner: "65532"
+      group: "65532"
+      mode: "600"
+    - src: mas/keys/one.key
+      dst: /mnt/storage/matrix/mas/keys/
+      owner: "65532"
+      group: "65532"
+      mode: "600"
+    - src: mas/keys/two.key
+      dst: /mnt/storage/matrix/mas/keys/
+      owner: "65532"
+      group: "65532"
+      mode: "600"
+    - src: mas/keys/three.key
+      dst: /mnt/storage/matrix/mas/keys/
+      owner: "65532"
+      group: "65532"
+      mode: "600"
+    - src: mas/keys/four.key
+      dst: /mnt/storage/matrix/mas/keys/
+      owner: "65532"
+      group: "65532"
       mode: "600"
     # element
     - src: element/config.json

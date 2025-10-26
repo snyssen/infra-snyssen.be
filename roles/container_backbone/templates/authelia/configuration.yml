@@ -634,7 +634,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://matrix.{{ ansible_fqdn }}/_synapse/client/oidc/callback'
+          - 'https://matrix-mas.{{ ansible_fqdn }}/upstream/callback/{{ matrix__mas__oidc_id }}'
         scopes:
           - 'openid'
           - 'profile'
@@ -643,7 +643,8 @@ identity_providers:
         response_types:
           - 'code'
         grant_types:
-          - 'authorization_code'
+            - 'refresh_token'
+            - 'authorization_code'
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'

@@ -15,10 +15,28 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.synapse.entryPoints=websecure
-      - traefik.http.routers.synapse.rule=Host(`matrix.{{ ansible_fqdn }}`) && (PathPrefix(`/.well-known/matrix/server`) || PathPrefix(`/.well-known/matrix/client`) || PathPrefix(`/_matrix`)|| PathPrefix(`/_synapse/client`))
+      - traefik.http.routers.synapse.rule=Host(`matrix.{{ ansible_fqdn }}`) && (PathPrefix(`/.well-known/matrix/server`) || PathPrefix(`/.well-known/matrix/client`) || PathPrefix(`/_matrix`)|| PathPrefix(`/_synapse`))
       - traefik.http.routers.synapse.service=synapse
       - traefik.http.services.synapse.loadBalancer.server.port=8008
 
+  matrix_mas:
+    container_name: matrix_mas
+    image: ghcr.io/element-hq/matrix-authentication-service:1.4.1@sha256:af3c8e1207d5b6ef575454a0211dab07ba816be219607f6568a52ab42978c23c
+    restart: unless-stopped
+    environment:
+      MAS_CONFIG: /config/mas_config.yaml
+    volumes:
+      - /mnt/storage/matrix/mas:/config
+    networks:
+      - web
+      - db
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.matrix_mas.entryPoints=websecure
+      - traefik.http.routers.matrix_mas.rule=Host(`matrix-mas.{{ ansible_fqdn }}`)
+      - traefik.http.routers.matrix_mas.service=matrix_mas
+      - traefik.http.services.matrix_mas.loadBalancer.server.port=8080
   element:
     container_name: element
     image: vectorim/element-web:v1.12.2@sha256:6e91e641abe70dd02f1461b4f1ebf8f6807bfa381ec7f2c13e9e286c4e2b2918

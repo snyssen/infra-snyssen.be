@@ -28,29 +28,10 @@ database:
     host: postgres
     cp_min: 5
     cp_max: 10
-oidc_providers:
-  - idp_id: authelia
-    idp_name: "Authelia"
-    idp_icon: "mxc://authelia.com/cKlrTPsGvlpKxAYeHWJsdVHI"
-    discover: true
-    issuer: "https://auth.{{ ansible_fqdn }}"
-    client_id: "{{ backbone__authelia__oidc_matrix_clientid }}"
-    client_secret: "{{ backbone__authelia__oidc_matrix_clientsecret }}"
-    scopes:
-      - "openid"
-      - "profile"
-      - "email"
-      - "groups"
-    client_auth_method: client_secret_post
-    pkce_method: always
-    allow_existing_users: true
-    user_profile_method: "userinfo_endpoint"
-    user_mapping_provider:
-      config:
-        subject_claim: "sub"
-        localpart_template: '{{ "{{ user.preferred_username }}" }}'
-        display_name_template: '{{ "{{ user.name }}" }}'
-        email_template: '{{ "{{ user.email }}" }}'
+matrix_authentication_service:
+  enabled: true
+  endpoint: https://matrix-mas.{{ ansible_fqdn }}/
+  secret: "{{ matrix__mas__shared_secret }}"
 log_config: "/data/log.config"
 media_store_path: /data/media_store
 registration_shared_secret: "{{ matrix__registration_shared_secret }}"

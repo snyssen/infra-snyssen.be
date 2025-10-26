@@ -58,7 +58,7 @@
 
 - name: "Creating databases users"
   community.postgresql.postgresql_user:
-    db: postgres
+    login_db: postgres
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     login_host: "localhost"
