@@ -54,15 +54,25 @@ services:
       - traefik.http.routers.element.service=element
       - traefik.http.services.element.loadBalancer.server.port=80
 
-###########
-# Bridges #
-###########
+  ###########
+  # Bridges #
+  ###########
   matrix-discord:
     container_name: matrix-discord
     image: dock.mau.dev/mautrix/discord:v0.7.5@sha256:c447c097124d47824bc446f859ba1aa6ab8fda4b4d0477d1ca28db4a4cbb059b
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/matrix_discord:/data
+    networks:
+      - bridges
+      - db
+
+  matrix-signal:
+    container_name: matrix-signal
+    image: dock.mau.dev/mautrix/signal:v25.10@sha256:12a6d8cb9eb913a3ca9ff0dc9a8015e8e360ae654d8c031183d625b866d7e647
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/matrix/matrix_signal:/data
     networks:
       - bridges
       - db

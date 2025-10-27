@@ -38,6 +38,11 @@
       owner: "1337"
       group: "1337"
       mode: "750"
+    # matrix_signal
+    - path: "/mnt/storage/matrix/matrix_signal"
+      owner: "1337"
+      group: "1337"
+      mode: "750"
 
 - name: Deploy config files
   become: true
@@ -115,7 +120,17 @@
       owner: "991"
       group: "991"
       mode: "600"
-
+    # matrix_signal
+    - src: matrix_signal/config.yaml
+      dst: /mnt/storage/matrix/matrix_signal/
+      owner: "1337"
+      group: "1337"
+      mode: "600"
+    - src: matrix_signal/registration.yaml
+      dst: /mnt/storage/matrix/synapse/app_services/matrix_signal.yaml
+      owner: "991"
+      group: "991"
+      mode: "600"
 
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy

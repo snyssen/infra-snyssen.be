@@ -166,6 +166,8 @@ db__pg_databases:
     password: "{{ matrix__mas__db_pass }}"
   - name: matrix_discord
     password: "{{ matrix__discord__db_pass }}"
+  - name: matrix_signal
+    password: "{{ matrix__signal__db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -536,3 +538,9 @@ matrix__discord__hs_token: "{{ vault_matrix__discord__hs_token }}"
 matrix__discord__sender_localpart: "{{ vault_matrix__discord__sender_localpart }}"
 matrix__discord__shared_secret: "{{ vault_matrix__discord__shared_secret }}"
 matrix__discord__avatar_proxy_key: "{{ vault_matrix__discord__avatar_proxy_key }}"
+matrix__signal__db_pass: "{{ vault_matrix__signal__db_pass }}"
+matrix__signal__as_token: "{{ vault_matrix__signal__as_token }}"
+matrix__signal__hs_token: "{{ vault_matrix__signal__hs_token }}"
+matrix__signal__sender_localpart: "{{ vault_matrix__signal__sender_localpart }}"
+matrix__signal__shared_secret: "{{ vault_matrix__signal__shared_secret }}"
+matrix__signal__pickle_key: "{{ vault_matrix__signal__pickle_key }}"
