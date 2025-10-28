@@ -77,6 +77,16 @@ services:
       - bridges
       - db
 
+  matrix-whatsapp:
+    container_name: matrix-whatsapp
+    image: dock.mau.dev/mautrix/whatsapp:v25.10@sha256:208cc17e8422c4299e6115d628aac124257c2f982302eee9435bace7a5b14c91
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/matrix/matrix_whatsapp:/data
+    networks:
+      - bridges
+      - db
+
 networks:
   web:
     external: true

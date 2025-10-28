@@ -50,5 +50,6 @@ app_service_config_files:
   - /data/app_services/doublepuppet.yaml
   - /data/app_services/matrix_discord.yaml
   - /data/app_services/matrix_signal.yaml
+  - /data/app_services/matrix_whatsapp.yaml
 experimental_features:
   msc3202_device_masquerading: true
