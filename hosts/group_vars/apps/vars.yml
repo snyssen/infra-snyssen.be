@@ -170,6 +170,8 @@ db__pg_databases:
     password: "{{ matrix__signal__db_pass }}"
   - name: matrix_whatsapp
     password: "{{ matrix__whatsapp__db_pass }}"
+  - name: matrix_meta
+    password: "{{ matrix__meta__db_pass }}"
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
@@ -552,3 +554,9 @@ matrix__whatsapp__hs_token: "{{ vault_matrix__whatsapp__hs_token }}"
 matrix__whatsapp__sender_localpart: "{{ vault_matrix__whatsapp__sender_localpart }}"
 matrix__whatsapp__shared_secret: "{{ vault_matrix__whatsapp__shared_secret }}"
 matrix__whatsapp__pickle_key: "{{ vault_matrix__whatsapp__pickle_key }}"
+matrix__meta__db_pass: "{{ vault_matrix__meta__db_pass }}"
+matrix__meta__as_token: "{{ vault_matrix__meta__as_token }}"
+matrix__meta__hs_token: "{{ vault_matrix__meta__hs_token }}"
+matrix__meta__sender_localpart: "{{ vault_matrix__meta__sender_localpart }}"
+matrix__meta__shared_secret: "{{ vault_matrix__meta__shared_secret }}"
+matrix__meta__pickle_key: "{{ vault_matrix__meta__pickle_key }}"

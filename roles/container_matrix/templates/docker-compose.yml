@@ -87,6 +87,16 @@ services:
       - bridges
       - db
 
+  matrix-meta:
+    container_name: matrix-meta
+    image: dock.mau.dev/mautrix/meta:v25.10@sha256:595ce3eb2a00e3214163abe2261cfdd7b7ac3ce04934cf01ca9927635e23066e
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/matrix/matrix_meta:/data
+    networks:
+      - bridges
+      - db
+
 networks:
   web:
     external: true

@@ -22,7 +22,7 @@
     searchEngineIndex: false
     primaryBaseURL: "https://uptime.{{ ansible_fqdn }}"
     keepDataPeriodDays: 90
-    dnsCache: false # marked as deprecated, so set to false
+    dnsCache: true
     nscd: true
 
 - name: Create monitors
