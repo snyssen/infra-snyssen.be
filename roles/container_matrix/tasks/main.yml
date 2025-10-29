@@ -53,6 +53,18 @@
       owner: "1337"
       group: "1337"
       mode: "750"
+    ###########
+    #  Bots   #
+    ###########
+    # matrix_meta
+    - path: "/mnt/storage/matrix/maubot"
+      owner: "1337"
+      group: "1337"
+      mode: "750"
+    - path: "{{ docker_mounts_directory }}/matrix/maubot/dbs"
+      owner: "1337"
+      group: "1337"
+      mode: "750"
 
 - name: Deploy config files
   become: true
@@ -162,6 +174,15 @@
       dst: /mnt/storage/matrix/synapse/app_services/matrix_meta.yaml
       owner: "991"
       group: "991"
+      mode: "600"
+    ###########
+    #  Bots   #
+    ###########
+    # matrix_meta
+    - src: maubot/config.yaml
+      dst: /mnt/storage/matrix/maubot/config.yaml
+      owner: "1337"
+      group: "1337"
       mode: "600"
 
 - ansible.builtin.include_role:

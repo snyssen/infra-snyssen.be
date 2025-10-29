@@ -97,6 +97,30 @@ services:
       - bridges
       - db
 
+  ###########
+  #  Bots   #
+  ###########
+  maubot:
+    container_name: maubot
+    image: dock.mau.dev/maubot/maubot:v0.5.2@sha256:b9f28d08d926a8522da1b220374e7fd50b32b07311c21fc6ca6f0690f9fb5402
+    restart: unless-stopped
+    volumes:
+      - /mnt/storage/matrix/maubot:/data
+      - "{{ docker_mounts_directory }}/matrix/maubot/dbs:/data/dbs"
+    networks:
+      - bridges
+      - db
+      - web
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      - traefik.http.routers.maubot.entryPoints=websecure
+      - traefik.http.routers.maubot.rule=Host(`matrix.{{ ansible_fqdn }}`) && PathPrefix(`/_matrix/maubot`)
+      - traefik.http.routers.maubot.service=maubot
+      - traefik.http.services.maubot.loadBalancer.server.port=29316
+      - traefik.http.routers.maubot.middlewares=lan-whitelist
+      - traefik.http.routers.maubot.priority=500 # Ensure bot can get routed even tho it is on subpath of /_matrix
+
 networks:
   web:
     external: true
