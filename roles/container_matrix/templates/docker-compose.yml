@@ -50,7 +50,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.element.entryPoints=websecure
-      - traefik.http.routers.element.rule=Host(`matrix.{{ ansible_fqdn }}`)
+      - traefik.http.routers.element.rule=Host(`element.{{ ansible_fqdn }}`)
       - traefik.http.routers.element.service=element
       - traefik.http.services.element.loadBalancer.server.port=80
 

@@ -275,7 +275,7 @@ dashboard__shortcuts:
       - name: Actual
         url: https://actual.snyssen.be
       - name: Matrix
-        url: https://matrix.snyssen.be
+        url: https://element.snyssen.be
   - name: Documents
     icon_classes: las la-folder-open
     children:
