@@ -351,14 +351,16 @@ dashboard__shortcuts:
         url: https://hass.snyssen.be/auth/oidc/welcome
       - name: DNS management
         children:
+          - name: Local DNS
+            url: http://192.168.1.2
+          - name: Tailnet DNS
+            url: https://ts-dns.taild023c5.ts.net
           - name: DDNS updater
             url: https://ddns.snyssen.be
           - name: Dynu
             url: https://www.dynu.com/en-US/ControlPanel
           - name: Porkbun
             url: https://porkbun.com/account/login
-          - name: Local DNS
-            url: http://192.168.1.2
       - name: Networking
         children:
           - name: Router
