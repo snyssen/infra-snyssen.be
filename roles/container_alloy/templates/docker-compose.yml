@@ -7,7 +7,7 @@ services:
       - "{{ docker_mounts_directory }}/monitoring/alloy/alloy-config.alloy:/etc/alloy/config.alloy"
       - /var/log:/var/log:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-    command: run --server.http.listen-addr=0.0.0.0:12345 /etc/alloy/config.alloy
+    command: run --server.http.listen-addr=0.0.0.0:12345 --disable-reporting /etc/alloy/config.alloy
     ports:
       - 12345:12345
     mem_limit: 2g

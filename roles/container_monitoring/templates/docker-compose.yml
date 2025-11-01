@@ -40,6 +40,9 @@ services:
     environment:
       - GF_INSTALL_PLUGINS=volkovlabs-rss-datasource
       - GF_SERVER_ROOT_URL=https://monitor.{{ main_domain }}
+      - GF_ANALYTICS_ENABLED=false
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_ANALYTICS_CHECK_FOR_UPDATES=false
       # SMTP
       - GF_SMTP_ENABLED=true
       - GF_SMTP_HOST={{ smtp__host }}:{{ smtp__port }}
