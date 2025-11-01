@@ -9,8 +9,8 @@ services:
       - FOUNDRY_USERNAME={{ foundryvtt__username }}
       - FOUNDRY_PASSWORD={{ foundryvtt__password }}
       - FOUNDRY_ADMIN_KEY={{ foundryvtt__admin_key }}
-      - FOUNDRY_LOCAL_HOSTNAME=dnd.{{ ansible_fqdn }}
-      - FOUNDRY_HOSTNAME=dnd.{{ ansible_fqdn }}
+      - FOUNDRY_LOCAL_HOSTNAME=dnd.{{ main_domain }}
+      - FOUNDRY_HOSTNAME=dnd.{{ main_domain }}
       - FOUNDRY_PROXY_PORT=443
       - FOUNDRY_PROXY_SSL=true
       - FOUNDRY_MINIFY_STATIC_FILES=true
@@ -21,7 +21,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.foundryvtt.entryPoints=websecure
-      - traefik.http.routers.foundryvtt.rule=Host(`dnd.{{ ansible_fqdn }}`)
+      - traefik.http.routers.foundryvtt.rule=Host(`dnd.{{ main_domain }}`)
       - traefik.http.routers.foundryvtt.service=foundryvtt
       - traefik.http.services.foundryvtt.loadBalancer.server.port=30000
       - traefik.http.routers.foundryvtt.middlewares=authelia@docker

@@ -9,7 +9,7 @@
             - {{ docker_mounts_directory }}
             - {{ docker_compose_directory }}
 
-          Do you really want to wipe the server '{{ ansible_fqdn }}'? (y/N)
+          Do you really want to wipe the server '{{ ansible_nodename }}'? (y/N)
       register: wipe_confirmation
 
     - ansible.builtin.meta: end_play

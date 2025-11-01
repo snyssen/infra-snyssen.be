@@ -19,4 +19,4 @@
     url: "{{ item.url }}"
   loop:
     - name: immich
-      url: "https://photos.{{ ansible_fqdn }}"
+      url: "https://photos.{{ main_domain }}"

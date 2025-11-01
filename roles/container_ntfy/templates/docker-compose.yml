@@ -7,7 +7,7 @@ services:
       - serve
     environment:
       TZ: "{{ iana_timezone }}"
-      NTFY_BASE_URL: "https://ntfy.{{ ansible_fqdn }}"
+      NTFY_BASE_URL: "https://ntfy.{{ main_domain }}"
       NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
       NTFY_CACHE_DURATION: 48h
       NTFY_BEHIND_PROXY: true
@@ -36,7 +36,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.ntfy.entryPoints=websecure
-      - traefik.http.routers.ntfy.rule=Host(`ntfy.{{ ansible_fqdn }}`)
+      - traefik.http.routers.ntfy.rule=Host(`ntfy.{{ main_domain }}`)
       - traefik.http.routers.ntfy.service=ntfy
       - traefik.http.services.ntfy.loadBalancer.server.port=80
   mollysocket:
@@ -50,7 +50,7 @@ services:
     environment:
       - MOLLY_DB="/data/mollysocket.db"
       # Do not add space in the array ["http://a.tld","*"]
-      - MOLLY_ALLOWED_ENDPOINTS=["https://ntfy.{{ ansible_fqdn }}"]
+      - MOLLY_ALLOWED_ENDPOINTS=["https://ntfy.{{ main_domain }}"]
       - MOLLY_ALLOWED_UUIDS=["*"]
       - MOLLY_VAPID_PRIVKEY="{{ ntfy__mollysocket_vapid_key }}"
       - MOLLY_HOST=0.0.0.0
@@ -62,7 +62,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.mollysocket.entryPoints=websecure
-      - traefik.http.routers.mollysocket.rule=Host(`molly.{{ ansible_fqdn }}`)
+      - traefik.http.routers.mollysocket.rule=Host(`molly.{{ main_domain }}`)
       - traefik.http.routers.mollysocket.service=mollysocket
       - traefik.http.services.mollysocket.loadBalancer.server.port=8020
 networks:

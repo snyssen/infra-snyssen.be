@@ -15,7 +15,7 @@ services:
       - "traefik.docker.network=web"
 
       - "traefik.http.routers.syncthing.entrypoints=websecure"
-      - "traefik.http.routers.syncthing.rule=Host(`sync.{{ ansible_fqdn }}`)"
+      - "traefik.http.routers.syncthing.rule=Host(`sync.{{ main_domain }}`)"
       - "traefik.http.routers.syncthing.service=syncthing"
       - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
 

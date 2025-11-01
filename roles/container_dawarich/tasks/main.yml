@@ -23,4 +23,4 @@
     url: "{{ item.url }}"
   loop:
     - name: dawarich
-      url: "https://location.{{ ansible_fqdn }}"
+      url: "https://location.{{ main_domain }}"

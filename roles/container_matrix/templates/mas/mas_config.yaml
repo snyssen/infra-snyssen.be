@@ -22,7 +22,7 @@ http:
     - 127.0.0.1/8
     - fd00::/8
     - ::1/128
-  public_base: https://matrix-mas.{{ ansible_fqdn }}
+  public_base: https://matrix-mas.{{ main_domain }}
   # issuer: http://[::]:8080/
 database:
   uri: postgres://matrix_mas:{{ matrix__mas__db_pass }}@postgres/matrix_mas
@@ -49,9 +49,9 @@ passwords:
   minimum_complexity: 3
 matrix:
   kind: synapse
-  homeserver: matrix.{{ ansible_fqdn }}
+  homeserver: matrix.{{ main_domain }}
   secret: "{{ matrix__mas__shared_secret }}"
-  endpoint: https://matrix.{{ ansible_fqdn }}/
+  endpoint: https://matrix.{{ main_domain }}/
 upstream_oauth2:
   providers:
     - id: "{{ matrix__mas__oidc_id }}"

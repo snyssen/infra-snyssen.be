@@ -7,5 +7,5 @@
   lucasheld.uptime_kuma.monitor:
     name: "notes - {{ item.name }}"
     type: http
-    url: "https://{{ item.name }}.notes.{{ ansible_fqdn }}"
+    url: "https://{{ item.name }}.notes.{{ main_domain }}"
   loop: "{{ quartz__vaults }}"

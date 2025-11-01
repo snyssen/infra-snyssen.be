@@ -56,7 +56,6 @@
     # bazarr
     - src: "{{ docker_mounts_directory }}/bazarr/config"
       mode: "750"
-      mode: "750"
     # pinchflat
     - src: "{{ docker_mounts_directory }}/pinchflat/config"
       mode: "750"

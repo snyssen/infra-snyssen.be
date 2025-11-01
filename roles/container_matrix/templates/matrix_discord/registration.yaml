@@ -6,9 +6,9 @@ sender_localpart: "{{ matrix__discord__sender_localpart }}"
 rate_limited: false
 namespaces:
   users:
-    - regex: ^@discordbot:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+    - regex: ^@discordbot:matrix\.{{ main_domain | replace('.', '\.') }}$
       exclusive: true
-    - regex: ^@discord_.*:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+    - regex: ^@discord_.*:matrix\.{{ main_domain | replace('.', '\.') }}$
       exclusive: true
 de.sorunome.msc2409.push_ephemeral: true
 push_ephemeral: true

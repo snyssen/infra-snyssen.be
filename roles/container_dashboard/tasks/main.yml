@@ -11,4 +11,4 @@
     url: "{{ item.url }}"
   loop:
     - name: dashboard
-      url: "https://dash.{{ ansible_fqdn }}"
+      url: "https://dash.{{ main_domain }}"

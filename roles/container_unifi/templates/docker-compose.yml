@@ -23,7 +23,7 @@ services:
       - traefik.docker.network=web
       # web portal
       - traefik.http.routers.unifi-portal.entryPoints=websecure
-      - traefik.http.routers.unifi-portal.rule=Host(`unifi.{{ ansible_fqdn }}`)
+      - traefik.http.routers.unifi-portal.rule=Host(`unifi.{{ main_domain }}`)
       - traefik.http.routers.unifi-portal.service=unifi-portal
       - traefik.http.services.unifi-portal.loadbalancer.server.port=8443
       - traefik.http.services.unifi-portal.loadbalancer.server.scheme=https
@@ -48,7 +48,7 @@ services:
       # - traefik.udp.services.unifi-discovery-l2.loadBalancer.server.port=1900
       # Guest portal
       - traefik.http.routers.unifi-portal-guest.entryPoints=websecure
-      - traefik.http.routers.unifi-portal-guest.rule=Host(`unifi-guest.{{ ansible_fqdn }}`)
+      - traefik.http.routers.unifi-portal-guest.rule=Host(`unifi-guest.{{ main_domain }}`)
       - traefik.http.routers.unifi-portal-guest.service=unifi-portal-guest
       - traefik.http.services.unifi-portal-guest.loadbalancer.server.port=8843
       - traefik.http.services.unifi-portal-guest.loadbalancer.server.scheme=https

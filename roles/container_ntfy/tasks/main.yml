@@ -49,4 +49,4 @@
     url: "{{ item.url }}"
   loop:
     - name: ntfy
-      url: "https://ntfy.{{ ansible_fqdn }}"
+      url: "https://ntfy.{{ main_domain }}"

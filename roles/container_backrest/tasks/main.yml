@@ -20,4 +20,4 @@
     url: "{{ item.url }}"
   loop:
     - name: backrest
-      url: "https://backrest.{{ ansible_fqdn }}"
+      url: "https://backrest.{{ main_domain }}"

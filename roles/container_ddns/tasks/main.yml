@@ -26,4 +26,4 @@
 #     url: "{{ item.url }}"
 #   loop:
 #     - name: ddns
-#       url: "https://ddns.{{ ansible_fqdn }}"
+#       url: "https://ddns.{{ main_domain }}"

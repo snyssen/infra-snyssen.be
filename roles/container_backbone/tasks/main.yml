@@ -10,7 +10,7 @@
 
 - name: Set LDAP base domain
   ansible.builtin.set_fact:
-    ldap_base_dn: "{{ ansible_fqdn | split('.') | map('regex_replace', '^', 'dc=') | join(',') }}"
+    ldap_base_dn: "{{ main_domain | split('.') | map('regex_replace', '^', 'dc=') | join(',') }}"
 
 - name: Load OIDC private key for Authelia
   ansible.builtin.set_fact:
@@ -61,6 +61,6 @@
     url: "{{ item.url }}"
   loop:
     - name: authelia
-      url: "https://auth.{{ ansible_fqdn }}"
+      url: "https://auth.{{ main_domain }}"
     - name: ldap
-      url: "https://ldap.{{ ansible_fqdn }}"
+      url: "https://ldap.{{ main_domain }}"

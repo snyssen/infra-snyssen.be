@@ -25,4 +25,4 @@
     url: "{{ item.url }}"
   loop:
     - name: syncthing
-      url: "https://sync.{{ ansible_fqdn }}"
+      url: "https://sync.{{ main_domain }}"

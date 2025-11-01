@@ -12,7 +12,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.recipes.entryPoints=websecure
-      - traefik.http.routers.recipes.rule=Host(`recipes.{{ ansible_fqdn }}`)
+      - traefik.http.routers.recipes.rule=Host(`recipes.{{ main_domain }}`)
       - traefik.http.routers.recipes.middlewares=authelia@docker
     environment:
       SECRET_KEY: "{{ recipes__secret_key }}"
@@ -20,7 +20,7 @@ services:
       TZ: "{{ iana_timezone }}"
 
       # allowed hosts (see documentation), should be set to your hostname(s) but might be * (default) for some proxies/providers
-      ALLOWED_HOSTS: "recipes.{{ ansible_fqdn }}"
+      ALLOWED_HOSTS: "recipes.{{ main_domain }}"
 
       # add only a database password if you want to run with the default postgres, otherwise change settings accordingly
       DB_ENGINE: django.db.backends.postgresql

@@ -14,7 +14,7 @@ services:
       - JELLYFIN_CACHE_DIR=/cache
       - JELLYFIN_LOG_DIR=/logs
 
-      - JELLYFIN_PublishedServerUrl=https://streaming.{{ ansible_fqdn }}
+      - JELLYFIN_PublishedServerUrl=https://streaming.{{ main_domain }}
       - JELLYFIN_playlists__allowDuplicates=false
     devices:
       - /dev/dri:/dev/dri # allow use of Intel QuickSync for transcoding
@@ -24,13 +24,13 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.jellyfin.entryPoints=websecure
-      - traefik.http.routers.jellyfin.rule=Host(`streaming.{{ ansible_fqdn }}`) && !Path(`/metrics`)
+      - traefik.http.routers.jellyfin.rule=Host(`streaming.{{ main_domain }}`) && !Path(`/metrics`)
       - traefik.http.services.jellyfin.loadBalancer.server.port=8096
       # jellyfin middleware, see https://jellyfin.org/docs/general/networking/traefik2.html
       - traefik.http.routers.jellyfin.middlewares=jellyfin-mw
       - traefik.http.middlewares.jellyfin-mw.headers.customResponseHeaders.X-Robots-Tag=noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex
       - traefik.http.middlewares.jellyfin-mw.headers.SSLRedirect=true
-      - traefik.http.middlewares.jellyfin-mw.headers.SSLHost=streaming.{{ ansible_fqdn }}
+      - traefik.http.middlewares.jellyfin-mw.headers.SSLHost=streaming.{{ main_domain }}
       - traefik.http.middlewares.jellyfin-mw.headers.SSLForceHost=true
       - traefik.http.middlewares.jellyfin-mw.headers.STSSeconds=315360000
       - traefik.http.middlewares.jellyfin-mw.headers.STSIncludeSubdomains=true
@@ -39,7 +39,7 @@ services:
       - traefik.http.middlewares.jellyfin-mw.headers.frameDeny=true
       - traefik.http.middlewares.jellyfin-mw.headers.contentTypeNosniff=true
       - traefik.http.middlewares.jellyfin-mw.headers.browserXSSFilter=true
-      - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.{{ ansible_fqdn }}'
+      - traefik.http.middlewares.jellyfin-mw.headers.customFrameOptionsValue='allow-from https://streaming.{{ main_domain }}'
 
       - traefik.udp.routers.jellyfin-discovery.entryPoints=jellyfin-discovery
       - traefik.udp.routers.jellyfin-discovery.service=jellyfin-discovery
@@ -68,7 +68,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.audiobookshelf.entryPoints=websecure
-      - traefik.http.routers.audiobookshelf.rule=Host(`audiobooks.{{ ansible_fqdn }}`)
+      - traefik.http.routers.audiobookshelf.rule=Host(`audiobooks.{{ main_domain }}`)
     volumes:
       - /mnt/storage/streaming/media/audiobooks:/audiobooks
       - /mnt/storage/streaming/media/audiobooks_vi:/audiobooks_vi
@@ -117,7 +117,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.sonarr.entryPoints=websecure
-      - traefik.http.routers.sonarr.rule=Host(`sonarr.{{ ansible_fqdn }}`)
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.{{ main_domain }}`)
       - traefik.http.services.sonarr.loadBalancer.server.port=8989
       - traefik.http.routers.sonarr.middlewares=authelia@docker
     volumes:
@@ -138,7 +138,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.radarr.entryPoints=websecure
-      - traefik.http.routers.radarr.rule=Host(`radarr.{{ ansible_fqdn }}`)
+      - traefik.http.routers.radarr.rule=Host(`radarr.{{ main_domain }}`)
       - traefik.http.services.radarr.loadBalancer.server.port=7878
       - traefik.http.routers.radarr.middlewares=authelia@docker
     volumes:
@@ -159,7 +159,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.lidarr.entryPoints=websecure
-      - traefik.http.routers.lidarr.rule=Host(`lidarr.{{ ansible_fqdn }}`)
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.{{ main_domain }}`)
       - traefik.http.services.lidarr.loadBalancer.server.port=8686
       - traefik.http.routers.lidarr.middlewares=authelia@docker
     volumes:
@@ -180,7 +180,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.prowlarr.entryPoints=websecure
-      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ ansible_fqdn }}`)
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.{{ main_domain }}`)
       - traefik.http.services.prowlarr.loadBalancer.server.port=9696
       - traefik.http.routers.prowlarr.middlewares=authelia@docker
     volumes:
@@ -200,7 +200,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.bazarr.entryPoints=websecure
-      - traefik.http.routers.bazarr.rule=Host(`bazarr.{{ ansible_fqdn }}`)
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.{{ main_domain }}`)
       - traefik.http.services.bazarr.loadBalancer.server.port=6767
       - traefik.http.routers.bazarr.middlewares=authelia@docker
     volumes:
@@ -220,7 +220,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.pinchflat.entryPoints=websecure
-      - traefik.http.routers.pinchflat.rule=Host(`yt.{{ ansible_fqdn }}`)
+      - traefik.http.routers.pinchflat.rule=Host(`yt.{{ main_domain }}`)
       - traefik.http.services.pinchflat.loadBalancer.server.port=8945
       - traefik.http.routers.pinchflat.middlewares=authelia@docker
     volumes:
@@ -242,7 +242,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.lidatube.entryPoints=websecure
-      - traefik.http.routers.lidatube.rule=Host(`lidatube.{{ ansible_fqdn }}`)
+      - traefik.http.routers.lidatube.rule=Host(`lidatube.{{ main_domain }}`)
       - traefik.http.services.lidatube.loadBalancer.server.port=5000
       - traefik.http.routers.lidatube.middlewares=authelia@docker
     restart: unless-stopped
@@ -261,7 +261,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.lidify.entryPoints=websecure
-      - traefik.http.routers.lidify.rule=Host(`lidify.{{ ansible_fqdn }}`)
+      - traefik.http.routers.lidify.rule=Host(`lidify.{{ main_domain }}`)
       - traefik.http.services.lidify.loadBalancer.server.port=5000
       - traefik.http.routers.lidify.middlewares=authelia@docker
     restart: unless-stopped

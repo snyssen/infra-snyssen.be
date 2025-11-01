@@ -9,7 +9,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.s-pdf.entryPoints=websecure
-      - traefik.http.routers.s-pdf.rule=Host(`pdf.{{ ansible_fqdn }}`)
+      - traefik.http.routers.s-pdf.rule=Host(`pdf.{{ main_domain }}`)
       - traefik.http.services.s-pdf.loadBalancer.server.port=8080
       - traefik.http.routers.s-pdf.middlewares=authelia@docker
     volumes:

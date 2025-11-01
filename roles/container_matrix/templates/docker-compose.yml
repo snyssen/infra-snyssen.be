@@ -16,7 +16,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.synapse.entryPoints=websecure
-      - traefik.http.routers.synapse.rule=Host(`matrix.{{ ansible_fqdn }}`) && (PathPrefix(`/.well-known/matrix/server`) || PathPrefix(`/.well-known/matrix/client`) || PathPrefix(`/_matrix`)|| PathPrefix(`/_synapse`))
+      - traefik.http.routers.synapse.rule=Host(`matrix.{{ main_domain }}`) && (PathPrefix(`/.well-known/matrix/server`) || PathPrefix(`/.well-known/matrix/client`) || PathPrefix(`/_matrix`)|| PathPrefix(`/_synapse`))
       - traefik.http.routers.synapse.service=synapse
       - traefik.http.services.synapse.loadBalancer.server.port=8008
 
@@ -35,7 +35,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.matrix_mas.entryPoints=websecure
-      - traefik.http.routers.matrix_mas.rule=Host(`matrix-mas.{{ ansible_fqdn }}`)
+      - traefik.http.routers.matrix_mas.rule=Host(`matrix-mas.{{ main_domain }}`)
       - traefik.http.routers.matrix_mas.service=matrix_mas
       - traefik.http.services.matrix_mas.loadBalancer.server.port=8080
   element:
@@ -50,7 +50,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.element.entryPoints=websecure
-      - traefik.http.routers.element.rule=Host(`element.{{ ansible_fqdn }}`)
+      - traefik.http.routers.element.rule=Host(`element.{{ main_domain }}`)
       - traefik.http.routers.element.service=element
       - traefik.http.services.element.loadBalancer.server.port=80
 
@@ -115,7 +115,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.maubot.entryPoints=websecure
-      - traefik.http.routers.maubot.rule=Host(`matrix.{{ ansible_fqdn }}`) && PathPrefix(`/_matrix/maubot`)
+      - traefik.http.routers.maubot.rule=Host(`matrix.{{ main_domain }}`) && PathPrefix(`/_matrix/maubot`)
       - traefik.http.routers.maubot.service=maubot
       - traefik.http.services.maubot.loadBalancer.server.port=29316
       - traefik.http.routers.maubot.middlewares=lan-whitelist

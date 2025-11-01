@@ -32,6 +32,6 @@
   lucasheld.uptime_kuma.monitor:
     name: unifi
     type: json-query
-    url: "https://unifi.{{ ansible_fqdn }}/status"
+    url: "https://unifi.{{ main_domain }}/status"
     jsonPath: meta.up
     expectedValue: "true"

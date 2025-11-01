@@ -17,4 +17,4 @@
     url: "{{ item.url }}"
   loop:
     - name: foundryvtt
-      url: "https://dnd.{{ ansible_fqdn }}"
+      url: "https://dnd.{{ main_domain }}"

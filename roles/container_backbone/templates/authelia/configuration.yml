@@ -176,14 +176,14 @@ access_control:
     ## General services - services that are accessible to any registered user
     #
     - domain:
-        - "pdf.{{ ansible_fqdn }}"
+        - "pdf.{{ main_domain }}"
       policy: one_factor
     #
     ## DnD stuff
     #
     {% for vault in quartz__vaults -%}
     {% for permission in vault.permissions -%}
-    - domain: "{{ vault.name }}.notes.{{ ansible_fqdn }}"
+    - domain: "{{ vault.name }}.notes.{{ main_domain }}"
       policy: "{{ permission.policy }}"
       resources:
       {% for resource in permission.resources -%}
@@ -192,7 +192,7 @@ access_control:
       subject: {{ permission.subject | to_json }}
     {% endfor -%}
     {% endfor -%}
-    - domain: "dnd.{{ ansible_fqdn }}"
+    - domain: "dnd.{{ main_domain }}"
       policy: one_factor
       subject:
         - ["group:foundry_player"]
@@ -200,12 +200,12 @@ access_control:
     ## sysadmin stuff
     #
     - domain:
-        - "routing.{{ ansible_fqdn }}"
-        - "prometheus.{{ ansible_fqdn }}"
-        - "uptime.{{ ansible_fqdn }}"
-        - "ddns.{{ ansible_fqdn }}"
-        - "speedtest-tracker.{{ ansible_fqdn }}"
-        - "backrest.{{ ansible_fqdn }}"
+        - "routing.{{ main_domain }}"
+        - "prometheus.{{ main_domain }}"
+        - "uptime.{{ main_domain }}"
+        - "ddns.{{ main_domain }}"
+        - "speedtest-tracker.{{ main_domain }}"
+        - "backrest.{{ main_domain }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]
@@ -215,24 +215,24 @@ access_control:
     # allow some direct connection on internal network for m2m calls
     - domain:
         # Download clients, contacted by *arr stack
-        - "torrent.{{ ansible_fqdn }}"
-        - "usenet.{{ ansible_fqdn }}"
+        - "torrent.{{ main_domain }}"
+        - "usenet.{{ main_domain }}"
         # Lidarr, contacted by lidatube
-        - "lidarr.{{ ansible_fqdn }}"
+        - "lidarr.{{ main_domain }}"
       policy: bypass
       networks:
         - internal
     - domain:
-        - "torrent.{{ ansible_fqdn }}"
-        - "usenet.{{ ansible_fqdn }}"
-        - "sonarr.{{ ansible_fqdn }}"
-        - "radarr.{{ ansible_fqdn }}"
-        - "lidarr.{{ ansible_fqdn }}"
-        - "prowlarr.{{ ansible_fqdn }}"
-        - "bazarr.{{ ansible_fqdn }}"
-        - "lidatube.{{ ansible_fqdn }}"
-        - "lidify.{{ ansible_fqdn }}"
-        - "yt.{{ ansible_fqdn }}"
+        - "torrent.{{ main_domain }}"
+        - "usenet.{{ main_domain }}"
+        - "sonarr.{{ main_domain }}"
+        - "radarr.{{ main_domain }}"
+        - "lidarr.{{ main_domain }}"
+        - "prowlarr.{{ main_domain }}"
+        - "bazarr.{{ main_domain }}"
+        - "lidatube.{{ main_domain }}"
+        - "lidify.{{ main_domain }}"
+        - "yt.{{ main_domain }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]
@@ -241,7 +241,7 @@ access_control:
     ## Misc
     #
     # - domain:
-    #     - "wallos.{{ ansible_fqdn }}"
+    #     - "wallos.{{ main_domain }}"
     #   policy: two_factor
     #   subject:
     #     - ["group:sysadmin"]
@@ -250,8 +250,8 @@ access_control:
     #
     # Disable access to Django admin for users not in sysadmin group
     - domain:
-        - "paperless.{{ ansible_fqdn }}"
-        - "recipes.{{ ansible_fqdn }}"
+        - "paperless.{{ main_domain }}"
+        - "recipes.{{ main_domain }}"
       policy: two_factor
       subject:
         - ["group:sysadmin"]
@@ -260,8 +260,8 @@ access_control:
         - '^/admin.*$'
     # Bypass auth on OIDC enabled sites (be sure to put after more restrictive rules)
     - domain:
-        - "paperless.{{ ansible_fqdn }}"
-        - "recipes.{{ ansible_fqdn }}"
+        - "paperless.{{ main_domain }}"
+        - "recipes.{{ main_domain }}"
       policy: "bypass"
 
 ##
@@ -279,14 +279,14 @@ session:
   cookies:
     ## The domain to protect.
     ## Note: the Authelia portal must also be in that domain.
-    - domain: "{{ ansible_fqdn }}"
+    - domain: "{{ main_domain }}"
       ## Required. The fully qualified URI of the portal to redirect users to on proxies that support redirections.
       ## Rules:
       ##   - MUST use the secure scheme 'https://'
       ##   - The above 'domain' option MUST either:
       ##      - Match the host portion of this URI.
       ##      - Match the suffix of the host portion when prefixed with '.'.
-      authelia_url: "https://auth.{{ ansible_fqdn }}"
+      authelia_url: "https://auth.{{ main_domain }}"
     - domain: "{{ team_domain }}"
       authelia_url: "https://auth.{{ team_domain }}"
 
@@ -372,7 +372,7 @@ notifier:
     ## The sender is used to is used for the MAIL FROM command and the FROM header.
     ## If this is not defined and the username is an email, we use the username as this value. This can either be just
     ## an email address or the RFC5322 'Name <email address>' format.
-    sender: "Authelia <auth@{{ ansible_fqdn }}>"
+    sender: "Authelia <auth@{{ main_domain }}>"
 
 ##
 ## Identity Providers
@@ -468,7 +468,7 @@ identity_providers:
         client_secret: "{{ backbone__authelia__oidc_nextcloud_clientsecret_hash }}"
         authorization_policy: 'two_factor'
         redirect_uris:
-          - 'https://cloud.{{ ansible_fqdn }}/apps/user_oidc/code'
+          - 'https://cloud.{{ main_domain }}/apps/user_oidc/code'
         scopes:
           - 'openid'
           - 'profile'
@@ -481,7 +481,7 @@ identity_providers:
         client_secret: "{{ backbone__authelia__oidc_recipes_clientsecret_hash }}"
         authorization_policy: "recipes_policy"
         redirect_uris:
-          - "https://recipes.{{ ansible_fqdn }}/accounts/oidc/authelia/login/callback/"
+          - "https://recipes.{{ main_domain }}/accounts/oidc/authelia/login/callback/"
         scopes:
           - 'openid'
           - 'profile'
@@ -493,7 +493,7 @@ identity_providers:
         client_secret: "{{ backbone__authelia__oidc_paperless_clientsecret_hash }}"
         authorization_policy: "paperless_policy"
         redirect_uris:
-          - "https://paperless.{{ ansible_fqdn }}/accounts/oidc/authelia/login/callback/"
+          - "https://paperless.{{ main_domain }}/accounts/oidc/authelia/login/callback/"
         scopes:
           - 'openid'
           - 'profile'
@@ -505,7 +505,7 @@ identity_providers:
         client_secret: '{{ backbone__authelia__oidc_grafana_clientsecret_hash }}'
         authorization_policy: 'two_factor'
         redirect_uris:
-          - 'https://monitor.{{ ansible_fqdn }}/login/generic_oauth'
+          - 'https://monitor.{{ main_domain }}/login/generic_oauth'
         scopes:
           - 'openid'
           - 'profile'
@@ -517,8 +517,8 @@ identity_providers:
         client_secret: '{{ backbone__authelia__oidc_audiobookshelf_clientsecret_hash }}'
         authorization_policy: 'media_policy'
         redirect_uris:
-          - 'https://audiobooks.{{ ansible_fqdn }}/auth/openid/callback'
-          - 'https://audiobooks.{{ ansible_fqdn }}/auth/openid/mobile-redirect'
+          - 'https://audiobooks.{{ main_domain }}/auth/openid/callback'
+          - 'https://audiobooks.{{ main_domain }}/auth/openid/mobile-redirect'
         scopes:
           - 'openid'
           - 'profile'
@@ -530,7 +530,7 @@ identity_providers:
         client_secret: '{{ backbone__authelia__oidc_pgadmin_clientsecret_hash }}'
         authorization_policy: 'two_factor'
         redirect_uris:
-          - 'https://pgadmin.{{ ansible_fqdn }}/oauth2/authorize'
+          - 'https://pgadmin.{{ main_domain }}/oauth2/authorize'
         scopes:
           - 'openid'
           - 'profile'
@@ -543,8 +543,8 @@ identity_providers:
         authorization_policy: 'photos_policy'
         redirect_uris:
           - app.immich:///oauth-callback
-          - https://photos.{{ ansible_fqdn }}/auth/login
-          - https://photos.{{ ansible_fqdn }}/user-settings
+          - https://photos.{{ main_domain }}/auth/login
+          - https://photos.{{ main_domain }}/user-settings
         scopes:
           - 'openid'
           - 'profile'
@@ -580,7 +580,7 @@ identity_providers:
         public: false
         authorization_policy: sysadmin_policy
         redirect_uris:
-          - https://semaphore.{{ ansible_fqdn }}/api/auth/oidc/authelia/redirect
+          - https://semaphore.{{ main_domain }}/api/auth/oidc/authelia/redirect
         scopes:
           - openid
           - profile
@@ -614,7 +614,7 @@ identity_providers:
         pkce_challenge_method: 'S256'
         authorization_policy: 'hass_policy'
         redirect_uris:
-          - 'https://hass.{{ ansible_fqdn }}/auth/oidc/callback'
+          - 'https://hass.{{ main_domain }}/auth/oidc/callback'
         scopes:
           - 'openid'
           - 'profile'
@@ -634,7 +634,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: 'S256'
         redirect_uris:
-          - 'https://matrix-mas.{{ ansible_fqdn }}/upstream/callback/{{ matrix__mas__oidc_id }}'
+          - 'https://matrix-mas.{{ main_domain }}/upstream/callback/{{ matrix__mas__oidc_id }}'
         scopes:
           - 'openid'
           - 'profile'

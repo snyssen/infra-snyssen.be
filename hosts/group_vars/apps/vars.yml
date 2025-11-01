@@ -1,3 +1,5 @@
+main_domain: "{{ vault_main_domain }}"
+team_domain: "{{ vault_team_domain }}"
 docker_daemon_extra_options:
   dns:
     - "192.168.1.2"
@@ -177,8 +179,6 @@ db__pg_databases:
 db__pg_dump_healthcheck_id: "{{ vault_db__pg_dump_healthcheck_id }}"
 db__pgadmin_email: "{{ vault_db__pgadmin_email }}"
 db__pgadmin_password: "{{ vault_db__pgadmin_password }}"
-
-team_domain: "{{ vault_team_domain }}"
 
 ddns__dynu_user: "{{ vault_ddns__dynu_user }}"
 ddns__dynu_pass: "{{ vault_ddns__dynu_pass }}"
@@ -461,7 +461,7 @@ quartz__vaults:
   - name: dnd-saltmarsh
     path: /mnt/storage/syncthing/data/Notes/TTRPG/DnD - Saltmarsh
     # https://www.authelia.com/configuration/security/access-control/
-    # but domain is automatically filled as "{{ vault.name }}.notes.{{ ansible_fqdn }}"
+    # but domain is automatically filled as "{{ vault.name }}.notes.{{ main_domain }}"
     permissions:
       - policy: one_factor
         resources:

@@ -2,7 +2,7 @@
   "settings": [
     {
       "provider": "dynu",
-      "domain": "{{ ansible_fqdn }}",
+      "domain": "{{ main_domain }}",
       "host": "@",
       "username": "{{ ddns__dynu_user }}",
       "password": "{{ ddns__dynu_pass }}"

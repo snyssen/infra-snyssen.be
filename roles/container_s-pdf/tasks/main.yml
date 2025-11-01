@@ -25,4 +25,4 @@
     url: "{{ item.url }}"
   loop:
     - name: s-pdf
-      url: "https://pdf.{{ ansible_fqdn }}"
+      url: "https://pdf.{{ main_domain }}"

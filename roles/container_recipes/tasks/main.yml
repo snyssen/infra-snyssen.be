@@ -18,4 +18,4 @@
     url: "{{ item.url }}"
   loop:
     - name: recipes
-      url: "https://recipes.{{ ansible_fqdn }}"
+      url: "https://recipes.{{ main_domain }}"

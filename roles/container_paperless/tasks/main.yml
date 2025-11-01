@@ -35,4 +35,4 @@
     url: "{{ item.url }}"
   loop:
     - name: paperless
-      url: "https://paperless.{{ ansible_fqdn }}"
+      url: "https://paperless.{{ main_domain }}"

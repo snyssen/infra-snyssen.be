@@ -47,4 +47,4 @@
     url: "{{ item.url }}"
   loop:
     - name: sharkey
-      url: "https://social.{{ ansible_fqdn }}"
+      url: "https://social.{{ main_domain }}"

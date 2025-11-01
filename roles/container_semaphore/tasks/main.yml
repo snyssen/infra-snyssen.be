@@ -35,4 +35,4 @@
     url: "{{ item.url }}"
   loop:
     - name: Semaphore UI
-      url: "https://semaphore.{{ ansible_fqdn }}"
+      url: "https://semaphore.{{ main_domain }}"

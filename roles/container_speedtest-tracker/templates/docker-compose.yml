@@ -8,7 +8,7 @@ services:
       - PGID=1000
       - TZ={{ iana_timezone }}
       - "APP_KEY={{speedtest_tracker__app_key}}"
-      - "APP_URL=https://speedtest-tracker.{{ ansible_fqdn }}"
+      - "APP_URL=https://speedtest-tracker.{{ main_domain }}"
       - SPEEDTEST_SCHEDULE=30 * * * *
       # See https://c.speedtest.net/speedtest-servers-static.php
       - SPEEDTEST_SERVERS=3242,32582,35058,11611,9913
@@ -27,7 +27,7 @@ services:
       - MAIL_USERNAME={{ smtp__user }}
       - MAIL_PASSWORD={{ smtp__pass }}
       - MAIL_ENCRYPTION=tls
-      - MAIL_FROM_ADDRESS="speedtest-tracker@{{ ansible_fqdn }}"
+      - MAIL_FROM_ADDRESS="speedtest-tracker@{{ main_domain }}"
       - MAIL_FROM_NAME="Speedtest Tracker"
     networks:
       - web
@@ -36,7 +36,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.speedtest-tracker.entryPoints=websecure
-      - traefik.http.routers.speedtest-tracker.rule=Host(`speedtest-tracker.{{ ansible_fqdn }}`)
+      - traefik.http.routers.speedtest-tracker.rule=Host(`speedtest-tracker.{{ main_domain }}`)
       - traefik.http.routers.speedtest-tracker.middlewares=authelia@docker
     volumes:
       - "{{ docker_mounts_directory }}/speedtest-tracker:/config"

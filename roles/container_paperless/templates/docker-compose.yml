@@ -31,7 +31,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.paperless.entryPoints=websecure
-      - traefik.http.routers.paperless.rule=Host(`paperless.{{ ansible_fqdn }}`)
+      - traefik.http.routers.paperless.rule=Host(`paperless.{{ main_domain }}`)
       - traefik.http.routers.paperless.service=paperless
       - traefik.http.services.paperless.loadBalancer.server.port=8000
       - traefik.http.routers.paperless.middlewares=authelia@docker
@@ -50,7 +50,7 @@ services:
       # Paperless specific
       USERMAP_UID: "33" # 33 is the Nextcloud user id, this will allow us to mount the consume folder into Nextcloud and ingest files from it
       USERMAP_GID: "{{ ansible_user_gid }}"
-      PAPERLESS_URL: https://paperless.{{ ansible_fqdn }}
+      PAPERLESS_URL: https://paperless.{{ main_domain }}
       PAPERLESS_SECRET_KEY: "{{ paperless__secret_key }}"
       PAPERLESS_TIME_ZONE: Europe/Brussels
       PAPERLESS_OCR_LANGUAGE: fra
@@ -58,7 +58,7 @@ services:
       # OIDC
       PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
       PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
-      PAPERLESS_SOCIALACCOUNT_PROVIDERS: '{"openid_connect":{"APPS":[{"provider_id":"authelia","name":"Authelia","client_id":"{{ backbone__authelia__oidc_paperless_clientid }}","secret":"{{ backbone__authelia__oidc_paperless_clientsecret }}","settings":{"server_url":"https://auth.{{ ansible_fqdn }}/.well-known/openid-configuration"}}]}}'
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: '{"openid_connect":{"APPS":[{"provider_id":"authelia","name":"Authelia","client_id":"{{ backbone__authelia__oidc_paperless_clientid }}","secret":"{{ backbone__authelia__oidc_paperless_clientsecret }}","settings":{"server_url":"https://auth.{{ main_domain }}/.well-known/openid-configuration"}}]}}'
       # RBAC is done on Authelia side, so only authorized users can actually signup
       # Direct LDAP implementation would probably be better, and there is a way to enable it: https://github.com/paperless-ngx/paperless-ngx/discussions/3228
       # But this is not an official implementation, so I prefer this way.

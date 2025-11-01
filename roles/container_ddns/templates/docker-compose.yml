@@ -14,7 +14,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.ddns.entryPoints=websecure
-      - traefik.http.routers.ddns.rule=Host(`ddns.{{ ansible_fqdn }}`)
+      - traefik.http.routers.ddns.rule=Host(`ddns.{{ main_domain }}`)
       - traefik.http.routers.ddns.middlewares=authelia@docker
       - traefik.http.routers.ddns.service=ddns
       - traefik.http.services.ddns.loadBalancer.server.port=8000

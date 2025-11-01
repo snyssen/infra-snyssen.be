@@ -61,12 +61,12 @@
     keyword: "{{ item.keyword | default('') }}"
   loop:
     - name: prometheus
-      url: "https://prometheus.{{ ansible_fqdn }}"
+      url: "https://prometheus.{{ main_domain }}"
     - name: grafana
-      url: "https://monitor.{{ ansible_fqdn }}"
+      url: "https://monitor.{{ main_domain }}"
     - name: loki
-      url: "https://loki.{{ ansible_fqdn }}/ready"
+      url: "https://loki.{{ main_domain }}/ready"
       type: keyword
       keyword: ready
     - name: umami
-      url: "https://umami.{{ ansible_fqdn }}/api/heartbeat"
+      url: "https://umami.{{ main_domain }}/api/heartbeat"

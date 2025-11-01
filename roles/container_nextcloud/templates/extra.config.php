@@ -5,13 +5,13 @@ $CONFIG = array (
   'trusted_domains' =>
   array(
     0 => 'localhost',
-    1 => 'cloud.{{ ansible_fqdn }}',
+    1 => 'cloud.{{ main_domain }}',
   ),
   'trusted_proxies' =>
   array(
     0 => '172.18.0.0/24',
   ),
-  'overwrite.cli.url' => 'https://cloud.{{ ansible_fqdn }}',
+  'overwrite.cli.url' => 'https://cloud.{{ main_domain }}',
   'instanceid' => '{{ nextcloud__instanceid }}',
   'memcache.distributed' => '\\OC\\Memcache\\Redis',
   'memcache.locking' => '\\OC\\Memcache\\Redis',
@@ -32,7 +32,7 @@ $CONFIG = array (
   'mail_smtpsecure' => 'tls',
   'mail_sendmailmode' => 'smtp',
   'mail_from_address' => 'nextcloud',
-  'mail_domain' => '{{ ansible_fqdn }}',
+  'mail_domain' => '{{ main_domain }}',
   'mail_smtpauthtype' => 'LOGIN',
   'mail_smtpauth' => 1,
   'mail_smtphost' => '{{ smtp__host }}',

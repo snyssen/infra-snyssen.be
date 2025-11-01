@@ -12,7 +12,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.dynmap.entryPoints=websecure
-      - traefik.http.routers.dynmap.rule=Host(`mc.{{ ansible_fqdn }}`)
+      - traefik.http.routers.dynmap.rule=Host(`mc.{{ main_domain }}`)
       - traefik.http.routers.dynmap.service=dynmap
       - traefik.http.services.dynmap.loadBalancer.server.port=8123
     environment:
@@ -25,7 +25,7 @@ services:
       MAX_TICK_TIME: "-1"
 
       # https://github.com/itzg/docker-minecraft-server/blob/master/README.md#server-configuration
-      MOTD: "Find the Livemap at https://mc.{{ ansible_fqdn }} !"
+      MOTD: "Find the Livemap at https://mc.{{ main_domain }} !"
       DIFFICULTY: "{{ minecraft__difficulty }}"
       WHITELIST: "{{ minecraft__whitelisted_players | join(',') }}"
       OVERRIDE_WHITELIST: "TRUE"
@@ -36,7 +36,7 @@ services:
       VIEW_DISTANCE: "{{ minecraft__view_distance }}"
       GAMEMODE: "{{ minecraft__gamemode }}"
       ONLINE_MODE: "{{ minecraft__forbid_cracked | to_json }}"
-      SERVER_NAME: "mc.{{ ansible_fqdn }}"
+      SERVER_NAME: "mc.{{ main_domain }}"
       SPAWN_PROTECTION: "0"
       ###
       # DATAPACKS: |
@@ -74,7 +74,7 @@ services:
       OVERRIDE_OPS: "TRUE"
       MAX_PLAYERS: "2"
       VIEW_DISTANCE: "{{ minecraft__view_distance }}"
-      SERVER_NAME: "usw.{{ ansible_fqdn }}"
+      SERVER_NAME: "usw.{{ main_domain }}"
       SPAWN_PROTECTION: "0"
       ###
       DATAPACKS: |
@@ -85,7 +85,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.mc-usw-dynmap.entryPoints=websecure
-      - traefik.http.routers.mc-usw-dynmap.rule=Host(`mc-usw.{{ ansible_fqdn }}`)
+      - traefik.http.routers.mc-usw-dynmap.rule=Host(`mc-usw.{{ main_domain }}`)
       - traefik.http.routers.mc-usw-dynmap.service=mc-usw-dynmap
       - traefik.http.services.mc-usw-dynmap.loadBalancer.server.port=8123
     tty: true
@@ -101,7 +101,7 @@ services:
     depends_on:
       - minecraft
       - mc-usw
-    command: --mapping=mc.{{ ansible_fqdn }}=minecraft:25565,usw.{{ ansible_fqdn }}=mc-usw:25565
+    command: --mapping=mc.{{ main_domain }}=minecraft:25565,usw.{{ main_domain }}=mc-usw:25565
     restart: unless-stopped
     networks:
       - web

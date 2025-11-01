@@ -16,6 +16,6 @@ rate_limited: false
 namespaces:
   users:
     # Replace your\.domain with your server name (escape dots for regex)
-    - regex: ^@.*:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+    - regex: ^@.*:matrix\.{{ main_domain | replace('.', '\.') }}$
       # This must be false so the appservice doesn't take over all users completely.
       exclusive: false

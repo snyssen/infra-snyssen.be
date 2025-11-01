@@ -14,7 +14,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.sharkey.entryPoints=websecure
-      - traefik.http.routers.sharkey.rule=Host(`social.{{ ansible_fqdn }}`)
+      - traefik.http.routers.sharkey.rule=Host(`social.{{ main_domain }}`)
       - traefik.http.routers.sharkey.service=sharkey
       - traefik.http.services.sharkey.loadBalancer.server.port=3000
 

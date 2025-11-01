@@ -10,4 +10,4 @@
     url: "{{ item.url }}"
   loop:
     - name: "speedtest"
-      url: "https://speedtest.{{ ansible_fqdn }}"
+      url: "https://speedtest.{{ main_domain }}"

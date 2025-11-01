@@ -20,6 +20,6 @@
     url: "{{ item.url }}"
   loop:
     - name: minecraft
-      url: "https://mc.{{ ansible_fqdn }}"
+      url: "https://mc.{{ main_domain }}"
     - name: minecraft USW
-      url: "https://mc-usw.{{ ansible_fqdn }}"
+      url: "https://mc-usw.{{ main_domain }}"

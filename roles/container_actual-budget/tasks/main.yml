@@ -18,4 +18,4 @@
     url: "{{ item.url }}"
   loop:
     - name: "actual-budget"
-      url: "https://actual.{{ ansible_fqdn }}"
+      url: "https://actual.{{ main_domain }}"

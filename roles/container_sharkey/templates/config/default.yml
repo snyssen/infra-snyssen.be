@@ -64,7 +64,7 @@
 
 # Final accessible URL seen by a user.
 # You can set url from an environment variable instead.
-url: https://social.{{ ansible_fqdn }}/
+url: https://social.{{ main_domain }}/
 
 # ONCE YOU HAVE STARTED THE INSTANCE, DO NOT CHANGE THE
 # URL SETTINGS AFTER THAT!
@@ -102,7 +102,7 @@ db:
   # Auth
   # You can set user and pass from environment variables instead.
   user: sharkey
-  pass: {{ sharkey__db_pass }}
+  pass: { { sharkey__db_pass } }
 
   # Whether disable Caching queries
   #disableCache: true
@@ -202,7 +202,7 @@ redis:
 # ONCE YOU HAVE STARTED THE INSTANCE, DO NOT CHANGE THE
 # ID SETTINGS AFTER THAT!
 
-id: 'aidx'
+id: "aidx"
 
 #   ┌────────────────┐
 #───┘ Error tracking └──────────────────────────────────────────
@@ -302,8 +302,7 @@ attachLdSignatureForRelays: true
 # For security reasons, uploading attachments from the intranet is prohibited,
 # but exceptions can be made from the following settings. Default value is "undefined".
 # Read changelog to learn more (Improvements of 12.90.0 (2021/09/04)).
-allowedPrivateNetworks: {{ internal_networks_cidr | to_json }}
-
+allowedPrivateNetworks: { { internal_networks_cidr | to_json } }
 #customMOTD: ['Hello World', 'The sharks rule all', 'Shonks']
 
 # Upload or download file size limits (bytes)

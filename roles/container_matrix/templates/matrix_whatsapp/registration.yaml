@@ -6,9 +6,9 @@ sender_localpart: "{{ matrix__whatsapp__sender_localpart }}"
 rate_limited: false
 namespaces:
   users:
-    - regex: ^@whatsappbot:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+    - regex: ^@whatsappbot:matrix\.{{ main_domain | replace('.', '\.') }}$
       exclusive: true
-    - regex: ^@whatsapp_.*:matrix\.{{ ansible_fqdn | replace('.', '\.') }}$
+    - regex: ^@whatsapp_.*:matrix\.{{ main_domain | replace('.', '\.') }}$
       exclusive: true
 de.sorunome.msc2409.push_ephemeral: true
 receive_ephemeral: true

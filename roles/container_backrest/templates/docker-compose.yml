@@ -20,7 +20,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.backrest.entryPoints=websecure
-      - traefik.http.routers.backrest.rule=Host(`backrest.{{ ansible_fqdn }}`)
+      - traefik.http.routers.backrest.rule=Host(`backrest.{{ main_domain }}`)
       - traefik.http.routers.backrest.service=backrest
       - traefik.http.services.backrest.loadBalancer.server.port=9898
       - traefik.http.routers.backrest.middlewares=authelia@docker

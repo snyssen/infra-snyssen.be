@@ -22,8 +22,8 @@ services:
       - "--entrypoints.websecure.http.tls.certResolver=le"
       {% if backbone__acme_dns_challenge__enabled %}
 
-      - "--entrypoints.websecure.http.tls.domains[0].main={{ ansible_fqdn }}"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ ansible_fqdn }}"
+      - "--entrypoints.websecure.http.tls.domains[0].main={{ main_domain }}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ main_domain }}"
       {% endif %}
 
 
@@ -81,7 +81,7 @@ services:
       # allow access to traefik UI
       - traefik.enable=true
       - traefik.http.routers.traefik.entryPoints=websecure
-      - traefik.http.routers.traefik.rule=Host(`routing.{{ ansible_fqdn }}`)
+      - traefik.http.routers.traefik.rule=Host(`routing.{{ main_domain }}`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=authelia@docker,traefik-compress
 
@@ -126,13 +126,13 @@ services:
       - traefik.docker.network=web
       # Torrents
       - traefik.http.routers.torrent.entryPoints=websecure
-      - traefik.http.routers.torrent.rule=Host(`torrent.{{ ansible_fqdn }}`)
+      - traefik.http.routers.torrent.rule=Host(`torrent.{{ main_domain }}`)
       - traefik.http.routers.torrent.service=torrent
       - traefik.http.services.torrent.loadBalancer.server.port=9091
       - traefik.http.routers.torrent.middlewares=authelia@docker
       # Usenet
       - traefik.http.routers.usenet.entryPoints=websecure
-      - traefik.http.routers.usenet.rule=Host(`usenet.{{ ansible_fqdn }}`)
+      - traefik.http.routers.usenet.rule=Host(`usenet.{{ main_domain }}`)
       - traefik.http.routers.usenet.service=usenet
       - traefik.http.services.usenet.loadBalancer.server.port=8080
       - traefik.http.routers.usenet.middlewares=authelia@docker
@@ -151,7 +151,7 @@ services:
       LLDAP_KEY_SEED: {{ backbone__lldap__key_seed }}
       # Output e.g. "dc=snyssen,dc=be"
       LLDAP_LDAP_BASE_DN: >-
-        {{ ansible_fqdn | split(".") | map("regex_replace", "^", "dc=") | join(",") }}
+        {{ main_domain | split(".") | map("regex_replace", "^", "dc=") | join(",") }}
       LLDAP_DATABASE_URL: >-
         postgres://{{ backbone__lldap__db_user }}:{{ backbone__lldap__db_pass }}@postgres/{{ backbone__lldap__db_user }}
     networks:
@@ -163,7 +163,7 @@ services:
       - traefik.docker.network=web
       # web frontend
       - traefik.http.routers.lldap.entryPoints=websecure
-      - traefik.http.routers.lldap.rule=Host(`ldap.{{ ansible_fqdn }}`)
+      - traefik.http.routers.lldap.rule=Host(`ldap.{{ main_domain }}`)
       - traefik.http.routers.lldap.service=lldap
       - traefik.http.services.lldap.loadBalancer.server.port=17170
 
@@ -184,7 +184,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=web
-      - traefik.http.routers.authelia.rule=Host(`auth.{{ ansible_fqdn }}`)||Host(`auth.{{ team_domain }}`)
+      - traefik.http.routers.authelia.rule=Host(`auth.{{ main_domain }}`)||Host(`auth.{{ team_domain }}`)
       - traefik.http.routers.authelia.entryPoints=websecure
     volumes:
       - '{{ docker_mounts_directory }}/authelia/config:/config'

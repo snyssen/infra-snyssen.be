@@ -15,10 +15,10 @@
     "oidc_providers": {
         "authelia": {
             "display_name": "Authelia",
-            "provider_url": "https://auth.{{ ansible_fqdn }}",
+            "provider_url": "https://auth.{{ main_domain }}",
             "client_id": "{{ backbone__authelia__oidc_semaphore_clientid }}",
             "client_secret": "{{ backbone__authelia__oidc_semaphore_clientsecret }}",
-            "redirect_url": "https://semaphore.{{ ansible_fqdn }}/api/auth/oidc/authelia/redirect"
+            "redirect_url": "https://semaphore.{{ main_domain }}/api/auth/oidc/authelia/redirect"
         }
     }
 }

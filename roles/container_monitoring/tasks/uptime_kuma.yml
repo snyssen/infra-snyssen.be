@@ -20,7 +20,7 @@
     disableAuth: true # because we are putting SSO in front of the instance
     trustProxy: true
     searchEngineIndex: false
-    primaryBaseURL: "https://uptime.{{ ansible_fqdn }}"
+    primaryBaseURL: "https://uptime.{{ main_domain }}"
     keepDataPeriodDays: 90
     dnsCache: true
     nscd: true

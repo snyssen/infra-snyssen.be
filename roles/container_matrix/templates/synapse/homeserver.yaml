@@ -9,7 +9,7 @@
 # For more information on how to configure Synapse, including a complete accounting of
 # each option, go to docs/usage/configuration/config_documentation.md or
 # https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html
-server_name: "matrix.{{ ansible_fqdn }}"
+server_name: "matrix.{{ main_domain }}"
 pid_file: /data/homeserver.pid
 listeners:
   - port: 8008
@@ -30,7 +30,7 @@ database:
     cp_max: 10
 matrix_authentication_service:
   enabled: true
-  endpoint: https://matrix-mas.{{ ansible_fqdn }}/
+  endpoint: https://matrix-mas.{{ main_domain }}/
   secret: "{{ matrix__mas__shared_secret }}"
 log_config: "/data/log.config"
 media_store_path: /data/media_store

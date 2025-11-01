@@ -49,7 +49,7 @@
   loop:
     - name: nextcloud
       type: json-query
-      url: "https://cloud.{{ ansible_fqdn }}/status.php"
+      url: "https://cloud.{{ main_domain }}/status.php"
       jsonPath: installed = true and maintenance = false and needsDbUpgrade = false
       expectedValue: "true"
     - name: nextcloud background job
@@ -70,5 +70,5 @@
     user: root
     job: >-
       docker exec -u www-data nextcloud php cron.php
-      && curl -fsS -m 10 --retry 5 -o /dev/null "https://uptime.{{ ansible_fqdn }}/api/push/{{ nextcloud_push_monitor.monitors[0].pushToken }}?status=up&msg=OK&ping="
+      && curl -fsS -m 10 --retry 5 -o /dev/null "https://uptime.{{ main_domain }}/api/push/{{ nextcloud_push_monitor.monitors[0].pushToken }}?status=up&msg=OK&ping="
     state: present

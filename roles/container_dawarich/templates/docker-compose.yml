@@ -72,7 +72,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.dawarich.entryPoints=websecure
-      - traefik.http.routers.dawarich.rule=Host(`location.{{ ansible_fqdn }}`)
+      - traefik.http.routers.dawarich.rule=Host(`location.{{ main_domain }}`)
       - traefik.http.routers.dawarich.service=dawarich
       - traefik.http.services.dawarich.loadBalancer.server.port=3000
     # TODO: expose prometheus (port 9394)
@@ -92,7 +92,7 @@ services:
       DATABASE_PASSWORD: "{{ dawarich__db_pass }}"
       DATABASE_NAME: dawarich
       MIN_MINUTES_SPENT_IN_CITY: 60
-      APPLICATION_HOSTS: "location.{{ ansible_fqdn }}"
+      APPLICATION_HOSTS: "location.{{ main_domain }}"
       TIME_ZONE: "{{ iana_timezone }}"
       APPLICATION_PROTOCOL: http
       DISTANCE_UNIT: km

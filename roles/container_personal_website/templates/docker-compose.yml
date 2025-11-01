@@ -8,7 +8,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.personal-website.entryPoints=websecure
-      - traefik.http.routers.personal-website.rule=Host(`{{ ansible_fqdn }}`)
+      - traefik.http.routers.personal-website.rule=Host(`{{ main_domain }}`)
       - traefik.http.routers.personal-website.middlewares=traefik-compress
       - traefik.http.routers.personal-website.service=personal-website
       - traefik.http.services.personal-website.loadBalancer.server.port=80

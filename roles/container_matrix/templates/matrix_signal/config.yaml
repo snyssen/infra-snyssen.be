@@ -152,8 +152,8 @@ bridge:
     #     mxid - Specific user
     permissions:
         "*": relay
-        "matrix.{{ ansible_fqdn }}": user
-        "@snyssen:matrix.{{ ansible_fqdn }}": admin
+        "matrix.{{ main_domain }}": user
+        "@snyssen:matrix.{{ main_domain }}": admin
 
 # Config for the bridge's database.
 database:
@@ -180,7 +180,7 @@ homeserver:
     # but https also works if they run on different machines.
     address: http://synapse:8008
     # The domain of the homeserver (also known as server_name, used for MXIDs, etc).
-    domain: matrix.{{ ansible_fqdn }}
+    domain: matrix.{{ main_domain }}
 
     # What software is the homeserver running?
     # Standard Matrix homeservers like Synapse, Dendrite and Conduit should just use "standard" here.
@@ -374,7 +374,7 @@ double_puppet:
     # Shared secrets for automatic double puppeting.
     # See https://docs.mau.fi/bridges/general/double-puppeting.html for instructions.
     secrets:
-        "matrix.{{ ansible_fqdn }}": "as_token:{{ matrix__doublepuppet__as_token }}"
+        "matrix.{{ main_domain }}": "as_token:{{ matrix__doublepuppet__as_token }}"
 
 # End-to-bridge encryption support options.
 #
