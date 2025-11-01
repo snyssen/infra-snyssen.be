@@ -25,6 +25,14 @@
     mode: "400"
   register: authelia_conf
 
+- name: Deploy ts_dns serve config
+  ansible.builtin.template:
+    src: ts_dns/serve.json
+    dest: "{{ docker_mounts_directory }}/ts_dns/ts/"
+    owner: 1000
+    group: 1000
+    mode: "400"
+
 - ansible.builtin.include_role:
     name: snyssen.compose_deploy
   vars:
