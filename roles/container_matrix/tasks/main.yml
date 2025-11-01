@@ -197,4 +197,4 @@
     url: "{{ item.url }}"
   loop:
     - name: matrix
-      url: "https://matrix.{{ ansible_fqdn }}"
+      url: "https://element.{{ ansible_fqdn }}"
