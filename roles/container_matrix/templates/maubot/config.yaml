@@ -48,11 +48,11 @@ server:
   hostname: 0.0.0.0
   port: 29316
   # Public base URL where the server is visible.
-  public_url: https://matrix.{{ main_domain }}
+  public_url: https://maubot.{{ main_domain }}
   # The base path for the UI.
-  ui_base_path: /_matrix/maubot
+  ui_base_path: /
   # The base path for plugin endpoints. The instance ID will be appended directly.
-  plugin_base_path: /_matrix/maubot/plugin/
+  plugin_base_path: /plugin/
   # Override path from where to load UI resources.
   # Set to false to using pkg_resources to find the path.
   override_resource_path: /opt/maubot/frontend
@@ -66,11 +66,11 @@ server:
 homeservers:
   matrix.{{ main_domain }}:
     # Client-server API URL
-    url: https://matrix.{{ main_domain }}
+    url: https://matrix-mas.{{ main_domain }}
     # registration_shared_secret from synapse config
     # You can leave this empty if you don't have access to the homeserver.
     # When this is empty, `mbc auth --register` won't work, but `mbc auth` (login) will.
-    secret: "{{ matrix__registration_shared_secret }}"
+    secret: ""
 # List of administrator users. Each key is a username and the value is the password.
 # Plaintext passwords will be bcrypted on startup. Set empty password to prevent normal login.
 # Root is a special user that can't have a password and will always exist.

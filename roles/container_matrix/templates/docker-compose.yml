@@ -16,7 +16,7 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.synapse.entryPoints=websecure
-      - traefik.http.routers.synapse.rule=Host(`matrix.{{ main_domain }}`) && (PathPrefix(`/.well-known/matrix/server`) || PathPrefix(`/.well-known/matrix/client`) || PathPrefix(`/_matrix`)|| PathPrefix(`/_synapse`))
+      - traefik.http.routers.synapse.rule=Host(`matrix.{{ main_domain }}`)
       - traefik.http.routers.synapse.service=synapse
       - traefik.http.services.synapse.loadBalancer.server.port=8008
 
@@ -115,11 +115,10 @@ services:
       - traefik.enable=true
       - traefik.docker.network=web
       - traefik.http.routers.maubot.entryPoints=websecure
-      - traefik.http.routers.maubot.rule=Host(`matrix.{{ main_domain }}`) && PathPrefix(`/_matrix/maubot`)
+      - traefik.http.routers.maubot.rule=Host(`maubot.{{ main_domain }}`)
       - traefik.http.routers.maubot.service=maubot
       - traefik.http.services.maubot.loadBalancer.server.port=29316
       - traefik.http.routers.maubot.middlewares=lan-whitelist
-      - traefik.http.routers.maubot.priority=500 # Ensure bot can get routed even tho it is on subpath of /_matrix
 
 networks:
   web:
