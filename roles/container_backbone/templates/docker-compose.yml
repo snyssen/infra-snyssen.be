@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.5.3@sha256:84eb6c0e67c99fa026bf1bf4b0afd9ad44350d375b4ebc5049c5f70543a729d6
+    image: traefik:v3.5.4@sha256:4df0a50fcf71b454c0d7ad17675776dc8d37359deae3291895bdaa008c1b9972
     restart: unless-stopped
     container_name: traefik
     networks:
@@ -190,7 +190,7 @@ services:
       - '{{ docker_mounts_directory }}/authelia/config:/config'
 
   authelia_redis:
-    image: redis:8.2.2@sha256:f0957bcaa75fd58a9a1847c1f07caf370579196259d69ac07f2e27b5b389b021
+    image: redis:8.2.3@sha256:5c7c0445ed86918cb9efb96d95a6bfc03ed2059fe2c5f02b4d74f477ffe47915
     container_name: authelia_redis
     restart: unless-stopped
     networks:
@@ -199,7 +199,7 @@ services:
       - authelia_sessions:/data:rw
 
   ts_dns_serve:
-    image: tailscale/tailscale:v1.88.4@sha256:360e10ad95ad03950f66df03e0dab66287f9f89076ee4012d50bc6adceafcdf3
+    image: tailscale/tailscale:v1.90.6@sha256:8eb8b450a85856807e8a216c4697333e15f8701cb6d344bed851bf6aa6a9605c
     container_name: ts_dns_serve
     hostname: ts-dns
     restart: unless-stopped

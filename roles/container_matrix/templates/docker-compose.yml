@@ -2,7 +2,7 @@ services:
 
   synapse:
     container_name: synapse
-    image: matrixdotorg/synapse:v1.140.0@sha256:2af5409da4e155123ef1f8ab30914fb14ba36b8b909197073498db733298fcd7
+    image: matrixdotorg/synapse:v1.141.0@sha256:562adbfc3df12d1024c7277b9807086ed79d8d5fabe24187a31d787af050a6a4
     restart: unless-stopped
     environment:
       SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
@@ -22,7 +22,7 @@ services:
 
   matrix_mas:
     container_name: matrix_mas
-    image: ghcr.io/element-hq/matrix-authentication-service:1.4.1@sha256:af3c8e1207d5b6ef575454a0211dab07ba816be219607f6568a52ab42978c23c
+    image: ghcr.io/element-hq/matrix-authentication-service:1.5.0@sha256:6c4ecc128668ae3cbf9cb319ee45ad45c0f01a96adca4841d10e662dd4a7fdc1
     restart: unless-stopped
     environment:
       MAS_CONFIG: /config/mas_config.yaml
@@ -40,7 +40,7 @@ services:
       - traefik.http.services.matrix_mas.loadBalancer.server.port=8080
   element:
     container_name: element
-    image: vectorim/element-web:v1.12.2@sha256:6e91e641abe70dd02f1461b4f1ebf8f6807bfa381ec7f2c13e9e286c4e2b2918
+    image: vectorim/element-web:v1.12.3@sha256:c32818c43fd361d8440e46a86b51a7e3092a094502e2f097ec9b8fd93ccb3a85
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/element/config.json:/app/config.json:ro
