@@ -1,7 +1,7 @@
 # Derived from: https://github.com/Freika/dawarich/blob/master/docker/docker-compose.yml
 services:
   dawarich_redis:
-    image: redis:8.2.2@sha256:f0957bcaa75fd58a9a1847c1f07caf370579196259d69ac07f2e27b5b389b021
+    image: redis:8.2.3@sha256:5c7c0445ed86918cb9efb96d95a6bfc03ed2059fe2c5f02b4d74f477ffe47915
     container_name: dawarich_redis
     command: redis-server
     networks:
@@ -59,7 +59,7 @@ services:
     restart: unless-stopped
 
   dawarich_app:
-    image: freikin/dawarich:0.33.1@sha256:ca06ad58ac7a26d30cd26d84242f12ac0b27227c2c095a0d03c0d167e9cb909a
+    image: freikin/dawarich:0.34.2@sha256:7219a71e00f53168028796e17289c22ac734f61bd0457ab55f106dae039214a8
     container_name: dawarich_app
     volumes:
       - /mnt/storage/dawarich/public:/var/app/public
@@ -121,7 +121,7 @@ services:
         condition: service_healthy
         restart: true
   dawarich_sidekiq:
-    image: freikin/dawarich:0.33.1@sha256:ca06ad58ac7a26d30cd26d84242f12ac0b27227c2c095a0d03c0d167e9cb909a
+    image: freikin/dawarich:0.34.2@sha256:7219a71e00f53168028796e17289c22ac734f61bd0457ab55f106dae039214a8
     container_name: dawarich_sidekiq
     volumes:
       - /mnt/storage/dawarich/public:/var/app/public
@@ -154,7 +154,7 @@ services:
         restart: true
 
   photon:
-    image: rtuszik/photon-docker:1.2.1@sha256:c9475eebce4400852465aa8e3a2ca7667d699eb3e4b3a2777167ebced91f907b
+    image: rtuszik/photon-docker:1.3.0@sha256:4b7afa61a0c7516bc0efc8a3c50f6ddc2c6df7bca258ce84cfb7942dd28692e8
     container_name: photon
     environment:
       - UPDATE_STRATEGY=PARALLEL

@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.10.7@sha256:e4d1dc5374344446a3a78e43dd211247f22afba84ea2e5a13cbe1a94e1ff2141
+    image: ghcr.io/jellyfin/jellyfin:10.11.2@sha256:749972be6e7d440a47531ee36c9e38ea7a6271c875f42e8a52851c39862b0773
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -93,7 +93,7 @@ services:
     mem_limit: 712m
 
   usenet:
-    image: lscr.io/linuxserver/sabnzbd:4.5.3@sha256:9011bb04b95417fe6345e48c98f9880188f5825402623a0201d29d1c300eea67
+    image: lscr.io/linuxserver/sabnzbd:4.5.5@sha256:6e6e7abf7a87436ffccd7df41e64a28df9c530e2be5467339a3f5f0518922b49
     container_name: usenet
     network_mode: container:vpn
     environment:
@@ -107,7 +107,7 @@ services:
     mem_limit: 256m
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:4.0.15@sha256:fbe67c25693dc5f3de220c5691f374576ae265df782c16918cc071b630490bd7
+    image: lscr.io/linuxserver/sonarr:4.0.16@sha256:4b8a853b76337cd5de5f69961e23b7d0792ce7bf0a8be083dd7202ef670bfc34
     container_name: sonarr
     environment:
       - PUID=33
@@ -169,7 +169,7 @@ services:
     mem_limit: 1g
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:2.0.5@sha256:608935c38763920b25622a3d404bb14ea08fcaa7c2a9b1c93ce9bac61ad4b11d
+    image: lscr.io/linuxserver/prowlarr:2.1.5@sha256:643220338204525524db787ff38a607261597f49d1f550694acdb3e908e2b43e
     container_name: prowlarr
     environment:
       - PUID=33
@@ -228,7 +228,7 @@ services:
       - /mnt/storage/streaming/media/tv:/downloads
 
   lidatube:
-    image: thewicklowwolf/lidatube:0.2.39@sha256:d41bdbc44f50eb68734057a28fdbff61a0d056471f535747ee24da443fdcecc1
+    image: thewicklowwolf/lidatube:0.2.40@sha256:c58788bddbb1abab013da7916b77a1a4280370dcd2c3ea4b48d9e48d15f0f86a
     container_name: lidatube
     environment:
       - PUID=33
