@@ -66,7 +66,7 @@ server:
 homeservers:
   matrix.{{ main_domain }}:
     # Client-server API URL
-    url: https://matrix-mas.{{ main_domain }}
+    url: https://matrix.{{ main_domain }}
     # registration_shared_secret from synapse config
     # You can leave this empty if you don't have access to the homeserver.
     # When this is empty, `mbc auth --register` won't work, but `mbc auth` (login) will.
