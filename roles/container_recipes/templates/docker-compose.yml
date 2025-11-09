@@ -22,6 +22,10 @@ services:
       # allowed hosts (see documentation), should be set to your hostname(s) but might be * (default) for some proxies/providers
       ALLOWED_HOSTS: "recipes.{{ main_domain }}"
 
+      # OIDC
+      SOCIAL_PROVIDERS: allauth.socialaccount.providers.openid_connect
+      SOCIALACCOUNT_PROVIDERS: '{"openid_connect":{"OAUTH_PKCE_ENABLED":true,"APPS":[{"provider_id":"authelia","name":"Authelia","client_id":"{{ backbone__authelia__oidc_recipes_clientid }}","secret":"{{ backbone__authelia__oidc_recipes_clientsecret }}","settings":{"server_url":"https://auth.{{ main_domain }}/.well-known/openid-configuration"}}]}}'
+
       # add only a database password if you want to run with the default postgres, otherwise change settings accordingly
       DB_ENGINE: django.db.backends.postgresql
       POSTGRES_HOST: postgres
