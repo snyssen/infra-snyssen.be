@@ -42,3 +42,4 @@
     snapraid_runner_smtp_user: "{{ smtp__user }}"
     snapraid_runner_use_ssl: "{{ smtp__ssl }}"
     snapraid_runner_use_tls: "{{ smtp__tls }}"
+    snapraid_runner_delete_threshold: 300
