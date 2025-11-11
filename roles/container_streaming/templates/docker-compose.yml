@@ -55,7 +55,6 @@ services:
       - "{{ docker_mounts_directory }}/jellyfin/logs:/logs"
       # all below refer to media folders
       - /mnt/storage/streaming/media:/data/media
-    mem_limit: 2.5g
 
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:2.30.0@sha256:6fbd7dc95d53c6e168ce69e760b87c334e3b9ba88bf7b8531ed5a116d5d6da03
@@ -76,7 +75,6 @@ services:
       - /mnt/storage/streaming/media/podcasts_vi:/podcasts_vi
       - "{{ docker_mounts_directory }}/audiobookshelf/config:/config"
       - "{{ docker_mounts_directory }}/audiobookshelf/metadata:/metadata"
-    mem_limit: 256m
 
   torrent:
     image: lscr.io/linuxserver/transmission:4.0.6@sha256:15e45476b75c4693a26d36ea148ad1b559e184c5d09dfc19192a8c78caea668d
