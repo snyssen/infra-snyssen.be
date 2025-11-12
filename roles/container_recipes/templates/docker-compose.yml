@@ -2,6 +2,7 @@ services:
   recipes:
     image: vabene1111/recipes:2.3.3@sha256:af6bd76e703d644748a93d581da05c25159d742b94b2da9eddadaaec93555858
     container_name: recipes
+    restart: unless-stopped
     volumes:
       - /mnt/storage/recipes/staticfiles:/opt/recipes/staticfiles
       - /mnt/storage/recipes/mediafiles:/opt/recipes/mediafiles
