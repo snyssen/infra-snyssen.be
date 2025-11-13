@@ -349,6 +349,8 @@ dashboard__shortcuts:
     children:
       - name: Home Assistant
         url: https://hass.snyssen.be/auth/oidc/welcome
+      - name: OVH Dashboard
+        url: https://www.ovh.com/manager/#/hub/
       - name: DNS management
         children:
           - name: Local DNS
