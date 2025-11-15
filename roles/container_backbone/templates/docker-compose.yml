@@ -219,7 +219,7 @@ services:
       - net_admin
 
   ts_dns:
-    image: technitium/dns-server:13.6.0@sha256:b12182649647f7e28dd596f4089032099a94ab1bee2262d6679fa185238c5f02
+    image: technitium/dns-server:14.0.1@sha256:4b8f6c78bd56fc7f34ab2262bf9f8eaf3d6bb36046bb8ff3027d00915ae9f028
     container_name: ts_dns
     restart: unless-stopped
     environment:
