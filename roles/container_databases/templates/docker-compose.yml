@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16.10@sha256:3c2aa0f6e0a0f71adf7c362c7278578148ae697e37b0224c0e1bbadb9d2a2058
+    image: postgres:16.11@sha256:74bbe2dbc3c388b05544576167540fc5d8557017282b1c889344137ea7160061
     container_name: postgres
     restart: unless-stopped
     environment:
@@ -15,7 +15,7 @@ services:
     mem_limit: 1g
 
   pgadmin:
-    image: dpage/pgadmin4:9.9@sha256:5d9624a93634d1c5e595619cc57b1d330758120d1baf445fa97300c0c1fc3c0a
+    image: dpage/pgadmin4:9.10@sha256:8c128407f45f1c582eda69e71da1a393237388469052e3cc1e6ae4a475e12b70
     container_name: pgadmin
     restart: unless-stopped
     environment:
