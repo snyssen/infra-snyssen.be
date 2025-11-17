@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.5.4@sha256:4df0a50fcf71b454c0d7ad17675776dc8d37359deae3291895bdaa008c1b9972
+    image: traefik:v3.6.1@sha256:fd5932c796f7e2db9fd6bff485ef693d53797f0ee8ad03dc68aa424ea6f21958
     restart: unless-stopped
     container_name: traefik
     networks:
@@ -93,7 +93,7 @@ services:
       - traefik.http.middlewares.traefik-compress.compress=true
 
   vpn:
-    image: qmcgaw/gluetun:v3.40.0@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00
+    image: qmcgaw/gluetun:v3.40.1@sha256:dc38bac12b40bb935e477f0dbd88adf174001c84b144c86648b25ff5f14ef54a
     container_name: vpn
     cap_add:
       - NET_ADMIN
@@ -169,7 +169,7 @@ services:
 
   authelia:
     container_name: authelia
-    image: ghcr.io/authelia/authelia:4.39.13@sha256:7adc2a95b6a4be9332f6a420fdf59c7031bff203d1046ab80d8fbd66f5b1095f
+    image: ghcr.io/authelia/authelia:4.39.14@sha256:88f1494b6ac1174641770f106335ab67752d66e5822b4059badca220b5d6153b
     restart: 'unless-stopped'
     networks:
       - web

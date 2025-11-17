@@ -2,7 +2,7 @@ services:
 
   synapse:
     container_name: synapse
-    image: matrixdotorg/synapse:v1.141.0@sha256:562adbfc3df12d1024c7277b9807086ed79d8d5fabe24187a31d787af050a6a4
+    image: matrixdotorg/synapse:v1.142.0@sha256:f33543130e015d85c27a6d736e2ae013a845954203f4b0163c5f170123f2b3b1
     restart: unless-stopped
     environment:
       SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
@@ -22,7 +22,7 @@ services:
 
   matrix_mas:
     container_name: matrix_mas
-    image: ghcr.io/element-hq/matrix-authentication-service:1.5.0@sha256:6c4ecc128668ae3cbf9cb319ee45ad45c0f01a96adca4841d10e662dd4a7fdc1
+    image: ghcr.io/element-hq/matrix-authentication-service:1.6.0@sha256:15fdb4665aa339261d4352c058c221470d040a04cd59117c3956994d9e8edc27
     restart: unless-stopped
     environment:
       MAS_CONFIG: /config/mas_config.yaml
@@ -73,7 +73,7 @@ services:
 
   matrix-signal:
     container_name: matrix-signal
-    image: dock.mau.dev/mautrix/signal:v25.10@sha256:12a6d8cb9eb913a3ca9ff0dc9a8015e8e360ae654d8c031183d625b866d7e647
+    image: dock.mau.dev/mautrix/signal:v25.11@sha256:48ee701ae8f8be8c0c678a42563cf3f7770d8bd23321a0ca40191561eb43faed
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/matrix_signal:/data
@@ -83,7 +83,7 @@ services:
 
   matrix-whatsapp:
     container_name: matrix-whatsapp
-    image: dock.mau.dev/mautrix/whatsapp:v25.10@sha256:208cc17e8422c4299e6115d628aac124257c2f982302eee9435bace7a5b14c91
+    image: dock.mau.dev/mautrix/whatsapp:v25.11@sha256:9bc5c344d12a9a9112c7c9353f9c640a633120ffc2b5f01212236ab13cef44ac
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/matrix_whatsapp:/data
@@ -93,7 +93,7 @@ services:
 
   matrix-meta:
     container_name: matrix-meta
-    image: dock.mau.dev/mautrix/meta:v25.10@sha256:595ce3eb2a00e3214163abe2261cfdd7b7ac3ce04934cf01ca9927635e23066e
+    image: dock.mau.dev/mautrix/meta:v25.11@sha256:1cfaf8bc3ec9aa3ce1aeaddfa7b4e15e8f974cbd077d803db64e49220cc505e5
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/matrix_meta:/data
@@ -106,7 +106,7 @@ services:
   ###########
   maubot:
     container_name: maubot
-    image: dock.mau.dev/maubot/maubot:v0.5.2@sha256:b9f28d08d926a8522da1b220374e7fd50b32b07311c21fc6ca6f0690f9fb5402
+    image: dock.mau.dev/maubot/maubot:v0.6.0@sha256:6968ddea1e08aa7f8ac70ac7a706663fe8d7b4d6f96cd7a6bb8548637fb8cd17
     restart: unless-stopped
     volumes:
       - /mnt/storage/matrix/maubot:/data
