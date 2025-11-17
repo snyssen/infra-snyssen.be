@@ -77,7 +77,7 @@ services:
       - "{{ docker_mounts_directory }}/audiobookshelf/metadata:/metadata"
 
   torrent:
-    image: lscr.io/linuxserver/transmission:4.0.6@sha256:15e45476b75c4693a26d36ea148ad1b559e184c5d09dfc19192a8c78caea668d
+    image: lscr.io/linuxserver/transmission:4.0.6@sha256:3712018349a0ca866593b313afdec3236d99c67bc749da0f3dd89c186a1cb2b1
     container_name: torrent
     network_mode: container:vpn
     environment:
