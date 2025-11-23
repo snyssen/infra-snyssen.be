@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.6.1@sha256:fd5932c796f7e2db9fd6bff485ef693d53797f0ee8ad03dc68aa424ea6f21958
+    image: traefik:v3.6.2@sha256:aaf0f6185419a50c74651448c1a5bf4606bd2d2ddb7b8749eed505d55bf8b8ea
     restart: unless-stopped
     container_name: traefik
     networks:
@@ -93,7 +93,7 @@ services:
       - traefik.http.middlewares.traefik-compress.compress=true
 
   vpn:
-    image: qmcgaw/gluetun:v3.40.1@sha256:dc38bac12b40bb935e477f0dbd88adf174001c84b144c86648b25ff5f14ef54a
+    image: qmcgaw/gluetun:v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30
     container_name: vpn
     cap_add:
       - NET_ADMIN
@@ -190,7 +190,7 @@ services:
       - '{{ docker_mounts_directory }}/authelia/config:/config'
 
   authelia_redis:
-    image: redis:8.2.3@sha256:5c7c0445ed86918cb9efb96d95a6bfc03ed2059fe2c5f02b4d74f477ffe47915
+    image: redis:8.4.0@sha256:43355efd22490e31ca14b9d569367d05121e2be61fd8e47937563ae2a80952ae
     container_name: authelia_redis
     restart: unless-stopped
     networks:
@@ -199,7 +199,7 @@ services:
       - authelia_sessions:/data:rw
 
   ts_dns_serve:
-    image: tailscale/tailscale:v1.90.6@sha256:8eb8b450a85856807e8a216c4697333e15f8701cb6d344bed851bf6aa6a9605c
+    image: tailscale/tailscale:v1.90.8@sha256:4dacf554cf34e84c15fb816aa68fb3428993c3d27feeafb86a9b3eb94248c40f
     container_name: ts_dns_serve
     hostname: ts-dns
     restart: unless-stopped
@@ -219,7 +219,7 @@ services:
       - net_admin
 
   ts_dns:
-    image: technitium/dns-server:14.1.0@sha256:968af6b05d924c169d41893a031bccf7e773f697df63d16f8fe3c42f074ebd8f
+    image: technitium/dns-server:14.2.0@sha256:b6a39621a5c6b37e6ca8c4b428a7e39531041e19be4b28285657c8c74374950b
     container_name: ts_dns
     restart: unless-stopped
     environment:
