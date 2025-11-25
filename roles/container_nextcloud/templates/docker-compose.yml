@@ -1,6 +1,6 @@
 services:
   nextcloud_redis:
-    image: redis:8.2.3@sha256:5c7c0445ed86918cb9efb96d95a6bfc03ed2059fe2c5f02b4d74f477ffe47915
+    image: redis:8.4.0@sha256:43355efd22490e31ca14b9d569367d05121e2be61fd8e47937563ae2a80952ae
     container_name: nextcloud_redis
     restart: unless-stopped
     networks:
@@ -8,7 +8,7 @@ services:
     mem_limit: 32m
 
   nextcloud:
-    image: nextcloud:32.0.1@sha256:5b043f7ea2f609d5ff5635f475c30d303bec17775a5c3f7fa435e3818e669120
+    image: nextcloud:32.0.2@sha256:8cb1dc8c26944115469dd22f4965d2ed35bab9cf8c48d2bb052c8e9f83821ded
     container_name: nextcloud
     restart: unless-stopped
     networks:
@@ -50,7 +50,7 @@ services:
 
   # TODO merge with alloy
   nextcloud_promtail:
-    image: grafana/promtail:3.5.8@sha256:2a7c5469d687377de5cb7c8356cf96090c0069814d90ef35f9874db445999609
+    image: grafana/promtail:3.6.2@sha256:23dee723aca20844a297cf96a212256f4be1e2234a3216b8e8792066ec2081f2
     container_name: nextcloud_promtail
     restart: unless-stopped
     volumes:
