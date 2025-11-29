@@ -1,6 +1,6 @@
 services:
   rallly:
-    image: lukevella/rallly:4.5.5@sha256:1e27e83c7e7589c01aa5dc95c3db85069bef3e565146393ec53727b93a569ea4
+    image: lukevella/rallly:4.5.6@sha256:dd7c85a177e2ade52f9c336b46b39e7cd71a2b4a886e693d3d296f4719d32154
     container_name: rallly
     restart: unless-stopped
     environment:
