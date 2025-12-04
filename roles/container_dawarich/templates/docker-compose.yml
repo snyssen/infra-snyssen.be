@@ -103,6 +103,13 @@ services:
       PHOTON_API_HOST: "photon:2322"
       PHOTON_API_USE_HTTPS: "false"
       STORE_GEODATA: "true"
+      OIDC_CLIENT_ID: "{{ backbone__authelia__oidc_dawarich_clientid }}"
+      OIDC_CLIENT_SECRET: "{{ backbone__authelia__oidc_dawarich_clientsecret }}"
+      OIDC_ISSUER: https://auth.{{ main_domain }}
+      OIDC_REDIRECT_URI: https://location.{{ main_domain }}/users/auth/openid_connect/callback
+      OIDC_AUTO_REGISTER: true # optional, default is false
+      OIDC_PROVIDER_NAME: Authelia # optional, default is OpenID Connect
+      ALLOW_EMAIL_PASSWORD_REGISTRATION: false # optional, default is true
     healthcheck:
       test:
         [

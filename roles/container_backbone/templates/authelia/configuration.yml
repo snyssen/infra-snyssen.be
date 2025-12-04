@@ -457,6 +457,12 @@ identity_providers:
           - policy: 'one_factor'
             subject:
               - ["group:matrix_user"]
+      dawarich_policy:
+        default_policy: 'deny'
+        rules:
+          - policy: 'one_factor'
+            subject:
+              - ["group:dawarich_user"]
     ## Clients is a list of known clients and their configuration.
     clients:
       ## configuration.
@@ -648,3 +654,13 @@ identity_providers:
         access_token_signed_response_alg: 'none'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'
+      - client_name: 'dawarich'
+        client_id: '{{ backbone__authelia__oidc_dawarich_clientid }}'
+        client_secret: '{{ backbone__authelia__oidc_dawarich_clientsecret_hash }}'
+        authorization_policy: 'dawarich_policy'
+        redirect_uris:
+          - https://location.{{ main_domain }}/users/auth/openid_connect/callback
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'

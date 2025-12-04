@@ -134,6 +134,9 @@ backbone__authelia__oidc_hass_clientsecret_hash: "{{ vault_backbone__authelia__o
 backbone__authelia__oidc_matrix_clientid: "{{ vault_backbone__authelia__oidc_matrix_clientid }}"
 backbone__authelia__oidc_matrix_clientsecret: "{{ vault_backbone__authelia__oidc_matrix_clientsecret }}"
 backbone__authelia__oidc_matrix_clientsecret_hash: "{{ vault_backbone__authelia__oidc_matrix_clientsecret_hash }}"
+backbone__authelia__oidc_dawarich_clientid: "{{ vault_backbone__authelia__oidc_dawarich_clientid }}"
+backbone__authelia__oidc_dawarich_clientsecret: "{{ vault_backbone__authelia__oidc_dawarich_clientsecret }}"
+backbone__authelia__oidc_dawarich_clientsecret_hash: "{{ vault_backbone__authelia__oidc_dawarich_clientsecret_hash }}"
 
 unifi__mongo_pass: "{{ vault_unifi__mongo_pass }}"
 unifi__mongo_root_pass: "{{ vault_unifi__mongo_root_pass }}"
