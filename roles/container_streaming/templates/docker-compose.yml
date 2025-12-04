@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: ghcr.io/jellyfin/jellyfin:10.11.3@sha256:fab30d85f4ec3e19556ca1d91b82b12329fc4a6d2a4b330673354af9218e1d28
+    image: ghcr.io/jellyfin/jellyfin:10.11.4@sha256:37f2625f5d5d70c5b1ceb57f4d8f2a7ff666ea723fb96b468275bbafbde2c06c
     restart: unless-stopped
     container_name: jellyfin
     networks:
@@ -57,7 +57,7 @@ services:
       - /mnt/storage/streaming/media:/data/media
 
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:2.30.0@sha256:6fbd7dc95d53c6e168ce69e760b87c334e3b9ba88bf7b8531ed5a116d5d6da03
+    image: ghcr.io/advplyr/audiobookshelf:2.31.0@sha256:e23adb24848d99d19cd1e251aee4e1e12ed4f5effc8ccb21754b062b6a06cf66
     restart: unless-stopped
     container_name: audiobookshelf
     networks:
