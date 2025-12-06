@@ -30,7 +30,7 @@ locations:
       {%- for to in location.to +%}
       - {{ to }}
       {%- endfor +%}
-    forget: prune
+    forget: "yes" # TODO: we need a second job to actually prune the data!
     options:
       forget:
         keep-daily: 14
