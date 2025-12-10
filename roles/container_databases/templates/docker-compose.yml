@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16.11@sha256:74bbe2dbc3c388b05544576167540fc5d8557017282b1c889344137ea7160061
+    image: postgres:18.1@sha256:38d5c9d522037d8bf0864c9068e4df2f8a60127c6489ab06f98fdeda535560f9
     container_name: postgres
     restart: unless-stopped
     environment:
