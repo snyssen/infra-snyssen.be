@@ -1,3 +1,9 @@
+# [ARCHIVED]: config now moved to [mother-of-all-infra](https://github.com/snyssen/mother-of-all-infra)
+
+Below is only left for posterity.
+
+---
+
 # Infrastructure of snyssen.be
 
 All the necessary instructions, docker files, scripts, etc. necessary for building my self hosted server (almost) from scratch.
